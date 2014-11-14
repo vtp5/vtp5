@@ -11,7 +11,8 @@ import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
 public class VTP5 extends JFrame {
-	private static final long serialVersionUID = -5105462185201329709L;
+	// TODO Generate the serialVersionUID once class has been finished
+	// private static final long serialVersionUID = -5105462185201329709L;
 	private JMenu menu;
 	private JMenuBar bar;
 	private JMenuItem importItem;
