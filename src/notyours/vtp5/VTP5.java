@@ -1,4 +1,4 @@
-package duckifyz.vtp5;
+package notyours.vtp5;
 
 import java.awt.event.KeyEvent;
 
