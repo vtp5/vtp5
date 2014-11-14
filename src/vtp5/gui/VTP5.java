@@ -1,4 +1,4 @@
-package notyours.vtp5;
+package vtp5.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
