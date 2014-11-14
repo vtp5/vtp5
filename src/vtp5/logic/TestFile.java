@@ -1,6 +1,6 @@
 package vtp5.logic;
 
-public class Test {
+public class TestFile {
 	
 	// TODO Find a way to have multiple answers.
 	
