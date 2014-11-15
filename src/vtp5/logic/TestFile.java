@@ -11,8 +11,6 @@ public class TestFile {
 	private ArrayList<Card> cards = new ArrayList<>();
 	private BufferedReader br = null;
 
-	private int switcher = 0;
-
 	public TestFile(File file) {
 		getVocabFromFile(file);
 	}
@@ -25,10 +23,6 @@ public class TestFile {
 			String currentLine;
 			br = new BufferedReader(new FileReader(file));
 			while ((currentLine = br.readLine()) != null) {
-				// TODO Can we delete switcher?
-				// If switcher = 0 (default) add to langFrom.
-				// If switcher = 1, add to langTo.
-
 				// Create new card containing relevant data and add it to the
 				// ArrayList
 				// TODO Merge this code with Converter
@@ -39,14 +33,6 @@ public class TestFile {
 
 				Card card = new Card(langFrom, langTo);
 				cards.add(card);
-
-				// if (switcher == 0) {
-				// card.add(currentLine);
-				// switcher = 1;
-				// } else if (switcher == 1) {
-				// langTo.add(currentLine);
-				// switcher = 0;
-				// }
 			}
 			// Catch any exceptions.
 		} catch (IOException e) {
