@@ -14,15 +14,16 @@ import vtp5.logic.TestFile;
 
 public class VTP5 extends JFrame {
 	// TODO Generate the serialVersionUID once class has been finished.
-	
+
 	// GUI components.
 	private JMenu menu;
 	private JMenuBar bar;
 	private JMenuItem importItem;
 	private JFileChooser chooser = new JFileChooser();
-	
-	private FileNameExtensionFilter chooserFilter = new FileNameExtensionFilter("Text Files (*.txt)", "txt");
-	
+
+	private FileNameExtensionFilter chooserFilter = new FileNameExtensionFilter(
+			"Text Files (*.txt)", "txt");
+
 	TestFile test;
 
 	public VTP5() {
@@ -38,8 +39,8 @@ public class VTP5 extends JFrame {
 		setJMenuBar(bar);
 
 		// Sets up JFileChooser
-		chooser.setFileFilter(chooserFilter);		
-		
+		chooser.setFileFilter(chooserFilter);
+
 		// Sets JFrame properties.
 		setSize(500, 400);
 		setTitle("VTP5");

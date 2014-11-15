@@ -7,21 +7,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class TestFile {
-
-	// TODO Find a way to have multiple answers.
-
-	private ArrayList<String> langFrom = new ArrayList<String>();
-	private ArrayList<String> langTo = new ArrayList<String>();
-
+	// ArrayList of "cards" for a particular test
+	private ArrayList<Card> cards = new ArrayList<>();
 	private BufferedReader br = null;
-	
+
 	private int switcher = 0;
 
 	public TestFile(File file) {
 		getVocabFromFile(file);
 	}
 
-	public void getVocabFromFile(File file) {		
+	public void getVocabFromFile(File file) {
 		System.out.println(file + " is being read.");
 
 		try {
@@ -29,15 +25,25 @@ public class TestFile {
 			String currentLine;
 			br = new BufferedReader(new FileReader(file));
 			while ((currentLine = br.readLine()) != null) {
+				// TODO Can we delete switcher?
 				// If switcher = 0 (default) add to langFrom.
 				// If switcher = 1, add to langTo.
-				if (switcher == 0) {
-					langFrom.add(currentLine);
-					switcher = 1;
-				} else if (switcher == 1) {
-					langTo.add(currentLine);
-					switcher = 0;
-				}
+
+				// Create new card containing relevant data and add it to the
+				// ArrayList
+				// TODO Put each "part" in its own string
+				String[] langFrom = { currentLine };
+				String[] langTo = { br.readLine() };
+
+				Card card = new Card(langFrom, langTo);
+
+				// if (switcher == 0) {
+				// card.add(currentLine);
+				// switcher = 1;
+				// } else if (switcher == 1) {
+				// langTo.add(currentLine);
+				// switcher = 0;
+				// }
 			}
 			// Catch any exceptions.
 		} catch (IOException e) {
@@ -52,26 +58,14 @@ public class TestFile {
 				ex.printStackTrace();
 			}
 		}
-		System.out.println(langFrom);
-		System.out.println(langTo);
-	}
-	
-	public ArrayList<String> getLangFrom() {	
-		return this.langFrom;
 	}
 
-	
-	public void setLangFrom(ArrayList<String> langFrom) {	
-		this.langFrom = langFrom;
+	public ArrayList<Card> getCards() {
+		return cards;
 	}
 
-	
-	public ArrayList<String> getLangTo() {	
-		return this.langTo;
+	public void setCards(ArrayList<Card> cards) {
+		this.cards = cards;
 	}
 
-	
-	public void setLangTo(ArrayList<String> langTo) {	
-		this.langTo = langTo;
-	}
 }
