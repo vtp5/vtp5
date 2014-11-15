@@ -31,11 +31,14 @@ public class TestFile {
 
 				// Create new card containing relevant data and add it to the
 				// ArrayList
-				// TODO Put each "part" in its own string
-				String[] langFrom = { currentLine };
-				String[] langTo = { br.readLine() };
+				// TODO Merge this code with Converter
+				// TODO Polish this code (for example, what about the "+ abl."
+				// bit after some verbs and prepositions?)
+				String[] langFrom = currentLine.split(", ");
+				String[] langTo = br.readLine().split("/");
 
 				Card card = new Card(langFrom, langTo);
+				cards.add(card);
 
 				// if (switcher == 0) {
 				// card.add(currentLine);
@@ -57,6 +60,21 @@ public class TestFile {
 			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
+		}
+
+		// Printlns for debugging/helpful console messages
+		for (Card c : cards) {
+			System.out.println("--langFrom:--");
+			for (String s1 : c.getLangFrom()) {
+				System.out.println(s1);
+			}
+
+			System.out.println("--langTo:--");
+			for (String s2 : c.getLangTo()) {
+				System.out.println(s2);
+			}
+
+			System.out.println();
 		}
 	}
 
