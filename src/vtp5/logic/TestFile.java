@@ -39,7 +39,7 @@ public class TestFile {
 					switcher = 0;
 				}
 			}
-			// Catch any excpetions.
+			// Catch any exceptions.
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
