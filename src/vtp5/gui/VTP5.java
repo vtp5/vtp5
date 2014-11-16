@@ -16,9 +16,11 @@ public class VTP5 extends JFrame {
 	// TODO Generate the serialVersionUID once class has been finished.
 
 	// GUI components.
-	private JMenu menu;
+	private JMenu newTestMenu, importFilesMenu, recordsMenu, helpMenu,
+			settingsMenu;
+	private JMenuItem importText;
 	private JMenuBar bar;
-	private JMenuItem importItem;
+
 	private JFileChooser chooser = new JFileChooser();
 
 	private FileNameExtensionFilter chooserFilter = new FileNameExtensionFilter(
@@ -29,13 +31,29 @@ public class VTP5 extends JFrame {
 	public VTP5() {
 		// Sets up JMenuBar.
 		bar = new JMenuBar();
-		menu = new JMenu("File");
-		importItem = new JMenuItem("Import");
-		importItem.addActionListener(new MenuItemListener());
-		menu.setMnemonic(KeyEvent.VK_F);
-		importItem.setMnemonic(KeyEvent.VK_I);
-		menu.add(importItem);
-		bar.add(menu);
+		newTestMenu = new JMenu("New Test");
+		newTestMenu.setMnemonic(KeyEvent.VK_N);
+
+		importFilesMenu = new JMenu("Import");
+		importFilesMenu.setMnemonic(KeyEvent.VK_I);
+		importText = new JMenuItem("Text File");
+		importText.addActionListener(new MenuItemListener());
+		importFilesMenu.add(importText);
+
+		recordsMenu = new JMenu("Records");
+		recordsMenu.setMnemonic(KeyEvent.VK_R);
+
+		helpMenu = new JMenu("Help");
+		helpMenu.setMnemonic(KeyEvent.VK_H);
+
+		settingsMenu = new JMenu("Settings");
+		settingsMenu.setMnemonic(KeyEvent.VK_S);
+
+		bar.add(newTestMenu);
+		bar.add(importFilesMenu);
+		bar.add(recordsMenu);
+		bar.add(helpMenu);
+		bar.add(settingsMenu);
 		setJMenuBar(bar);
 
 		// Sets up JFileChooser
@@ -52,7 +70,7 @@ public class VTP5 extends JFrame {
 	private class MenuItemListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
-			if (ae.getSource() == importItem) {
+			if (ae.getSource() == importText) {
 				// Open JFileChooser and then creates test file
 				int selected = chooser.showOpenDialog(getParent());
 				if (selected == JFileChooser.APPROVE_OPTION) {
