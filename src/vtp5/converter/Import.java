@@ -11,10 +11,25 @@ public class Import {
 	// we can support both but with csv we can have more complex stuff such as
 	// different marks
 
-	ArrayList<String> words = new ArrayList<String>();
+	static ArrayList<String> words = new ArrayList<String>();
+	
+	static String loc = "res/to.txt";
 
 	public static void main(String[] args) {
 
+		
+		String[] parts = loc.split("/"); //splits location at slash
+		String cons = parts[0] + "/";
+		
+		for(int i=1; i < parts.length - 1; i++){
+			
+			cons = cons + parts[i] + "/"; //builds up location for csv
+			
+		}
+		System.out.println(cons);
+		String[] name = parts[parts.length].split(".");
+		
+		
 		BufferedReader br = null;
 
 		try {
@@ -23,13 +38,14 @@ public class Import {
 			
 			String sCurrentLine;
 
-			br = new BufferedReader(new FileReader("res/to.txt"));
+			br = new BufferedReader(new FileReader(loc));
 
 			while ((sCurrentLine = br.readLine()) != null) {
 				System.out.println(sCurrentLine);
+				words.add(sCurrentLine);
 			}
 
-			Export.gen("res/to.csv");
+			Export.gen(cons + name[0] + ".csv");
 			
 		} catch (IOException e) {
 			e.printStackTrace();
