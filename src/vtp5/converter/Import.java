@@ -13,7 +13,7 @@ public class Import {
 
 	static ArrayList<String> words = new ArrayList<String>();
 	
-	static String loc = "res/to.txt";
+	static String loc = "res/files/to.txt";
 
 	public static void main(String[] args) {
 
@@ -27,7 +27,8 @@ public class Import {
 			
 		}
 		System.out.println(cons);
-		String[] name = parts[parts.length].split(".");
+		String a = parts[parts.length - 1];
+		String name =a.replace(".txt","");
 		
 		
 		BufferedReader br = null;
@@ -45,7 +46,8 @@ public class Import {
 				words.add(sCurrentLine);
 			}
 
-			Export.gen(cons + name[0] + ".csv");
+			
+			Export.gen(cons + name + ".csv");
 			
 		} catch (IOException e) {
 			e.printStackTrace();
