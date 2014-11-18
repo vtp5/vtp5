@@ -51,32 +51,32 @@ public class VTP5 extends JFrame {
 	TestFile test;
 
 	public VTP5() {
-		// Sets up JMenuBar.
-		// bar = new JMenuBar();
-		// newTestMenu = new JMenu("New Test");
-		// newTestMenu.setMnemonic(KeyEvent.VK_N);
-		//
-		// importFilesMenu = new JMenu("Import");
-		// importFilesMenu.setMnemonic(KeyEvent.VK_I);
-		// importText = new JMenuItem("Text File");
-		// importText.addActionListener(new MenuItemListener());
-		// importFilesMenu.add(importText);
-		//
-		// recordsMenu = new JMenu("Records");
-		// recordsMenu.setMnemonic(KeyEvent.VK_R);
-		//
-		// helpMenu = new JMenu("Help");
-		// helpMenu.setMnemonic(KeyEvent.VK_H);
-		//
-		// settingsMenu = new JMenu("Settings");
-		// settingsMenu.setMnemonic(KeyEvent.VK_S);
-		//
-		// bar.add(newTestMenu);
-		// bar.add(importFilesMenu);
-		// bar.add(recordsMenu);
-		// bar.add(helpMenu);
-		// bar.add(settingsMenu);
-		// setJMenuBar(bar);
+		/* Sets up JMenuBar.
+		 bar = new JMenuBar();
+		 newTestMenu = new JMenu("New Test");
+		 newTestMenu.setMnemonic(KeyEvent.VK_N);
+		
+		 importFilesMenu = new JMenu("Import");
+		 importFilesMenu.setMnemonic(KeyEvent.VK_I);
+		 importText = new JMenuItem("Text File");
+		 importText.addActionListener(new MenuItemListener());
+		 importFilesMenu.add(importText);
+		
+		 recordsMenu = new JMenu("Records");
+		 recordsMenu.setMnemonic(KeyEvent.VK_R);
+		
+		 helpMenu = new JMenu("Help");
+		 helpMenu.setMnemonic(KeyEvent.VK_H);
+		
+		 settingsMenu = new JMenu("Settings");
+		 settingsMenu.setMnemonic(KeyEvent.VK_S);
+		
+		 bar.add(newTestMenu);
+		 bar.add(importFilesMenu);
+		 bar.add(recordsMenu);
+		 bar.add(helpMenu);
+		 bar.add(settingsMenu);
+		 setJMenuBar(bar);*/
 
 		// Sets up JFileChooser
 		chooser.setFileFilter(chooserFilter);
