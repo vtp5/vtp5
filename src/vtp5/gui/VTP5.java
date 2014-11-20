@@ -1,6 +1,8 @@
 package vtp5.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -85,6 +87,13 @@ public class VTP5 extends JFrame {
 		helpButton = new JButton("Help");
 		aboutButton = new JButton("About");
 
+		// Change the font of the text on buttons to "default" style
+		importFileButton.setFont(getFontObject(34));
+		leaderboardButton.setFont(getFontObject(34));
+		settingsButton.setFont(getFontObject(34));
+		helpButton.setFont(getFontObject(34));
+		aboutButton.setFont(getFontObject(34));
+
 		buttonPanel.add(importFileButton, "align left");
 		buttonPanel.add(leaderboardButton, "push, align right");
 		buttonPanel.add(settingsButton, "align right");
@@ -154,7 +163,19 @@ public class VTP5 extends JFrame {
 	//
 	// }
 
+	// Method that returns a font object with the "default" font family
+	private Font getFontObject(int fontSize) {
+		return new Font("Franklin Gothic Book", Font.PLAIN, fontSize);
+	}
+
 	public static void main(String[] args) {
+		GraphicsEnvironment e = GraphicsEnvironment
+				.getLocalGraphicsEnvironment();
+		Font[] fonts = e.getAllFonts(); // Get the fonts
+		for (Font f : fonts) {
+			System.out.println(f.getFontName());
+		}
+
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
