@@ -1,8 +1,11 @@
 package vtp5.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GraphicsEnvironment;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -136,15 +139,19 @@ public class VTP5 extends JFrame {
 		getContentPane().add(buttonPanel, BorderLayout.NORTH);
 		getContentPane().add(mainPanel, BorderLayout.CENTER);
 
+		// Maximise JFrame
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+		// Add FrameListener to JFrame so we can detect when the frame is
+		// resized
+		addComponentListener(new FrameListener(this));
+
 		// Sets JFrame properties.
-		setSize(700, 600);
+		setSize(800, 600);
 		setTitle("VTP5");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
-
-		// Maximise JFrame
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 
 	// private class MenuItemListener implements ActionListener {
@@ -168,13 +175,43 @@ public class VTP5 extends JFrame {
 		return new Font("Franklin Gothic Book", Font.PLAIN, fontSize);
 	}
 
-	public static void main(String[] args) {
-		GraphicsEnvironment e = GraphicsEnvironment
-				.getLocalGraphicsEnvironment();
-		Font[] fonts = e.getAllFonts(); // Get the fonts
-		for (Font f : fonts) {
-			System.out.println(f.getFontName());
+	// FrameListener's componentResized() method will be thrown when the JFrame
+	// is resized, so we can scale the text
+	private class FrameListener extends ComponentAdapter {
+		private JFrame frame;
+		private Dimension originalSize;
+
+		private FrameListener(JFrame frame) {
+			this.frame = frame;
+			this.originalSize = frame.getSize();
+			System.out.println(originalSize);
 		}
+
+		@Override
+		public void componentResized(ComponentEvent e) {
+			System.out.println(frame.getSize());
+			// Scale the text when the frame is resized
+
+			// Calculate the scale factor
+			Dimension newSize = frame.getSize();
+			double scaler = Math.min(
+					newSize.getWidth() / originalSize.getWidth(),
+					newSize.getHeight() / originalSize.getHeight());
+
+			for (Component component : frame.getComponents()) {
+				int newFontSize = (int) ((double) component.getFont().getSize() * scaler);
+			}
+		}
+	}
+
+	public static void main(String[] args) {
+		// Get all fonts on user's computer
+		// GraphicsEnvironment e = GraphicsEnvironment
+		// .getLocalGraphicsEnvironment();
+		// Font[] fonts = e.getAllFonts(); // Get the fonts
+		// for (Font f : fonts) {
+		// System.out.println(f.getFontName());
+		// }
 
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
