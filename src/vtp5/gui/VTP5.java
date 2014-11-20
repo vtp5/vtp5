@@ -198,8 +198,13 @@ public class VTP5 extends JFrame {
 					newSize.getWidth() / originalSize.getWidth(),
 					newSize.getHeight() / originalSize.getHeight());
 
+			System.out.println(frame.getComponents().length);
+
 			for (Component component : frame.getComponents()) {
 				int newFontSize = (int) ((double) component.getFont().getSize() * scaler);
+				component.setFont(getFontObject(newFontSize));
+				frame.revalidate();
+				frame.repaint();
 			}
 		}
 	}
