@@ -2,10 +2,12 @@ package vtp5.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -175,6 +177,12 @@ public class VTP5 extends JFrame {
 		return new Font("Franklin Gothic Book", Font.PLAIN, fontSize);
 	}
 
+	// *********DO NOT TOUCH ANY CODE BELOW THIS!!*********
+	// http://stackoverflow.com/questions/6495769/how-to-get-all-elements-inside-a-jframe
+	private ArrayList<Component> getAllComponents(Container c) {
+		return null;
+	}
+
 	// FrameListener's componentResized() method will be thrown when the JFrame
 	// is resized, so we can scale the text
 	private class FrameListener extends ComponentAdapter {
@@ -198,9 +206,9 @@ public class VTP5 extends JFrame {
 					newSize.getWidth() / originalSize.getWidth(),
 					newSize.getHeight() / originalSize.getHeight());
 
-			System.out.println(frame.getComponents().length);
+			System.out.println(frame.getRootPane().getComponents().length);
 
-			for (Component component : frame.getComponents()) {
+			for (Component component : frame.getRootPane().getComponents()) {
 				int newFontSize = (int) ((double) component.getFont().getSize() * scaler);
 				component.setFont(getFontObject(newFontSize));
 				frame.revalidate();
