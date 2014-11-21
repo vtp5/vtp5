@@ -4,10 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -31,6 +35,8 @@ public class VTP5 extends JFrame {
 	// settingsMenu;
 	// private JMenuItem importText;
 	// private JMenuBar bar;
+
+	private FramePanel framePanel;
 
 	// Components for button panel at top of frame
 	private JPanel buttonPanel;
@@ -60,6 +66,9 @@ public class VTP5 extends JFrame {
 	public VTP5() {
 		// Sets up JFileChooser
 		chooser.setFileFilter(chooserFilter);
+
+		framePanel = new FramePanel();
+		framePanel.setLayout(new BorderLayout());
 
 		// Set up button panel
 		buttonPanel = new JPanel();
@@ -128,8 +137,9 @@ public class VTP5 extends JFrame {
 		mainPanel.add(progressBar, "dock east");
 
 		// Add panels to JFrame
-		getContentPane().add(buttonPanel, BorderLayout.NORTH);
-		getContentPane().add(mainPanel, BorderLayout.CENTER);
+		framePanel.add(buttonPanel, BorderLayout.NORTH);
+		framePanel.add(mainPanel, BorderLayout.CENTER);
+		setContentPane(framePanel);
 
 		// Maximise JFrame
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -151,7 +161,22 @@ public class VTP5 extends JFrame {
 		c.setFont(new Font("Franklin Gothic Book", Font.PLAIN, fontSize));
 	}
 
-	// *********DO NOT TOUCH ANY CODE BELOW THIS!!*********
+	// Inner class for the frame's content pane so that the background image can
+	// be drawn
+	private class FramePanel extends JPanel {
+
+		@Override
+		public void paintComponent(Graphics g) {
+			Graphics2D g2 = (Graphics2D) g;
+			Image backgroundImage = new ImageIcon("res/images/backvtp.png")
+					.getImage();
+
+			g2.drawImage(backgroundImage, 0, 0, (int) getSize().getWidth(),
+					(int) getSize().getHeight(), 0, 0,
+					(int) backgroundImage.getWidth(this),
+					(int) backgroundImage.getHeight(this), this);
+		}
+	}
 
 	// FrameListener's componentResized() method will be thrown when the JFrame
 	// is resized, so we can scale the text
