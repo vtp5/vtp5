@@ -71,11 +71,11 @@ public class VTP5 extends JFrame {
 		helpButton = new JButton("Help");
 		aboutButton = new JButton("About");
 
-		componentList.add(new ComponentWithFontData(importFileButton, 36));
-		componentList.add(new ComponentWithFontData(leaderboardButton, 36));
-		componentList.add(new ComponentWithFontData(settingsButton, 36));
-		componentList.add(new ComponentWithFontData(helpButton, 36));
-		componentList.add(new ComponentWithFontData(aboutButton, 36));
+		componentList.add(new ComponentWithFontData(importFileButton, 34));
+		componentList.add(new ComponentWithFontData(leaderboardButton, 34));
+		componentList.add(new ComponentWithFontData(settingsButton, 34));
+		componentList.add(new ComponentWithFontData(helpButton, 34));
+		componentList.add(new ComponentWithFontData(aboutButton, 34));
 
 		buttonPanel.add(importFileButton, "align left");
 		buttonPanel.add(leaderboardButton, "push, align right");
@@ -90,8 +90,8 @@ public class VTP5 extends JFrame {
 		promptLabel = new JLabel(
 				"<html><div style=\"text-align:center;\">Prompt</div></html>");
 		answerField = new JTextField("Enter answer here");
-		componentList.add(new ComponentWithFontData(promptLabel, 36));
-		componentList.add(new ComponentWithFontData(answerField, 36));
+		componentList.add(new ComponentWithFontData(promptLabel, 72));
+		componentList.add(new ComponentWithFontData(answerField, 50));
 		enterButton = new JButton("Enter");
 		componentList.add(new ComponentWithFontData(enterButton, 36));
 		passButton = new JButton("Pass");
@@ -105,8 +105,8 @@ public class VTP5 extends JFrame {
 		guessedAnswersList.setVisibleRowCount(5);
 		guessedAnswersScrollPane = new JScrollPane(guessedAnswersList);
 
-		componentList.add(new ComponentWithFontData(statsList, 12));
-		componentList.add(new ComponentWithFontData(guessedAnswersList, 12));
+		componentList.add(new ComponentWithFontData(statsList, 20));
+		componentList.add(new ComponentWithFontData(guessedAnswersList, 20));
 
 		progressBar = new JProgressBar(JProgressBar.VERTICAL, 0, 100);
 		progressBar.setValue(50);
@@ -121,7 +121,7 @@ public class VTP5 extends JFrame {
 		mainPanel.add(promptLabel, "span 3, push, wrap");
 		mainPanel.add(answerField, "span 2 2, grow");
 		mainPanel.add(enterButton, "wrap");
-		mainPanel.add(passButton, "wrap");
+		mainPanel.add(passButton, "wrap, grow");
 		mainPanel.add(statsScrollPane, "grow");
 		mainPanel.add(guessedAnswersScrollPane, "grow, push, span");
 
