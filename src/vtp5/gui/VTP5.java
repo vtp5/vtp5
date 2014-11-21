@@ -167,6 +167,7 @@ public class VTP5 extends JFrame {
 			Dimension newSize = frame.getSize();
 
 			// Printlns for debugging
+			System.out.println("originalSize: " + originalSize);
 			System.out.println("newSize: " + newSize);
 
 			double scaler = Math.min(
@@ -176,7 +177,7 @@ public class VTP5 extends JFrame {
 			// Printlns for debugging
 			System.out.println("Scaler: " + scaler);
 
-			for (Component component : frame.getRootPane().getComponents()) {
+			for (Component component : componentList) {
 				int newFontSize = (int) ((double) component.getFont().getSize() * scaler);
 
 				// Printlns for debugging:
