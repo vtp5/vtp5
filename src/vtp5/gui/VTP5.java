@@ -10,6 +10,7 @@ import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -49,6 +50,7 @@ public class VTP5 extends JFrame {
 	private JList<String> guessedAnswersList;
 	private JScrollPane guessedAnswersScrollPane;
 	private JProgressBar progressBar;
+	private ArrayList<Component> componentList = new ArrayList<Component>();
 
 	private JFileChooser chooser = new JFileChooser();
 
@@ -58,27 +60,6 @@ public class VTP5 extends JFrame {
 	TestFile test;
 
 	public VTP5() {
-		/*
-		 * Sets up JMenuBar. bar = new JMenuBar(); newTestMenu = new
-		 * JMenu("New Test"); newTestMenu.setMnemonic(KeyEvent.VK_N);
-		 * 
-		 * importFilesMenu = new JMenu("Import");
-		 * importFilesMenu.setMnemonic(KeyEvent.VK_I); importText = new
-		 * JMenuItem("Text File"); importText.addActionListener(new
-		 * MenuItemListener()); importFilesMenu.add(importText);
-		 * 
-		 * recordsMenu = new JMenu("Records");
-		 * recordsMenu.setMnemonic(KeyEvent.VK_R);
-		 * 
-		 * helpMenu = new JMenu("Help"); helpMenu.setMnemonic(KeyEvent.VK_H);
-		 * 
-		 * settingsMenu = new JMenu("Settings");
-		 * settingsMenu.setMnemonic(KeyEvent.VK_S);
-		 * 
-		 * bar.add(newTestMenu); bar.add(importFilesMenu); bar.add(recordsMenu);
-		 * bar.add(helpMenu); bar.add(settingsMenu); setJMenuBar(bar);
-		 */
-
 		// Sets up JFileChooser
 		chooser.setFileFilter(chooserFilter);
 
@@ -91,13 +72,19 @@ public class VTP5 extends JFrame {
 		settingsButton = new JButton("Settings");
 		helpButton = new JButton("Help");
 		aboutButton = new JButton("About");
+		
+		componentList.add(importFileButton);
+		componentList.add(leaderboardButton);
+		componentList.add(settingsButton);
+		componentList.add(helpButton);
+		componentList.add(aboutButton);
 
 		// Change the font of the text on buttons to "default" style
-		importFileButton.setFont(getFontObject(34));
+		/*importFileButton.setFont(getFontObject(34));
 		leaderboardButton.setFont(getFontObject(34));
 		settingsButton.setFont(getFontObject(34));
 		helpButton.setFont(getFontObject(34));
-		aboutButton.setFont(getFontObject(34));
+		aboutButton.setFont(getFontObject(34));*/
 
 		buttonPanel.add(importFileButton, "align left");
 		buttonPanel.add(leaderboardButton, "push, align right");
@@ -112,9 +99,11 @@ public class VTP5 extends JFrame {
 		promptLabel = new JLabel(
 				"<html><div style=\"text-align:center;\">Prompt</div></html>");
 		answerField = new JTextField("Enter answer here");
+		componentList.add(promptLabel);
 		enterButton = new JButton("Enter");
+		componentList.add(enterButton);
 		passButton = new JButton("Pass");
-
+		componentList.add(passButton);
 		// Set up JLists and their respective ListModels
 		statsList = new JList<>(new String[] { "Stats:", "1", "2", "3", "4" });
 		statsList.setVisibleRowCount(5);
@@ -147,6 +136,7 @@ public class VTP5 extends JFrame {
 		// Add FrameListener to JFrame so we can detect when the frame is
 		// resized
 		addComponentListener(new FrameListener(this));
+		getFontObject(34);
 
 		// Sets JFrame properties.
 		setSize(800, 600);
@@ -156,25 +146,12 @@ public class VTP5 extends JFrame {
 		setVisible(true);
 	}
 
-	// private class MenuItemListener implements ActionListener {
-	// @Override
-	// public void actionPerformed(ActionEvent ae) {
-	// if (ae.getSource() == importText) {
-	// // Open JFileChooser and then creates test file
-	// int selected = chooser.showOpenDialog(getParent());
-	// if (selected == JFileChooser.APPROVE_OPTION) {
-	// // Show confirmation dialog if currently in a test.
-	// // If so, clear old test.
-	// test = new TestFile(chooser.getSelectedFile());
-	// }
-	// }
-	// }
-	//
-	// }
-
 	// Method that returns a font object with the "default" font family
-	private Font getFontObject(int fontSize) {
-		return new Font("Franklin Gothic Book", Font.PLAIN, fontSize);
+	private void getFontObject(int fontSize) {
+		 // ;
+		for(Component c : componentList){
+			c.setFont(new Font("Franklin Gothic Book", Font.PLAIN, fontSize));
+		}
 	}
 
 	// *********DO NOT TOUCH ANY CODE BELOW THIS!!*********
@@ -210,7 +187,7 @@ public class VTP5 extends JFrame {
 
 			for (Component component : frame.getRootPane().getComponents()) {
 				int newFontSize = (int) ((double) component.getFont().getSize() * scaler);
-				component.setFont(getFontObject(newFontSize));
+				//component.setFont(getFontObject(newFontSize));
 				frame.revalidate();
 				frame.repaint();
 			}
