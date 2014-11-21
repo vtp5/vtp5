@@ -91,6 +91,7 @@ public class VTP5 extends JFrame {
 				"<html><div style=\"text-align:center;\">Prompt</div></html>");
 		answerField = new JTextField("Enter answer here");
 		componentList.add(new ComponentWithFontData(promptLabel, 36));
+		componentList.add(new ComponentWithFontData(answerField, 36));
 		enterButton = new JButton("Enter");
 		componentList.add(new ComponentWithFontData(enterButton, 36));
 		passButton = new JButton("Pass");
@@ -104,13 +105,16 @@ public class VTP5 extends JFrame {
 		guessedAnswersList.setVisibleRowCount(5);
 		guessedAnswersScrollPane = new JScrollPane(guessedAnswersList);
 
+		componentList.add(new ComponentWithFontData(statsList, 12));
+		componentList.add(new ComponentWithFontData(guessedAnswersList, 12));
+
 		progressBar = new JProgressBar(JProgressBar.VERTICAL, 0, 100);
 		progressBar.setValue(50);
 
 		// Set the font size of the text in the components
 		for (ComponentWithFontData c : componentList) {
 			Component component = c.getComponent();
-			setFontSize(component, 34);
+			setFontSize(component, c.getOriginalFontSize());
 		}
 
 		// Add components to main panel
@@ -158,7 +162,6 @@ public class VTP5 extends JFrame {
 		private FrameListener(JFrame frame) {
 			this.frame = frame;
 			this.originalSize = frame.getSize();
-			System.out.println(originalSize);
 		}
 
 		@Override
@@ -169,15 +172,15 @@ public class VTP5 extends JFrame {
 			Dimension newSize = frame.getSize();
 
 			// Printlns for debugging
-			System.out.println("originalSize: " + originalSize);
-			System.out.println("newSize: " + newSize);
+			// System.out.println("originalSize: " + originalSize);
+			// System.out.println("newSize: " + newSize);
 
 			double scaler = Math.min(
 					newSize.getWidth() / originalSize.getWidth(),
 					newSize.getHeight() / originalSize.getHeight());
 
 			// Printlns for debugging
-			System.out.println("Scaler: " + scaler);
+			// System.out.println("Scaler: " + scaler);
 
 			for (ComponentWithFontData c : componentList) {
 				Component component = c.getComponent();
@@ -185,7 +188,7 @@ public class VTP5 extends JFrame {
 				int newFontSize = (int) ((double) c.getOriginalFontSize() * scaler);
 
 				// Printlns for debugging:
-				System.out.println("newFontSize: " + newFontSize);
+				// System.out.println("newFontSize: " + newFontSize);
 
 				setFontSize(component, newFontSize);
 				frame.revalidate();
