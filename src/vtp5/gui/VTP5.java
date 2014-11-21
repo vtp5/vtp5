@@ -2,7 +2,6 @@ package vtp5.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ComponentAdapter;
@@ -50,7 +49,7 @@ public class VTP5 extends JFrame {
 	private JList<String> guessedAnswersList;
 	private JScrollPane guessedAnswersScrollPane;
 	private JProgressBar progressBar;
-	private ArrayList<Component> componentList = new ArrayList<Component>();
+	private ArrayList<JComponent> componentList = new ArrayList<>();
 
 	private JFileChooser chooser = new JFileChooser();
 
@@ -72,19 +71,12 @@ public class VTP5 extends JFrame {
 		settingsButton = new JButton("Settings");
 		helpButton = new JButton("Help");
 		aboutButton = new JButton("About");
-		
+
 		componentList.add(importFileButton);
 		componentList.add(leaderboardButton);
 		componentList.add(settingsButton);
 		componentList.add(helpButton);
 		componentList.add(aboutButton);
-
-		// Change the font of the text on buttons to "default" style
-		/*importFileButton.setFont(getFontObject(34));
-		leaderboardButton.setFont(getFontObject(34));
-		settingsButton.setFont(getFontObject(34));
-		helpButton.setFont(getFontObject(34));
-		aboutButton.setFont(getFontObject(34));*/
 
 		buttonPanel.add(importFileButton, "align left");
 		buttonPanel.add(leaderboardButton, "push, align right");
@@ -133,32 +125,27 @@ public class VTP5 extends JFrame {
 		// Maximise JFrame
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-		// Add FrameListener to JFrame so we can detect when the frame is
-		// resized
-		addComponentListener(new FrameListener(this));
-		setFontSize(34);
-
 		// Sets JFrame properties.
 		setSize(800, 600);
 		setTitle("VTP5");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
-	}
 
-	// Method that returns a font object with the "default" font family
-	private void setFontSize(int fontSize) {
-		 // ;
-		for(Component c : componentList){
-			c.setFont(new Font("Franklin Gothic Book", Font.PLAIN, fontSize));
+		// Add FrameListener to JFrame so we can detect when the frame is
+		// resized
+		addComponentListener(new FrameListener(this));
+		for (Component c : componentList) {
+			setFontSize(c, 34);
 		}
 	}
 
-	// *********DO NOT TOUCH ANY CODE BELOW THIS!!*********
-	// http://stackoverflow.com/questions/6495769/how-to-get-all-elements-inside-a-jframe
-	private ArrayList<Component> getAllComponents(Container c) {
-		return null;
+	// Method that returns a font object with the "default" font family
+	private void setFontSize(Component c, int fontSize) {
+		c.setFont(new Font("Franklin Gothic Book", Font.PLAIN, fontSize));
 	}
+
+	// *********DO NOT TOUCH ANY CODE BELOW THIS!!*********
 
 	// FrameListener's componentResized() method will be thrown when the JFrame
 	// is resized, so we can scale the text
@@ -174,21 +161,28 @@ public class VTP5 extends JFrame {
 
 		@Override
 		public void componentResized(ComponentEvent e) {
-			System.out.println(frame.getSize());
 			// Scale the text when the frame is resized
 
 			// Calculate the scale factor
 			Dimension newSize = frame.getSize();
+
+			// Printlns for debugging
+			System.out.println("newSize: " + newSize);
+
 			double scaler = Math.min(
 					newSize.getWidth() / originalSize.getWidth(),
 					newSize.getHeight() / originalSize.getHeight());
 
-			System.out.println(frame.getRootPane().getComponents().length);
+			// Printlns for debugging
+			System.out.println("Scaler: " + scaler);
 
 			for (Component component : frame.getRootPane().getComponents()) {
 				int newFontSize = (int) ((double) component.getFont().getSize() * scaler);
-				//component.setFont(getFontObject(newFontSize));
-				//setFontSize(newFontSize);
+
+				// Printlns for debugging:
+				System.out.println("newFontSize: " + newFontSize);
+
+				setFontSize(component, newFontSize);
 				frame.revalidate();
 				frame.repaint();
 			}
