@@ -136,7 +136,7 @@ public class VTP5 extends JFrame {
 		// Add FrameListener to JFrame so we can detect when the frame is
 		// resized
 		addComponentListener(new FrameListener(this));
-		getFontObject(34);
+		setFontSize(34);
 
 		// Sets JFrame properties.
 		setSize(800, 600);
@@ -147,7 +147,7 @@ public class VTP5 extends JFrame {
 	}
 
 	// Method that returns a font object with the "default" font family
-	private void getFontObject(int fontSize) {
+	private void setFontSize(int fontSize) {
 		 // ;
 		for(Component c : componentList){
 			c.setFont(new Font("Franklin Gothic Book", Font.PLAIN, fontSize));
