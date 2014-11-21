@@ -85,7 +85,7 @@ public class VTP5 extends JFrame {
 
 		// Set up main panel
 		mainPanel = new JPanel();
-		mainPanel.setLayout(new MigLayout("insets 5", "", ""));
+		mainPanel.setLayout(new MigLayout("insets 5", "", "[][][]40[]"));
 
 		promptLabel = new JLabel(
 				"<html><div style=\"text-align:center;\">Prompt</div></html>");
@@ -105,8 +105,8 @@ public class VTP5 extends JFrame {
 		guessedAnswersList.setVisibleRowCount(5);
 		guessedAnswersScrollPane = new JScrollPane(guessedAnswersList);
 
-		componentList.add(new ComponentWithFontData(statsList, 20));
-		componentList.add(new ComponentWithFontData(guessedAnswersList, 20));
+		componentList.add(new ComponentWithFontData(statsList, 30));
+		componentList.add(new ComponentWithFontData(guessedAnswersList, 30));
 
 		progressBar = new JProgressBar(JProgressBar.VERTICAL, 0, 100);
 		progressBar.setValue(50);
@@ -118,7 +118,7 @@ public class VTP5 extends JFrame {
 		}
 
 		// Add components to main panel
-		mainPanel.add(promptLabel, "span 3, push, wrap");
+		mainPanel.add(promptLabel, "span 3, push, wrap, height 200!");
 		mainPanel.add(answerField, "span 2 2, grow");
 		mainPanel.add(enterButton, "wrap");
 		mainPanel.add(passButton, "wrap, grow");
