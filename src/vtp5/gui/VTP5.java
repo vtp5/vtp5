@@ -9,7 +9,6 @@ import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -49,7 +48,7 @@ public class VTP5 extends JFrame {
 	private JList<String> guessedAnswersList;
 	private JScrollPane guessedAnswersScrollPane;
 	private JProgressBar progressBar;
-	private ArrayList<JComponent> componentList = new ArrayList<>();
+	private ArrayList<ComponentWithFontData> componentList = new ArrayList<>();
 
 	private JFileChooser chooser = new JFileChooser();
 
@@ -72,11 +71,11 @@ public class VTP5 extends JFrame {
 		helpButton = new JButton("Help");
 		aboutButton = new JButton("About");
 
-		componentList.add(importFileButton);
-		componentList.add(leaderboardButton);
-		componentList.add(settingsButton);
-		componentList.add(helpButton);
-		componentList.add(aboutButton);
+		componentList.add(new ComponentWithFontData(importFileButton, 36));
+		componentList.add(new ComponentWithFontData(leaderboardButton, 36));
+		componentList.add(new ComponentWithFontData(settingsButton, 36));
+		componentList.add(new ComponentWithFontData(helpButton, 36));
+		componentList.add(new ComponentWithFontData(aboutButton, 36));
 
 		buttonPanel.add(importFileButton, "align left");
 		buttonPanel.add(leaderboardButton, "push, align right");
@@ -91,11 +90,11 @@ public class VTP5 extends JFrame {
 		promptLabel = new JLabel(
 				"<html><div style=\"text-align:center;\">Prompt</div></html>");
 		answerField = new JTextField("Enter answer here");
-		componentList.add(promptLabel);
+		componentList.add(new ComponentWithFontData(promptLabel, 36));
 		enterButton = new JButton("Enter");
-		componentList.add(enterButton);
+		componentList.add(new ComponentWithFontData(enterButton, 36));
 		passButton = new JButton("Pass");
-		componentList.add(passButton);
+		componentList.add(new ComponentWithFontData(passButton, 36));
 		// Set up JLists and their respective ListModels
 		statsList = new JList<>(new String[] { "Stats:", "1", "2", "3", "4" });
 		statsList.setVisibleRowCount(5);
@@ -107,6 +106,12 @@ public class VTP5 extends JFrame {
 
 		progressBar = new JProgressBar(JProgressBar.VERTICAL, 0, 100);
 		progressBar.setValue(50);
+
+		// Set the font size of the text in the components
+		for (ComponentWithFontData c : componentList) {
+			Component component = c.getComponent();
+			setFontSize(component, 34);
+		}
 
 		// Add components to main panel
 		mainPanel.add(promptLabel, "span 3, push, wrap");
@@ -135,9 +140,6 @@ public class VTP5 extends JFrame {
 		// Add FrameListener to JFrame so we can detect when the frame is
 		// resized
 		addComponentListener(new FrameListener(this));
-		for (Component c : componentList) {
-			setFontSize(c, 34);
-		}
 	}
 
 	// Method that returns a font object with the "default" font family
@@ -177,8 +179,10 @@ public class VTP5 extends JFrame {
 			// Printlns for debugging
 			System.out.println("Scaler: " + scaler);
 
-			for (Component component : componentList) {
-				int newFontSize = (int) ((double) component.getFont().getSize() * scaler);
+			for (ComponentWithFontData c : componentList) {
+				Component component = c.getComponent();
+
+				int newFontSize = (int) ((double) c.getOriginalFontSize() * scaler);
 
 				// Printlns for debugging:
 				System.out.println("newFontSize: " + newFontSize);
