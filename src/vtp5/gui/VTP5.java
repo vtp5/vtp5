@@ -203,7 +203,7 @@ public class VTP5 extends JFrame {
 	private void setFontSize(Component c, int fontSize) {
 		try {
 			Font font = Font.createFont(Font.TRUETYPE_FONT,
-					new FileInputStream("res/files/FRABK.TTF"));
+					new FileInputStream("res/fonts/FRABK.TTF"));
 			font = font.deriveFont((float) fontSize);
 			c.setFont(font);
 
