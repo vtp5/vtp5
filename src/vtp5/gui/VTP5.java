@@ -1,6 +1,7 @@
 package vtp5.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -40,6 +41,11 @@ public class VTP5 extends JFrame {
 	// private JMenuItem importText;
 	// private JMenuBar bar;
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private FramePanel framePanel;
 
 	// Components for button panel at top of frame
@@ -67,6 +73,10 @@ public class VTP5 extends JFrame {
 
 	TestFile test;
 
+	Color bcolour = Color.BLACK;
+	Color fclour = Color.CYAN;
+	Color tclour = Color.GREEN;
+
 	public VTP5() {
 		// Sets up JFileChooser
 		chooser.setFileFilter(chooserFilter);
@@ -77,12 +87,21 @@ public class VTP5 extends JFrame {
 		// Set up button panel
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new MigLayout());
-
 		importFileButton = new JButton("Import Test File");
+		importFileButton.setBackground(bcolour);
+		importFileButton.setForeground(fclour);
 		leaderboardButton = new JButton("View Leaderboards");
+		leaderboardButton.setBackground(bcolour);
+		leaderboardButton.setForeground(fclour);
 		settingsButton = new JButton("Settings");
+		settingsButton.setBackground(bcolour);
+		settingsButton.setForeground(fclour);
 		helpButton = new JButton("Help");
+		helpButton.setBackground(bcolour);
+		helpButton.setForeground(fclour);
 		aboutButton = new JButton("About");
+		aboutButton.setBackground(bcolour);
+		aboutButton.setForeground(fclour);
 
 		componentList.add(new ComponentWithFontData(importFileButton, 34));
 		componentList.add(new ComponentWithFontData(leaderboardButton, 34));
@@ -102,20 +121,28 @@ public class VTP5 extends JFrame {
 
 		promptLabel = new JLabel(
 				"<html><div style=\"text-align:center;\">Prompt</div></html>");
+		promptLabel.setForeground(tclour);
 		answerField = new JTextField("Enter answer here");
+		answerField.setForeground(tclour);
 		componentList.add(new ComponentWithFontData(promptLabel, 72));
 		componentList.add(new ComponentWithFontData(answerField, 50));
 		enterButton = new JButton("Enter");
+		enterButton.setBackground(bcolour);
+		enterButton.setForeground(fclour);
 		componentList.add(new ComponentWithFontData(enterButton, 36));
 		passButton = new JButton("Pass");
+		passButton.setBackground(bcolour);
+		passButton.setForeground(fclour);
 		componentList.add(new ComponentWithFontData(passButton, 36));
 		// Set up JLists and their respective ListModels
 		statsList = new JList<>(new String[] { "Stats:", "1", "2", "3", "4" });
 		statsList.setVisibleRowCount(5);
+		statsList.setForeground(tclour);
 		statsScrollPane = new JScrollPane(statsList);
 		guessedAnswersList = new JList<>(new String[] {
 				"Already guessed answers:", "1", "2", "3", "4" });
 		guessedAnswersList.setVisibleRowCount(5);
+		guessedAnswersList.setForeground(tclour);
 		guessedAnswersScrollPane = new JScrollPane(guessedAnswersList);
 
 		componentList.add(new ComponentWithFontData(statsList, 30));
@@ -181,7 +208,11 @@ public class VTP5 extends JFrame {
 	// Inner class for the frame's content pane so that the background image can
 	// be drawn
 	private class FramePanel extends JPanel {
-		// TODO Generate serialVersionUID once class has been finished
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 
 		@Override
 		public void paintComponent(Graphics g) {
@@ -249,4 +280,5 @@ public class VTP5 extends JFrame {
 			}
 		});
 	}
+
 }
