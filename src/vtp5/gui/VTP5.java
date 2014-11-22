@@ -81,68 +81,81 @@ public class VTP5 extends JFrame {
 		// Sets up JFileChooser
 		chooser.setFileFilter(chooserFilter);
 
-		framePanel = new FramePanel();
-		framePanel.setLayout(new BorderLayout());
+		framePanel = new FramePanel();//make primary panel
+		framePanel.setLayout(new BorderLayout());//set layout
 
 		// Set up button panel
-		buttonPanel = new JPanel();
-		buttonPanel.setLayout(new MigLayout());
-		importFileButton = new JButton("Import Test File");
-		importFileButton.setBackground(bcolour);
-		importFileButton.setForeground(fclour);
-		leaderboardButton = new JButton("View Leaderboards");
-		leaderboardButton.setBackground(bcolour);
-		leaderboardButton.setForeground(fclour);
-		settingsButton = new JButton("Settings");
-		settingsButton.setBackground(bcolour);
-		settingsButton.setForeground(fclour);
-		helpButton = new JButton("Help");
-		helpButton.setBackground(bcolour);
-		helpButton.setForeground(fclour);
-		aboutButton = new JButton("About");
-		aboutButton.setBackground(bcolour);
-		aboutButton.setForeground(fclour);
+		buttonPanel = new JPanel();//make panel for buttons
+		buttonPanel.setLayout(new MigLayout());//set layout
+		
+		importFileButton = new JButton("Import Test File");//creates buttons
+		importFileButton.setBackground(bcolour);//changes background colour
+		importFileButton.setForeground(fclour);//changes foreground colour
+		
+		leaderboardButton = new JButton("View Leaderboards");//creates buttons
+		leaderboardButton.setBackground(bcolour);//changes background colour
+		leaderboardButton.setForeground(fclour);//changes foreground colour
+		
+		settingsButton = new JButton("Settings");//creates buttons
+		settingsButton.setBackground(bcolour);//changes background colour
+		settingsButton.setForeground(fclour);//changes foreground colour
+		
+		helpButton = new JButton("Help");//ads button
+		helpButton.setBackground(bcolour);//changes background colour
+		helpButton.setForeground(fclour);//changes foreground colour
+		
+		aboutButton = new JButton("About");//creates buttons
+		aboutButton.setBackground(bcolour);//changes background colour
+		aboutButton.setForeground(fclour);//changes foreground colour
 
-		componentList.add(new ComponentWithFontData(importFileButton, 34));
-		componentList.add(new ComponentWithFontData(leaderboardButton, 34));
-		componentList.add(new ComponentWithFontData(settingsButton, 34));
-		componentList.add(new ComponentWithFontData(helpButton, 34));
-		componentList.add(new ComponentWithFontData(aboutButton, 34));
+		componentList.add(new ComponentWithFontData(importFileButton, 34));//adds to list
+		componentList.add(new ComponentWithFontData(leaderboardButton, 34));//adds to list
+		componentList.add(new ComponentWithFontData(settingsButton, 34));//adds to list
+		componentList.add(new ComponentWithFontData(helpButton, 34));//adds to list
+		componentList.add(new ComponentWithFontData(aboutButton, 34));//adds to list
 
-		buttonPanel.add(importFileButton, "align left");
-		buttonPanel.add(leaderboardButton, "push, align right");
-		buttonPanel.add(settingsButton, "align right");
-		buttonPanel.add(helpButton, "align right");
-		buttonPanel.add(aboutButton, "align right");
+		buttonPanel.add(importFileButton, "align left");//adds to panel
+		buttonPanel.add(leaderboardButton, "push, align right");//adds to panel
+		buttonPanel.add(settingsButton, "align right");//adds to panel
+		buttonPanel.add(helpButton, "align right");//adds to panel
+		buttonPanel.add(aboutButton, "align right");//adds to panel
 
 		// Set up main panel
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new MigLayout("insets 5", "", "[][][]40[]"));
 
 		promptLabel = new JLabel(
-				"<html><div style=\"text-align:center;\">Prompt</div></html>");
-		promptLabel.setForeground(tclour);
-		answerField = new JTextField("Enter answer here");
-		answerField.setForeground(tclour);
-		componentList.add(new ComponentWithFontData(promptLabel, 72));
-		componentList.add(new ComponentWithFontData(answerField, 50));
-		enterButton = new JButton("Enter");
-		enterButton.setBackground(bcolour);
-		enterButton.setForeground(fclour);
-		componentList.add(new ComponentWithFontData(enterButton, 36));
-		passButton = new JButton("Pass");
-		passButton.setBackground(bcolour);
-		passButton.setForeground(fclour);
-		componentList.add(new ComponentWithFontData(passButton, 36));
+				"<html><div style=\"text-align:center;\">Prompt</div></html>");//creates label
+		promptLabel.setForeground(tclour);//changes text colour
+		
+		answerField = new JTextField("Enter answer here");//creates text field
+		answerField.setForeground(tclour);//changes text colour
+		
+		componentList.add(new ComponentWithFontData(promptLabel, 72));//adds to list
+		componentList.add(new ComponentWithFontData(answerField, 50));//adds to list
+		
+		enterButton = new JButton("Enter");//creates buttons
+		enterButton.setBackground(bcolour);//changes background colour
+		enterButton.setForeground(fclour);//changes foreground colour
+		
+		componentList.add(new ComponentWithFontData(enterButton, 36));//adds to list
+		
+		passButton = new JButton("Pass");//creates buttons
+		passButton.setBackground(bcolour);//changes background colour
+		passButton.setForeground(fclour);//changes foreground colour
+		
+		componentList.add(new ComponentWithFontData(passButton, 36));//adds to list
+		
 		// Set up JLists and their respective ListModels
 		statsList = new JList<>(new String[] { "Stats:", "1", "2", "3", "4" });
 		statsList.setVisibleRowCount(5);
-		statsList.setForeground(tclour);
+		statsList.setForeground(tclour);//changes text colour
 		statsScrollPane = new JScrollPane(statsList);
+		
 		guessedAnswersList = new JList<>(new String[] {
 				"Already guessed answers:", "1", "2", "3", "4" });
 		guessedAnswersList.setVisibleRowCount(5);
-		guessedAnswersList.setForeground(tclour);
+		guessedAnswersList.setForeground(tclour);//changes text colour
 		guessedAnswersScrollPane = new JScrollPane(guessedAnswersList);
 
 		componentList.add(new ComponentWithFontData(statsList, 30));
@@ -164,7 +177,6 @@ public class VTP5 extends JFrame {
 		mainPanel.add(passButton, "wrap, grow");
 		mainPanel.add(statsScrollPane, "grow");
 		mainPanel.add(guessedAnswersScrollPane, "grow, push, span");
-
 		mainPanel.add(progressBar, "dock east");
 
 		// Add panels to JFrame
