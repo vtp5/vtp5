@@ -4,11 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -17,6 +20,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
@@ -158,12 +162,26 @@ public class VTP5 extends JFrame {
 
 	// Method that returns a font object with the "default" font family
 	private void setFontSize(Component c, int fontSize) {
-		c.setFont(new Font("Franklin Gothic Book", Font.PLAIN, fontSize));
+		try {
+			Font font = Font.createFont(Font.TRUETYPE_FONT,
+					new FileInputStream("res/files/FRABK.TTF"));
+			font = font.deriveFont((float) fontSize);
+			c.setFont(font);
+
+		} catch (FontFormatException | IOException e) {
+			JOptionPane.showMessageDialog(this, "The font file was not found.",
+					"VTP5", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+
+			// Use Arial font (because pretty much everyone has it)
+			new Font("Arial", Font.PLAIN, fontSize);
+		}
 	}
 
 	// Inner class for the frame's content pane so that the background image can
 	// be drawn
 	private class FramePanel extends JPanel {
+		// TODO Generate serialVersionUID once class has been finished
 
 		@Override
 		public void paintComponent(Graphics g) {
@@ -223,13 +241,6 @@ public class VTP5 extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		// Get all fonts on user's computer
-		// GraphicsEnvironment e = GraphicsEnvironment
-		// .getLocalGraphicsEnvironment();
-		// Font[] fonts = e.getAllFonts(); // Get the fonts
-		// for (Font f : fonts) {
-		// System.out.println(f.getFontName());
-		// }
 
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
