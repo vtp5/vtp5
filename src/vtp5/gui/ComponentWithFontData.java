@@ -28,7 +28,5 @@ class ComponentWithFontData {
 	void setOriginalFontSize(int originalFontSize) {
 		this.originalFontSize = originalFontSize;
 	}
-	
-	
 
 }
