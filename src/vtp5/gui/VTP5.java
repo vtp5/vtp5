@@ -9,10 +9,16 @@ import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -64,6 +70,7 @@ public class VTP5 extends JFrame {
 	private JList<String> guessedAnswersList;
 	private JScrollPane guessedAnswersScrollPane;
 	private JProgressBar progressBar;
+
 	private ArrayList<ComponentWithFontData> componentList = new ArrayList<>();
 
 	private JFileChooser chooser = new JFileChooser();
@@ -129,6 +136,9 @@ public class VTP5 extends JFrame {
 		settingsButton.setFocusable(false);
 		helpButton.setFocusable(false);
 		aboutButton.setFocusable(false);
+
+		importFileButton.addActionListener(new EventListener());
+		aboutButton.addActionListener(new EventListener());
 
 		buttonPanel.add(importFileButton, "align left");// adds to panel
 		buttonPanel.add(leaderboardButton, "push, align right");// adds to panel
@@ -214,6 +224,7 @@ public class VTP5 extends JFrame {
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 		// Sets JFrame properties.
+		addMouseListener(new MouseListener());
 		setSize(800, 600);
 		setTitle("VTP5");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -306,6 +317,45 @@ public class VTP5 extends JFrame {
 				frame.revalidate();
 				frame.repaint();
 			}
+		}
+	}
+
+	private class EventListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (e.getSource() == importFileButton) {
+				// Open JFileChooser and then creates test file
+				int selected = chooser.showOpenDialog(getParent());
+				if (selected == JFileChooser.APPROVE_OPTION) {
+					// Show confirmation dialog if currently in a test.
+					// If so, clear old test.
+					test = new TestFile(chooser.getSelectedFile());
+				}
+			} else if (e.getSource() == aboutButton) {
+				try {
+					java.awt.Desktop
+							.getDesktop()
+							.browse(new URI(
+									"https://github.com/duckifyz/VTP5/wiki/Developers"));
+				} catch (URISyntaxException | IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		}
+
+	}
+	
+	private class MouseListener extends MouseAdapter{
+		@Override
+		public void mouseClicked(MouseEvent e){
+		if(answerField.getText().equals("Enter answer here")){
+			if(enterButton.getX() - e.getX() < 500 && enterButton.getY() - e.getY() <200 ){
+				answerField.setText("");
+			}
+			
+		}
 		}
 	}
 
