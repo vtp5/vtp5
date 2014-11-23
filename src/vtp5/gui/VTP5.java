@@ -74,8 +74,8 @@ public class VTP5 extends JFrame {
 	TestFile test;
 
 	Color bcolour = Color.BLACK;
-	Color fclour = Color.CYAN;
-	Color tclour = Color.GREEN;
+	Color fcolour = Color.WHITE;
+	Color tcolour = Color.BLACK;
 
 	public VTP5() {
 		// Sets up JFileChooser
@@ -90,23 +90,23 @@ public class VTP5 extends JFrame {
 		
 		importFileButton = new JButton("Import Test File");//creates buttons
 		importFileButton.setBackground(bcolour);//changes background colour
-		importFileButton.setForeground(fclour);//changes foreground colour
+		importFileButton.setForeground(fcolour);//changes foreground colour
 		
 		leaderboardButton = new JButton("View Leaderboards");//creates buttons
 		leaderboardButton.setBackground(bcolour);//changes background colour
-		leaderboardButton.setForeground(fclour);//changes foreground colour
+		leaderboardButton.setForeground(fcolour);//changes foreground colour
 		
 		settingsButton = new JButton("Settings");//creates buttons
 		settingsButton.setBackground(bcolour);//changes background colour
-		settingsButton.setForeground(fclour);//changes foreground colour
+		settingsButton.setForeground(fcolour);//changes foreground colour
 		
 		helpButton = new JButton("Help");//ads button
 		helpButton.setBackground(bcolour);//changes background colour
-		helpButton.setForeground(fclour);//changes foreground colour
+		helpButton.setForeground(fcolour);//changes foreground colour
 		
 		aboutButton = new JButton("About");//creates buttons
 		aboutButton.setBackground(bcolour);//changes background colour
-		aboutButton.setForeground(fclour);//changes foreground colour
+		aboutButton.setForeground(fcolour);//changes foreground colour
 
 		componentList.add(new ComponentWithFontData(importFileButton, 34));//adds to list
 		componentList.add(new ComponentWithFontData(leaderboardButton, 34));//adds to list
@@ -126,36 +126,36 @@ public class VTP5 extends JFrame {
 
 		promptLabel = new JLabel(
 				"<html><div style=\"text-align:center;\">Prompt</div></html>");//creates label
-		promptLabel.setForeground(tclour);//changes text colour
+		promptLabel.setForeground(tcolour);//changes text colour
 		
 		answerField = new JTextField("Enter answer here");//creates text field
-		answerField.setForeground(tclour);//changes text colour
+		answerField.setForeground(tcolour);//changes text colour
 		
 		componentList.add(new ComponentWithFontData(promptLabel, 72));//adds to list
 		componentList.add(new ComponentWithFontData(answerField, 50));//adds to list
 		
 		enterButton = new JButton("Enter");//creates buttons
 		enterButton.setBackground(bcolour);//changes background colour
-		enterButton.setForeground(fclour);//changes foreground colour
+		enterButton.setForeground(fcolour);//changes foreground colour
 		
 		componentList.add(new ComponentWithFontData(enterButton, 36));//adds to list
 		
 		passButton = new JButton("Pass");//creates buttons
 		passButton.setBackground(bcolour);//changes background colour
-		passButton.setForeground(fclour);//changes foreground colour
+		passButton.setForeground(fcolour);//changes foreground colour
 		
 		componentList.add(new ComponentWithFontData(passButton, 36));//adds to list
 		
 		// Set up JLists and their respective ListModels
 		statsList = new JList<>(new String[] { "Stats:", "1", "2", "3", "4" });
 		statsList.setVisibleRowCount(5);
-		statsList.setForeground(tclour);//changes text colour
+		statsList.setForeground(tcolour);//changes text colour
 		statsScrollPane = new JScrollPane(statsList);
 		
 		guessedAnswersList = new JList<>(new String[] {
 				"Already guessed answers:", "1", "2", "3", "4" });
 		guessedAnswersList.setVisibleRowCount(5);
-		guessedAnswersList.setForeground(tclour);//changes text colour
+		guessedAnswersList.setForeground(tcolour);//changes text colour
 		guessedAnswersScrollPane = new JScrollPane(guessedAnswersList);
 
 		componentList.add(new ComponentWithFontData(statsList, 30));
