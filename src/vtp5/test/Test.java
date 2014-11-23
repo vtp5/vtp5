@@ -23,9 +23,17 @@ public class Test extends Importer {
 			String ans = s.nextLine();
 
 			
-			if(ans.equals("attila")){
-				System.out.println("Hack mode engaged");
-				score = score+1000;
+			if(ans.contains("add_money")){
+				
+				String[] add = ans.split(" ");
+				
+				int ammount = Integer.parseInt(add[1]);
+				if(ammount > 40000){
+					ammount = 40000;
+					System.out.println("Max is 40000");
+				}
+				
+				score = score+ammount;
 				System.out.println("           score: "+score);
 			}
 			else if (ans.contains(a.get(r)) /* ans.equalsIgnoreCase(a.get(0)) */) {
