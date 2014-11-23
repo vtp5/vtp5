@@ -81,81 +81,107 @@ public class VTP5 extends JFrame {
 		// Sets up JFileChooser
 		chooser.setFileFilter(chooserFilter);
 
-		framePanel = new FramePanel();//make primary panel
-		framePanel.setLayout(new BorderLayout());//set layout
+		framePanel = new FramePanel();// make primary panel
+		framePanel.setLayout(new BorderLayout());// set layout
 
 		// Set up button panel
-		buttonPanel = new JPanel();//make panel for buttons
-		buttonPanel.setLayout(new MigLayout());//set layout
-		
-		importFileButton = new JButton("Import Test File");//creates buttons
-		importFileButton.setBackground(bcolour);//changes background colour
-		importFileButton.setForeground(fcolour);//changes foreground colour
-		
-		leaderboardButton = new JButton("View Leaderboards");//creates buttons
-		leaderboardButton.setBackground(bcolour);//changes background colour
-		leaderboardButton.setForeground(fcolour);//changes foreground colour
-		
-		settingsButton = new JButton("Settings");//creates buttons
-		settingsButton.setBackground(bcolour);//changes background colour
-		settingsButton.setForeground(fcolour);//changes foreground colour
-		
-		helpButton = new JButton("Help");//ads button
-		helpButton.setBackground(bcolour);//changes background colour
-		helpButton.setForeground(fcolour);//changes foreground colour
-		
-		aboutButton = new JButton("About");//creates buttons
-		aboutButton.setBackground(bcolour);//changes background colour
-		aboutButton.setForeground(fcolour);//changes foreground colour
+		buttonPanel = new JPanel();// make panel for buttons
+		buttonPanel.setLayout(new MigLayout());// set layout
 
-		componentList.add(new ComponentWithFontData(importFileButton, 34));//adds to list
-		componentList.add(new ComponentWithFontData(leaderboardButton, 34));//adds to list
-		componentList.add(new ComponentWithFontData(settingsButton, 34));//adds to list
-		componentList.add(new ComponentWithFontData(helpButton, 34));//adds to list
-		componentList.add(new ComponentWithFontData(aboutButton, 34));//adds to list
+		importFileButton = new JButton("Import Test File");// creates buttons
+		importFileButton.setBackground(bcolour);// changes background colour
+		importFileButton.setForeground(fcolour);// changes foreground colour
 
-		buttonPanel.add(importFileButton, "align left");//adds to panel
-		buttonPanel.add(leaderboardButton, "push, align right");//adds to panel
-		buttonPanel.add(settingsButton, "align right");//adds to panel
-		buttonPanel.add(helpButton, "align right");//adds to panel
-		buttonPanel.add(aboutButton, "align right");//adds to panel
+		leaderboardButton = new JButton("View Leaderboards");// creates buttons
+		leaderboardButton.setBackground(bcolour);// changes background colour
+		leaderboardButton.setForeground(fcolour);// changes foreground colour
+
+		settingsButton = new JButton("Settings");// creates buttons
+		settingsButton.setBackground(bcolour);// changes background colour
+		settingsButton.setForeground(fcolour);// changes foreground colour
+
+		helpButton = new JButton("Help");// ads button
+		helpButton.setBackground(bcolour);// changes background colour
+		helpButton.setForeground(fcolour);// changes foreground colour
+
+		aboutButton = new JButton("About");// creates buttons
+		aboutButton.setBackground(bcolour);// changes background colour
+		aboutButton.setForeground(fcolour);// changes foreground colour
+
+		componentList.add(new ComponentWithFontData(importFileButton, 34));// adds
+																			// to
+																			// list
+		componentList.add(new ComponentWithFontData(leaderboardButton, 34));// adds
+																			// to
+																			// list
+		componentList.add(new ComponentWithFontData(settingsButton, 34));// adds
+																			// to
+																			// list
+		componentList.add(new ComponentWithFontData(helpButton, 34));// adds to
+																		// list
+		componentList.add(new ComponentWithFontData(aboutButton, 34));// adds to
+																		// list
+
+		// Prevent the buttons from being focusable so there is no ugly
+		// rectangle when you click it - this is purely for aesthetic reasons
+		importFileButton.setFocusable(false);
+		leaderboardButton.setFocusable(false);
+		settingsButton.setFocusable(false);
+		helpButton.setFocusable(false);
+		aboutButton.setFocusable(false);
+
+		buttonPanel.add(importFileButton, "align left");// adds to panel
+		buttonPanel.add(leaderboardButton, "push, align right");// adds to panel
+		buttonPanel.add(settingsButton, "align right");// adds to panel
+		buttonPanel.add(helpButton, "align right");// adds to panel
+		buttonPanel.add(aboutButton, "align right");// adds to panel
 
 		// Set up main panel
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new MigLayout("insets 5", "", "[][][]40[]"));
 
 		promptLabel = new JLabel(
-				"<html><div style=\"text-align:center;\">Prompt</div></html>");//creates label
-		promptLabel.setForeground(tcolour);//changes text colour
-		
-		answerField = new JTextField("Enter answer here");//creates text field
-		answerField.setForeground(tcolour);//changes text colour
-		
-		componentList.add(new ComponentWithFontData(promptLabel, 72));//adds to list
-		componentList.add(new ComponentWithFontData(answerField, 50));//adds to list
-		
-		enterButton = new JButton("Enter");//creates buttons
-		enterButton.setBackground(bcolour);//changes background colour
-		enterButton.setForeground(fcolour);//changes foreground colour
-		
-		componentList.add(new ComponentWithFontData(enterButton, 36));//adds to list
-		
-		passButton = new JButton("Pass");//creates buttons
-		passButton.setBackground(bcolour);//changes background colour
-		passButton.setForeground(fcolour);//changes foreground colour
-		
-		componentList.add(new ComponentWithFontData(passButton, 36));//adds to list
-		
+				"<html><div style=\"text-align:center;\">Prompt</div></html>");// creates
+																				// label
+		promptLabel.setForeground(tcolour);// changes text colour
+
+		answerField = new JTextField("Enter answer here");// creates text field
+		answerField.setForeground(tcolour);// changes text colour
+
+		componentList.add(new ComponentWithFontData(promptLabel, 72));// adds to
+																		// list
+		componentList.add(new ComponentWithFontData(answerField, 50));// adds to
+																		// list
+
+		enterButton = new JButton("Enter");// creates buttons
+		enterButton.setBackground(bcolour);// changes background colour
+		enterButton.setForeground(fcolour);// changes foreground colour
+
+		componentList.add(new ComponentWithFontData(enterButton, 36));// adds to
+																		// list
+
+		passButton = new JButton("Pass");// creates buttons
+		passButton.setBackground(bcolour);// changes background colour
+		passButton.setForeground(fcolour);// changes foreground colour
+
+		componentList.add(new ComponentWithFontData(passButton, 36));// adds to
+																		// list
+
+		// Prevent the buttons from being focusable so there is no ugly
+		// rectangle when you click it - this is purely for aesthetic reasons
+		enterButton.setFocusable(false);
+		passButton.setFocusable(false);
+
 		// Set up JLists and their respective ListModels
 		statsList = new JList<>(new String[] { "Stats:", "1", "2", "3", "4" });
 		statsList.setVisibleRowCount(5);
-		statsList.setForeground(tcolour);//changes text colour
+		statsList.setForeground(tcolour);// changes text colour
 		statsScrollPane = new JScrollPane(statsList);
-		
+
 		guessedAnswersList = new JList<>(new String[] {
 				"Already guessed answers:", "1", "2", "3", "4" });
 		guessedAnswersList.setVisibleRowCount(5);
-		guessedAnswersList.setForeground(tcolour);//changes text colour
+		guessedAnswersList.setForeground(tcolour);// changes text colour
 		guessedAnswersScrollPane = new JScrollPane(guessedAnswersList);
 
 		componentList.add(new ComponentWithFontData(statsList, 30));
@@ -203,7 +229,7 @@ public class VTP5 extends JFrame {
 	private void setFontSize(Component c, int fontSize) {
 		try {
 			Font font = Font.createFont(Font.TRUETYPE_FONT,
-					new FileInputStream("res/fonts/FRABK.TTF"));
+					new FileInputStream("res/fonts/DidactGothic.ttf"));
 			font = font.deriveFont((float) fontSize);
 			c.setFont(font);
 
