@@ -13,7 +13,7 @@ public class Import {
 
 	static ArrayList<String> words = new ArrayList<String>();
 	
-	static String loc = "res/files/to.txt";
+	static String loc = "res/files/test.txt";
 
 	public static void main(String[] args) {
 
