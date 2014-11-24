@@ -346,16 +346,17 @@ public class VTP5 extends JFrame {
 		}
 
 	}
-	
-	private class MouseListener extends MouseAdapter{
+
+	private class MouseListener extends MouseAdapter {
 		@Override
-		public void mouseClicked(MouseEvent e){
-		if(answerField.getText().equals("Enter answer here")){
-			if(enterButton.getX() - e.getX() < 500 && enterButton.getY() - e.getY() <200 ){
-				answerField.setText("");
+		public void mouseClicked(MouseEvent e) {
+			if (answerField.getText().equals("Enter answer here")) {
+				if (enterButton.getX() - e.getX() < 500
+						&& enterButton.getY() - e.getY() < 200) {
+					answerField.setText("");
+				}
+
 			}
-			
-		}
 		}
 	}
 
