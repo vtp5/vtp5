@@ -201,6 +201,7 @@ public class VTP5 extends JFrame {
 
 		progressBar = new JProgressBar(JProgressBar.VERTICAL, 0, 100);
 		progressBar.setValue(50);
+		progressBar.setForeground(Color.GREEN);
 
 		// Set the font size of the text in the components
 		for (ComponentWithFontData c : componentList) {
