@@ -76,6 +76,7 @@ public class VTP5 extends JFrame {
 	private JList<String> guessedAnswersList;
 	private JScrollPane guessedAnswersScrollPane;
 	private JProgressBar progressBar;
+	private JSeparator separator;
 
 	private ArrayList<ComponentWithFontData> componentList = new ArrayList<>();
 
@@ -120,6 +121,10 @@ public class VTP5 extends JFrame {
 		aboutButton = new JButton("About");// creates buttons
 		aboutButton.setBackground(bcolour);// changes background colour
 		aboutButton.setForeground(fcolour);// changes foreground colour
+		
+		separator = new JSeparator();
+		separator.setBackground(bcolour);
+		
 
 		componentList.add(new ComponentWithFontData(importFileButton, 34));// adds
 																			// to
@@ -151,7 +156,7 @@ public class VTP5 extends JFrame {
 		buttonPanel.add(settingsButton, "align right");// adds to panel
 		buttonPanel.add(helpButton, "align right");// adds to panel
 		buttonPanel.add(aboutButton, "align right, wrap");// adds to panel
-		buttonPanel.add(new JSeparator(), "span, grow, push");
+		buttonPanel.add(separator, "span, grow, push");
 
 		// Set up main panel
 		mainPanel = new JPanel();
