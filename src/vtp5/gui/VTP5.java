@@ -31,6 +31,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -70,7 +71,7 @@ public class VTP5 extends JFrame {
 	private JList<String> guessedAnswersList;
 	private JScrollPane guessedAnswersScrollPane;
 	private JProgressBar progressBar;
-
+	
 	private ArrayList<ComponentWithFontData> componentList = new ArrayList<>();
 
 	private JFileChooser chooser = new JFileChooser();
@@ -144,7 +145,8 @@ public class VTP5 extends JFrame {
 		buttonPanel.add(leaderboardButton, "push, align right");// adds to panel
 		buttonPanel.add(settingsButton, "align right");// adds to panel
 		buttonPanel.add(helpButton, "align right");// adds to panel
-		buttonPanel.add(aboutButton, "align right");// adds to panel
+		buttonPanel.add(aboutButton, "align right, wrap");// adds to panel
+		buttonPanel.add(new JSeparator(), "span, grow, push");
 
 		// Set up main panel
 		mainPanel = new JPanel();
