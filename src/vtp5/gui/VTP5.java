@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileInputStream;
@@ -157,8 +158,7 @@ public class VTP5 extends JFrame {
 																				// label
 		promptLabel.setForeground(tcolour);// changes text colour
 
-		answerField = new JTextField("Enter answer here", 45);// creates text
-																// field
+		answerField = new JTextField("Enter answer here");// creates text field
 		answerField.setForeground(tcolour);// changes text colour
 
 		componentList.add(new ComponentWithFontData(promptLabel, 72));// adds to
@@ -167,6 +167,8 @@ public class VTP5 extends JFrame {
 																		// list
 
 		enterButton = new JButton("Enter");// creates buttons
+		enterButton.addActionListener(new EventListener());
+		enterButton.setMnemonic(KeyEvent.VK_ENTER);
 		enterButton.setBackground(bcolour);// changes background colour
 		enterButton.setForeground(fcolour);// changes foreground colour
 
@@ -212,9 +214,9 @@ public class VTP5 extends JFrame {
 
 		// Add components to main panel
 		mainPanel.add(promptLabel, "span 3, push, wrap, height 200!");
-		mainPanel.add(answerField, "span 2 2, grow y");
-		mainPanel.add(enterButton, "wrap, grow x, push x");
-		mainPanel.add(passButton, "wrap, grow x, push x");
+		mainPanel.add(answerField, "span 2 2, grow");
+		mainPanel.add(enterButton, "wrap");
+		mainPanel.add(passButton, "wrap, grow");
 		mainPanel.add(statsScrollPane, "grow");
 		mainPanel.add(guessedAnswersScrollPane, "grow, push, span");
 		mainPanel.add(progressBar, "dock east, width 50!");
@@ -346,6 +348,8 @@ public class VTP5 extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+			}else if(e.getSource() == enterButton){
+				System.out.println("Enter Button pressed / Enter key pressed.");
 			}
 		}
 
