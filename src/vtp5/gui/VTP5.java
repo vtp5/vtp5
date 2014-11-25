@@ -13,8 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileInputStream;
@@ -23,7 +21,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
 import javax.swing.ImageIcon;
+import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -35,6 +36,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -166,11 +168,12 @@ public class VTP5 extends JFrame {
 																		// list
 		componentList.add(new ComponentWithFontData(answerField, 50));// adds to
 																		// list
-
+		InputMap im = mainPanel.getInputMap();
+		ActionMap am = mainPanel.getActionMap();
 		enterButton = new JButton("Enter");// creates buttons
 		enterButton.addActionListener(new EventListener());
-		
-		
+		im.put(KeyStroke.getKeyStroke("ENTER"), "Enter");
+		am.put("Enter", new ActionEnter());
 		enterButton.setBackground(bcolour);// changes background colour
 		enterButton.setForeground(fcolour);// changes foreground colour
 
@@ -241,7 +244,7 @@ public class VTP5 extends JFrame {
 
 		// Add FrameListener to JFrame so we can detect when the frame is
 		// resized
-		addKeyListener(new KeyListener());
+		
 		addComponentListener(new FrameListener(this));
 	}
 
@@ -370,15 +373,15 @@ public class VTP5 extends JFrame {
 			}
 		}
 	}
-	private class KeyListener extends KeyAdapter{
+	private class ActionEnter extends AbstractAction{
+
 		@Override
-		public void keyPressed(KeyEvent event){
-			int keyCode = event.getKeyCode();
-			if(keyCode == event.VK_ENTER){
-				System.out.println("Enter pressed");
-			}
+		public void actionPerformed(ActionEvent ae) {
+			System.out.println("Enter");
+			enterButton.doClick();
 			
 		}
+		
 	}
 	
 	
