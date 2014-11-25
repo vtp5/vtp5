@@ -231,8 +231,6 @@ public class VTP5 extends JFrame {
 		// Add panels to JFrame
 		framePanel.add(buttonPanel, BorderLayout.NORTH);
 		framePanel.add(mainPanel, BorderLayout.CENTER);
-		getRootPane().getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("ENTER"), "Enter");
-		getRootPane().getActionMap().put("Enter", new ActionEnter());
 		setContentPane(framePanel);
 
 		// Maximise JFrame
