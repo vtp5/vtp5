@@ -164,7 +164,8 @@ public class VTP5 extends JFrame {
 
 		answerField = new JTextField("Enter answer here");// creates text field
 		answerField.addActionListener(new EventListener());
-		answerField.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("ENTER"), "Enter");
+		answerField.getInputMap(JComponent.WHEN_FOCUSED).put(
+				KeyStroke.getKeyStroke("ENTER"), "Enter");
 		answerField.getActionMap().put("Enter", new ActionEnter());
 		answerField.setForeground(tcolour);// changes text colour
 
@@ -175,7 +176,7 @@ public class VTP5 extends JFrame {
 
 		enterButton = new JButton("Enter");// creates buttons
 		enterButton.addActionListener(new EventListener());
-		
+
 		enterButton.setBackground(bcolour);// changes background colour
 		enterButton.setForeground(fcolour);// changes foreground colour
 
@@ -356,7 +357,8 @@ public class VTP5 extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			} else if (e.getSource() == enterButton || e.getSource() == answerField) {
+			} else if (e.getSource() == enterButton
+					|| e.getSource() == answerField) {
 				System.out.println("Enter");
 			}
 		}
@@ -366,6 +368,26 @@ public class VTP5 extends JFrame {
 	private class MouseListener extends MouseAdapter {
 		@Override
 		public void mouseClicked(MouseEvent e) {
+
+			// System.out.println(answerField.getBounds().getMinX());
+			// System.out.println(answerField.getBounds().getMaxX());
+			// System.out.println(answerField.getBounds().getMinY());
+			// System.out.println(answerField.getBounds().getMaxY());
+			//
+			// System.out.println();
+			// System.out.println(e.getX() + ", " + e.getY());
+			//
+			// if (((e.getX() >= answerField.getBounds().getMinX()) && (e.getX()
+			// <= answerField
+			// .getBounds().getMaxX()))
+			// && ((e.getY() >= answerField.getBounds().getMinX()) && (e
+			// .getY() <= answerField.getBounds().getMaxY()))) {
+			//
+			// if (answerField.getText().equals("Enter answer here")) {
+			// answerField.setText("");
+			// }
+			// }
+			//
 			if (answerField.getText().equals("Enter answer here")) {
 				if (enterButton.getX() - e.getX() < 500
 						&& enterButton.getY() - e.getY() < 200) {
