@@ -215,8 +215,8 @@ public class VTP5 extends JFrame {
 		// Add components to main panel
 		mainPanel.add(promptLabel, "span 3, push, wrap, height 200!");
 		mainPanel.add(answerField, "span 2 2, grow");
-		mainPanel.add(enterButton, "wrap");
-		mainPanel.add(passButton, "wrap, grow");
+		mainPanel.add(enterButton, "width 250, wrap");
+		mainPanel.add(passButton, "width 250, wrap");
 		mainPanel.add(statsScrollPane, "grow");
 		mainPanel.add(guessedAnswersScrollPane, "grow, push, span");
 		mainPanel.add(progressBar, "dock east, width 50!");
