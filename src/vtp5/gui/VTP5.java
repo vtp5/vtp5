@@ -167,13 +167,12 @@ public class VTP5 extends JFrame {
 		componentList.add(new ComponentWithFontData(promptLabel, 72));// adds to
 																		// list
 		componentList.add(new ComponentWithFontData(answerField, 50));// adds to
-																		// list
-		InputMap im = mainPanel.getInputMap();
-		ActionMap am = mainPanel.getActionMap();
+		// list
+
 		enterButton = new JButton("Enter");// creates buttons
 		enterButton.addActionListener(new EventListener());
-		im.put(KeyStroke.getKeyStroke("ENTER"), "Enter");
-		am.put("Enter", new ActionEnter());
+		mainPanel.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "Enter");
+		mainPanel.getActionMap().put("Enter", new ActionEnter());
 		enterButton.setBackground(bcolour);// changes background colour
 		enterButton.setForeground(fcolour);// changes foreground colour
 
@@ -244,7 +243,7 @@ public class VTP5 extends JFrame {
 
 		// Add FrameListener to JFrame so we can detect when the frame is
 		// resized
-		
+
 		addComponentListener(new FrameListener(this));
 	}
 
@@ -354,8 +353,8 @@ public class VTP5 extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			}else if(e.getSource() == enterButton){
-				System.out.println("Enter Button pressed");
+			} else if (e.getSource() == enterButton) {
+			
 			}
 		}
 
@@ -373,18 +372,16 @@ public class VTP5 extends JFrame {
 			}
 		}
 	}
-	private class ActionEnter extends AbstractAction{
+
+	private class ActionEnter extends AbstractAction {
 
 		@Override
 		public void actionPerformed(ActionEvent ae) {
-			System.out.println("Enter");
 			enterButton.doClick();
-			
+
 		}
-		
+
 	}
-	
-	
 
 	public static void main(String[] args) {
 
