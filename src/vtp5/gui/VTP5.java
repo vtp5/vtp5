@@ -157,7 +157,8 @@ public class VTP5 extends JFrame {
 																				// label
 		promptLabel.setForeground(tcolour);// changes text colour
 
-		answerField = new JTextField("Enter answer here");// creates text field
+		answerField = new JTextField("Enter answer here", 45);// creates text
+																// field
 		answerField.setForeground(tcolour);// changes text colour
 
 		componentList.add(new ComponentWithFontData(promptLabel, 72));// adds to
@@ -211,9 +212,9 @@ public class VTP5 extends JFrame {
 
 		// Add components to main panel
 		mainPanel.add(promptLabel, "span 3, push, wrap, height 200!");
-		mainPanel.add(answerField, "span 2 2, grow");
-		mainPanel.add(enterButton, "wrap");
-		mainPanel.add(passButton, "wrap, grow");
+		mainPanel.add(answerField, "span 2 2, grow y");
+		mainPanel.add(enterButton, "wrap, grow x, push x");
+		mainPanel.add(passButton, "wrap, grow x, push x");
 		mainPanel.add(statsScrollPane, "grow");
 		mainPanel.add(guessedAnswersScrollPane, "grow, push, span");
 		mainPanel.add(progressBar, "dock east, width 50!");
