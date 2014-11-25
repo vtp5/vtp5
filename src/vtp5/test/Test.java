@@ -14,7 +14,7 @@ public class Test extends Importer {
 			Random rand = new Random();
 			int r = rand.nextInt((/* max - min */(i / 2) - 0) + 1) + 0;
 			// r --;
-
+			// Test
 			System.out.println(q.get(r));
 
 			Scanner s = new Scanner(System.in);
