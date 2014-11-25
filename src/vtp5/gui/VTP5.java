@@ -26,6 +26,7 @@ import javax.swing.ActionMap;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -162,6 +163,9 @@ public class VTP5 extends JFrame {
 		promptLabel.setForeground(tcolour);// changes text colour
 
 		answerField = new JTextField("Enter answer here");// creates text field
+		answerField.addActionListener(new EventListener());
+		answerField.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("ENTER"), "Enter");
+		answerField.getActionMap().put("Enter", new ActionEnter());
 		answerField.setForeground(tcolour);// changes text colour
 
 		componentList.add(new ComponentWithFontData(promptLabel, 72));// adds to
@@ -171,8 +175,7 @@ public class VTP5 extends JFrame {
 
 		enterButton = new JButton("Enter");// creates buttons
 		enterButton.addActionListener(new EventListener());
-		mainPanel.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "Enter");
-		mainPanel.getActionMap().put("Enter", new ActionEnter());
+		
 		enterButton.setBackground(bcolour);// changes background colour
 		enterButton.setForeground(fcolour);// changes foreground colour
 
@@ -228,6 +231,8 @@ public class VTP5 extends JFrame {
 		// Add panels to JFrame
 		framePanel.add(buttonPanel, BorderLayout.NORTH);
 		framePanel.add(mainPanel, BorderLayout.CENTER);
+		getRootPane().getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("ENTER"), "Enter");
+		getRootPane().getActionMap().put("Enter", new ActionEnter());
 		setContentPane(framePanel);
 
 		// Maximise JFrame
@@ -353,8 +358,8 @@ public class VTP5 extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			} else if (e.getSource() == enterButton) {
-			
+			} else if (e.getSource() == enterButton || e.getSource() == answerField) {
+				System.out.println("Enter");
 			}
 		}
 
