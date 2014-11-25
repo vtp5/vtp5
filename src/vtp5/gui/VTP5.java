@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -168,7 +169,8 @@ public class VTP5 extends JFrame {
 
 		enterButton = new JButton("Enter");// creates buttons
 		enterButton.addActionListener(new EventListener());
-		enterButton.setMnemonic(KeyEvent.VK_ENTER);
+		
+		
 		enterButton.setBackground(bcolour);// changes background colour
 		enterButton.setForeground(fcolour);// changes foreground colour
 
@@ -239,6 +241,7 @@ public class VTP5 extends JFrame {
 
 		// Add FrameListener to JFrame so we can detect when the frame is
 		// resized
+		addKeyListener(new KeyListener());
 		addComponentListener(new FrameListener(this));
 	}
 
@@ -349,7 +352,7 @@ public class VTP5 extends JFrame {
 					e1.printStackTrace();
 				}
 			}else if(e.getSource() == enterButton){
-				System.out.println("Enter Button pressed / Enter key pressed.");
+				System.out.println("Enter Button pressed");
 			}
 		}
 
@@ -367,6 +370,18 @@ public class VTP5 extends JFrame {
 			}
 		}
 	}
+	private class KeyListener extends KeyAdapter{
+		@Override
+		public void keyPressed(KeyEvent event){
+			int keyCode = event.getKeyCode();
+			if(keyCode == event.VK_ENTER){
+				System.out.println("Enter pressed");
+			}
+			
+		}
+	}
+	
+	
 
 	public static void main(String[] args) {
 
