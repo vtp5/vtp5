@@ -71,7 +71,7 @@ public class VTP5 extends JFrame {
 	private JList<String> guessedAnswersList;
 	private JScrollPane guessedAnswersScrollPane;
 	private JProgressBar progressBar;
-	
+
 	private ArrayList<ComponentWithFontData> componentList = new ArrayList<>();
 
 	private JFileChooser chooser = new JFileChooser();
@@ -216,7 +216,7 @@ public class VTP5 extends JFrame {
 		mainPanel.add(passButton, "wrap, grow");
 		mainPanel.add(statsScrollPane, "grow");
 		mainPanel.add(guessedAnswersScrollPane, "grow, push, span");
-		mainPanel.add(progressBar, "dock east");
+		mainPanel.add(progressBar, "dock east, width 50!");
 
 		// Add panels to JFrame
 		framePanel.add(buttonPanel, BorderLayout.NORTH);
