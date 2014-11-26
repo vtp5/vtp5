@@ -1,35 +1,37 @@
 package vtp5.logic;
 
+import java.util.ArrayList;
+
 // A "card" holds the data for each word and its translation/meaning
 public class Card {
 	// Instance variables are String arrays so the different "parts" can be
 	// separated
-	private String[] langFrom;
-	private String[] langTo;
-
+	private ArrayList<String> langFrom;
+	private ArrayList<String>langTo;
+ 
 	public Card() {
 		super();
 	}
 
-	public Card(String[] langFrom, String[] langTo) {
+	public Card(ArrayList<String> langFrom, ArrayList<String> langTo) {
 		super();
 		this.langFrom = langFrom;
 		this.langTo = langTo;
 	}
 
-	public String[] getLangFrom() {
+	public ArrayList<String>  getLangFrom() {
 		return langFrom;
 	}
 
-	public void setLangFrom(String[] langFrom) {
+	public void setLangFrom(ArrayList<String> langFrom) {
 		this.langFrom = langFrom;
 	}
 
-	public String[] getLangTo() {
+	public ArrayList<String> getLangTo() {
 		return langTo;
 	}
 
-	public void setLangTo(String[] langTo) {
+	public void setLangTo(ArrayList<String> langTo) {
 		this.langTo = langTo;
 	}
 

@@ -43,6 +43,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import net.miginfocom.swing.MigLayout;
 import vtp5.logic.TestFile;
+import vtp5.test.Importer;
 
 public class VTP5 extends JFrame {
 	// TODO Generate the serialVersionUID once class has been finished.
@@ -351,6 +352,7 @@ public class VTP5 extends JFrame {
 					// Show confirmation dialog if currently in a test.
 					// If so, clear old test.
 					test = new TestFile(chooser.getSelectedFile());
+					new Importer(test);
 				}
 			} else if (e.getSource() == aboutButton) {
 				try {
