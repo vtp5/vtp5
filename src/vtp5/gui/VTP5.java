@@ -3,6 +3,7 @@ package vtp5.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -17,6 +18,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
@@ -75,9 +78,13 @@ public class VTP5 extends JFrame {
 	private JDialog abtDialog;
 	private JLabel vtp5Label = new JLabel("Virtual Testing Program 5");
 	private JLabel devLabel = new JLabel(
-			"Developed by Minghua Yin, Nikunj Paliwal, Yousuf Ahmed and Abdel Abdalla.");
-	private JLabel srccodeLabel = new JLabel(
-			"<html><a href=\"https://github.com/duckifyz/VTP5/wiki\">Wiki</a></html>");
+			"Developed by Minghua Yin, Nikunj Paliwal,");
+	private JLabel dev2Label = new JLabel(
+			"Yousuf Ahmed and Abdel Abdalla.");
+	private JLabel wikiLabel = new HyperlinkLabel("Wiki",
+			"https://github.com/duckifyz/VTP5/wiki");
+	private JLabel srccodeLabel = new HyperlinkLabel("Source Code",
+			"https://github.com/duckifyz/VTP5");
 	// TODO Create a better icon.
 	private ImageIcon logo = new ImageIcon("res/images/vtp.png");
 
@@ -127,13 +134,16 @@ public class VTP5 extends JFrame {
 		// vtp5Label.setFont(defFont);
 		// srccodeLabel.setFont(defFont);
 		// devLabel.setFont(defFont);
-		
+		// dev2Label.setFont(defFont);
+
 		// Sets up about dialog
 		abtDialog = new JDialog(this, "About VTP5");
 		abtDialog.setLayout(new MigLayout("fillx"));
 		abtDialog.add(new JLabel(logo), "alignx center, aligny top, wrap");
 		abtDialog.add(vtp5Label, "alignx center, wrap");
 		abtDialog.add(devLabel, "alignx center, wrap");
+		abtDialog.add(dev2Label, "alignx center, wrap");
+		abtDialog.add(wikiLabel, "alignx center, wrap");
 		abtDialog.add(srccodeLabel, "alignx center");
 		abtDialog.pack();
 		abtDialog.setResizable(false);
@@ -466,6 +476,28 @@ public class VTP5 extends JFrame {
 			enterButton.doClick();
 		}
 
+	}
+
+	private class HyperlinkLabel extends JLabel {
+		public HyperlinkLabel(String text, final String link) {
+			this.setText("<html><a href=\"" + link + "\">" + text
+					+ "</a></html>");
+			this.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				}
+
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					try {
+						java.awt.Desktop.getDesktop().browse(new URI(link));
+					} catch (URISyntaxException | IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+			});
+		}
 	}
 
 	public static void main(String[] args) {
