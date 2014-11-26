@@ -49,6 +49,10 @@ import vtp5.test.Importer;
 
 public class VTP5 extends JFrame {
 
+	static Dimension newSize;
+	double scaler;
+	int newFontSize;
+	
 	// TODO Generate the serialVersionUID once class has been finished.
 
 	private FramePanel framePanel;
@@ -73,7 +77,7 @@ public class VTP5 extends JFrame {
 	private JProgressBar progressBar;
 	private JSeparator separator;
 
-	private ArrayList<ComponentWithFontData> componentList = new ArrayList<>();
+	protected ArrayList<ComponentWithFontData> componentList = new ArrayList<>();
 
 	private JFileChooser txtChooser = new JFileChooser();
 	private JFileChooser csvChooser = new JFileChooser();
@@ -295,7 +299,7 @@ public class VTP5 extends JFrame {
 	}
 
 	// Method that returns a font object with the "default" font family
-	private void setFontSize(Component c, int fontSize) {
+	protected void setFontSize(Component c, int fontSize) {
 
 		try {
 			Font font = Font.createFont(Font.TRUETYPE_FONT,
@@ -354,10 +358,10 @@ public class VTP5 extends JFrame {
 
 	// FrameListener's componentResized() method will be thrown when the JFrame
 	// is resized, so we can scale the text
-	private class FrameListener extends ComponentAdapter {
+	public static class FrameListener extends ComponentAdapter {
 
-		private JFrame frame;
-		private Dimension originalSize;
+		public static JFrame frame;
+		public static Dimension originalSize;
 
 		private FrameListener(JFrame frame) {
 
@@ -365,37 +369,32 @@ public class VTP5 extends JFrame {
 			this.originalSize = frame.getSize();
 		}
 
+		
 		@Override
 		public void componentResized(ComponentEvent e) {
 
 			// Scale the text when the frame is resized
 
 			// Calculate the scale factor
-			Dimension newSize = frame.getSize();
-
+			newSize = frame.getSize();
 			// Printlns for debugging
 			// System.out.println("originalSize: " + originalSize);
 			// System.out.println("newSize: " + newSize);
 
-			double scaler = Math.min(
-					newSize.getWidth() / originalSize.getWidth(),
-					newSize.getHeight() / originalSize.getHeight());
 
 			// Printlns for debugging
 			// System.out.println("Scaler: " + scaler);
-
-			for (ComponentWithFontData c : componentList) {
-				Component component = c.getComponent();
-
-				int newFontSize = (int) ((double) c.getOriginalFontSize() * scaler);
-
-				// Printlns for debugging:
-				// System.out.println("newFontSize: " + newFontSize);
-
-				setFontSize(component, newFontSize);
-				frame.revalidate();
-				frame.repaint();
-			}
+			
+			
+		     Thread1 obj=new Thread1();  
+		     Thread one =new Thread(obj);  
+		     
+		     Thread2 obj2=new Thread2();  
+		     Thread two =new Thread(obj);  
+		     
+		     one.start();  
+		     two.start();  
+			
 		}
 	}
 
