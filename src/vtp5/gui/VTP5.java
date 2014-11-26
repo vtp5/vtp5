@@ -58,7 +58,8 @@ public class VTP5 extends JFrame {
 
 	// Components for button panel at top of frame
 	private JPanel buttonPanel;
-	private JButton importFileButton, leaderboardButton, settingsButton, helpButton, aboutButton;
+	private JButton importFileButton, leaderboardButton, settingsButton,
+			helpButton, aboutButton;
 
 	// Components in the main area of the frame
 	private JPanel mainPanel;
@@ -77,7 +78,8 @@ public class VTP5 extends JFrame {
 
 	private JFileChooser chooser = new JFileChooser();
 
-	private FileNameExtensionFilter chooserFilter = new FileNameExtensionFilter("Text Files (*.txt)", "txt");
+	private FileNameExtensionFilter chooserFilter = new FileNameExtensionFilter(
+			"Text Files (*.txt)", "txt");
 
 	TestFile test;
 
@@ -158,13 +160,15 @@ public class VTP5 extends JFrame {
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new MigLayout("insets 5", "", "[][][]40[]"));
 
-		promptLabel = new JLabel("<html><div style=\"text-align:center;\">Click 'Import Text File' to begin.</div></html>");// creates
+		promptLabel = new JLabel(
+				"<html><div style=\"text-align:center;\">Click 'Import Text File' to begin.</div></html>");// creates
 		// label
 		promptLabel.setForeground(tcolour);// changes text colour
 
 		answerField = new JTextField();// creates text field
 		answerField.addActionListener(new EventListener());
-		answerField.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("released ENTER"), "Enter");
+		answerField.getInputMap(JComponent.WHEN_FOCUSED).put(
+				KeyStroke.getKeyStroke("released ENTER"), "Enter");
 		answerField.getActionMap().put("Enter", new ActionEnter());
 		answerField.setForeground(tcolour);// changes text colour
 
@@ -200,7 +204,8 @@ public class VTP5 extends JFrame {
 		statsList.setForeground(tcolour);// changes text colour
 		statsScrollPane = new JScrollPane(statsList);
 
-		guessedAnswersList = new JList<>(new String[] { "Already guessed answers:", "1", "2", "3", "4" });
+		guessedAnswersList = new JList<>(new String[] {
+				"Already guessed answers:", "1", "2", "3", "4" });
 		guessedAnswersList.setVisibleRowCount(5);
 		guessedAnswersList.setForeground(tcolour);// changes text colour
 		guessedAnswersScrollPane = new JScrollPane(guessedAnswersList);
@@ -258,12 +263,14 @@ public class VTP5 extends JFrame {
 	private void setFontSize(Component c, int fontSize) {
 
 		try {
-			Font font = Font.createFont(Font.TRUETYPE_FONT, new FileInputStream("res/fonts/DidactGothic.ttf"));
+			Font font = Font.createFont(Font.TRUETYPE_FONT,
+					new FileInputStream("res/fonts/DidactGothic.ttf"));
 			font = font.deriveFont((float) fontSize);
 			c.setFont(font);
 
 		} catch (FontFormatException | IOException e) {
-			JOptionPane.showMessageDialog(this, "The font file was not found.", "VTP5", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "The font file was not found.",
+					"VTP5", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 
 			// Use Arial font (because pretty much everyone has it)
@@ -284,9 +291,13 @@ public class VTP5 extends JFrame {
 		public void paintComponent(Graphics g) {
 
 			Graphics2D g2 = (Graphics2D) g;
-			Image backgroundImage = new ImageIcon("res/images/backvtp.png").getImage();
+			Image backgroundImage = new ImageIcon("res/images/backvtp.png")
+					.getImage();
 
-			g2.drawImage(backgroundImage, 0, 0, (int) getSize().getWidth(), (int) getSize().getHeight(), 0, 0, (int) backgroundImage.getWidth(this), (int) backgroundImage.getHeight(this), this);
+			g2.drawImage(backgroundImage, 0, 0, (int) getSize().getWidth(),
+					(int) getSize().getHeight(), 0, 0,
+					(int) backgroundImage.getWidth(this),
+					(int) backgroundImage.getHeight(this), this);
 		}
 	}
 
@@ -315,7 +326,9 @@ public class VTP5 extends JFrame {
 			// System.out.println("originalSize: " + originalSize);
 			// System.out.println("newSize: " + newSize);
 
-			double scaler = Math.min(newSize.getWidth() / originalSize.getWidth(), newSize.getHeight() / originalSize.getHeight());
+			double scaler = Math.min(
+					newSize.getWidth() / originalSize.getWidth(),
+					newSize.getHeight() / originalSize.getHeight());
 
 			// Printlns for debugging
 			// System.out.println("Scaler: " + scaler);
@@ -351,7 +364,10 @@ public class VTP5 extends JFrame {
 				}
 			} else if (e.getSource() == aboutButton) {
 				try {
-					java.awt.Desktop.getDesktop().browse(new URI("https://github.com/duckifyz/VTP5/wiki/Developers"));
+					java.awt.Desktop
+							.getDesktop()
+							.browse(new URI(
+									"https://github.com/duckifyz/VTP5/wiki/Developers"));
 				} catch (URISyntaxException | IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
