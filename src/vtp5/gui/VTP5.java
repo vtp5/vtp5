@@ -17,14 +17,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -72,9 +71,16 @@ public class VTP5 extends JFrame {
 	private JFileChooser txtChooser = new JFileChooser();
 	private JFileChooser csvChooser = new JFileChooser();
 
+	// Components for About Dialog
+	private JDialog abtDialog;
+	private JLabel vtp5Label = new JLabel("Virtual Testing Program 5");
+	private JLabel devLabel = new JLabel(
+			"Developed by Minghua Yin, Nikunj Paliwal, Yousuf Ahmed and Abdel Abdalla.");
+	private JLabel srccodeLabel = new JLabel(
+			"<html><a href=\"https://github.com/duckifyz/VTP5/wiki\">Wiki</a></html>");
 	// TODO Create a better icon.
 	private ImageIcon logo = new ImageIcon("res/images/vtp.png");
-	
+
 	TestFile test;
 
 	Color bcolour = Color.BLACK;
@@ -117,6 +123,21 @@ public class VTP5 extends JFrame {
 		aboutButton = new JButton("About");// creates buttons
 		aboutButton.setBackground(bcolour);// changes background colour
 		aboutButton.setForeground(fcolour);// changes foreground colour
+
+		// vtp5Label.setFont(defFont);
+		// srccodeLabel.setFont(defFont);
+		// devLabel.setFont(defFont);
+		
+		// Sets up about dialog
+		abtDialog = new JDialog(this, "About VTP5");
+		abtDialog.setLayout(new MigLayout("fillx"));
+		abtDialog.add(new JLabel(logo), "alignx center, aligny top, wrap");
+		abtDialog.add(vtp5Label, "alignx center, wrap");
+		abtDialog.add(devLabel, "alignx center, wrap");
+		abtDialog.add(srccodeLabel, "alignx center");
+		abtDialog.pack();
+		abtDialog.setResizable(false);
+		abtDialog.setLocationRelativeTo(this);
 
 		separator = new JSeparator();
 		separator.setBackground(bcolour);
@@ -381,14 +402,15 @@ public class VTP5 extends JFrame {
 					showChooserDialog(option);
 				}
 			} else if (e.getSource() == aboutButton) {
-				try {
-					java.awt.Desktop
-							.getDesktop()
-							.browse(new URI(
-									"https://github.com/duckifyz/VTP5/wiki/Developers"));
-				} catch (URISyntaxException | IOException e1) {
-					e1.printStackTrace();
-				}
+				abtDialog.setVisible(true);
+				// try {
+				// java.awt.Desktop
+				// .getDesktop()
+				// .browse(new URI(
+				// "https://github.com/duckifyz/VTP5/wiki/Developers"));
+				// } catch (URISyntaxException | IOException e1) {
+				// e1.printStackTrace();
+				// }
 			} else if (e.getSource() == enterButton) {
 				System.out.println("Enter");
 				score++;
