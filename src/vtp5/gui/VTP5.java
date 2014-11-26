@@ -86,10 +86,12 @@ public class VTP5 extends JFrame {
 			"Text Files (*.txt)", "txt");
 
 	TestFile test;
-
+	
 	Color bcolour = Color.BLACK;
 	Color fcolour = Color.WHITE;
 	Color tcolour = Color.BLACK;
+	
+	public int score = 0;
 
 	public VTP5() {
 		// Sets up JFileChooser
@@ -215,8 +217,8 @@ public class VTP5 extends JFrame {
 		componentList.add(new ComponentWithFontData(statsList, 30));
 		componentList.add(new ComponentWithFontData(guessedAnswersList, 30));
 
-		progressBar = new JProgressBar(JProgressBar.VERTICAL, 0, 100);
-		progressBar.setValue(50);
+		progressBar = new JProgressBar(JProgressBar.VERTICAL, 0, 1000);
+		progressBar.setValue(score);
 		progressBar.setForeground(Color.GREEN);
 
 		// Set the font size of the text in the components
@@ -365,6 +367,8 @@ public class VTP5 extends JFrame {
 			} else if (e.getSource() == enterButton
 					|| e.getSource() == answerField) {
 				System.out.println("Enter");
+				score++;
+				progressBar.setValue(score);
 			}
 		}
 
@@ -398,7 +402,6 @@ public class VTP5 extends JFrame {
 						&& enterButton.getY() - e.getY() < 200) {
 					answerField.setText("");
 				}
-
 			}
 		}
 	}
@@ -408,7 +411,6 @@ public class VTP5 extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 			enterButton.doClick();
-
 		}
 
 	}
