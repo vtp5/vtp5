@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
@@ -40,6 +41,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import net.miginfocom.swing.MigLayout;
+import vtp5.logic.Card;
 import vtp5.logic.TestFile;
 import vtp5.test.Importer;
 
@@ -53,10 +55,12 @@ public class VTP5 extends JFrame {
 	private JPanel buttonPanel;
 	private JButton importFileButton, leaderboardButton, settingsButton,
 			helpButton, aboutButton;
+	private int questionIndex = 0;
 
 	// Components in the main area of the frame
 	private JPanel mainPanel;
 	private JLabel promptLabel;
+	private ArrayList<Card> lang;
 	private JTextField answerField;
 	private JButton enterButton;
 	private JButton passButton;
@@ -74,7 +78,7 @@ public class VTP5 extends JFrame {
 
 	// TODO Create a better icon.
 	private ImageIcon logo = new ImageIcon("res/images/vtp.png");
-	
+
 	TestFile test;
 
 	Color bcolour = Color.BLACK;
@@ -256,6 +260,10 @@ public class VTP5 extends JFrame {
 		addComponentListener(new FrameListener(this));
 	}
 
+	private void updatePrompt(int index) {
+		promptLabel.setText(lang.get(index).getLangFrom().get(0));
+	}
+
 	// Method that returns a font object with the "default" font family
 	private void setFontSize(Component c, int fontSize) {
 
@@ -380,6 +388,10 @@ public class VTP5 extends JFrame {
 				if (option == 0 || option == 1) {
 					showChooserDialog(option);
 				}
+				lang = TestFile.getCards();
+				Collections.shuffle(lang);
+				updatePrompt(questionIndex);
+
 			} else if (e.getSource() == aboutButton) {
 				try {
 					java.awt.Desktop
@@ -390,9 +402,17 @@ public class VTP5 extends JFrame {
 					e1.printStackTrace();
 				}
 			} else if (e.getSource() == enterButton) {
-				System.out.println("Enter");
-				score++;
-				progressBar.setValue(score);
+				Card card = lang.get(questionIndex);
+				System.out.println(lang.get(questionIndex).getLangTo().get(0));
+				if (answerField.getText().equals(lang.get(questionIndex).getLangTo().get(0))) {
+					score += 10;
+					progressBar.setValue(score);
+					System.out.println("Correct");
+					questionIndex++;
+					updatePrompt(questionIndex);
+					answerField.setText("");
+
+				}
 			}
 		}
 
