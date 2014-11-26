@@ -437,7 +437,7 @@ public class VTP5 extends JFrame {
 				System.out.println(lang.get(questionIndex).getLangTo().get(0));
 				if (answerField.getText().equals(
 						lang.get(questionIndex).getLangTo().get(0))) {
-					score += 10;
+					score += 1;
 					progressBar.setValue(score);
 					System.out.println("Correct");
 					questionIndex++;
