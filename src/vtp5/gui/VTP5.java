@@ -165,11 +165,11 @@ public class VTP5 extends JFrame {
 		mainPanel.setLayout(new MigLayout("insets 5", "", "[][][]40[]"));
 
 		promptLabel = new JLabel(
-				"<html><div style=\"text-align:center;\">Prompt</div></html>");// creates
+				"<html><div style=\"text-align:center;\">Click 'Import Text File' to begin.</div></html>");// creates
 																				// label
 		promptLabel.setForeground(tcolour);// changes text colour
 
-		answerField = new JTextField("Enter answer here");// creates text field
+		answerField = new JTextField();// creates text field
 		answerField.addActionListener(new EventListener());
 		answerField.getInputMap(JComponent.WHEN_FOCUSED).put(
 				KeyStroke.getKeyStroke("ENTER"), "Enter");
