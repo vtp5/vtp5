@@ -291,7 +291,7 @@ public class VTP5 extends JFrame {
 	}
 
 	private void updatePrompt(int index) {
-		promptLabel.setText(lang.get(index).getLangFrom().get(0));
+		promptLabel.setText(test.getCards().get(index).getLangFrom().get(0));
 	}
 
 	// Method that returns a font object with the "default" font family
@@ -318,13 +318,13 @@ public class VTP5 extends JFrame {
 			int selected = txtChooser.showOpenDialog(getParent());
 			if (selected == JFileChooser.APPROVE_OPTION) {
 				test = new TestFile(txtChooser.getSelectedFile());
-				new Importer(test);
+				//new Importer(test);
 			}
 		} else if (fileType == 1) {
 			int selected = csvChooser.showOpenDialog(getParent());
 			if (selected == JFileChooser.APPROVE_OPTION) {
 				test = new TestFile(csvChooser.getSelectedFile());
-				new Importer(test);
+				//new Importer(test);
 			}
 		}
 	}
@@ -418,8 +418,8 @@ public class VTP5 extends JFrame {
 				if (option == 0 || option == 1) {
 					showChooserDialog(option);
 				}
-				lang = TestFile.getCards();
-				Collections.shuffle(lang);
+				//lang = test.getCards();
+				Collections.shuffle(test.getCards());
 				updatePrompt(questionIndex);
 
 			} else if (e.getSource() == aboutButton) {
@@ -433,10 +433,10 @@ public class VTP5 extends JFrame {
 				// e1.printStackTrace();
 				// }
 			} else if (e.getSource() == enterButton) {
-				Card card = lang.get(questionIndex);
-				System.out.println(lang.get(questionIndex).getLangTo().get(0));
+				Card card = test.getCards().get(questionIndex);
+				System.out.println(test.getCards().get(questionIndex).getLangTo().get(0));
 				if (answerField.getText().equals(
-						lang.get(questionIndex).getLangTo().get(0))) {
+						test.getCards().get(questionIndex).getLangTo().get(0))) {
 					score += 1;
 					progressBar.setValue(score);
 					System.out.println("Correct");

@@ -69,7 +69,7 @@ public class TestFile {
 		}
 	}
 
-	public static ArrayList<Card> getCards() {
+	public ArrayList<Card> getCards() {
 		return cards;
 	}
 
