@@ -270,12 +270,6 @@ public class VTP5 extends JFrame {
 		// Maximise JFrame
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-		// Add mouse listener to frame and answerField - this is for getting rid
-		// of "Enter answer here" when the user clicks the text field
-		MouseListener mouseListener = new MouseListener();
-		addMouseListener(mouseListener);
-		answerField.addMouseListener(mouseListener);
-
 		// Sets JFrame properties.
 		setSize(800, 600);
 		setTitle("VTP5");
@@ -448,44 +442,6 @@ public class VTP5 extends JFrame {
 			}
 		}
 
-	}
-
-	private class MouseListener extends MouseAdapter {
-
-		@Override
-		public void mouseClicked(MouseEvent e) {
-
-			// System.out.println(answerField.getBounds().getMinX());
-			// System.out.println(answerField.getBounds().getMaxX());
-			// System.out.println(answerField.getBounds().getMinY());
-			// System.out.println(answerField.getBounds().getMaxY());
-			//
-			// System.out.println();
-			// System.out.println(e.getX() + ", " + e.getY());
-			//
-			// if (((e.getX() >= answerField.getBounds().getMinX()) && (e.getX()
-			// <= answerField
-			// .getBounds().getMaxX()))
-			// && ((e.getY() >= answerField.getBounds().getMinX()) && (e
-			// .getY() <= answerField.getBounds().getMaxY()))) {
-			//
-			// if (answerField.getText().equals("Enter answer here")) {
-			// answerField.setText("");
-			// }
-			// } else {
-			//
-			// if (answerField.getText().equals("")) {
-			// answerField.setText("Enter answer here");
-			// }
-			// }
-
-			// if (answerField.getText().equals("Enter answer here")) {
-			// if (enterButton.getX() - e.getX() < 500
-			// && enterButton.getY() - e.getY() < 200) {
-			// answerField.setText("");
-			// }
-			// }
-		}
 	}
 
 	private class ActionEnter extends AbstractAction {

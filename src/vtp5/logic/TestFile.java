@@ -7,11 +7,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import vtp5.gui.VTP5;
-
 public class TestFile {
 	// ArrayList of "cards" for a particular test
-	private static  ArrayList<Card> cards = new ArrayList<>();
+	private ArrayList<Card> cards = new ArrayList<>();
 	private BufferedReader br = null;
 
 	public TestFile(File file) {
