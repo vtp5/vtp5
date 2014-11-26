@@ -22,9 +22,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
-import javax.swing.ActionMap;
 import javax.swing.ImageIcon;
-import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
@@ -54,9 +52,7 @@ public class VTP5 extends JFrame {
 	// private JMenuItem importText;
 	// private JMenuBar bar;
 	// Test
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	private FramePanel framePanel;
@@ -166,7 +162,7 @@ public class VTP5 extends JFrame {
 
 		promptLabel = new JLabel(
 				"<html><div style=\"text-align:center;\">Click 'Import Text File' to begin.</div></html>");// creates
-																				// label
+		// label
 		promptLabel.setForeground(tcolour);// changes text colour
 
 		answerField = new JTextField();// creates text field
@@ -419,11 +415,11 @@ public class VTP5 extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent ae) {
-				enterButton.doClick();
+			enterButton.doClick();
 		}
 
-	
 	}
+
 	public static void main(String[] args) {
 
 		SwingUtilities.invokeLater(new Runnable() {

@@ -7,8 +7,8 @@ public class Card {
 	// Instance variables are String arrays so the different "parts" can be
 	// separated
 	private ArrayList<String> langFrom;
-	private ArrayList<String>langTo;
- 
+	private ArrayList<String> langTo;
+
 	public Card() {
 		super();
 	}
@@ -19,7 +19,7 @@ public class Card {
 		this.langTo = langTo;
 	}
 
-	public ArrayList<String>  getLangFrom() {
+	public ArrayList<String> getLangFrom() {
 		return langFrom;
 	}
 

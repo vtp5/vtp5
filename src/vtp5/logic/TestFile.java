@@ -29,8 +29,10 @@ public class TestFile {
 				// TODO Merge this code with Converter
 				// TODO Polish this code (for example, what about the "+ abl."
 				// bit after some verbs and prepositions?)
-				ArrayList<String> langFrom = new ArrayList<>(Arrays.asList(currentLine));
-				ArrayList<String> langTo = new ArrayList<>(Arrays.asList(br.readLine().split("/")));
+				ArrayList<String> langFrom = new ArrayList<>(
+						Arrays.asList(currentLine));
+				ArrayList<String> langTo = new ArrayList<>(Arrays.asList(br
+						.readLine().split("/")));
 
 				Card card = new Card(langFrom, langTo);
 				cards.add(card);

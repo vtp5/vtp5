@@ -1,7 +1,6 @@
 package vtp5.test;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,9 +13,11 @@ public class Importer {
 	static ArrayList<String> a = new ArrayList<String>();
 	private TestFile file;
 	static int i = -1;
-	public Importer(TestFile test){
+
+	public Importer(TestFile test) {
 		this.file = test;
 	}
+
 	public static void main(String[] args) {
 
 		BufferedReader br = null;
