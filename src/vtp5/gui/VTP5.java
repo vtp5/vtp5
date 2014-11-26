@@ -83,8 +83,7 @@ public class VTP5 extends JFrame {
 	private JLabel vtp5Label = new JLabel("Virtual Testing Program 5");
 	private JLabel devLabel = new JLabel(
 			"Developed by Minghua Yin, Nikunj Paliwal,");
-	private JLabel dev2Label = new JLabel(
-			"Yousuf Ahmed and Abdel Abdalla.");
+	private JLabel dev2Label = new JLabel("Yousuf Ahmed and Abdel Abdalla.");
 	private JLabel wikiLabel = new HyperlinkLabel("Wiki",
 			"https://github.com/duckifyz/VTP5/wiki");
 	private JLabel srccodeLabel = new HyperlinkLabel("Source Code",
@@ -436,7 +435,8 @@ public class VTP5 extends JFrame {
 			} else if (e.getSource() == enterButton) {
 				Card card = lang.get(questionIndex);
 				System.out.println(lang.get(questionIndex).getLangTo().get(0));
-				if (answerField.getText().equals(lang.get(questionIndex).getLangTo().get(0))) {
+				if (answerField.getText().equals(
+						lang.get(questionIndex).getLangTo().get(0))) {
 					score += 10;
 					progressBar.setValue(score);
 					System.out.println("Correct");
