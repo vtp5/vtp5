@@ -45,15 +45,6 @@ public class VTP5 extends JFrame {
 
 	// TODO Generate the serialVersionUID once class has been finished.
 
-	// GUI components.
-	// private JMenu newTestMenu, importFilesMenu, recordsMenu, helpMenu,
-	// settingsMenu;
-	// private JMenuItem importText;
-	// private JMenuBar bar;
-	// Test
-
-	private static final long serialVersionUID = 1L;
-
 	private FramePanel framePanel;
 
 	// Components for button panel at top of frame
@@ -76,10 +67,8 @@ public class VTP5 extends JFrame {
 
 	private ArrayList<ComponentWithFontData> componentList = new ArrayList<>();
 
-	private JFileChooser chooser = new JFileChooser();
-
-	private FileNameExtensionFilter chooserFilter = new FileNameExtensionFilter(
-			"Text Files (*.txt)", "txt");
+	private JFileChooser txtChooser = new JFileChooser();
+	private JFileChooser csvChooser = new JFileChooser();
 
 	TestFile test;
 
@@ -92,7 +81,10 @@ public class VTP5 extends JFrame {
 	public VTP5() {
 
 		// Sets up JFileChooser
-		chooser.setFileFilter(chooserFilter);
+		txtChooser.setFileFilter(new FileNameExtensionFilter(
+				"Text Files (*.txt)", "txt"));
+		csvChooser.setFileFilter(new FileNameExtensionFilter(
+				"CSV Files (*csv)", "csv"));
 
 		framePanel = new FramePanel();// make primary panel
 		framePanel.setLayout(new BorderLayout());// set layout
@@ -278,6 +270,26 @@ public class VTP5 extends JFrame {
 		}
 	}
 
+	private void showChooserDialog(int fileType) {
+		if (fileType == 0) {
+			int selected = txtChooser.showOpenDialog(getParent());
+			if (selected == JFileChooser.APPROVE_OPTION) {
+				// TODO Show confirmation dialog if currently in a test.
+				// If so, clear old test.
+				test = new TestFile(txtChooser.getSelectedFile());
+				new Importer(test);
+			}
+		} else if (fileType == 1) {
+			int selected = csvChooser.showOpenDialog(getParent());
+			if (selected == JFileChooser.APPROVE_OPTION) {
+				// TODO Show confirmation dialog if currently in a test.
+				// If so, clear old test.
+				test = new TestFile(csvChooser.getSelectedFile());
+				new Importer(test);
+			}
+		}
+	}
+
 	// Inner class for the frame's content pane so that the background image can
 	// be drawn
 	private class FramePanel extends JPanel {
@@ -354,13 +366,18 @@ public class VTP5 extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 
 			if (e.getSource() == importFileButton) {
+				int option = JOptionPane
+						.showOptionDialog(
+								getParent(),
+								"Do you want to import a text file (for simple tests) or a CSV file (for more complex tests)?",
+								"What test type do you want to import?",
+								JOptionPane.YES_NO_CANCEL_OPTION,
+								JOptionPane.PLAIN_MESSAGE, null, new String[] {
+										"Text File", "CSV File", "Cancel" },
+								null);
 				// Open JFileChooser and then creates test file
-				int selected = chooser.showOpenDialog(getParent());
-				if (selected == JFileChooser.APPROVE_OPTION) {
-					// Show confirmation dialog if currently in a test.
-					// If so, clear old test.
-					test = new TestFile(chooser.getSelectedFile());
-					new Importer(test);
+				if (option == 0 || option == 1) {
+					showChooserDialog(option);
 				}
 			} else if (e.getSource() == aboutButton) {
 				try {
@@ -369,7 +386,6 @@ public class VTP5 extends JFrame {
 							.browse(new URI(
 									"https://github.com/duckifyz/VTP5/wiki/Developers"));
 				} catch (URISyntaxException | IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			} else if (e.getSource() == enterButton) {
