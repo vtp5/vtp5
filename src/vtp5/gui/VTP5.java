@@ -49,10 +49,6 @@ import vtp5.test.Importer;
 
 public class VTP5 extends JFrame {
 
-	static Dimension newSize;
-	double scaler;
-	int newFontSize;
-	
 	// TODO Generate the serialVersionUID once class has been finished.
 
 	private FramePanel framePanel;
@@ -77,7 +73,7 @@ public class VTP5 extends JFrame {
 	private JProgressBar progressBar;
 	private JSeparator separator;
 
-	protected ArrayList<ComponentWithFontData> componentList = new ArrayList<>();
+	private ArrayList<ComponentWithFontData> componentList = new ArrayList<>();
 
 	private JFileChooser txtChooser = new JFileChooser();
 	private JFileChooser csvChooser = new JFileChooser();
@@ -295,11 +291,11 @@ public class VTP5 extends JFrame {
 	}
 
 	private void updatePrompt(int index) {
-		promptLabel.setText(test.getCards().get(index).getLangFrom().get(0));
+		promptLabel.setText(lang.get(index).getLangFrom().get(0));
 	}
 
 	// Method that returns a font object with the "default" font family
-	protected void setFontSize(Component c, int fontSize) {
+	private void setFontSize(Component c, int fontSize) {
 
 		try {
 			Font font = Font.createFont(Font.TRUETYPE_FONT,
@@ -322,13 +318,13 @@ public class VTP5 extends JFrame {
 			int selected = txtChooser.showOpenDialog(getParent());
 			if (selected == JFileChooser.APPROVE_OPTION) {
 				test = new TestFile(txtChooser.getSelectedFile());
-				//new Importer(test);
+				new Importer(test);
 			}
 		} else if (fileType == 1) {
 			int selected = csvChooser.showOpenDialog(getParent());
 			if (selected == JFileChooser.APPROVE_OPTION) {
 				test = new TestFile(csvChooser.getSelectedFile());
-				//new Importer(test);
+				new Importer(test);
 			}
 		}
 	}
@@ -358,10 +354,10 @@ public class VTP5 extends JFrame {
 
 	// FrameListener's componentResized() method will be thrown when the JFrame
 	// is resized, so we can scale the text
-	public static class FrameListener extends ComponentAdapter {
+	private class FrameListener extends ComponentAdapter {
 
-		public static JFrame frame;
-		public static Dimension originalSize;
+		private JFrame frame;
+		private Dimension originalSize;
 
 		private FrameListener(JFrame frame) {
 
@@ -369,32 +365,37 @@ public class VTP5 extends JFrame {
 			this.originalSize = frame.getSize();
 		}
 
-		
 		@Override
 		public void componentResized(ComponentEvent e) {
 
 			// Scale the text when the frame is resized
 
 			// Calculate the scale factor
-			newSize = frame.getSize();
+			Dimension newSize = frame.getSize();
+
 			// Printlns for debugging
 			// System.out.println("originalSize: " + originalSize);
 			// System.out.println("newSize: " + newSize);
 
+			double scaler = Math.min(
+					newSize.getWidth() / originalSize.getWidth(),
+					newSize.getHeight() / originalSize.getHeight());
 
 			// Printlns for debugging
 			// System.out.println("Scaler: " + scaler);
-			
-			
-		     Thread1 obj=new Thread1();  
-		     Thread one =new Thread(obj);  
-		     
-		     Thread2 obj2=new Thread2();  
-		     Thread two =new Thread(obj);  
-		     
-		     one.start();  
-		     two.start();  
-			
+
+			for (ComponentWithFontData c : componentList) {
+				Component component = c.getComponent();
+
+				int newFontSize = (int) ((double) c.getOriginalFontSize() * scaler);
+
+				// Printlns for debugging:
+				// System.out.println("newFontSize: " + newFontSize);
+
+				setFontSize(component, newFontSize);
+				frame.revalidate();
+				frame.repaint();
+			}
 		}
 	}
 
@@ -417,8 +418,8 @@ public class VTP5 extends JFrame {
 				if (option == 0 || option == 1) {
 					showChooserDialog(option);
 				}
-				//lang = test.getCards();
-				Collections.shuffle(test.getCards());
+				lang = TestFile.getCards();
+				Collections.shuffle(lang);
 				updatePrompt(questionIndex);
 
 			} else if (e.getSource() == aboutButton) {
@@ -432,10 +433,10 @@ public class VTP5 extends JFrame {
 				// e1.printStackTrace();
 				// }
 			} else if (e.getSource() == enterButton) {
-				Card card = test.getCards().get(questionIndex);
-				System.out.println(test.getCards().get(questionIndex).getLangTo().get(0));
+				Card card = lang.get(questionIndex);
+				System.out.println(lang.get(questionIndex).getLangTo().get(0));
 				if (answerField.getText().equals(
-						test.getCards().get(questionIndex).getLangTo().get(0))) {
+						lang.get(questionIndex).getLangTo().get(0))) {
 					score += 1;
 					progressBar.setValue(score);
 					System.out.println("Correct");
@@ -532,3 +533,4 @@ public class VTP5 extends JFrame {
 	}
 
 }
+
