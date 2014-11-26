@@ -173,7 +173,7 @@ public class VTP5 extends JFrame {
 		answerField = new JTextField("Enter answer here");// creates text field
 		answerField.addActionListener(new EventListener());
 		answerField.getInputMap(JComponent.WHEN_FOCUSED).put(
-				KeyStroke.getKeyStroke("ENTER"), "Enter");
+				KeyStroke.getKeyStroke("released ENTER"), "Enter");
 		answerField.getActionMap().put("Enter", new ActionEnter());
 		answerField.setForeground(tcolour);// changes text colour
 
@@ -366,8 +366,7 @@ public class VTP5 extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			} else if (e.getSource() == enterButton
-					|| e.getSource() == answerField) {
+			} else if (e.getSource() == enterButton) {
 				System.out.println("Enter");
 				score++;
 				progressBar.setValue(score);
@@ -412,11 +411,11 @@ public class VTP5 extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent ae) {
-			enterButton.doClick();
+				enterButton.doClick();
 		}
 
+	
 	}
-
 	public static void main(String[] args) {
 
 		SwingUtilities.invokeLater(new Runnable() {
