@@ -385,6 +385,7 @@ public class VTP5 extends JFrame {
 			// Printlns for debugging
 			// System.out.println("Scaler: " + scaler);
 			
+			
 		     Thread1 obj=new Thread1();  
 		     Thread one =new Thread(obj);  
 		     
