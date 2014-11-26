@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -37,6 +38,7 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
 import net.miginfocom.swing.MigLayout;
 import vtp5.logic.TestFile;
 import vtp5.test.Importer;
@@ -70,6 +72,9 @@ public class VTP5 extends JFrame {
 	private JFileChooser txtChooser = new JFileChooser();
 	private JFileChooser csvChooser = new JFileChooser();
 
+	// TODO Create a better icon.
+	private ImageIcon logo = new ImageIcon("res/images/vtp.png");
+	
 	TestFile test;
 
 	Color bcolour = Color.BLACK;
@@ -274,16 +279,12 @@ public class VTP5 extends JFrame {
 		if (fileType == 0) {
 			int selected = txtChooser.showOpenDialog(getParent());
 			if (selected == JFileChooser.APPROVE_OPTION) {
-				// TODO Show confirmation dialog if currently in a test.
-				// If so, clear old test.
 				test = new TestFile(txtChooser.getSelectedFile());
 				new Importer(test);
 			}
 		} else if (fileType == 1) {
 			int selected = csvChooser.showOpenDialog(getParent());
 			if (selected == JFileChooser.APPROVE_OPTION) {
-				// TODO Show confirmation dialog if currently in a test.
-				// If so, clear old test.
 				test = new TestFile(csvChooser.getSelectedFile());
 				new Importer(test);
 			}
