@@ -1,17 +1,22 @@
 package vtp5.test;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import vtp5.logic.TestFile;
 
 public class Importer {
 
 	static ArrayList<String> q = new ArrayList<String>();
 	static ArrayList<String> a = new ArrayList<String>();
-
+	private TestFile file;
 	static int i = -1;
-
+	public Importer(TestFile test){
+		this.file = test;
+	}
 	public static void main(String[] args) {
 
 		BufferedReader br = null;

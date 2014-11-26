@@ -3,7 +3,14 @@ package vtp5.test;
 import java.util.Random;
 import java.util.Scanner;
 
+import vtp5.logic.TestFile;
+
 public class Test extends Importer {
+
+	public Test(TestFile test) {
+		super(test);
+		// TODO Auto-generated constructor stub
+	}
 
 	public static void test() {
 

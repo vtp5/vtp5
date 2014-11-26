@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TestFile {
 	// ArrayList of "cards" for a particular test
@@ -28,8 +29,8 @@ public class TestFile {
 				// TODO Merge this code with Converter
 				// TODO Polish this code (for example, what about the "+ abl."
 				// bit after some verbs and prepositions?)
-				String[] langFrom = currentLine.split(", ");
-				String[] langTo = br.readLine().split("/");
+				ArrayList<String> langFrom = new ArrayList<>(Arrays.asList(currentLine));
+				ArrayList<String> langTo = new ArrayList<>(Arrays.asList(br.readLine().split("/")));
 
 				Card card = new Card(langFrom, langTo);
 				cards.add(card);
