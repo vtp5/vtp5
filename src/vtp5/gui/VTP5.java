@@ -86,11 +86,11 @@ public class VTP5 extends JFrame {
 			"Text Files (*.txt)", "txt");
 
 	TestFile test;
-	
+
 	Color bcolour = Color.BLACK;
 	Color fcolour = Color.WHITE;
 	Color tcolour = Color.BLACK;
-	
+
 	public int score = 0;
 
 	public VTP5() {
@@ -123,10 +123,9 @@ public class VTP5 extends JFrame {
 		aboutButton = new JButton("About");// creates buttons
 		aboutButton.setBackground(bcolour);// changes background colour
 		aboutButton.setForeground(fcolour);// changes foreground colour
-		
+
 		separator = new JSeparator();
 		separator.setBackground(bcolour);
-		
 
 		componentList.add(new ComponentWithFontData(importFileButton, 34));// adds
 																			// to
@@ -244,8 +243,13 @@ public class VTP5 extends JFrame {
 		// Maximise JFrame
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 
+		// Add mouse listener to frame and answerField - this is for getting rid
+		// of "Enter answer here" when the user clicks the text field
+		MouseListener mouseListener = new MouseListener();
+		addMouseListener(mouseListener);
+		answerField.addMouseListener(mouseListener);
+
 		// Sets JFrame properties.
-		addMouseListener(new MouseListener());
 		setSize(800, 600);
 		setTitle("VTP5");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -378,31 +382,35 @@ public class VTP5 extends JFrame {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 
-			// System.out.println(answerField.getBounds().getMinX());
-			// System.out.println(answerField.getBounds().getMaxX());
-			// System.out.println(answerField.getBounds().getMinY());
-			// System.out.println(answerField.getBounds().getMaxY());
-			//
-			// System.out.println();
-			// System.out.println(e.getX() + ", " + e.getY());
-			//
-			// if (((e.getX() >= answerField.getBounds().getMinX()) && (e.getX()
-			// <= answerField
-			// .getBounds().getMaxX()))
-			// && ((e.getY() >= answerField.getBounds().getMinX()) && (e
-			// .getY() <= answerField.getBounds().getMaxY()))) {
-			//
+			System.out.println(answerField.getBounds().getMinX());
+			System.out.println(answerField.getBounds().getMaxX());
+			System.out.println(answerField.getBounds().getMinY());
+			System.out.println(answerField.getBounds().getMaxY());
+
+			System.out.println();
+			System.out.println(e.getX() + ", " + e.getY());
+
+			if (((e.getX() >= answerField.getBounds().getMinX()) && (e.getX() <= answerField
+					.getBounds().getMaxX()))
+					&& ((e.getY() >= answerField.getBounds().getMinX()) && (e
+							.getY() <= answerField.getBounds().getMaxY()))) {
+
+				if (answerField.getText().equals("Enter answer here")) {
+					answerField.setText("");
+				}
+			} else {
+
+				if (answerField.getText().equals("")) {
+					answerField.setText("Enter answer here");
+				}
+			}
+
 			// if (answerField.getText().equals("Enter answer here")) {
+			// if (enterButton.getX() - e.getX() < 500
+			// && enterButton.getY() - e.getY() < 200) {
 			// answerField.setText("");
 			// }
 			// }
-			//
-			if (answerField.getText().equals("Enter answer here")) {
-				if (enterButton.getX() - e.getX() < 500
-						&& enterButton.getY() - e.getY() < 200) {
-					answerField.setText("");
-				}
-			}
 		}
 	}
 
