@@ -1,4 +1,4 @@
-package vtp5.test;
+package vtp5.txttest;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
