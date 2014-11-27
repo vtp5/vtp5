@@ -11,11 +11,11 @@ public class Export extends Import {
 
 			for (int i = 0; i < words.size(); i = i + 2) {
 				
-				words.get(i).replaceAll(",", "/");
-				
-				writer.append(words.get(i));
+				String out = "\""+words.get(i)+"\"";
+				String out2 = "\""+words.get(i+1)+"\"";
+				writer.append(out);
 				writer.append(',');
-				writer.append(words.get(i + 1));
+				writer.append(out2);
 				writer.append('\n');
 
 			}
