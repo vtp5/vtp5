@@ -99,6 +99,8 @@ public class VTP5 extends JFrame {
 	public int score = 0;
 
 	public VTP5() {
+		
+		System.out.println("103 " + System.currentTimeMillis());
 
 		// Sets up JFileChooser
 		txtChooser.setFileFilter(new FileNameExtensionFilter(
@@ -138,6 +140,8 @@ public class VTP5 extends JFrame {
 		// devLabel.setFont(defFont);
 		// dev2Label.setFont(defFont);
 
+		System.out.println("143 " + System.currentTimeMillis());
+		
 		// Sets up about dialog
 		abtDialog = new JDialog(this, "About VTP5");
 		abtDialog.setLayout(new MigLayout("fillx"));
@@ -168,6 +172,8 @@ public class VTP5 extends JFrame {
 		componentList.add(new ComponentWithFontData(aboutButton, 34));// adds to
 																		// list
 
+		System.out.println("175 " + System.currentTimeMillis());
+		
 		// Prevent the buttons from being focusable so there is no ugly
 		// rectangle when you click it - this is purely for aesthetic reasons
 		importFileButton.setFocusable(false);
@@ -191,7 +197,7 @@ public class VTP5 extends JFrame {
 		mainPanel.setLayout(new MigLayout("insets 5", "", "[][][]40[]"));
 
 		promptLabel = new JLabel(
-				"<html><div style=\"text-align:center;\">Click 'Import Text File' to begin.</div></html>");// creates
+				"Click 'Import Text File' to begin.");// creates
 		// label
 		promptLabel.setForeground(tcolour);// changes text colour
 
@@ -228,6 +234,8 @@ public class VTP5 extends JFrame {
 		enterButton.setFocusable(false);
 		passButton.setFocusable(false);
 
+		System.out.println("237 " + System.currentTimeMillis());
+		
 		// Set up JLists and their respective ListModels
 		statsList = new JList<>(new String[] { "Stats:", "1", "2", "3", "4" });
 		statsList.setVisibleRowCount(5);
@@ -246,12 +254,17 @@ public class VTP5 extends JFrame {
 		progressBar = new JProgressBar(JProgressBar.VERTICAL, 0, 1000);
 		progressBar.setValue(score);
 		progressBar.setForeground(Color.GREEN);
+		
+		System.out.println("258 " + System.currentTimeMillis());
 
 		// Set the font size of the text in the components
 		for (ComponentWithFontData c : componentList) {
 			Component component = c.getComponent();
 			setFontSize(component, c.getOriginalFontSize());
+			System.out.println(c.getComponent().getClass() + " " + System.currentTimeMillis());
 		}
+		
+		System.out.println("266 " + System.currentTimeMillis());
 
 		// Add components to main panel
 		mainPanel.add(promptLabel, "span 3, push, wrap, height 200!");
@@ -268,7 +281,7 @@ public class VTP5 extends JFrame {
 		setContentPane(framePanel);
 
 		// Maximise JFrame
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		//setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 		// Sets JFrame properties.
 		setSize(800, 600);
@@ -281,6 +294,8 @@ public class VTP5 extends JFrame {
 		// resized
 
 		addComponentListener(new FrameListener(this));
+		
+		System.out.println("Done! " + System.currentTimeMillis());
 	}
 
 	private void updatePrompt(int index) {
@@ -455,6 +470,7 @@ public class VTP5 extends JFrame {
 	}
 
 	private class HyperlinkLabel extends JLabel {
+		private static final long serialVersionUID = 896828172865617940L;
 		public HyperlinkLabel(String text, final String link) {
 			this.setText("<html><a href=\"" + link + "\">" + text
 					+ "</a></html>");
@@ -482,7 +498,8 @@ public class VTP5 extends JFrame {
 
 			@Override
 			public void run() {
-
+				System.out.println("500 " + System.currentTimeMillis());
+				// TODO Find out why it takes so long from here to the start of the VTP5 obj
 				new VTP5();
 			}
 		});
