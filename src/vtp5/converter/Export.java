@@ -10,7 +10,9 @@ public class Export extends Import {
 			FileWriter writer = new FileWriter(file);
 
 			for (int i = 0; i < words.size(); i = i + 2) {
-
+				
+				words.get(i).replaceAll(",", "/");
+				
 				writer.append(words.get(i));
 				writer.append(',');
 				writer.append(words.get(i + 1));
