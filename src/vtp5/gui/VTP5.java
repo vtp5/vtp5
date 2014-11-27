@@ -97,9 +97,9 @@ public class VTP5 extends JFrame {
 	Color tcolour = Color.BLACK;
 
 	public int score = 0;
-	
+
 	public static long startTime;
-	
+
 	public VTP5() {
 
 		// Sets up JFileChooser
@@ -139,7 +139,7 @@ public class VTP5 extends JFrame {
 		// srccodeLabel.setFont(defFont);
 		// devLabel.setFont(defFont);
 		// dev2Label.setFont(defFont);
-		
+
 		// Sets up about dialog
 		abtDialog = new JDialog(this, "About VTP5");
 		abtDialog.setLayout(new MigLayout("fillx"));
@@ -192,8 +192,7 @@ public class VTP5 extends JFrame {
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new MigLayout("insets 5", "", "[][][]40[]"));
 
-		promptLabel = new JLabel(
-				"Click 'Import Text File' to begin.");// creates
+		promptLabel = new JLabel("Click 'Import Text File' to begin.");// creates
 		// label
 		promptLabel.setForeground(tcolour);// changes text colour
 
@@ -230,7 +229,6 @@ public class VTP5 extends JFrame {
 		enterButton.setFocusable(false);
 		passButton.setFocusable(false);
 
-		
 		// Set up JLists and their respective ListModels
 		statsList = new JList<>(new String[] { "Stats:", "1", "2", "3", "4" });
 		statsList.setVisibleRowCount(5);
@@ -249,14 +247,13 @@ public class VTP5 extends JFrame {
 		progressBar = new JProgressBar(JProgressBar.VERTICAL, 0, 1000);
 		progressBar.setValue(score);
 		progressBar.setForeground(Color.GREEN);
-		
 
 		// Set the font size of the text in the components
 		for (ComponentWithFontData c : componentList) {
 			Component component = c.getComponent();
 			setFontSize(component, c.getOriginalFontSize());
 		}
-		
+
 		// Add components to main panel
 		mainPanel.add(promptLabel, "span 3, push, wrap, height 200!");
 		mainPanel.add(answerField, "span 2 2, grow");
@@ -272,7 +269,7 @@ public class VTP5 extends JFrame {
 		setContentPane(framePanel);
 
 		// Maximise JFrame
-		//setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 		// Sets JFrame properties.
 		setSize(800, 600);
@@ -285,8 +282,9 @@ public class VTP5 extends JFrame {
 		// resized
 
 		addComponentListener(new FrameListener(this));
-	
-		System.out.println("Boot completed in " + (System.currentTimeMillis() - startTime) + " milliseconds.");
+
+		System.out.println("Boot completed in "
+				+ (System.currentTimeMillis() - startTime) + " milliseconds.");
 	}
 
 	private void updatePrompt(int index) {
@@ -416,10 +414,10 @@ public class VTP5 extends JFrame {
 				// Open JFileChooser and then creates test file
 				if (option == 0 || option == 1) {
 					showChooserDialog(option);
+					Collections.shuffle(test.getCards());
+					updatePrompt(questionIndex);
 				}
 				// lang = test.getCards();
-				Collections.shuffle(test.getCards());
-				updatePrompt(questionIndex);
 
 			} else if (e.getSource() == aboutButton) {
 				abtDialog.setVisible(true);
@@ -462,6 +460,7 @@ public class VTP5 extends JFrame {
 
 	private class HyperlinkLabel extends JLabel {
 		private static final long serialVersionUID = 896828172865617940L;
+
 		public HyperlinkLabel(String text, final String link) {
 			this.setText("<html><a href=\"" + link + "\">" + text
 					+ "</a></html>");
@@ -490,9 +489,10 @@ public class VTP5 extends JFrame {
 			@Override
 			public void run() {
 				startTime = System.currentTimeMillis();
-				// TODO Find out why it takes so long from here to the start of the VTP5 obj
+				// TODO Find out why it takes so long from here to the start of
+				// the VTP5 obj
 				new VTP5();
-				
+
 			}
 		});
 	}
