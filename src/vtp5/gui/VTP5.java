@@ -367,32 +367,41 @@ public class VTP5 extends JFrame {
 
 			// Scale the text when the frame is resized
 
+			System.out.println(System.currentTimeMillis()
+					+ ": Getting the size of the frame");
+
 			// Calculate the scale factor
 			Dimension newSize = frame.getSize();
 
 			// Printlns for debugging
-			// System.out.println("originalSize: " + originalSize);
-			// System.out.println("newSize: " + newSize);
+			System.out.println("originalSize: " + originalSize);
+			System.out.println("newSize: " + newSize);
+
+			System.out.println(System.currentTimeMillis()
+					+ ": Calculating the scale factor");
 
 			double scaler = Math.min(
 					newSize.getWidth() / originalSize.getWidth(),
 					newSize.getHeight() / originalSize.getHeight());
 
 			// Printlns for debugging
-			// System.out.println("Scaler: " + scaler);
+			System.out.println("Scaler: " + scaler);
 
 			for (ComponentWithFontData c : componentList) {
 				Component component = c.getComponent();
+				System.out.println(System.currentTimeMillis()
+						+ ": Currently \"re-sizing\" component " + component);
 
 				int newFontSize = (int) ((double) c.getOriginalFontSize() * scaler);
 
 				// Printlns for debugging:
-				// System.out.println("newFontSize: " + newFontSize);
+				System.out.println("newFontSize: " + newFontSize);
 
 				setFontSize(component, newFontSize);
-				frame.revalidate();
-				frame.repaint();
 			}
+
+			frame.revalidate();
+			frame.repaint();
 		}
 	}
 
