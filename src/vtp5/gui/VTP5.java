@@ -97,10 +97,10 @@ public class VTP5 extends JFrame {
 	Color tcolour = Color.BLACK;
 
 	public int score = 0;
-
+	
+	public static long startTime;
+	
 	public VTP5() {
-		
-		System.out.println("103 " + System.currentTimeMillis());
 
 		// Sets up JFileChooser
 		txtChooser.setFileFilter(new FileNameExtensionFilter(
@@ -139,8 +139,6 @@ public class VTP5 extends JFrame {
 		// srccodeLabel.setFont(defFont);
 		// devLabel.setFont(defFont);
 		// dev2Label.setFont(defFont);
-
-		System.out.println("143 " + System.currentTimeMillis());
 		
 		// Sets up about dialog
 		abtDialog = new JDialog(this, "About VTP5");
@@ -172,8 +170,6 @@ public class VTP5 extends JFrame {
 		componentList.add(new ComponentWithFontData(aboutButton, 34));// adds to
 																		// list
 
-		System.out.println("175 " + System.currentTimeMillis());
-		
 		// Prevent the buttons from being focusable so there is no ugly
 		// rectangle when you click it - this is purely for aesthetic reasons
 		importFileButton.setFocusable(false);
@@ -234,7 +230,6 @@ public class VTP5 extends JFrame {
 		enterButton.setFocusable(false);
 		passButton.setFocusable(false);
 
-		System.out.println("237 " + System.currentTimeMillis());
 		
 		// Set up JLists and their respective ListModels
 		statsList = new JList<>(new String[] { "Stats:", "1", "2", "3", "4" });
@@ -255,17 +250,13 @@ public class VTP5 extends JFrame {
 		progressBar.setValue(score);
 		progressBar.setForeground(Color.GREEN);
 		
-		System.out.println("258 " + System.currentTimeMillis());
 
 		// Set the font size of the text in the components
 		for (ComponentWithFontData c : componentList) {
 			Component component = c.getComponent();
 			setFontSize(component, c.getOriginalFontSize());
-			System.out.println(c.getComponent().getClass() + " " + System.currentTimeMillis());
 		}
 		
-		System.out.println("266 " + System.currentTimeMillis());
-
 		// Add components to main panel
 		mainPanel.add(promptLabel, "span 3, push, wrap, height 200!");
 		mainPanel.add(answerField, "span 2 2, grow");
@@ -294,8 +285,8 @@ public class VTP5 extends JFrame {
 		// resized
 
 		addComponentListener(new FrameListener(this));
-		
-		System.out.println("Done! " + System.currentTimeMillis());
+	
+		System.out.println("Boot completed in " + (System.currentTimeMillis() - startTime) + " milliseconds.");
 	}
 
 	private void updatePrompt(int index) {
@@ -498,9 +489,10 @@ public class VTP5 extends JFrame {
 
 			@Override
 			public void run() {
-				System.out.println("500 " + System.currentTimeMillis());
+				startTime = System.currentTimeMillis();
 				// TODO Find out why it takes so long from here to the start of the VTP5 obj
 				new VTP5();
+				
 			}
 		});
 	}

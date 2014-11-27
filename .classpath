@@ -10,8 +10,5 @@
 	<classpathentry kind="lib" path="miglayout/miglayout-4.0-swing.jar"/>
 	<classpathentry kind="lib" path="miglayout/miglayout-4.0-swt.jar"/>
 	<classpathentry kind="lib" path="miglayout/miglayout-4.0.jar"/>
-	<classpathentry kind="lib" path="res/files"/>
-	<classpathentry kind="lib" path="res/fonts"/>
-	<classpathentry kind="lib" path="res/images"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
