@@ -356,6 +356,8 @@ public class VTP5 extends JFrame {
 		private JFrame frame;
 		private Dimension originalSize;
 
+		private double scaler;
+
 		private FrameListener(JFrame frame) {
 
 			this.frame = frame;
@@ -380,28 +382,46 @@ public class VTP5 extends JFrame {
 			System.out.println(System.currentTimeMillis()
 					+ ": Calculating the scale factor");
 
-			double scaler = Math.min(
-					newSize.getWidth() / originalSize.getWidth(),
+			scaler = Math.min(newSize.getWidth() / originalSize.getWidth(),
 					newSize.getHeight() / originalSize.getHeight());
 
 			// Printlns for debugging
 			System.out.println("Scaler: " + scaler);
 
-			for (ComponentWithFontData c : componentList) {
-				Component component = c.getComponent();
-				System.out.println(System.currentTimeMillis()
-						+ ": Currently \"re-sizing\" component " + component);
+			Thread thread1 = new Thread(new RescaleJob(componentList));
 
-				int newFontSize = (int) ((double) c.getOriginalFontSize() * scaler);
-
-				// Printlns for debugging:
-				System.out.println("newFontSize: " + newFontSize);
-
-				setFontSize(component, newFontSize);
-			}
+			thread1.start();
 
 			frame.revalidate();
 			frame.repaint();
+		}
+
+		private class RescaleJob implements Runnable {
+			private ArrayList<ComponentWithFontData> smallerComponentList;
+			private boolean isFinished;
+
+			private RescaleJob(
+					ArrayList<ComponentWithFontData> smallerComponentList) {
+				this.smallerComponentList = smallerComponentList;
+			}
+
+			@Override
+			public void run() {
+				for (ComponentWithFontData c : componentList) {
+					Component component = c.getComponent();
+					System.out.println(System.currentTimeMillis()
+							+ ": Currently \"re-sizing\" component "
+							+ component);
+
+					int newFontSize = (int) ((double) c.getOriginalFontSize() * scaler);
+
+					// Printlns for debugging:
+					System.out.println("newFontSize: " + newFontSize);
+
+					setFontSize(component, newFontSize);
+				}
+			}
+
 		}
 	}
 
