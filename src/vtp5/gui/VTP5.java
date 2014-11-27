@@ -90,15 +90,15 @@ public class VTP5 extends JFrame {
 	// TODO Create a better icon.
 	private ImageIcon logo = new ImageIcon("res/images/vtp.png");
 
-	TestFile test;
+	private TestFile test;
 
-	Color bcolour = Color.BLACK;
-	Color fcolour = Color.WHITE;
-	Color tcolour = Color.BLACK;
+	private Color bcolour = Color.BLACK;
+	private Color fcolour = Color.WHITE;
+	private Color tcolour = Color.BLACK;
 
-	public int score = 0;
+	private int score = 0;
 
-	public static long startTime;
+	private static long startTime;
 
 	public VTP5() {
 
