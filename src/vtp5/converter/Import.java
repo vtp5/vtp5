@@ -27,7 +27,7 @@ public class Import {
 		}
 		System.out.println(cons);
 		String a = parts[parts.length - 1];
-		String name = a.replace(".txt", "");
+		String name = a.replace(".txt", ".csv");
 
 		BufferedReader br = null;
 
@@ -42,7 +42,7 @@ public class Import {
 				words.add(sCurrentLine);
 			}
 
-			Export.gen(cons + name + ".csv");
+			Export.gen(cons + name);
 
 		} catch (IOException e) {
 			e.printStackTrace();
