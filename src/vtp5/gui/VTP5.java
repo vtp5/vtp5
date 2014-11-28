@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.swing.AbstractAction;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -66,10 +67,14 @@ public class VTP5 extends JFrame {
 	private JTextField answerField;
 	private JButton enterButton;
 	private JButton passButton;
+
 	private JList<String> statsList;
 	private JScrollPane statsScrollPane;
+	private DefaultListModel<String> statsListModel;
 	private JList<String> guessedAnswersList;
 	private JScrollPane guessedAnswersScrollPane;
+	private DefaultListModel<String> guessedAnswersListModel;
+
 	private JProgressBar progressBar;
 	private JSeparator separator;
 
@@ -92,7 +97,6 @@ public class VTP5 extends JFrame {
 	private ImageIcon logo = new ImageIcon("res/images/vtp.png");
 
 	private TestFile test;
-	
 
 	private Color bcolour = Color.BLACK;
 	private Color fcolour = Color.WHITE;
@@ -232,19 +236,22 @@ public class VTP5 extends JFrame {
 		passButton.setFocusable(false);
 
 		// Set up JLists and their respective ListModels
-		statsList = new JList<>(new String[] { "Stats:", "1", "2", "3", "4" });
+		statsListModel = new DefaultListModel<>();
+		statsListModel.addElement("Statistics:");
+		statsList = new JList<>(statsListModel);
 		statsList.setVisibleRowCount(5);
 		statsList.setForeground(tcolour);// changes text colour
 		statsScrollPane = new JScrollPane(statsList);
 
-		guessedAnswersList = new JList<>(new String[] {
-				"Already guessed answers:", "1", "2", "3", "4" });
+		guessedAnswersListModel = new DefaultListModel<>();
+		guessedAnswersListModel.addElement("Already guessed answers:");
+		guessedAnswersList = new JList<>(guessedAnswersListModel);
 		guessedAnswersList.setVisibleRowCount(5);
 		guessedAnswersList.setForeground(tcolour);// changes text colour
 		guessedAnswersScrollPane = new JScrollPane(guessedAnswersList);
 
-		componentList.add(new ComponentWithFontData(statsList, 30));
-		componentList.add(new ComponentWithFontData(guessedAnswersList, 30));
+		componentList.add(new ComponentWithFontData(statsList, 32));
+		componentList.add(new ComponentWithFontData(guessedAnswersList, 32));
 
 		progressBar = new JProgressBar(JProgressBar.VERTICAL, 0, 1000);
 		progressBar.setValue(score);
