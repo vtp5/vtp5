@@ -515,6 +515,10 @@ public class VTP5 extends JFrame {
 					answerField.setText("");
 
 				}
+			} else if(e.getSource() == settingsButton){
+				
+				
+				
 			}
 		}
 
