@@ -84,7 +84,6 @@ public class TestFile {
 
 	public boolean isCorrect(String answer, int index) {
 		if (answer.equals(getCards().get(index).getLangTo().get(0))) {
-			getCards().remove(0);
 			return true;
 		} else {
 			return false;

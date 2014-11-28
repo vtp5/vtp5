@@ -227,6 +227,7 @@ public class VTP5 extends JFrame {
 		passButton = new JButton("Pass");// creates buttons
 		passButton.setBackground(bcolour);// changes background colour
 		passButton.setForeground(fcolour);// changes foreground colour
+		passButton.addActionListener(new EventListener());
 
 		componentList.add(new ComponentWithFontData(passButton, 32));// adds to
 																		// list
@@ -507,6 +508,7 @@ public class VTP5 extends JFrame {
 				score = test.updateScore(answerField.getText(), questionIndex, score);
 					if(test.isCorrect(answerField.getText(), questionIndex)){
 					progressBar.setForeground(Color.GREEN);
+					test.getCards().remove(0);
 					questionIndex++;
 					}else if(!test.isCorrect(answerField.getText(), questionIndex)){
 						progressBar.setForeground(Color.RED);
@@ -516,6 +518,9 @@ public class VTP5 extends JFrame {
 					answerField.setText("");
 			} else if (e.getSource() == settingsButton) {
 
+			}else if(e.getSource() == passButton){
+				questionIndex++;
+				updatePrompt(questionIndex);
 			}
 		}
 
