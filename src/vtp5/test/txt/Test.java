@@ -24,6 +24,7 @@ public class Test extends Importer {
 			// Test
 			System.out.println(q.get(r));
 
+			@SuppressWarnings("resource")
 			Scanner s = new Scanner(System.in);
 
 			String ans = s.nextLine();

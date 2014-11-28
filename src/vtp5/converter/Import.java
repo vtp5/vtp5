@@ -39,7 +39,8 @@ public class Import {
 
 			while ((sCurrentLine = br.readLine()) != null) {
 				System.out.println(sCurrentLine);
-				words.add(sCurrentLine);
+				words.add(sCurrentLine.replace(", ","/"));
+				
 			}
 
 			Export.gen(cons + name);
