@@ -1,4 +1,4 @@
-package vtp5.csvtest;
+package vtp5.test.csv;
 
 public class Test {
 
