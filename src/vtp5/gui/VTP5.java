@@ -82,8 +82,8 @@ public class VTP5 extends JFrame {
 	private JDialog abtDialog;
 	private JLabel vtp5Label = new JLabel("Virtual Testing Program 5");
 	private JLabel devLabel = new JLabel(
-			"Developed by Minghua Yin, Nikunj Paliwal,");
-	private JLabel dev2Label = new JLabel("Yousuf Ahmed and Abdel Abdalla.");
+			"Developed by Abdel Abdalla, Minghua Yin,");
+	private JLabel dev2Label = new JLabel("Yousuf Ahmed and Nikunj Paliwal.");
 	private JLabel wikiLabel = new HyperlinkLabel("Wiki",
 			"https://github.com/duckifyz/VTP5/wiki");
 	private JLabel srccodeLabel = new HyperlinkLabel("Source Code",
@@ -92,6 +92,7 @@ public class VTP5 extends JFrame {
 	private ImageIcon logo = new ImageIcon("res/images/vtp.png");
 
 	private TestFile test;
+	
 
 	private Color bcolour = Color.BLACK;
 	private Color fcolour = Color.WHITE;
