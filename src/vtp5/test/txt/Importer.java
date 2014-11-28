@@ -11,6 +11,7 @@ public class Importer {
 
 	static ArrayList<String> q = new ArrayList<String>();
 	static ArrayList<String> a = new ArrayList<String>();
+	@SuppressWarnings("unused")
 	private TestFile file;
 	static int i = -1;
 
