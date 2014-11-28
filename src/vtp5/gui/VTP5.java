@@ -40,6 +40,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import net.miginfocom.swing.MigLayout;
@@ -351,6 +352,9 @@ public class VTP5 extends JFrame {
 
 	// FrameListener's componentResized() method will be thrown when the JFrame
 	// is resized, so we can scale the text
+
+	// "TIMER IDEA" COURTESY OF
+	// http://stackoverflow.com/questions/10229292/get-notified-when-the-user-finishes-resizing-a-jframe
 	private class FrameListener extends ComponentAdapter {
 
 		private JFrame frame;
@@ -358,66 +362,56 @@ public class VTP5 extends JFrame {
 
 		private double scaler;
 
-		private FrameListener(JFrame frame) {
+		private Timer recalculateTimer;
 
+		private FrameListener(JFrame frame) {
 			this.frame = frame;
 			this.originalSize = frame.getSize();
+			this.recalculateTimer = new Timer(20, new RescaleListener());
+			this.recalculateTimer.setRepeats(false);
 		}
 
-		// TODO
-		// http://stackoverflow.com/questions/10229292/get-notified-when-the-user-finishes-resizing-a-jframe
 		@Override
 		public void componentResized(ComponentEvent e) {
-
-			// Scale the text when the frame is resized
-
-			System.out.println(System.currentTimeMillis()
-					+ ": Getting the size of the frame");
-
-			// Calculate the scale factor
-			Dimension newSize = frame.getSize();
-
-			// Printlns for debugging
-			System.out.println("originalSize: " + originalSize);
-			System.out.println("newSize: " + newSize);
-
-			System.out.println(System.currentTimeMillis()
-					+ ": Calculating the scale factor");
-
-			scaler = Math.min(newSize.getWidth() / originalSize.getWidth(),
-					newSize.getHeight() / originalSize.getHeight());
-
-			// Printlns for debugging
-			System.out.println("Scaler: " + scaler);
-
-			RescaleJob job1 = new RescaleJob(
-					new ArrayList<ComponentWithFontData>(componentList));
-			Thread thread1 = new Thread(job1);
-
-			thread1.start();
-
-			while (!job1.isFinished) {
+			if (recalculateTimer.isRunning()) {
+				recalculateTimer.restart();
+			} else {
+				recalculateTimer.start();
 			}
-
-			frame.revalidate();
-			frame.repaint();
-
-			System.out
-					.println("****************************************************************");
 		}
 
-		private class RescaleJob implements Runnable {
-			private ArrayList<ComponentWithFontData> smallerComponentList;
-			private boolean isFinished;
-
-			private RescaleJob(
-					ArrayList<ComponentWithFontData> smallerComponentList) {
-				this.smallerComponentList = smallerComponentList;
-			}
+		private class RescaleListener implements ActionListener {
 
 			@Override
-			public void run() {
-				for (ComponentWithFontData c : smallerComponentList) {
+			public void actionPerformed(ActionEvent arg0) {
+				// Scale the text when the frame is resized
+
+				System.out.println(System.currentTimeMillis()
+						+ ": Getting the size of the frame");
+
+				// Calculate the scale factor
+				Dimension newSize = frame.getSize();
+
+				// Printlns for debugging
+				System.out.println("originalSize: " + originalSize);
+				System.out.println("newSize: " + newSize);
+
+				System.out.println(System.currentTimeMillis()
+						+ ": Calculating the scale factor");
+
+				scaler = Math.min(newSize.getWidth() / originalSize.getWidth(),
+						newSize.getHeight() / originalSize.getHeight());
+
+				// Printlns for debugging
+				System.out.println("Scaler: " + scaler);
+
+				// RescaleJob job1 = new RescaleJob(
+				// new ArrayList<ComponentWithFontData>(componentList));
+				// Thread thread1 = new Thread(job1);
+				//
+				// thread1.start();
+
+				for (ComponentWithFontData c : componentList) {
 					Component component = c.getComponent();
 					System.out.println(System.currentTimeMillis()
 							+ ": Currently \"re-sizing\" component "
@@ -431,12 +425,46 @@ public class VTP5 extends JFrame {
 					setFontSize(component, newFontSize);
 				}
 
-				isFinished = true;
-				System.out.println(System.currentTimeMillis()
-						+ ": isFinished is TRUE");
+				frame.revalidate();
+				frame.repaint();
+
+				System.out
+						.println("****************************************************************");
 			}
 
 		}
+
+		// private class RescaleJob implements Runnable {
+		// private ArrayList<ComponentWithFontData> smallerComponentList;
+		// private boolean isFinished;
+		//
+		// private RescaleJob(
+		// ArrayList<ComponentWithFontData> smallerComponentList) {
+		// this.smallerComponentList = smallerComponentList;
+		// }
+		//
+		// @Override
+		// public void run() {
+		// for (ComponentWithFontData c : smallerComponentList) {
+		// Component component = c.getComponent();
+		// System.out.println(System.currentTimeMillis()
+		// + ": Currently \"re-sizing\" component "
+		// + componentList.indexOf(c) + ": " + component);
+		//
+		// int newFontSize = (int) ((double) c.getOriginalFontSize() * scaler);
+		//
+		// // Printlns for debugging:
+		// System.out.println("newFontSize: " + newFontSize);
+		//
+		// setFontSize(component, newFontSize);
+		// }
+		//
+		// isFinished = true;
+		// System.out.println(System.currentTimeMillis()
+		// + ": isFinished is TRUE");
+		// }
+		//
+		// }
 	}
 
 	private class EventListener implements ActionListener {
