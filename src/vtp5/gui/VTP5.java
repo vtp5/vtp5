@@ -76,7 +76,7 @@ public class VTP5 extends JFrame {
 	private JScrollPane guessedAnswersScrollPane;
 	private DefaultListModel<String> guessedAnswersListModel;
 
-	private JProgressBar progressBar;
+	public JProgressBar progressBar;
 	private JSeparator separator;
 
 	private ArrayList<ComponentWithFontData> componentList = new ArrayList<>();
@@ -499,32 +499,21 @@ public class VTP5 extends JFrame {
 					Collections.shuffle(test.getCards());
 					updatePrompt(questionIndex);
 				}
-				// lang = test.getCards();
+				progressBar.setMaximum(test.getCards().size());
 
 			} else if (e.getSource() == aboutButton) {
 				abtDialog.setVisible(true);
-				// try {
-				// java.awt.Desktop
-				// .getDesktop()
-				// .browse(new URI(
-				// "https://github.com/duckifyz/VTP5/wiki/Developers"));
-				// } catch (URISyntaxException | IOException e1) {
-				// e1.printStackTrace();
-				// }
 			} else if (e.getSource() == enterButton) {
-				Card card = test.getCards().get(questionIndex);
-				System.out.println(test.getCards().get(questionIndex)
-						.getLangTo().get(0));
-				if (answerField.getText().equals(
-						test.getCards().get(questionIndex).getLangTo().get(0))) {
-					score += 1;
-					progressBar.setValue(score);
-					System.out.println("Correct");
+				score = test.updateScore(answerField.getText(), questionIndex, score);
+					if(test.isCorrect(answerField.getText(), questionIndex)){
+					progressBar.setForeground(Color.GREEN);
 					questionIndex++;
+					}else if(!test.isCorrect(answerField.getText(), questionIndex)){
+						progressBar.setForeground(Color.RED);
+					}
+					progressBar.setValue(score);
 					updatePrompt(questionIndex);
 					answerField.setText("");
-
-				}
 			} else if (e.getSource() == settingsButton) {
 
 			}
