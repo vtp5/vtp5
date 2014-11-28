@@ -8,8 +8,11 @@ import java.util.ArrayList;
 
 public class Importer {
 
+	
 	static ArrayList<String> q = new ArrayList<String>();
 	static ArrayList<String> a = new ArrayList<String>();
+	
+	static int i = -1;
 	
 	public static void main(String[] args) {
 
@@ -22,7 +25,7 @@ public class Importer {
 
 			br = new BufferedReader(new FileReader(csvFile));
 			while ((line = br.readLine()) != null) {
-
+				i++;
 				// use comma as separator
 				String[] word = line.split(cvsSplitBy);
 				
@@ -47,8 +50,9 @@ public class Importer {
 				}
 			}
 		}
-
-		System.out.println("Done");
+		
+		Test.test();
+		//System.out.println("Done");
 	}
 
 }
