@@ -364,6 +364,8 @@ public class VTP5 extends JFrame {
 			this.originalSize = frame.getSize();
 		}
 
+		// TODO
+		// http://stackoverflow.com/questions/10229292/get-notified-when-the-user-finishes-resizing-a-jframe
 		@Override
 		public void componentResized(ComponentEvent e) {
 
@@ -388,12 +390,20 @@ public class VTP5 extends JFrame {
 			// Printlns for debugging
 			System.out.println("Scaler: " + scaler);
 
-			Thread thread1 = new Thread(new RescaleJob(componentList));
+			RescaleJob job1 = new RescaleJob(
+					new ArrayList<ComponentWithFontData>(componentList));
+			Thread thread1 = new Thread(job1);
 
 			thread1.start();
 
+			while (!job1.isFinished) {
+			}
+
 			frame.revalidate();
 			frame.repaint();
+
+			System.out
+					.println("****************************************************************");
 		}
 
 		private class RescaleJob implements Runnable {
@@ -407,11 +417,11 @@ public class VTP5 extends JFrame {
 
 			@Override
 			public void run() {
-				for (ComponentWithFontData c : componentList) {
+				for (ComponentWithFontData c : smallerComponentList) {
 					Component component = c.getComponent();
 					System.out.println(System.currentTimeMillis()
 							+ ": Currently \"re-sizing\" component "
-							+ component);
+							+ componentList.indexOf(c) + ": " + component);
 
 					int newFontSize = (int) ((double) c.getOriginalFontSize() * scaler);
 
@@ -420,6 +430,10 @@ public class VTP5 extends JFrame {
 
 					setFontSize(component, newFontSize);
 				}
+
+				isFinished = true;
+				System.out.println(System.currentTimeMillis()
+						+ ": isFinished is TRUE");
 			}
 
 		}
