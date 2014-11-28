@@ -10,6 +10,7 @@ import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -85,7 +86,7 @@ public class VTP5 extends JFrame {
 
 	// Components for About Dialog
 	private JDialog abtDialog;
-	private JLabel vtp5Label = new JLabel("Virtual Testing Program 5");
+	private JLabel vtp5Label = new JLabel("Vocab Testing Program 5");
 	private JLabel devLabel = new JLabel(
 			"Developed by Abdel Abdalla, Minghua Yin,");
 	private JLabel dev2Label = new JLabel("Yousuf Ahmed and Nikunj Paliwal.");
@@ -220,14 +221,14 @@ public class VTP5 extends JFrame {
 		enterButton.setBackground(bcolour);// changes background colour
 		enterButton.setForeground(fcolour);// changes foreground colour
 
-		componentList.add(new ComponentWithFontData(enterButton, 36));// adds to
+		componentList.add(new ComponentWithFontData(enterButton, 32));// adds to
 																		// list
 
 		passButton = new JButton("Pass");// creates buttons
 		passButton.setBackground(bcolour);// changes background colour
 		passButton.setForeground(fcolour);// changes foreground colour
 
-		componentList.add(new ComponentWithFontData(passButton, 36));// adds to
+		componentList.add(new ComponentWithFontData(passButton, 32));// adds to
 																		// list
 
 		// Prevent the buttons from being focusable so there is no ugly
@@ -266,8 +267,8 @@ public class VTP5 extends JFrame {
 		// Add components to main panel
 		mainPanel.add(promptLabel, "span 3, push, wrap, height 200!");
 		mainPanel.add(answerField, "span 2 2, grow");
-		mainPanel.add(enterButton, "width 250, wrap");
-		mainPanel.add(passButton, "width 250, wrap");
+		mainPanel.add(enterButton, "width 250!, wrap");
+		mainPanel.add(passButton, "width 250!, wrap");
 		mainPanel.add(statsScrollPane, "grow");
 		mainPanel.add(guessedAnswersScrollPane, "grow, push, span");
 		mainPanel.add(progressBar, "dock east, width 50!");
@@ -281,7 +282,9 @@ public class VTP5 extends JFrame {
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 		// Sets JFrame properties.
-		setSize(800, 600);
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		setSize(screenSize.width < 1000 ? screenSize.width : 1000,
+				screenSize.height < 650 ? screenSize.height : 650);
 		setTitle("VTP5");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -522,10 +525,8 @@ public class VTP5 extends JFrame {
 					answerField.setText("");
 
 				}
-			} else if(e.getSource() == settingsButton){
-				
-				
-				
+			} else if (e.getSource() == settingsButton) {
+
 			}
 		}
 
