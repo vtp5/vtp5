@@ -1,14 +1,11 @@
 package vtp5.logic;
 
-import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import vtp5.gui.VTP5;
 
 public class TestFile {
 	// ArrayList of "cards" for a particular test
@@ -83,7 +80,7 @@ public class TestFile {
 	}
 
 	public boolean isCorrect(String answer, int index) {
-		if (answer.equals(getCards().get(index).getLangTo().get(0))) {
+		if (answer.equalsIgnoreCase(getCards().get(index).getLangTo().get(0))) {
 			return true;
 		} else {
 			return false;
