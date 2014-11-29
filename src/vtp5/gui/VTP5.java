@@ -18,6 +18,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -58,7 +59,7 @@ public class VTP5 extends JFrame {
 	// Components for button panel at top of frame
 	private JPanel buttonPanel;
 	private JButton importFileButton, leaderboardButton, settingsButton,
-			helpButton, aboutButton;
+			helpButton, aboutButton, saveButton;
 	private int questionIndex = 0;
 
 	// Components in the main area of the frame
@@ -126,6 +127,10 @@ public class VTP5 extends JFrame {
 		importFileButton.setBackground(bcolour);// changes background colour
 		importFileButton.setForeground(fcolour);// changes foreground colour
 
+		saveButton = new JButton("Save File");
+		saveButton.setBackground(bcolour);
+		saveButton.setForeground(fcolour);
+
 		leaderboardButton = new JButton("View Leaderboards");// creates buttons
 		leaderboardButton.setBackground(bcolour);// changes background colour
 		leaderboardButton.setForeground(fcolour);// changes foreground colour
@@ -164,8 +169,8 @@ public class VTP5 extends JFrame {
 		separator.setBackground(bcolour);
 
 		componentList.add(new ComponentWithFontData(importFileButton, 34));// adds
-																			// to
-																			// list
+		componentList.add(new ComponentWithFontData(saveButton, 34)); // to
+		// list
 		componentList.add(new ComponentWithFontData(leaderboardButton, 34));// adds
 																			// to
 																			// list
@@ -180,15 +185,18 @@ public class VTP5 extends JFrame {
 		// Prevent the buttons from being focusable so there is no ugly
 		// rectangle when you click it - this is purely for aesthetic reasons
 		importFileButton.setFocusable(false);
+		saveButton.setFocusable(false);
 		leaderboardButton.setFocusable(false);
 		settingsButton.setFocusable(false);
 		helpButton.setFocusable(false);
 		aboutButton.setFocusable(false);
 
 		importFileButton.addActionListener(new EventListener());
+		saveButton.addActionListener(new EventListener());
 		aboutButton.addActionListener(new EventListener());
 
 		buttonPanel.add(importFileButton, "align left");// adds to panel
+		buttonPanel.add(saveButton, "align left");
 		buttonPanel.add(leaderboardButton, "push, align right");// adds to panel
 		buttonPanel.add(settingsButton, "align right");// adds to panel
 		buttonPanel.add(helpButton, "align right");// adds to panel
@@ -505,22 +513,58 @@ public class VTP5 extends JFrame {
 			} else if (e.getSource() == aboutButton) {
 				abtDialog.setVisible(true);
 			} else if (e.getSource() == enterButton) {
-				score = test.updateScore(answerField.getText(), questionIndex, score);
-					if(test.isCorrect(answerField.getText(), questionIndex)){
+				score = test.updateScore(answerField.getText(), questionIndex,
+						score);
+				if (test.isCorrect(answerField.getText(), questionIndex)) {
 					progressBar.setForeground(Color.GREEN);
 					test.getCards().remove(0);
 					questionIndex++;
-					}else if(!test.isCorrect(answerField.getText(), questionIndex)){
-						progressBar.setForeground(Color.RED);
-					}
-					progressBar.setValue(score);
-					updatePrompt(questionIndex);
-					answerField.setText("");
+				} else if (!test
+						.isCorrect(answerField.getText(), questionIndex)) {
+					progressBar.setForeground(Color.RED);
+				}
+				progressBar.setValue(score);
+				updatePrompt(questionIndex);
+				answerField.setText("");
 			} else if (e.getSource() == settingsButton) {
 
-			}else if(e.getSource() == passButton){
+			} else if (e.getSource() == passButton) {
 				questionIndex++;
 				updatePrompt(questionIndex);
+			}else if(e.getSource() == saveButton){
+				
+				/*try {
+					FileOutputStream fsos = new FileOutputStream("output");
+				
+				ObjectOutputStream  oos = new ObjectOutputStream(fsos); 
+				 oos.writeObject(test.getCards()); // write MenuArray to ObjectOutputStream
+				    oos.close(); 
+			
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			}*/
+				try {
+					JFileChooser chooser = new JFileChooser();
+					int answer = chooser.showSaveDialog(null);
+					if(answer == JFileChooser.APPROVE_OPTION){
+					FileWriter writer = new FileWriter(chooser.getSelectedFile()+".txt");
+					
+					for(Card s: test.getCards()){
+						writer.write(s.getLangTo().get(0));
+						writer.write(s.getLangFrom().get(0));
+						System.out.println("saved");
+					}
+					writer.close();
+					System.out.println("File saved");
+					}
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
 			}
 		}
 
