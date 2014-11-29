@@ -17,6 +17,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -47,6 +48,7 @@ import javax.swing.Timer;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import net.miginfocom.swing.MigLayout;
+import vtp5.logic.Card;
 import vtp5.logic.TestFile;
 
 public class VTP5 extends JFrame {
@@ -510,14 +512,16 @@ public class VTP5 extends JFrame {
 					JFileChooser chooser = new JFileChooser();
 					int answer = chooser.showSaveDialog(null);
 					if(answer == JFileChooser.APPROVE_OPTION){
-					FileWriter writer = new FileWriter(chooser.getSelectedFile()+".txt");
-					
+					FileWriter fwriter = new FileWriter(chooser.getSelectedFile()+".txt");
+					BufferedWriter bfwriter = new BufferedWriter(fwriter);
 					for(Card s: test.getCards()){
-						writer.write(s.getLangTo().get(0));
-						writer.write(s.getLangFrom().get(0));
+						bfwriter.write(s.getLangFrom().get(0));
+						bfwriter.newLine();
+						bfwriter.write(s.getLangTo().get(0));
+						bfwriter.newLine();
 						System.out.println("saved");
 					}
-					writer.close();
+					bfwriter.close();
 					System.out.println("File saved");
 					}
 				} catch (IOException e1) {
