@@ -47,7 +47,6 @@ import javax.swing.Timer;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import net.miginfocom.swing.MigLayout;
-import vtp5.logic.Card;
 import vtp5.logic.TestFile;
 
 public class VTP5 extends JFrame {
@@ -425,12 +424,6 @@ public class VTP5 extends JFrame {
 				// Printlns for debugging
 				System.out.println("Scaler: " + scaler);
 
-				// RescaleJob job1 = new RescaleJob(
-				// new ArrayList<ComponentWithFontData>(componentList));
-				// Thread thread1 = new Thread(job1);
-				//
-				// thread1.start();
-
 				for (ComponentWithFontData c : componentList) {
 					Component component = c.getComponent();
 					System.out.println(System.currentTimeMillis()
@@ -453,38 +446,6 @@ public class VTP5 extends JFrame {
 			}
 
 		}
-
-		// private class RescaleJob implements Runnable {
-		// private ArrayList<ComponentWithFontData> smallerComponentList;
-		// private boolean isFinished;
-		//
-		// private RescaleJob(
-		// ArrayList<ComponentWithFontData> smallerComponentList) {
-		// this.smallerComponentList = smallerComponentList;
-		// }
-		//
-		// @Override
-		// public void run() {
-		// for (ComponentWithFontData c : smallerComponentList) {
-		// Component component = c.getComponent();
-		// System.out.println(System.currentTimeMillis()
-		// + ": Currently \"re-sizing\" component "
-		// + componentList.indexOf(c) + ": " + component);
-		//
-		// int newFontSize = (int) ((double) c.getOriginalFontSize() * scaler);
-		//
-		// // Printlns for debugging:
-		// System.out.println("newFontSize: " + newFontSize);
-		//
-		// setFontSize(component, newFontSize);
-		// }
-		//
-		// isFinished = true;
-		// System.out.println(System.currentTimeMillis()
-		// + ": isFinished is TRUE");
-		// }
-		//
-		// }
 	}
 
 	private class EventListener implements ActionListener {
