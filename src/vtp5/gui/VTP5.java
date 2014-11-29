@@ -128,7 +128,7 @@ public class VTP5 extends JFrame {
 		importFileButton.setBackground(bcolour);// changes background colour
 		importFileButton.setForeground(fcolour);// changes foreground colour
 
-		saveButton = new JButton("Save File");
+		saveButton = new JButton("Complete Later");
 		saveButton.setBackground(bcolour);
 		saveButton.setForeground(fcolour);
 
@@ -197,8 +197,8 @@ public class VTP5 extends JFrame {
 		aboutButton.addActionListener(new EventListener());
 
 		buttonPanel.add(importFileButton, "align left");// adds to panel
-		buttonPanel.add(saveButton, "align left");
-		buttonPanel.add(leaderboardButton, "push, align right");// adds to panel
+		buttonPanel.add(saveButton, "align right");
+		buttonPanel.add(leaderboardButton, "align right");// adds to panel
 		buttonPanel.add(settingsButton, "align right");// adds to panel
 		buttonPanel.add(helpButton, "align right");// adds to panel
 		buttonPanel.add(aboutButton, "align right, wrap");// adds to panel
@@ -494,42 +494,40 @@ public class VTP5 extends JFrame {
 			} else if (e.getSource() == passButton) {
 				questionIndex++;
 				updatePrompt(questionIndex);
-			}else if(e.getSource() == saveButton){
-				
-				/*try {
-					FileOutputStream fsos = new FileOutputStream("output");
-				
-				ObjectOutputStream  oos = new ObjectOutputStream(fsos); 
-				 oos.writeObject(test.getCards()); // write MenuArray to ObjectOutputStream
-				    oos.close(); 
-			
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			}*/
+			} else if (e.getSource() == saveButton) {
+
+				/*
+				 * try { FileOutputStream fsos = new FileOutputStream("output");
+				 * 
+				 * ObjectOutputStream oos = new ObjectOutputStream(fsos);
+				 * oos.writeObject(test.getCards()); // write MenuArray to
+				 * ObjectOutputStream oos.close();
+				 * 
+				 * } catch (IOException e1) { // TODO Auto-generated catch block
+				 * e1.printStackTrace(); } }
+				 */
 				try {
 					JFileChooser chooser = new JFileChooser();
 					int answer = chooser.showSaveDialog(null);
-					if(answer == JFileChooser.APPROVE_OPTION){
-					FileWriter fwriter = new FileWriter(chooser.getSelectedFile()+".txt");
-					BufferedWriter bfwriter = new BufferedWriter(fwriter);
-					for(Card s: test.getCards()){
-						bfwriter.write(s.getLangFrom().get(0));
-						bfwriter.newLine();
-						bfwriter.write(s.getLangTo().get(0));
-						bfwriter.newLine();
-						System.out.println("saved");
-					}
-					bfwriter.close();
-					System.out.println("File saved");
+					if (answer == JFileChooser.APPROVE_OPTION) {
+						FileWriter fwriter = new FileWriter(
+								chooser.getSelectedFile() + ".txt");
+						BufferedWriter bfwriter = new BufferedWriter(fwriter);
+						for (Card s : test.getCards()) {
+							bfwriter.write(s.getLangFrom().get(0));
+							bfwriter.newLine();
+							bfwriter.write(s.getLangTo().get(0));
+							bfwriter.newLine();
+							System.out.println("saved");
+						}
+						bfwriter.close();
+						System.out.println("File saved");
 					}
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
-				
+
 			}
 		}
 
