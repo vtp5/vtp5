@@ -122,8 +122,6 @@ public class VTP5 extends JFrame {
 	private Color fcolour = Color.WHITE;
 	private Color tcolour = Color.BLACK;
 
-	private int score = 0;
-
 	private static long startTime;
 
 	public VTP5() {
@@ -296,7 +294,7 @@ public class VTP5 extends JFrame {
 		componentList.add(new ComponentWithFontData(guessedAnswersList, 32));
 
 		progressBar = new JProgressBar(JProgressBar.VERTICAL, 0, 1000);
-		progressBar.setValue(score);
+		progressBar.setValue(0);
 		progressBar.setForeground(Color.GREEN);
 
 		// Set the font size of the text in the components
@@ -349,8 +347,11 @@ public class VTP5 extends JFrame {
 	private void setFontSize(Component c, int fontSize) {
 
 		try {
+			// Font font = Font.createFont(Font.TRUETYPE_FONT,
+			// new FileInputStream("res/fonts/ubuntu/Ubuntu-C.ttf"));
 			Font font = Font.createFont(Font.TRUETYPE_FONT,
-					new FileInputStream("res/fonts/ubuntu/Ubuntu-C.ttf"));
+					new FileInputStream(
+							"res/fonts/didactgothic/DidactGothic.ttf"));
 			font = font.deriveFont((float) fontSize);
 			GraphicsEnvironment.getLocalGraphicsEnvironment()
 					.registerFont(font);
@@ -524,8 +525,8 @@ public class VTP5 extends JFrame {
 			else if (e.getSource() == aboutButton) {
 				abtDialog.setVisible(true);
 			} else if (e.getSource() == enterButton) {
-				score = test.updateScore(answerField.getText(), questionIndex,
-						score);
+				int score = test.updateScore(answerField.getText(),
+						questionIndex);
 				if (test.isCorrect(answerField.getText(), questionIndex)) {
 					progressBar.setForeground(Color.GREEN);
 					test.getCards().remove(0);

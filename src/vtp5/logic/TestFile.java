@@ -10,6 +10,11 @@ import java.util.Arrays;
 public class TestFile {
 	// ArrayList of "cards" for a particular test
 	private ArrayList<Card> cards = new ArrayList<>();
+	// Stores the cards the user got wrong the first time
+	private ArrayList<Card> incorrectCards = new ArrayList<>();
+	// The user's score
+	private int score = 0;
+
 	private BufferedReader br = null;
 
 	public TestFile(File file) {
@@ -71,7 +76,7 @@ public class TestFile {
 		return cards;
 	}
 
-	public int updateScore(String answer, int index, int score) {
+	public int updateScore(String answer, int index) {
 		if (isCorrect(answer, index)) {
 			return score += 1;
 		} else {
@@ -81,9 +86,9 @@ public class TestFile {
 
 	public boolean isCorrect(String answer, int index) {
 		if (answer.equalsIgnoreCase(getCards().get(index).getLangTo().get(0))) {
-			for(int i = 0; i< getCards().size(); i++){
-			String s = 	getCards().get(i).getLangTo().get(0);
-			System.out.println(s);
+			for (int i = 0; i < getCards().size(); i++) {
+				String s = getCards().get(i).getLangTo().get(0);
+				System.out.println(s);
 			}
 			return true;
 		} else {
