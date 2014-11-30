@@ -511,15 +511,40 @@ public class VTP5 extends JFrame {
 			} else if (e.getSource() == buttoncolours) {
 				int i = buttoncolours.getSelectedIndex();
 				bcolour = colours[i];
+				
+	                aboutButton.setBackground(bcolour);
+	                enterButton.setBackground(bcolour);
+	                helpButton.setBackground(bcolour);
+	                passButton.setBackground(bcolour);
+	                saveButton.setBackground(bcolour);
+	                importFileButton.setBackground(bcolour);
+	                leaderboardButton.setBackground(bcolour);
+	                settingsButton.setBackground(bcolour);
+	              
+				
 
 			} else if (e.getSource() == wordbutcolours) {
 				int i = wordbutcolours.getSelectedIndex();
 				fcolour = colours[i];
+				
+                aboutButton.setForeground(bcolour);
+                enterButton.setForeground(bcolour);
+                helpButton.setForeground(bcolour);
+                passButton.setForeground(bcolour);
+                saveButton.setForeground(bcolour);
+                importFileButton.setForeground(bcolour);
+                leaderboardButton.setForeground(bcolour);
+                settingsButton.setForeground(bcolour);
 
 			} else if (e.getSource() == promptcolours) {
 				int i = promptcolours.getSelectedIndex();
 				tcolour = colours[i];
 
+				promptLabel.setForeground(bcolour);
+				answerField.setForeground(bcolour);
+				statsList.setForeground(bcolour);
+				guessedAnswersList.setForeground(bcolour);
+				
 			}
 
 			else if (e.getSource() == aboutButton) {
