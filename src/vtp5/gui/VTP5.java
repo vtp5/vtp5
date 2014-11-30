@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -208,7 +209,8 @@ public class VTP5 extends JFrame {
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new MigLayout("insets 5", "", "[][][]40[]"));
 
-		promptLabel = new JLabel("Click 'Import Text File' to begin.");// creates
+		promptLabel = new JLabel(
+				"<html>Click 'Import Text File' to begin.</html>");// creates
 		// label
 		promptLabel.setForeground(tcolour);// changes text colour
 
@@ -310,7 +312,8 @@ public class VTP5 extends JFrame {
 	}
 
 	private void updatePrompt(int index) {
-		promptLabel.setText(test.getCards().get(index).getLangFrom().get(0));
+		promptLabel.setText("<html>"
+				+ test.getCards().get(index).getLangFrom().get(0) + "</html>");
 	}
 
 	// Method that returns a font object with the "default" font family
@@ -320,6 +323,8 @@ public class VTP5 extends JFrame {
 			Font font = Font.createFont(Font.TRUETYPE_FONT,
 					new FileInputStream("res/fonts/DidactGothic.ttf"));
 			font = font.deriveFont((float) fontSize);
+			GraphicsEnvironment.getLocalGraphicsEnvironment()
+					.registerFont(font);
 			c.setFont(font);
 
 		} catch (FontFormatException | IOException e) {
