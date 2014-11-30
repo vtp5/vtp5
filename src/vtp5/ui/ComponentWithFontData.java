@@ -1,4 +1,4 @@
-package vtp5.gui;
+package vtp5.ui;
 
 import java.awt.Component;
 

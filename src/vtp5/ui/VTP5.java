@@ -1,4 +1,4 @@
-package vtp5.gui;
+package vtp5.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
