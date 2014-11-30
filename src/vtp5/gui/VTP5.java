@@ -25,12 +25,12 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -87,6 +87,19 @@ public class VTP5 extends JFrame {
 	private JFileChooser txtChooser = new JFileChooser();
 	private JFileChooser csvChooser = new JFileChooser();
 
+	private Color colours[] = {Color.BLACK,Color.WHITE,Color.BLUE,Color.CYAN,Color.GRAY};
+	private String colourstring[] = {"black","white","blue","cyan","grey"};
+	
+	private JDialog colourd;
+	private JLabel butlabel = new JLabel("Button Colour: ");
+	private JComboBox<String> buttoncolours = new JComboBox<String>(colourstring);
+	private JLabel wordbutlabel = new JLabel("Button Label Colour: ");
+	private JComboBox<String> wordbutcolours = new JComboBox<String>(colourstring);
+	private JLabel promptlabel = new JLabel("Prompt Colour: ");
+	private JComboBox<String> promptcolours = new JComboBox<String>(colourstring);
+	
+	
+	
 	// Components for About Dialog
 	private JDialog abtDialog;
 	private JLabel vtp5Label = new JLabel("Vocab Testing Program 5");
@@ -166,6 +179,19 @@ public class VTP5 extends JFrame {
 		abtDialog.pack();
 		abtDialog.setResizable(false);
 		abtDialog.setLocationRelativeTo(this);
+		
+		colourd = new JDialog(this, "Settings");
+		colourd.setLayout(new MigLayout("fillx"));
+		colourd.add(butlabel, "alignx center, wrap");
+		colourd.add(buttoncolours, "alignx center, wrap");
+		colourd.add(wordbutlabel, "alignx center, wrap");
+		colourd.add(wordbutcolours, "alignx center, wrap");
+		colourd.add(promptlabel, "alignx center, wrap");
+		colourd.add(promptcolours, "alignx center");
+		colourd.pack();
+		colourd.setResizable(false);
+		colourd.setLocationRelativeTo(this);
+		
 
 		separator = new JSeparator();
 		separator.setBackground(bcolour);
@@ -196,6 +222,7 @@ public class VTP5 extends JFrame {
 		importFileButton.addActionListener(new EventListener());
 		saveButton.addActionListener(new EventListener());
 		aboutButton.addActionListener(new EventListener());
+		settingsButton.addActionListener(new EventListener());
 
 		buttonPanel.add(importFileButton, "align left");// adds to panel
 		buttonPanel.add(saveButton, "align right");
@@ -457,9 +484,12 @@ public class VTP5 extends JFrame {
 
 	private class EventListener implements ActionListener {
 
+		
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
+			
 			if (e.getSource() == importFileButton) {
 				int option = JOptionPane
 						.showOptionDialog(
@@ -478,7 +508,25 @@ public class VTP5 extends JFrame {
 				}
 				progressBar.setMaximum(test.getCards().size());
 
-			} else if (e.getSource() == aboutButton) {
+			} 
+			else if(e.getSource() == buttoncolours){
+				int i = buttoncolours.getSelectedIndex();
+				bcolour = colours[i];
+				
+				
+			}
+			else if(e.getSource() == wordbutcolours){
+				int i = wordbutcolours.getSelectedIndex();
+				fcolour = colours[i];
+				
+			}
+			else if(e.getSource() == promptcolours){
+				int i = promptcolours.getSelectedIndex();
+				tcolour = colours[i];
+				
+			}
+			
+			else if (e.getSource() == aboutButton) {
 				abtDialog.setVisible(true);
 			} else if (e.getSource() == enterButton) {
 				score = test.updateScore(answerField.getText(), questionIndex,
@@ -501,6 +549,15 @@ public class VTP5 extends JFrame {
 				updatePrompt(questionIndex);
 				answerField.setText("");
 			} else if (e.getSource() == settingsButton) {
+				
+				colourd.setVisible(true);
+				buttoncolours.addActionListener(this);
+				wordbutcolours.addActionListener(this);
+				promptcolours.addActionListener(this);
+				  
+				
+				
+				//TODO
 
 			} else if (e.getSource() == passButton) {
 				questionIndex++;
@@ -514,7 +571,7 @@ public class VTP5 extends JFrame {
 				 * oos.writeObject(test.getCards()); // write MenuArray to
 				 * ObjectOutputStream oos.close();
 				 * 
-				 * } catch (IOException e1) { // TODO Auto-generated catch block
+				 * } catch (IOException e1) { // 
 				 * e1.printStackTrace(); } }
 				 */
 				try {
@@ -536,7 +593,6 @@ public class VTP5 extends JFrame {
 						System.out.println("File saved");
 					}
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 
@@ -546,7 +602,9 @@ public class VTP5 extends JFrame {
 	}
 
 	private class ActionEnter extends AbstractAction {
-
+		
+		
+		
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 
