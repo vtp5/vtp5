@@ -81,6 +81,10 @@ public class TestFile {
 
 	public boolean isCorrect(String answer, int index) {
 		if (answer.equalsIgnoreCase(getCards().get(index).getLangTo().get(0))) {
+			for(int i = 0; i< getCards().size(); i++){
+			String s = 	getCards().get(i).getLangTo().get(0);
+			System.out.println(s);
+			}
 			return true;
 		} else {
 			return false;

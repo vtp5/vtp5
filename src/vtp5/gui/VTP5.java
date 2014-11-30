@@ -468,7 +468,7 @@ public class VTP5 extends JFrame {
 				// Open JFileChooser and then creates test file
 				if (option == 0 || option == 1) {
 					showChooserDialog(option);
-					Collections.shuffle(test.getCards());
+					//Collections.shuffle(test.getCards());
 					updatePrompt(questionIndex);
 				}
 				progressBar.setMaximum(test.getCards().size());
@@ -481,7 +481,13 @@ public class VTP5 extends JFrame {
 				if (test.isCorrect(answerField.getText(), questionIndex)) {
 					progressBar.setForeground(Color.GREEN);
 					test.getCards().remove(0);
-					questionIndex++;
+					if(test.getCards().isEmpty()){
+						JOptionPane.showMessageDialog(null, "You win");
+					}else if(questionIndex == 1 && test.getCards().size() == 1){
+						
+					}
+					System.out.println("Question Index:" + questionIndex);
+					
 				} else if (!test
 						.isCorrect(answerField.getText(), questionIndex)) {
 					progressBar.setForeground(Color.RED);
@@ -508,7 +514,8 @@ public class VTP5 extends JFrame {
 				 */
 				try {
 					JFileChooser chooser = new JFileChooser();
-					int answer = chooser.showSaveDialog(null);
+					int answer = chooser.showSaveDialog(getParent());
+					
 					if (answer == JFileChooser.APPROVE_OPTION) {
 						FileWriter fwriter = new FileWriter(
 								chooser.getSelectedFile() + ".txt");
