@@ -565,16 +565,6 @@ public class VTP5 extends JFrame {
 				updatePrompt(questionIndex);
 			} else if (e.getSource() == saveButton) {
 
-				/*
-				 * try { FileOutputStream fsos = new FileOutputStream("output");
-				 * 
-				 * ObjectOutputStream oos = new ObjectOutputStream(fsos);
-				 * oos.writeObject(test.getCards()); // write MenuArray to
-				 * ObjectOutputStream oos.close();
-				 * 
-				 * } catch (IOException e1) { // 
-				 * e1.printStackTrace(); } }
-				 */
 				try {
 					JFileChooser chooser = new JFileChooser();
 					int answer = chooser.showSaveDialog(getParent());
