@@ -349,7 +349,7 @@ public class VTP5 extends JFrame {
 
 		try {
 			Font font = Font.createFont(Font.TRUETYPE_FONT,
-					new FileInputStream("res/fonts/DidactGothic.ttf"));
+					new FileInputStream("ubuntu/Ubuntu-C.ttf"));
 			font = font.deriveFont((float) fontSize);
 			GraphicsEnvironment.getLocalGraphicsEnvironment()
 					.registerFont(font);
