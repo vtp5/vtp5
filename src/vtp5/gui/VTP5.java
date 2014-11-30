@@ -88,19 +88,21 @@ public class VTP5 extends JFrame {
 	private JFileChooser txtChooser = new JFileChooser();
 	private JFileChooser csvChooser = new JFileChooser();
 
-	private Color colours[] = {Color.BLACK,Color.WHITE,Color.BLUE,Color.CYAN,Color.GRAY};
-	private String colourstring[] = {"black","white","blue","cyan","grey"};
-	
+	private Color colours[] = { Color.BLACK, Color.WHITE, Color.BLUE,
+			Color.CYAN, Color.GRAY };
+	private String colourstring[] = { "black", "white", "blue", "cyan", "grey" };
+
 	private JDialog colourd;
 	private JLabel butlabel = new JLabel("Button Colour: ");
-	private JComboBox<String> buttoncolours = new JComboBox<String>(colourstring);
+	private JComboBox<String> buttoncolours = new JComboBox<String>(
+			colourstring);
 	private JLabel wordbutlabel = new JLabel("Button Label Colour: ");
-	private JComboBox<String> wordbutcolours = new JComboBox<String>(colourstring);
+	private JComboBox<String> wordbutcolours = new JComboBox<String>(
+			colourstring);
 	private JLabel promptlabel = new JLabel("Prompt Colour: ");
-	private JComboBox<String> promptcolours = new JComboBox<String>(colourstring);
-	
-	
-	
+	private JComboBox<String> promptcolours = new JComboBox<String>(
+			colourstring);
+
 	// Components for About Dialog
 	private JDialog abtDialog;
 	private JLabel vtp5Label = new JLabel("Vocab Testing Program 5");
@@ -180,7 +182,7 @@ public class VTP5 extends JFrame {
 		abtDialog.pack();
 		abtDialog.setResizable(false);
 		abtDialog.setLocationRelativeTo(this);
-		
+
 		colourd = new JDialog(this, "Settings");
 		colourd.setLayout(new MigLayout("fillx"));
 		colourd.add(butlabel, "alignx center, wrap");
@@ -192,7 +194,6 @@ public class VTP5 extends JFrame {
 		colourd.pack();
 		colourd.setResizable(false);
 		colourd.setLocationRelativeTo(this);
-		
 
 		separator = new JSeparator();
 		separator.setBackground(bcolour);
@@ -349,7 +350,7 @@ public class VTP5 extends JFrame {
 
 		try {
 			Font font = Font.createFont(Font.TRUETYPE_FONT,
-					new FileInputStream("ubuntu/Ubuntu-C.ttf"));
+					new FileInputStream("res/fonts/ubuntu/Ubuntu-C.ttf"));
 			font = font.deriveFont((float) fontSize);
 			GraphicsEnvironment.getLocalGraphicsEnvironment()
 					.registerFont(font);
@@ -485,12 +486,9 @@ public class VTP5 extends JFrame {
 
 	private class EventListener implements ActionListener {
 
-		
-		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			
 			if (e.getSource() == importFileButton) {
 				int option = JOptionPane
 						.showOptionDialog(
@@ -509,24 +507,20 @@ public class VTP5 extends JFrame {
 				}
 				progressBar.setMaximum(test.getCards().size());
 
-			} 
-			else if(e.getSource() == buttoncolours){
+			} else if (e.getSource() == buttoncolours) {
 				int i = buttoncolours.getSelectedIndex();
 				bcolour = colours[i];
-				
-				
-			}
-			else if(e.getSource() == wordbutcolours){
+
+			} else if (e.getSource() == wordbutcolours) {
 				int i = wordbutcolours.getSelectedIndex();
 				fcolour = colours[i];
-				
-			}
-			else if(e.getSource() == promptcolours){
+
+			} else if (e.getSource() == promptcolours) {
 				int i = promptcolours.getSelectedIndex();
 				tcolour = colours[i];
-				
+
 			}
-			
+
 			else if (e.getSource() == aboutButton) {
 				abtDialog.setVisible(true);
 			} else if (e.getSource() == enterButton) {
@@ -535,13 +529,14 @@ public class VTP5 extends JFrame {
 				if (test.isCorrect(answerField.getText(), questionIndex)) {
 					progressBar.setForeground(Color.GREEN);
 					test.getCards().remove(0);
-					if(test.getCards().isEmpty()){
+					if (test.getCards().isEmpty()) {
 						JOptionPane.showMessageDialog(null, "You win");
-					}else if(questionIndex == 1 && test.getCards().size() == 1){
-						
+					} else if (questionIndex == 1
+							&& test.getCards().size() == 1) {
+
 					}
 					System.out.println("Question Index:" + questionIndex);
-					
+
 				} else if (!test
 						.isCorrect(answerField.getText(), questionIndex)) {
 					progressBar.setForeground(Color.RED);
@@ -550,15 +545,13 @@ public class VTP5 extends JFrame {
 				updatePrompt(questionIndex);
 				answerField.setText("");
 			} else if (e.getSource() == settingsButton) {
-				
+
 				colourd.setVisible(true);
 				buttoncolours.addActionListener(this);
 				wordbutcolours.addActionListener(this);
 				promptcolours.addActionListener(this);
-				  
-				
-				
-				//TODO
+
+				// TODO
 
 			} else if (e.getSource() == passButton) {
 				questionIndex++;
@@ -568,7 +561,7 @@ public class VTP5 extends JFrame {
 				try {
 					JFileChooser chooser = new JFileChooser();
 					int answer = chooser.showSaveDialog(getParent());
-					
+
 					if (answer == JFileChooser.APPROVE_OPTION) {
 						FileWriter fwriter = new FileWriter(
 								chooser.getSelectedFile() + ".txt");
@@ -593,9 +586,7 @@ public class VTP5 extends JFrame {
 	}
 
 	private class ActionEnter extends AbstractAction {
-		
-		
-		
+
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 
