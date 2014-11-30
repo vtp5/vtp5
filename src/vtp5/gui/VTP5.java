@@ -473,7 +473,7 @@ public class VTP5 extends JFrame {
 				// Open JFileChooser and then creates test file
 				if (option == 0 || option == 1) {
 					showChooserDialog(option);
-					//Collections.shuffle(test.getCards());
+					Collections.shuffle(test.getCards());
 					updatePrompt(questionIndex);
 				}
 				progressBar.setMaximum(test.getCards().size());

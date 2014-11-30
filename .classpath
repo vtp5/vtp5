@@ -2,7 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="miglayout"/>
-	<classpathentry including="files/|fonts/|images/" kind="src" path="res"/>
+	<classpathentry excluding="Ubuntu/|Ubuntu/|ubuntu/|ubuntu/" including="files/|fonts/|images/" kind="src" path="res"/>
+	<classpathentry kind="src" path="ubuntu"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="lib" path="miglayout/miglayout-4.0-ideutil.jar"/>
 	<classpathentry kind="lib" path="miglayout/miglayout-4.0-javadoc.jar"/>
