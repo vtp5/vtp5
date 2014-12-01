@@ -527,6 +527,7 @@ public class VTP5 extends JFrame {
 				// Open JFileChooser and then creates test file
 				if (option == 0 || option == 1) {
 					showChooserDialog(option);
+					try{
 					Collections.shuffle(test.getCards());
 					updatePrompt(questionIndex);
 					progressBar.setMaximum(test.getCards().size());
@@ -535,6 +536,10 @@ public class VTP5 extends JFrame {
 					leaderboardButton.setEnabled(true);
 					enterButton.setEnabled(true);
 					passButton.setEnabled(true);
+					}catch (NullPointerException npe){
+						JOptionPane.showMessageDialog(null, "No file selected");
+								
+					}
 				}
 
 			} else if (e.getSource() == buttoncolours) {
