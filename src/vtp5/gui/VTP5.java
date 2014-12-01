@@ -663,6 +663,11 @@ public class VTP5 extends JFrame {
 				startTime = System.currentTimeMillis();
 				// TODO Find out why it takes so long from here to the start of
 				// the VTP5 obj
+
+				String s = "He'l L^£$$\"O wo5235rld";
+				s = s.replaceAll("[^a-zA-Z0-9]", "");
+				System.out.println(s);
+
 				new VTP5();
 
 			}
