@@ -85,6 +85,9 @@ public class TestFile {
 	}
 
 	public boolean isCorrect(String answer, int index) {
+		answer = answer.replaceAll("[^a-zA-Z0-9]", "");
+		System.out.println(answer);
+
 		if (answer.equalsIgnoreCase(getCards().get(index).getLangTo().get(0))) {
 			for (int i = 0; i < getCards().size(); i++) {
 				String s = getCards().get(i).getLangTo().get(0);
