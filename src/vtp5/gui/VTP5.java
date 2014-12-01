@@ -148,11 +148,13 @@ public class VTP5 extends JFrame {
 		saveButton = new JButton("Complete Later");
 		saveButton.setBackground(bcolour);
 		saveButton.setForeground(fcolour);
+		saveButton.setEnabled(false);
 		buttonList.add(saveButton);
 
 		leaderboardButton = new JButton("View Leaderboards");// creates buttons
 		leaderboardButton.setBackground(bcolour);// changes background colour
 		leaderboardButton.setForeground(fcolour);// changes foreground colour
+		leaderboardButton.setEnabled(false);
 		buttonList.add(leaderboardButton);
 
 		settingsButton = new JButton("Settings");// creates buttons
@@ -244,7 +246,7 @@ public class VTP5 extends JFrame {
 		mainPanel.setLayout(new MigLayout("insets 5", "", "[][][]40[]"));
 
 		promptLabel = new JLabel(
-				"<html>Click 'Import Text File' to begin.</html>");// creates
+				"<html>Click 'Import Test File' to begin.</html>");// creates
 		// label
 		promptLabel.setForeground(tcolour);// changes text colour
 
@@ -266,6 +268,7 @@ public class VTP5 extends JFrame {
 
 		enterButton.setBackground(bcolour);// changes background colour
 		enterButton.setForeground(fcolour);// changes foreground colour
+		enterButton.setEnabled(false);
 
 		componentList.add(new ComponentWithFontData(enterButton, 32));// adds to
 																		// list
@@ -275,6 +278,7 @@ public class VTP5 extends JFrame {
 		passButton.setForeground(fcolour);// changes foreground colour
 		buttonList.add(passButton);
 		passButton.addActionListener(new EventListener());
+		passButton.setEnabled(false);
 
 		componentList.add(new ComponentWithFontData(passButton, 32));// adds to
 																		// list
@@ -355,7 +359,6 @@ public class VTP5 extends JFrame {
 		promptLabel.setForeground(text);
 		statsList.setForeground(text);
 		guessedAnswersList.setForeground(text);
-		
 
 	}
 
@@ -526,8 +529,13 @@ public class VTP5 extends JFrame {
 					showChooserDialog(option);
 					Collections.shuffle(test.getCards());
 					updatePrompt(questionIndex);
+					progressBar.setMaximum(test.getCards().size());
+
+					saveButton.setEnabled(true);
+					leaderboardButton.setEnabled(true);
+					enterButton.setEnabled(true);
+					passButton.setEnabled(true);
 				}
-				progressBar.setMaximum(test.getCards().size());
 
 			} else if (e.getSource() == buttoncolours) {
 				int i = buttoncolours.getSelectedIndex();
