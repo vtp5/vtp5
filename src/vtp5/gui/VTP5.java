@@ -115,6 +115,7 @@ public class VTP5 extends JFrame {
 			"https://github.com/duckifyz/VTP5");
 	// TODO Create a better icon.
 	private ImageIcon logo = new ImageIcon("res/images/vtp.png");
+	private ArrayList<JButton> buttonList = new ArrayList<>();
 
 	private TestFile test;
 
@@ -142,26 +143,32 @@ public class VTP5 extends JFrame {
 		importFileButton = new JButton("Import Test File");// creates buttons
 		importFileButton.setBackground(bcolour);// changes background colour
 		importFileButton.setForeground(fcolour);// changes foreground colour
+		buttonList.add(importFileButton);
 
 		saveButton = new JButton("Complete Later");
 		saveButton.setBackground(bcolour);
 		saveButton.setForeground(fcolour);
+		buttonList.add(saveButton);
 
 		leaderboardButton = new JButton("View Leaderboards");// creates buttons
 		leaderboardButton.setBackground(bcolour);// changes background colour
 		leaderboardButton.setForeground(fcolour);// changes foreground colour
+		buttonList.add(leaderboardButton);
 
 		settingsButton = new JButton("Settings");// creates buttons
 		settingsButton.setBackground(bcolour);// changes background colour
 		settingsButton.setForeground(fcolour);// changes foreground colour
+		buttonList.add(settingsButton);
 
 		helpButton = new JButton("Help");// ads button
 		helpButton.setBackground(bcolour);// changes background colour
 		helpButton.setForeground(fcolour);// changes foreground colour
+		buttonList.add(helpButton);
 
 		aboutButton = new JButton("About");// creates buttons
 		aboutButton.setBackground(bcolour);// changes background colour
 		aboutButton.setForeground(fcolour);// changes foreground colour
+		buttonList.add(aboutButton);
 
 		// vtp5Label.setFont(defFont);
 		// srccodeLabel.setFont(defFont);
@@ -255,6 +262,7 @@ public class VTP5 extends JFrame {
 
 		enterButton = new JButton("Enter");// creates buttons
 		enterButton.addActionListener(new EventListener());
+		buttonList.add(enterButton);
 
 		enterButton.setBackground(bcolour);// changes background colour
 		enterButton.setForeground(fcolour);// changes foreground colour
@@ -265,6 +273,7 @@ public class VTP5 extends JFrame {
 		passButton = new JButton("Pass");// creates buttons
 		passButton.setBackground(bcolour);// changes background colour
 		passButton.setForeground(fcolour);// changes foreground colour
+		buttonList.add(passButton);
 		passButton.addActionListener(new EventListener());
 
 		componentList.add(new ComponentWithFontData(passButton, 32));// adds to
@@ -336,6 +345,18 @@ public class VTP5 extends JFrame {
 
 		System.out.println("Boot completed in "
 				+ (System.currentTimeMillis() - startTime) + " milliseconds.");
+	}
+
+	private void setColor(Color background, Color foreground, Color text) {
+		for (JButton b : buttonList) {
+			b.setForeground(foreground);
+			b.setBackground(background);
+		}
+		promptLabel.setForeground(text);
+		statsList.setForeground(text);
+		guessedAnswersList.setForeground(text);
+		
+
 	}
 
 	private void updatePrompt(int index) {
@@ -511,40 +532,21 @@ public class VTP5 extends JFrame {
 			} else if (e.getSource() == buttoncolours) {
 				int i = buttoncolours.getSelectedIndex();
 				bcolour = colours[i];
-				
-	                aboutButton.setBackground(bcolour);
-	                enterButton.setBackground(bcolour);
-	                helpButton.setBackground(bcolour);
-	                passButton.setBackground(bcolour);
-	                saveButton.setBackground(bcolour);
-	                importFileButton.setBackground(bcolour);
-	                leaderboardButton.setBackground(bcolour);
-	                settingsButton.setBackground(bcolour);
-	              
-				
+
+				setColor(bcolour, fcolour, tcolour);
 
 			} else if (e.getSource() == wordbutcolours) {
 				int i = wordbutcolours.getSelectedIndex();
 				fcolour = colours[i];
-				
-                aboutButton.setForeground(bcolour);
-                enterButton.setForeground(bcolour);
-                helpButton.setForeground(bcolour);
-                passButton.setForeground(bcolour);
-                saveButton.setForeground(bcolour);
-                importFileButton.setForeground(bcolour);
-                leaderboardButton.setForeground(bcolour);
-                settingsButton.setForeground(bcolour);
+
+				setColor(bcolour, fcolour, tcolour);
 
 			} else if (e.getSource() == promptcolours) {
 				int i = promptcolours.getSelectedIndex();
 				tcolour = colours[i];
 
-				promptLabel.setForeground(bcolour);
-				answerField.setForeground(bcolour);
-				statsList.setForeground(bcolour);
-				guessedAnswersList.setForeground(bcolour);
-				
+				setColor(bcolour, fcolour, tcolour);
+
 			}
 
 			else if (e.getSource() == aboutButton) {
