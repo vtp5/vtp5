@@ -49,6 +49,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import biz.georgey.utils.Loader;
 import net.miginfocom.swing.MigLayout;
 import vtp5.logic.Card;
 import vtp5.logic.TestFile;
@@ -126,7 +127,6 @@ public class VTP5 extends JFrame {
 	private static long startTime;
 
 	public VTP5() {
-
 		// Sets up JFileChooser
 		txtChooser.setFileFilter(new FileNameExtensionFilter(
 				"Text Files (*.txt)", "txt"));
@@ -341,7 +341,7 @@ public class VTP5 extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
-
+		setIconImage(logo.getImage());
 		// Add FrameListener to JFrame so we can detect when the frame is
 		// resized
 
@@ -374,8 +374,11 @@ public class VTP5 extends JFrame {
 			// Font font = Font.createFont(Font.TRUETYPE_FONT,
 			// new FileInputStream("res/fonts/ubuntu/Ubuntu-C.ttf"));
 			Font font = Font.createFont(Font.TRUETYPE_FONT,
-					new FileInputStream(
-							"res/fonts/didactgothic/DidactGothic.ttf"));
+					Loader.getInputStream(
+							"fonts/didactgothic/DidactGothic.ttf"));
+			/*Font font1 = new Font.createFont(Font.TRUETYPE_FONT,
+					(FileInputStream)Loader.getInputStream(
+							"res/fonts/didactgothic/DidactGothic.ttf"));*/
 			font = font.deriveFont((float) fontSize);
 			GraphicsEnvironment.getLocalGraphicsEnvironment()
 					.registerFont(font);
@@ -569,6 +572,7 @@ public class VTP5 extends JFrame {
 						questionIndex);
 				if (test.isCorrect(answerField.getText(), questionIndex)) { //checks if the answer is correct
 					progressBar.setForeground(Color.GREEN); //changes the color of the progress bar
+					guessedAnswersListModel.addElement(test.getCards().get(questionIndex).getLangFrom().get(0));
 					test.getCards().remove(0); //removes the card after it is answered.
 					if (test.getCards().isEmpty()) { //checks if the arraylist of cards is empty
 						JOptionPane.showMessageDialog(null, "You win"); //displays that you have won
@@ -662,7 +666,7 @@ public class VTP5 extends JFrame {
 			@Override
 			public void run() {
 				startTime = System.currentTimeMillis();
-				// TODO Find out why it takes so long from here to the start of
+				// TODO Find 	out why it takes so long from here to the start of
 				// the VTP5 obj
 
 				String s = "He'l L^£$$\"O wo5235rld";
