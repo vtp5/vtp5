@@ -565,29 +565,25 @@ public class VTP5 extends JFrame {
 			else if (e.getSource() == aboutButton) {
 				abtDialog.setVisible(true);
 			} else if (e.getSource() == enterButton) {
-				int score = test.updateScore(answerField.getText(),
+				int score = test.updateScore(answerField.getText(), //updates score
 						questionIndex);
-				if (test.isCorrect(answerField.getText(), questionIndex)) {
-					progressBar.setForeground(Color.GREEN);
-					test.getCards().remove(0);
-					if (test.getCards().isEmpty()) {
-						JOptionPane.showMessageDialog(null, "You win");
-					} else if (questionIndex == 1
-							&& test.getCards().size() == 1) {
-
-					}
+				if (test.isCorrect(answerField.getText(), questionIndex)) { //checks if the answer is correct
+					progressBar.setForeground(Color.GREEN); //changes the color of the progress bar
+					test.getCards().remove(0); //removes the card after it is answered.
+					if (test.getCards().isEmpty()) { //checks if the arraylist of cards is empty
+						JOptionPane.showMessageDialog(null, "You win"); //displays that you have won
+					} 
 					System.out.println("Question Index:" + questionIndex);
 
 				} else if (!test
-						.isCorrect(answerField.getText(), questionIndex)) {
-					progressBar.setForeground(Color.RED);
+						.isCorrect(answerField.getText(), questionIndex)) { //if answer is incorrect
+					progressBar.setForeground(Color.RED); //progress bar turns red
 				}
-				progressBar.setValue(score);
-				updatePrompt(questionIndex);
-				answerField.setText("");
+				progressBar.setValue(score); //sets value of progress bar
+				updatePrompt(questionIndex); //prompt label is updated
+				answerField.setText(""); 	//field is cleared
 			} else if (e.getSource() == settingsButton) {
-
-				colourd.setVisible(true);
+				colourd.setVisible(true);  //colour settings is displayed
 				buttoncolours.addActionListener(this);
 				wordbutcolours.addActionListener(this);
 				promptcolours.addActionListener(this);
@@ -595,7 +591,7 @@ public class VTP5 extends JFrame {
 				// TODO
 
 			} else if (e.getSource() == passButton) {
-				questionIndex++;
+				questionIndex++; //index is added to
 				updatePrompt(questionIndex);
 			} else if (e.getSource() == saveButton) {
 
@@ -605,16 +601,16 @@ public class VTP5 extends JFrame {
 
 					if (answer == JFileChooser.APPROVE_OPTION) {
 						FileWriter fwriter = new FileWriter(
-								chooser.getSelectedFile() + ".txt");
-						BufferedWriter bfwriter = new BufferedWriter(fwriter);
-						for (Card s : test.getCards()) {
-							bfwriter.write(s.getLangFrom().get(0));
-							bfwriter.newLine();
-							bfwriter.write(s.getLangTo().get(0));
+								chooser.getSelectedFile() + ".txt"); //filewriter for .txt created
+						BufferedWriter bfwriter = new BufferedWriter(fwriter); //parsed to buffered writer
+						for (Card s : test.getCards()) { 	//card is looped through
+							bfwriter.write(s.getLangFrom().get(0)); //prompt is written
+							bfwriter.newLine();	//new line 
+							bfwriter.write(s.getLangTo().get(0)); //answer is written
 							bfwriter.newLine();
 							System.out.println("saved");
 						}
-						bfwriter.close();
+						bfwriter.close(); //writer is closed
 						System.out.println("File saved");
 					}
 				} catch (IOException e1) {
