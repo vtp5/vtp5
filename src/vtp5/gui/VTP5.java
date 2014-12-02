@@ -364,6 +364,7 @@ public class VTP5 extends JFrame {
 	private void updatePrompt(int index) {
 		promptLabel.setText("<html>"
 				+ test.getCards().get(index).getLangFrom().get(0) + "</html>");
+		updateGuessedAnswersList(true);
 	}
 
 	// Method that returns a font object with the "default" font family
@@ -568,43 +569,7 @@ public class VTP5 extends JFrame {
 			else if (e.getSource() == aboutButton) {
 				abtDialog.setVisible(true);
 			} else if (e.getSource() == enterButton) {
-				int score = test.updateScore(answerField.getText(), // updates
-																	// score
-						questionIndex);
-				if (test.isCorrect(answerField.getText(), questionIndex)) { // checks
-																			// if
-																			// the
-																			// answer
-																			// is
-																			// correct
-					progressBar.setForeground(Color.GREEN); // changes the color
-															// of the progress
-															// bar
-					guessedAnswersListModel.addElement(test.getCards()
-							.get(questionIndex).getLangFrom().get(0));
-					test.getCards().remove(0); // removes the card after it is
-												// answered.
-					if (test.getCards().isEmpty()) { // checks if the arraylist
-														// of cards is empty
-						JOptionPane.showMessageDialog(null, "You win"); // displays
-																		// that
-																		// you
-																		// have
-																		// won
-					}
-					System.out.println("Question Index:" + questionIndex);
-
-				} else if (!test
-						.isCorrect(answerField.getText(), questionIndex)) { // if
-																			// answer
-																			// is
-																			// incorrect
-					progressBar.setForeground(Color.RED); // progress bar turns
-															// red
-				}
-				progressBar.setValue(score); // sets value of progress bar
-				updatePrompt(questionIndex); // prompt label is updated
-				answerField.setText(""); // field is cleared
+				doLogic();
 			} else if (e.getSource() == settingsButton) {
 				colourd.setVisible(true); // colour settings is displayed
 				buttoncolours.addActionListener(this);
@@ -652,6 +617,112 @@ public class VTP5 extends JFrame {
 			}
 		}
 
+	}
+
+	private void doLogic() {
+		if (enterButton.getText().equals("Enter")) {
+			int result = test.isCorrect(answerField.getText(), questionIndex);// checks
+																				// if
+																				// the
+																				// answer
+																				// is
+																				// correct
+
+			// Gets the score
+			int score = test.getScore();
+
+			if (result == TestFile.PARTIALLY_CORRECT
+					|| result == TestFile.COMPLETELY_CORRECT) {
+				progressBar.setForeground(Color.GREEN); // changes the
+														// colour
+														// of the
+														// progress
+														// bar
+
+				// Updates the list of correctly guessed answers
+				updateGuessedAnswersList(true);
+
+				if (result == TestFile.COMPLETELY_CORRECT) {
+					test.getCards().remove(questionIndex); // removes
+															// the
+															// card
+															// after it
+															// is
+															// answered.
+
+					if (test.getCards().isEmpty()) { // checks if the
+														// arraylist
+														// of cards is
+														// empty
+						JOptionPane.showMessageDialog(null, "You win"); // displays
+																		// that
+																		// you
+																		// have
+																		// won
+					}
+
+					updatePrompt(questionIndex); // prompt label is
+													// updated
+				}
+
+				System.out.println("Question Index:" + questionIndex);
+
+			} else if (result == TestFile.INCORRECT) { // if
+														// answer
+														// is
+														// incorrect
+				progressBar.setForeground(Color.RED); // progress bar
+														// turns
+														// red
+
+				// Turn guessedAnswersList red as well
+				guessedAnswersList.setForeground(Color.RED);
+
+				// Update guessedAnswersList
+				updateGuessedAnswersList(false);
+
+				// Disable some components, change text on Enter button
+				passButton.setEnabled(false);
+				enterButton.setText("OK");
+
+				// Shuffle cards
+				Collections.shuffle(test.getCards());
+			}
+			progressBar.setValue(score); // sets value of progress bar
+		} else {
+			// Re-enable passButton, change text on Enter button back to
+			// "Enter"
+			passButton.setEnabled(true);
+			enterButton.setText("Enter");
+
+			// Change guessedAnswersList colour back to normal
+			guessedAnswersList.setForeground(tcolour);
+
+			// Update prompt label
+			updatePrompt(questionIndex);
+		}
+
+		answerField.setText(""); // field is cleared
+	}
+
+	private void updateGuessedAnswersList(boolean isCorrect) {
+		guessedAnswersListModel.removeAllElements();
+		// Change text depending on whether user got the word right or wrong
+		guessedAnswersListModel
+				.addElement(isCorrect ? "Already guessed answers:"
+						: "Correct answers:");
+
+		// Decide what the list should display based on whether user got the
+		// word right or wrong
+		for (String s : test.getCards().get(questionIndex).getCorrectLangTo()) {
+			guessedAnswersListModel.addElement(s);
+		}
+
+		if (!isCorrect) {
+			for (String s : test.getCards().get(questionIndex).getLangTo()) {
+				guessedAnswersListModel.addElement(s);
+			}
+		}
 	}
 
 	private class ActionEnter extends AbstractAction {
