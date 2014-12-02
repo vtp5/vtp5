@@ -124,6 +124,8 @@ public class VTP5 extends JFrame {
 	private Color tcolour = Color.BLACK;
 
 	private static long startTime;
+	
+	public Font font;
 
 	public VTP5() {
 		// Sets up JFileChooser
@@ -373,7 +375,7 @@ public class VTP5 extends JFrame {
 		try {
 			// Font font = Font.createFont(Font.TRUETYPE_FONT,
 			// new FileInputStream("res/fonts/ubuntu/Ubuntu-C.ttf"));
-			Font font = Font.createFont(Font.TRUETYPE_FONT, Loader
+			font = Font.createFont(Font.TRUETYPE_FONT, Loader
 					.getInputStream("fonts/didactgothic/DidactGothic.ttf"));
 			/*
 			 * Font font1 = new Font.createFont(Font.TRUETYPE_FONT,
@@ -773,5 +775,4 @@ public class VTP5 extends JFrame {
 			}
 		});
 	}
-
 }
