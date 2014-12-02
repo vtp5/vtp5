@@ -19,7 +19,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedWriter;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
@@ -49,10 +48,10 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import biz.georgey.utils.Loader;
 import net.miginfocom.swing.MigLayout;
 import vtp5.logic.Card;
 import vtp5.logic.TestFile;
+import biz.georgey.utils.Loader;
 
 public class VTP5 extends JFrame {
 
@@ -373,12 +372,13 @@ public class VTP5 extends JFrame {
 		try {
 			// Font font = Font.createFont(Font.TRUETYPE_FONT,
 			// new FileInputStream("res/fonts/ubuntu/Ubuntu-C.ttf"));
-			Font font = Font.createFont(Font.TRUETYPE_FONT,
-					Loader.getInputStream(
-							"fonts/didactgothic/DidactGothic.ttf"));
-			/*Font font1 = new Font.createFont(Font.TRUETYPE_FONT,
-					(FileInputStream)Loader.getInputStream(
-							"res/fonts/didactgothic/DidactGothic.ttf"));*/
+			Font font = Font.createFont(Font.TRUETYPE_FONT, Loader
+					.getInputStream("fonts/didactgothic/DidactGothic.ttf"));
+			/*
+			 * Font font1 = new Font.createFont(Font.TRUETYPE_FONT,
+			 * (FileInputStream)Loader.getInputStream(
+			 * "res/fonts/didactgothic/DidactGothic.ttf"));
+			 */
 			font = font.deriveFont((float) fontSize);
 			GraphicsEnvironment.getLocalGraphicsEnvironment()
 					.registerFont(font);
@@ -469,35 +469,35 @@ public class VTP5 extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// Scale the text when the frame is resized
 
-				System.out.println(System.currentTimeMillis()
-						+ ": Getting the size of the frame");
+				// System.out.println(System.currentTimeMillis()
+				// + ": Getting the size of the frame");
 
 				// Calculate the scale factor
 				Dimension newSize = frame.getSize();
 
 				// Printlns for debugging
-				System.out.println("originalSize: " + originalSize);
-				System.out.println("newSize: " + newSize);
-
-				System.out.println(System.currentTimeMillis()
-						+ ": Calculating the scale factor");
+				// System.out.println("originalSize: " + originalSize);
+				// System.out.println("newSize: " + newSize);
+				//
+				// System.out.println(System.currentTimeMillis()
+				// + ": Calculating the scale factor");
 
 				scaler = Math.min(newSize.getWidth() / originalSize.getWidth(),
 						newSize.getHeight() / originalSize.getHeight());
 
 				// Printlns for debugging
-				System.out.println("Scaler: " + scaler);
+				// System.out.println("Scaler: " + scaler);
 
 				for (ComponentWithFontData c : componentList) {
 					Component component = c.getComponent();
-					System.out.println(System.currentTimeMillis()
-							+ ": Currently \"re-sizing\" component "
-							+ componentList.indexOf(c) + ": " + component);
+					// System.out.println(System.currentTimeMillis()
+					// + ": Currently \"re-sizing\" component "
+					// + componentList.indexOf(c) + ": " + component);
 
 					int newFontSize = (int) ((double) c.getOriginalFontSize() * scaler);
 
 					// Printlns for debugging:
-					System.out.println("newFontSize: " + newFontSize);
+					// System.out.println("newFontSize: " + newFontSize);
 
 					setFontSize(component, newFontSize);
 				}
@@ -505,8 +505,8 @@ public class VTP5 extends JFrame {
 				frame.revalidate();
 				frame.repaint();
 
-				System.out
-						.println("****************************************************************");
+				// System.out
+				// .println("****************************************************************");
 			}
 
 		}
@@ -530,18 +530,18 @@ public class VTP5 extends JFrame {
 				// Open JFileChooser and then creates test file
 				if (option == 0 || option == 1) {
 					showChooserDialog(option);
-					try{
-					Collections.shuffle(test.getCards());
-					updatePrompt(questionIndex);
-					progressBar.setMaximum(test.getCards().size());
+					try {
+						Collections.shuffle(test.getCards());
+						updatePrompt(questionIndex);
+						progressBar.setMaximum(test.getCards().size());
 
-					saveButton.setEnabled(true);
-					leaderboardButton.setEnabled(true);
-					enterButton.setEnabled(true);
-					passButton.setEnabled(true);
-					}catch (NullPointerException npe){
+						saveButton.setEnabled(true);
+						leaderboardButton.setEnabled(true);
+						enterButton.setEnabled(true);
+						passButton.setEnabled(true);
+					} catch (NullPointerException npe) {
 						JOptionPane.showMessageDialog(null, "No file selected");
-								
+
 					}
 				}
 
@@ -568,26 +568,45 @@ public class VTP5 extends JFrame {
 			else if (e.getSource() == aboutButton) {
 				abtDialog.setVisible(true);
 			} else if (e.getSource() == enterButton) {
-				int score = test.updateScore(answerField.getText(), //updates score
+				int score = test.updateScore(answerField.getText(), // updates
+																	// score
 						questionIndex);
-				if (test.isCorrect(answerField.getText(), questionIndex)) { //checks if the answer is correct
-					progressBar.setForeground(Color.GREEN); //changes the color of the progress bar
-					guessedAnswersListModel.addElement(test.getCards().get(questionIndex).getLangFrom().get(0));
-					test.getCards().remove(0); //removes the card after it is answered.
-					if (test.getCards().isEmpty()) { //checks if the arraylist of cards is empty
-						JOptionPane.showMessageDialog(null, "You win"); //displays that you have won
-					} 
+				if (test.isCorrect(answerField.getText(), questionIndex)) { // checks
+																			// if
+																			// the
+																			// answer
+																			// is
+																			// correct
+					progressBar.setForeground(Color.GREEN); // changes the color
+															// of the progress
+															// bar
+					guessedAnswersListModel.addElement(test.getCards()
+							.get(questionIndex).getLangFrom().get(0));
+					test.getCards().remove(0); // removes the card after it is
+												// answered.
+					if (test.getCards().isEmpty()) { // checks if the arraylist
+														// of cards is empty
+						JOptionPane.showMessageDialog(null, "You win"); // displays
+																		// that
+																		// you
+																		// have
+																		// won
+					}
 					System.out.println("Question Index:" + questionIndex);
 
 				} else if (!test
-						.isCorrect(answerField.getText(), questionIndex)) { //if answer is incorrect
-					progressBar.setForeground(Color.RED); //progress bar turns red
+						.isCorrect(answerField.getText(), questionIndex)) { // if
+																			// answer
+																			// is
+																			// incorrect
+					progressBar.setForeground(Color.RED); // progress bar turns
+															// red
 				}
-				progressBar.setValue(score); //sets value of progress bar
-				updatePrompt(questionIndex); //prompt label is updated
-				answerField.setText(""); 	//field is cleared
+				progressBar.setValue(score); // sets value of progress bar
+				updatePrompt(questionIndex); // prompt label is updated
+				answerField.setText(""); // field is cleared
 			} else if (e.getSource() == settingsButton) {
-				colourd.setVisible(true);  //colour settings is displayed
+				colourd.setVisible(true); // colour settings is displayed
 				buttoncolours.addActionListener(this);
 				wordbutcolours.addActionListener(this);
 				promptcolours.addActionListener(this);
@@ -595,7 +614,7 @@ public class VTP5 extends JFrame {
 				// TODO
 
 			} else if (e.getSource() == passButton) {
-				questionIndex++; //index is added to
+				questionIndex++; // index is added to
 				updatePrompt(questionIndex);
 			} else if (e.getSource() == saveButton) {
 
@@ -605,16 +624,25 @@ public class VTP5 extends JFrame {
 
 					if (answer == JFileChooser.APPROVE_OPTION) {
 						FileWriter fwriter = new FileWriter(
-								chooser.getSelectedFile() + ".txt"); //filewriter for .txt created
-						BufferedWriter bfwriter = new BufferedWriter(fwriter); //parsed to buffered writer
-						for (Card s : test.getCards()) { 	//card is looped through
-							bfwriter.write(s.getLangFrom().get(0)); //prompt is written
-							bfwriter.newLine();	//new line 
-							bfwriter.write(s.getLangTo().get(0)); //answer is written
+								chooser.getSelectedFile() + ".txt"); // filewriter
+																		// for
+																		// .txt
+																		// created
+						BufferedWriter bfwriter = new BufferedWriter(fwriter); // parsed
+																				// to
+																				// buffered
+																				// writer
+						for (Card s : test.getCards()) { // card is looped
+															// through
+							bfwriter.write(s.getLangFrom().get(0)); // prompt is
+																	// written
+							bfwriter.newLine(); // new line
+							bfwriter.write(s.getLangTo().get(0)); // answer is
+																	// written
 							bfwriter.newLine();
 							System.out.println("saved");
 						}
-						bfwriter.close(); //writer is closed
+						bfwriter.close(); // writer is closed
 						System.out.println("File saved");
 					}
 				} catch (IOException e1) {
@@ -666,12 +694,8 @@ public class VTP5 extends JFrame {
 			@Override
 			public void run() {
 				startTime = System.currentTimeMillis();
-				// TODO Find 	out why it takes so long from here to the start of
+				// TODO Find out why it takes so long from here to the start of
 				// the VTP5 obj
-
-				String s = "He'l L^£$$\"O wo5235rld";
-				s = s.replaceAll("[^a-zA-Z0-9]", "");
-				System.out.println(s);
 
 				new VTP5();
 
