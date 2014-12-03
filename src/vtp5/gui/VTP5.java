@@ -19,6 +19,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
@@ -51,7 +52,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import net.miginfocom.swing.MigLayout;
 import vtp5.logic.Card;
 import vtp5.logic.TestFile;
-import biz.georgey.utils.Loader;
 
 public class VTP5 extends JFrame {
 
@@ -124,7 +124,7 @@ public class VTP5 extends JFrame {
 	private Color tcolour = Color.BLACK;
 
 	private static long startTime;
-	
+
 	public Font font;
 
 	public VTP5() {
@@ -373,10 +373,10 @@ public class VTP5 extends JFrame {
 	private void setFontSize(Component c, int fontSize) {
 
 		try {
-			// Font font = Font.createFont(Font.TRUETYPE_FONT,
-			// new FileInputStream("res/fonts/ubuntu/Ubuntu-C.ttf"));
-			font = Font.createFont(Font.TRUETYPE_FONT, Loader
-					.getInputStream("fonts/didactgothic/DidactGothic.ttf"));
+			Font font = Font.createFont(Font.TRUETYPE_FONT,
+					new FileInputStream("res/fonts/ubuntu/Ubuntu-C.ttf"));
+			// font = Font.createFont(Font.TRUETYPE_FONT, Loader
+			// .getInputStream("fonts/didactgothic/DidactGothic.ttf"));
 			/*
 			 * Font font1 = new Font.createFont(Font.TRUETYPE_FONT,
 			 * (FileInputStream)Loader.getInputStream(
