@@ -733,6 +733,11 @@ public class VTP5 extends JFrame {
 
 	private class ActionEnter extends AbstractAction {
 
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -5999070856026958307L;
+
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 
@@ -742,6 +747,11 @@ public class VTP5 extends JFrame {
 	}
 
 	private class HyperlinkLabel extends JLabel {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 896828172865617940L;
 
 		public HyperlinkLabel(String text, final String link) {
 			this.setText("<html><a href=\"" + link + "\">" + text
