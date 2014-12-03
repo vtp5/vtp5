@@ -82,7 +82,6 @@ public class VTP5 extends JFrame {
 	private JList<String> correctAnswersList;
 	private JScrollPane correctAnswersScrollPane;
 	private DefaultListModel<String> correctAnswersListModel;
-	
 
 	public JProgressBar progressBar;
 	private JSeparator separator;
@@ -715,7 +714,13 @@ public class VTP5 extends JFrame {
 		guessedAnswersListModel.removeAllElements();
 		// Change text depending on whether user got the word right or wrong
 		guessedAnswersListModel
-				.addElement(isCorrect ? "Already guessed answers:"
+				.addElement(isCorrect ? "Already guessed answers: ("
+						+ test.getCards().get(questionIndex).getCorrectLangTo()
+								.size()
+						+ "/"
+						+ (test.getCards().get(questionIndex)
+								.getCorrectLangTo().size() + test.getCards()
+								.get(questionIndex).getLangTo().size()) + ")"
 						: "Correct answers:");
 
 		// Decide what the list should display based on whether user got the
