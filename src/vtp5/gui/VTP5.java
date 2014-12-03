@@ -711,7 +711,13 @@ public class VTP5 extends JFrame {
 		guessedAnswersListModel.removeAllElements();
 		// Change text depending on whether user got the word right or wrong
 		guessedAnswersListModel
-				.addElement(isCorrect ? "Already guessed answers:"
+				.addElement(isCorrect ? "Already guessed answers: ("
+						+ test.getCards().get(questionIndex).getCorrectLangTo()
+								.size()
+						+ "/"
+						+ (test.getCards().get(questionIndex).getLangTo()
+								.size() + test.getCards().get(questionIndex)
+								.getCorrectLangTo().size()) + ")"
 						: "Correct answers:");
 
 		// Decide what the list should display based on whether user got the
