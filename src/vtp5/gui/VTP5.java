@@ -277,7 +277,7 @@ public class VTP5 extends JFrame {
 		componentList.add(new ComponentWithFontData(enterButton, 32));// adds to
 																		// list
 
-		passButton = new JButton("Pass");// creates buttons
+		passButton = new JButton("Skip");// creates buttons
 		passButton.setBackground(bcolour);// changes background colour
 		passButton.setForeground(fcolour);// changes foreground colour
 		buttonList.add(passButton);
@@ -547,7 +547,9 @@ public class VTP5 extends JFrame {
 						enterButton.setEnabled(true);
 						passButton.setEnabled(true);
 					} catch (NullPointerException npe) {
-						JOptionPane.showMessageDialog(null, "No file selected");
+						JOptionPane.showMessageDialog(getParent(),
+								"No file selected.", "VTP5",
+								JOptionPane.INFORMATION_MESSAGE);
 
 					}
 				}
@@ -585,7 +587,7 @@ public class VTP5 extends JFrame {
 				// TODO
 
 			} else if (e.getSource() == passButton) {
-				questionIndex++; // index is added to
+				Collections.shuffle(test.getCards()); // Reorder cards
 				updatePrompt(questionIndex);
 			} else if (e.getSource() == saveButton) {
 
