@@ -539,6 +539,7 @@ public class VTP5 extends JFrame {
 					try {
 						Collections.shuffle(test.getCards());
 						updatePrompt(questionIndex);
+						progressBar.setValue(0);
 						progressBar.setMaximum(test.getCards().size());
 
 						saveButton.setEnabled(true);
@@ -687,6 +688,7 @@ public class VTP5 extends JFrame {
 				updateGuessedAnswersList(false);
 
 				// Disable some components, change text on Enter button
+				answerField.setEditable(false);
 				passButton.setEnabled(false);
 				enterButton.setText("OK");
 
@@ -695,8 +697,11 @@ public class VTP5 extends JFrame {
 			}
 			progressBar.setValue(score); // sets value of progress bar
 		} else {
-			// Re-enable passButton, change text on Enter button back to
+			// Re-enable some components, change text on Enter button back to
 			// "Enter"
+			answerField.setEditable(true);
+			answerField.setCaretPosition(0);
+			answerField.requestFocusInWindow();
 			passButton.setEnabled(true);
 			enterButton.setText("Enter");
 
