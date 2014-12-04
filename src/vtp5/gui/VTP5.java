@@ -293,14 +293,19 @@ public class VTP5 extends JFrame {
 
 		// Set up JLists and their respective ListModels
 		statsListModel = new DefaultListModel<>();
-		statsListModel.addElement("Statistics:");
+		statsListModel.addElement("<html><u>Statistics:</u></html>");
+		statsListModel.addElement("Answered correctly: ");
+		statsListModel.addElement("Answered incorrectly: ");
+		statsListModel.addElement("Still to answer: ");
+		statsListModel.addElement("Success rate: ");
 		statsList = new JList<>(statsListModel);
 		statsList.setVisibleRowCount(5);
 		statsList.setForeground(tcolour);// changes text colour
 		statsScrollPane = new JScrollPane(statsList);
 
 		guessedAnswersListModel = new DefaultListModel<>();
-		guessedAnswersListModel.addElement("Already guessed answers:");
+		guessedAnswersListModel
+				.addElement("<html><u>Already guessed answers:</u></html>");
 		guessedAnswersList = new JList<>(guessedAnswersListModel);
 		guessedAnswersList.setVisibleRowCount(5);
 		guessedAnswersList.setForeground(tcolour);// changes text colour
@@ -620,15 +625,15 @@ public class VTP5 extends JFrame {
 	private void updateGuessedAnswersList(boolean isCorrect) {
 		guessedAnswersListModel.removeAllElements();
 		// Change text depending on whether user got the word right or wrong
-		guessedAnswersListModel
-				.addElement(isCorrect ? "Already guessed answers: ("
+		guessedAnswersListModel.addElement("<html><u>"
+				+ (isCorrect ? "Already guessed answers: ("
 						+ test.getCards().get(questionIndex).getCorrectLangTo()
 								.size()
 						+ "/"
 						+ (test.getCards().get(questionIndex)
 								.getCorrectLangTo().size() + test.getCards()
 								.get(questionIndex).getLangTo().size()) + ")"
-						: "Correct answers:");
+						: "Correct answers:") + "</u></html>");
 		// Decide what the list should display based on whether user got the
 		// word right or wrong
 		for (String s : test.getCards().get(questionIndex).getCorrectLangTo()) {
