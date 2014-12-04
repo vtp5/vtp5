@@ -172,6 +172,12 @@ public class VTP5 extends JFrame {
 		aboutButton.setForeground(fcolour);// changes foreground colour
 		buttonList.add(aboutButton);
 
+		progressBar = new JProgressBar(JProgressBar.VERTICAL, 0, 1000);
+		progressBar.setValue(0);
+		progressBar.setForeground(Color.GREEN);
+		progressBar.setStringPainted(true);
+		progressBar.setString("");
+
 		// Sets up about dialog
 		abtDialog = new JDialog(this, "About VTP5");
 		abtDialog.setLayout(new MigLayout("fillx"));
@@ -213,6 +219,7 @@ public class VTP5 extends JFrame {
 																		// list
 		componentList.add(new ComponentWithFontData(aboutButton, 34));// adds to
 																		// list
+		componentList.add(new ComponentWithFontData(progressBar, 28));
 
 		// Prevent the buttons from being focusable so there is no ugly
 		// rectangle when you click it - this is purely for aesthetic reasons
@@ -300,12 +307,6 @@ public class VTP5 extends JFrame {
 
 		componentList.add(new ComponentWithFontData(statsList, 32));
 		componentList.add(new ComponentWithFontData(guessedAnswersList, 32));
-
-		progressBar = new JProgressBar(JProgressBar.VERTICAL, 0, 1000);
-		progressBar.setValue(0);
-		progressBar.setForeground(Color.GREEN);
-		progressBar.setStringPainted(true);
-		progressBar.setString("No Text File");
 
 		// Set the font size of the text in the components
 		for (ComponentWithFontData c : componentList) {
@@ -483,7 +484,8 @@ public class VTP5 extends JFrame {
 						leaderboardButton.setEnabled(true);
 						enterButton.setEnabled(true);
 						passButton.setEnabled(true);
-					} catch (NullPointerException npe) {}
+					} catch (NullPointerException npe) {
+					}
 				}
 			} else if (e.getSource() == buttoncolours) {
 				int i = buttoncolours.getSelectedIndex();
