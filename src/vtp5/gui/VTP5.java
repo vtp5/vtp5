@@ -80,7 +80,7 @@ public class VTP5 extends JFrame {
 	private JScrollPane correctAnswersScrollPane;
 	private DefaultListModel<String> correctAnswersListModel;
 
-	public JProgressBar progressBar;
+	private JProgressBar progressBar;
 	private JSeparator separator;
 
 	private ArrayList<ComponentWithFontData> componentList = new ArrayList<>();
