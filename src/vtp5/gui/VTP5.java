@@ -234,6 +234,7 @@ public class VTP5 extends JFrame {
 		saveButton.addActionListener(new EventListener());
 		aboutButton.addActionListener(new EventListener());
 		settingsButton.addActionListener(new EventListener());
+		helpButton.addActionListener(new EventListener());
 
 		buttonPanel.add(importFileButton, "align left");// adds to panel
 		buttonPanel.add(saveButton, "align right");
@@ -509,6 +510,15 @@ public class VTP5 extends JFrame {
 				wordbutcolours.addActionListener(this);
 				promptcolours.addActionListener(this);
 				// TODO Finish this
+			} else if (e.getSource() == helpButton) {
+				try {
+					java.awt.Desktop
+							.getDesktop()
+							.browse(new URI(
+									"https://github.com/duckifyz/VTP5/wiki/Help"));
+				} catch (URISyntaxException | IOException e1) {
+					e1.printStackTrace();
+				}
 			} else if (e.getSource() == passButton) {
 				Collections.shuffle(test.getCards()); // Reorder cards
 				updatePrompt(questionIndex);
