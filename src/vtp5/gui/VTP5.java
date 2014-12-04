@@ -28,6 +28,7 @@ import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -81,25 +82,19 @@ public class VTP5 extends JFrame {
 
 	public JProgressBar progressBar;
 	private JSeparator separator;
+	private JColorChooser colorChooser;
 
 	private ArrayList<ComponentWithFontData> componentList = new ArrayList<>();
 
 	private JFileChooser txtChooser = new JFileChooser();
 	private JFileChooser csvChooser = new JFileChooser();
 
-	private Color colours[] = { Color.BLACK, Color.WHITE, Color.BLUE,
-			Color.CYAN, Color.GRAY };
-	private String colourstring[] = { "black", "white", "blue", "cyan", "grey" };
+	private String colourstring[] = { "Button Colour", "Button Label Colour",
+			"Prompt Colour" };
 
 	private JDialog colourd;
-	private JLabel butlabel = new JLabel("Button Colour: ");
-	private JComboBox<String> buttoncolours = new JComboBox<String>(
-			colourstring);
-	private JLabel wordbutlabel = new JLabel("Button Label Colour: ");
-	private JComboBox<String> wordbutcolours = new JComboBox<String>(
-			colourstring);
-	private JLabel promptlabel = new JLabel("Prompt Colour: ");
-	private JComboBox<String> promptcolours = new JComboBox<String>(
+	private JLabel colour = new JLabel("Colour");
+	private JComboBox<String> colourChanger = new JComboBox<String>(
 			colourstring);
 
 	// Components for About Dialog
@@ -185,14 +180,12 @@ public class VTP5 extends JFrame {
 		abtDialog.setResizable(false);
 		abtDialog.setLocationRelativeTo(this);
 
+		colorChooser = new JColorChooser();
+
 		colourd = new JDialog(this, "Settings");
 		colourd.setLayout(new MigLayout("fillx"));
-		colourd.add(butlabel, "alignx center, wrap");
-		colourd.add(buttoncolours, "alignx center, wrap");
-		colourd.add(wordbutlabel, "alignx center, wrap");
-		colourd.add(wordbutcolours, "alignx center, wrap");
-		colourd.add(promptlabel, "alignx center, wrap");
-		colourd.add(promptcolours, "alignx center");
+		colourd.add(colour, "alignx center, wrap");
+		colourd.add(colourChanger, "alignx center, wrap");
 		colourd.pack();
 		colourd.setResizable(false);
 		colourd.setLocationRelativeTo(this);
@@ -490,32 +483,38 @@ public class VTP5 extends JFrame {
 					}
 				}
 
-			} else if (e.getSource() == buttoncolours) {
-				int i = buttoncolours.getSelectedIndex();
-				bcolour = colours[i];
-				setColor(bcolour, fcolour, tcolour);
-			} else if (e.getSource() == wordbutcolours) {
-				int i = wordbutcolours.getSelectedIndex();
-				fcolour = colours[i];
-				setColor(bcolour, fcolour, tcolour);
-			} else if (e.getSource() == promptcolours) {
-				int i = promptcolours.getSelectedIndex();
-				tcolour = colours[i];
-				setColor(bcolour, fcolour, tcolour);
+			} else if (e.getSource() == colourChanger) {
+				colourd.setVisible(false);
+			switch(colourstring[colourChanger.getSelectedIndex()]){
+				case "Button Label Colour":
+					 bcolour = JColorChooser.showDialog(colourd, "Choosecolor", Color.WHITE);
+					setColor(bcolour, fcolour, tcolour);
+					break;
+				case "Button Colour":
+					 fcolour = JColorChooser.showDialog(colourd, "Choosecolor", Color.WHITE);
+					setColor(bcolour, fcolour, tcolour);
+					break;
+				case "Prompt Colour":
+					tcolour = JColorChooser.showDialog(colourd, "Choosecolor", Color.WHITE);
+					setColor(bcolour, fcolour, tcolour);
+					break;
+			}
+				
+			
 			} else if (e.getSource() == aboutButton) {
 				abtDialog.setVisible(true);
 			} else if (e.getSource() == enterButton) {
 				doLogic();
-			} else if (e.getSource() == settingsButton) {
-				colourd.setVisible(true); // colour settings is displayed
-				buttoncolours.addActionListener(this);
-				wordbutcolours.addActionListener(this);
-				promptcolours.addActionListener(this);
-				// TODO Finish this
-			} else if (e.getSource() == passButton) {
+			}  else if (e.getSource() == passButton) {
 				Collections.shuffle(test.getCards()); // Reorder cards
 				updatePrompt(questionIndex);
-			} else if (e.getSource() == saveButton) {
+			} 
+			else if (e.getSource() == settingsButton) {
+				colourd.setVisible(true); // colour settings is displayed
+				colourChanger.addActionListener(this);
+				
+				// TODO Finish this
+			}else if (e.getSource() == saveButton) {
 				try {
 					JFileChooser chooser = new JFileChooser();
 					int answer = chooser.showSaveDialog(getParent());
