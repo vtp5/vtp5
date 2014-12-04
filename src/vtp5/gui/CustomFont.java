@@ -7,8 +7,6 @@ import java.awt.GraphicsEnvironment;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import javax.swing.JOptionPane;
-
 public class CustomFont {
 	
 	public CustomFont() {
