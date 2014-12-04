@@ -483,13 +483,8 @@ public class VTP5 extends JFrame {
 						leaderboardButton.setEnabled(true);
 						enterButton.setEnabled(true);
 						passButton.setEnabled(true);
-					} catch (NullPointerException npe) {
-						JOptionPane.showMessageDialog(getParent(),
-								"No file selected.", "VTP5",
-								JOptionPane.INFORMATION_MESSAGE);
-					}
+					} catch (NullPointerException npe) {}
 				}
-
 			} else if (e.getSource() == buttoncolours) {
 				int i = buttoncolours.getSelectedIndex();
 				bcolour = colours[i];
