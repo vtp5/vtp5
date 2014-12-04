@@ -313,6 +313,8 @@ public class VTP5 extends JFrame {
 		progressBar = new JProgressBar(JProgressBar.VERTICAL, 0, 1000);
 		progressBar.setValue(0);
 		progressBar.setForeground(Color.GREEN);
+		progressBar.setStringPainted(true);
+		progressBar.setString("No Text File");
 
 		// Set the font size of the text in the components
 		for (ComponentWithFontData c : componentList) {
@@ -537,6 +539,10 @@ public class VTP5 extends JFrame {
 				if (option == 0 || option == 1) {
 					showChooserDialog(option);
 					try {
+						progressBar.setString(test.getScore()
+								+ "/"
+								+ (test.getCards().size() + test
+										.getIncorrectCards().size()));
 						Collections.shuffle(test.getCards());
 						updatePrompt(questionIndex);
 						progressBar.setValue(0);
@@ -674,6 +680,8 @@ public class VTP5 extends JFrame {
 				}
 
 				System.out.println("Question Index:" + questionIndex);
+				progressBar.setString(test.getScore() + "/"
+						+ (test.getCards().size() + test.getScore()));
 
 			} else if (result == TestFile.INCORRECT) { // if
 														// answer
