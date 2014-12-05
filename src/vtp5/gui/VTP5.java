@@ -62,6 +62,8 @@ public class VTP5 extends JFrame {
 	private JButton importFileButton, leaderboardButton, settingsButton,
 			helpButton, aboutButton, saveButton;
 	private int questionIndex = 0;
+	private JButton changeButtonColour, changePromptColour,
+			changeForegroundColour;
 
 	// Components in the main area of the frame
 	private JPanel mainPanel;
@@ -76,13 +78,9 @@ public class VTP5 extends JFrame {
 	private JList<String> guessedAnswersList;
 	private JScrollPane guessedAnswersScrollPane;
 	private DefaultListModel<String> guessedAnswersListModel;
-	private JList<String> correctAnswersList;
-	private JScrollPane correctAnswersScrollPane;
-	private DefaultListModel<String> correctAnswersListModel;
 
 	public JProgressBar progressBar;
 	private JSeparator separator;
-	private JColorChooser colorChooser;
 
 	private ArrayList<ComponentWithFontData> componentList = new ArrayList<>();
 
@@ -180,12 +178,15 @@ public class VTP5 extends JFrame {
 		abtDialog.setResizable(false);
 		abtDialog.setLocationRelativeTo(this);
 
-		colorChooser = new JColorChooser();
+		changeButtonColour = new JButton("Change button colour");
+		changePromptColour = new JButton("Change prompt colour");
+		changeForegroundColour = new JButton("Change button text colour");
 
 		colourd = new JDialog(this, "Settings");
 		colourd.setLayout(new MigLayout("fillx"));
-		colourd.add(colour, "alignx center, wrap");
-		colourd.add(colourChanger, "alignx center, wrap");
+		colourd.add(changeButtonColour, "alignx center, wrap");
+		colourd.add(changePromptColour, "alignx center, wrap");
+		colourd.add(changeForegroundColour, "alignx center, wrap");
 		colourd.pack();
 		colourd.setResizable(false);
 		colourd.setLocationRelativeTo(this);
@@ -345,7 +346,7 @@ public class VTP5 extends JFrame {
 				+ (System.currentTimeMillis() - startTime) + " milliseconds.");
 	}
 
-	private void setColor(Color background, Color foreground, Color text) {
+	private void setColour(Color background, Color foreground, Color text) {
 		for (JButton b : buttonList) {
 			b.setForeground(foreground);
 			b.setBackground(background);
@@ -488,38 +489,26 @@ public class VTP5 extends JFrame {
 					}
 				}
 
-			} else if (e.getSource() == colourChanger) {
-				colourd.setVisible(false);
-			switch(colourstring[colourChanger.getSelectedIndex()]){
-				case "Button Label Colour":
-					 bcolour = JColorChooser.showDialog(colourd, "Choosecolor", Color.WHITE);
-					setColor(bcolour, fcolour, tcolour);
-					break;
-				case "Button Colour":
-					 fcolour = JColorChooser.showDialog(colourd, "Choosecolor", Color.WHITE);
-					setColor(bcolour, fcolour, tcolour);
-					break;
-				case "Prompt Colour":
-					tcolour = JColorChooser.showDialog(colourd, "Choosecolor", Color.WHITE);
-					setColor(bcolour, fcolour, tcolour);
-					break;
-			}
-				
-			
-			} else if (e.getSource() == aboutButton) {
+			} else if (e.getSource() == changeButtonColour) {
+				displayColorChooser(1);
+			} else if( e.getSource() == changePromptColour){
+				displayColorChooser(2);
+			}else if( e.getSource() == changeForegroundColour){
+				displayColorChooser(3);
+			}else if (e.getSource() == aboutButton) {
 				abtDialog.setVisible(true);
 			} else if (e.getSource() == enterButton) {
 				doLogic();
-			}  else if (e.getSource() == passButton) {
+			} else if (e.getSource() == passButton) {
 				Collections.shuffle(test.getCards()); // Reorder cards
 				updatePrompt(questionIndex);
-			} 
-			else if (e.getSource() == settingsButton) {
+			} else if (e.getSource() == settingsButton) {
 				colourd.setVisible(true); // colour settings is displayed
-				colourChanger.addActionListener(this);
-				
+				changePromptColour.addActionListener(this);
+				changeButtonColour.addActionListener(this);
+				changeForegroundColour.addActionListener(this);
 				// TODO Finish this
-			}else if (e.getSource() == saveButton) {
+			} else if (e.getSource() == saveButton) {
 				try {
 					JFileChooser chooser = new JFileChooser();
 					int answer = chooser.showSaveDialog(getParent());
@@ -551,6 +540,25 @@ public class VTP5 extends JFrame {
 				}
 			}
 		}
+	}
+
+	private void displayColorChooser(int color) {
+		Color c = JColorChooser.showDialog(null, "Choose a colour", buttonList.get(1).getForeground());
+		switch(color){
+		case 1:
+			setColour(c, bcolour, tcolour);
+			bcolour = c;
+			break;
+		case 2:
+			setColour(bcolour, fcolour, c);
+			tcolour = c;
+			break;
+		case 3:
+			setColour(bcolour, c, tcolour);
+			fcolour = c;
+			break;
+		}
+		
 	}
 
 	private void doLogic() {
