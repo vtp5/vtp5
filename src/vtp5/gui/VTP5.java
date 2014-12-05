@@ -19,8 +19,11 @@ import java.awt.event.MouseEvent;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -193,7 +196,7 @@ public class VTP5 extends JFrame {
 
 		separator = new JSeparator();
 		separator.setBackground(bcolour);
-		
+
 		// JProgressBar setup
 		progressBar = new JProgressBar(JProgressBar.VERTICAL, 0, 1000);
 		progressBar.setValue(0);
@@ -229,6 +232,7 @@ public class VTP5 extends JFrame {
 		saveButton.addActionListener(new EventListener());
 		aboutButton.addActionListener(new EventListener());
 		settingsButton.addActionListener(new EventListener());
+		helpButton.addActionListener(new EventListener());
 
 		buttonPanel.add(importFileButton, "align left");// adds to panel
 		buttonPanel.add(saveButton, "align right");
@@ -491,15 +495,14 @@ public class VTP5 extends JFrame {
 					}
 				}
 
-
 			} else if (e.getSource() == changeButtonColour) {
 				displayColorChooser(1);
-			} else if( e.getSource() == changePromptColour){
+			} else if (e.getSource() == changePromptColour) {
 				displayColorChooser(2);
-			}else if( e.getSource() == changeForegroundColour){
+			} else if (e.getSource() == changeForegroundColour) {
 				displayColorChooser(3);
-			}else if (e.getSource() == aboutButton) {
-
+			} else if (e.getSource() == aboutButton) {
+				abtDialog.setVisible(true);
 			} else if (e.getSource() == colourChanger) {
 				colourd.setVisible(false);
 				switch (colourstring[colourChanger.getSelectedIndex()]) {
@@ -521,13 +524,21 @@ public class VTP5 extends JFrame {
 				}
 
 			} else if (e.getSource() == aboutButton) {
-
 				abtDialog.setVisible(true);
 			} else if (e.getSource() == enterButton) {
 				doLogic();
 			} else if (e.getSource() == passButton) {
 				Collections.shuffle(test.getCards()); // Reorder cards
 				updatePrompt(questionIndex);
+			} else if (e.getSource() == helpButton) {
+				try {
+					URL help = new URL(
+							"https://github.com/duckifyz/VTP5/wiki/Help");
+					URLConnection helpConnection = help.openConnection();
+					helpConnection.connect();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 			} else if (e.getSource() == settingsButton) {
 				colourd.setVisible(true); // colour settings is displayed
 
@@ -536,7 +547,6 @@ public class VTP5 extends JFrame {
 				changeForegroundColour.addActionListener(this);
 
 				colourChanger.addActionListener(this);
-
 
 				// TODO Finish this
 			} else if (e.getSource() == saveButton) {
@@ -574,8 +584,9 @@ public class VTP5 extends JFrame {
 	}
 
 	private void displayColorChooser(int color) {
-		Color c = JColorChooser.showDialog(null, "Choose a colour", buttonList.get(1).getForeground());
-		switch(color){
+		Color c = JColorChooser.showDialog(null, "Choose a colour", buttonList
+				.get(1).getForeground());
+		switch (color) {
 		case 1:
 			setColour(c, bcolour, tcolour);
 			bcolour = c;
@@ -589,7 +600,7 @@ public class VTP5 extends JFrame {
 			fcolour = c;
 			break;
 		}
-		
+
 	}
 
 	private void doLogic() {
