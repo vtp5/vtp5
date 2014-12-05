@@ -19,11 +19,8 @@ import java.awt.event.MouseEvent;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -532,11 +529,11 @@ public class VTP5 extends JFrame {
 				updatePrompt(questionIndex);
 			} else if (e.getSource() == helpButton) {
 				try {
-					URL help = new URL(
-							"https://github.com/duckifyz/VTP5/wiki/Help");
-					URLConnection helpConnection = help.openConnection();
-					helpConnection.connect();
-				} catch (Exception e1) {
+					java.awt.Desktop
+							.getDesktop()
+							.browse(new URI(
+									"https://github.com/duckifyz/VTP5/wiki/Help"));
+				} catch (URISyntaxException | IOException e1) {
 					e1.printStackTrace();
 				}
 			} else if (e.getSource() == settingsButton) {
