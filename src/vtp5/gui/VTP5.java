@@ -6,10 +6,8 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -21,8 +19,11 @@ import java.awt.event.MouseEvent;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -30,6 +31,7 @@ import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -51,7 +53,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import net.miginfocom.swing.MigLayout;
 import vtp5.logic.Card;
 import vtp5.logic.TestFile;
-import biz.georgey.utils.Loader;
 
 public class VTP5 extends JFrame {
 
@@ -64,11 +65,12 @@ public class VTP5 extends JFrame {
 	private JButton importFileButton, leaderboardButton, settingsButton,
 			helpButton, aboutButton, saveButton;
 	private int questionIndex = 0;
+	private JButton changeButtonColour, changePromptColour,
+			changeForegroundColour;
 
 	// Components in the main area of the frame
 	private JPanel mainPanel;
 	private JLabel promptLabel;
-	// private ArrayList<Card> lang;
 	private JTextField answerField;
 	private JButton enterButton;
 	private JButton passButton;
@@ -88,19 +90,12 @@ public class VTP5 extends JFrame {
 	private JFileChooser txtChooser = new JFileChooser();
 	private JFileChooser csvChooser = new JFileChooser();
 
-	private Color colours[] = { Color.BLACK, Color.WHITE, Color.BLUE,
-			Color.CYAN, Color.GRAY };
-	private String colourstring[] = { "black", "white", "blue", "cyan", "grey" };
+	private String colourstring[] = { "Button Colour", "Button Label Colour",
+			"Prompt Colour" };
 
 	private JDialog colourd;
-	private JLabel butlabel = new JLabel("Button Colour: ");
-	private JComboBox<String> buttoncolours = new JComboBox<String>(
-			colourstring);
-	private JLabel wordbutlabel = new JLabel("Button Label Colour: ");
-	private JComboBox<String> wordbutcolours = new JComboBox<String>(
-			colourstring);
-	private JLabel promptlabel = new JLabel("Prompt Colour: ");
-	private JComboBox<String> promptcolours = new JComboBox<String>(
+	private JLabel colour = new JLabel("Colour");
+	private JComboBox<String> colourChanger = new JComboBox<String>(
 			colourstring);
 
 	// Components for About Dialog
@@ -124,7 +119,7 @@ public class VTP5 extends JFrame {
 	private Color tcolour = Color.BLACK;
 
 	private static long startTime;
-	
+
 	public Font font;
 
 	public VTP5() {
@@ -173,11 +168,6 @@ public class VTP5 extends JFrame {
 		aboutButton.setForeground(fcolour);// changes foreground colour
 		buttonList.add(aboutButton);
 
-		// vtp5Label.setFont(defFont);
-		// srccodeLabel.setFont(defFont);
-		// devLabel.setFont(defFont);
-		// dev2Label.setFont(defFont);
-
 		// Sets up about dialog
 		abtDialog = new JDialog(this, "About VTP5");
 		abtDialog.setLayout(new MigLayout("fillx"));
@@ -191,20 +181,28 @@ public class VTP5 extends JFrame {
 		abtDialog.setResizable(false);
 		abtDialog.setLocationRelativeTo(this);
 
+		changeButtonColour = new JButton("Change button colour");
+		changePromptColour = new JButton("Change prompt colour");
+		changeForegroundColour = new JButton("Change button text colour");
+
 		colourd = new JDialog(this, "Settings");
 		colourd.setLayout(new MigLayout("fillx"));
-		colourd.add(butlabel, "alignx center, wrap");
-		colourd.add(buttoncolours, "alignx center, wrap");
-		colourd.add(wordbutlabel, "alignx center, wrap");
-		colourd.add(wordbutcolours, "alignx center, wrap");
-		colourd.add(promptlabel, "alignx center, wrap");
-		colourd.add(promptcolours, "alignx center");
+		colourd.add(changeButtonColour, "alignx center, wrap");
+		colourd.add(changePromptColour, "alignx center, wrap");
+		colourd.add(changeForegroundColour, "alignx center, wrap");
 		colourd.pack();
 		colourd.setResizable(false);
 		colourd.setLocationRelativeTo(this);
 
 		separator = new JSeparator();
 		separator.setBackground(bcolour);
+
+		// JProgressBar setup
+		progressBar = new JProgressBar(JProgressBar.VERTICAL, 0, 1000);
+		progressBar.setValue(0);
+		progressBar.setForeground(Color.GREEN);
+		progressBar.setStringPainted(true);
+		progressBar.setString("");
 
 		componentList.add(new ComponentWithFontData(importFileButton, 34));// adds
 		componentList.add(new ComponentWithFontData(saveButton, 34)); // to
@@ -219,6 +217,7 @@ public class VTP5 extends JFrame {
 																		// list
 		componentList.add(new ComponentWithFontData(aboutButton, 34));// adds to
 																		// list
+		componentList.add(new ComponentWithFontData(progressBar, 24));
 
 		// Prevent the buttons from being focusable so there is no ugly
 		// rectangle when you click it - this is purely for aesthetic reasons
@@ -233,6 +232,7 @@ public class VTP5 extends JFrame {
 		saveButton.addActionListener(new EventListener());
 		aboutButton.addActionListener(new EventListener());
 		settingsButton.addActionListener(new EventListener());
+		helpButton.addActionListener(new EventListener());
 
 		buttonPanel.add(importFileButton, "align left");// adds to panel
 		buttonPanel.add(saveButton, "align right");
@@ -274,7 +274,7 @@ public class VTP5 extends JFrame {
 		componentList.add(new ComponentWithFontData(enterButton, 32));// adds to
 																		// list
 
-		passButton = new JButton("Pass");// creates buttons
+		passButton = new JButton("Skip");// creates buttons
 		passButton.setBackground(bcolour);// changes background colour
 		passButton.setForeground(fcolour);// changes foreground colour
 		buttonList.add(passButton);
@@ -291,14 +291,19 @@ public class VTP5 extends JFrame {
 
 		// Set up JLists and their respective ListModels
 		statsListModel = new DefaultListModel<>();
-		statsListModel.addElement("Statistics:");
+		statsListModel.addElement("<html><u>Statistics:</u></html>");
+		statsListModel.addElement("Answered correctly: ");
+		statsListModel.addElement("Answered incorrectly: ");
+		statsListModel.addElement("Still to answer: ");
+		statsListModel.addElement("Success rate: ");
 		statsList = new JList<>(statsListModel);
 		statsList.setVisibleRowCount(5);
 		statsList.setForeground(tcolour);// changes text colour
 		statsScrollPane = new JScrollPane(statsList);
 
 		guessedAnswersListModel = new DefaultListModel<>();
-		guessedAnswersListModel.addElement("Already guessed answers:");
+		guessedAnswersListModel
+				.addElement("<html><u>Already guessed answers:</u></html>");
 		guessedAnswersList = new JList<>(guessedAnswersListModel);
 		guessedAnswersList.setVisibleRowCount(5);
 		guessedAnswersList.setForeground(tcolour);// changes text colour
@@ -306,10 +311,6 @@ public class VTP5 extends JFrame {
 
 		componentList.add(new ComponentWithFontData(statsList, 32));
 		componentList.add(new ComponentWithFontData(guessedAnswersList, 32));
-
-		progressBar = new JProgressBar(JProgressBar.VERTICAL, 0, 1000);
-		progressBar.setValue(0);
-		progressBar.setForeground(Color.GREEN);
 
 		// Set the font size of the text in the components
 		for (ComponentWithFontData c : componentList) {
@@ -343,16 +344,15 @@ public class VTP5 extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setIconImage(logo.getImage());
+
 		// Add FrameListener to JFrame so we can detect when the frame is
 		// resized
-
 		addComponentListener(new FrameListener(this));
-
 		System.out.println("Boot completed in "
 				+ (System.currentTimeMillis() - startTime) + " milliseconds.");
 	}
 
-	private void setColor(Color background, Color foreground, Color text) {
+	private void setColour(Color background, Color foreground, Color text) {
 		for (JButton b : buttonList) {
 			b.setForeground(foreground);
 			b.setBackground(background);
@@ -371,30 +371,8 @@ public class VTP5 extends JFrame {
 
 	// Method that returns a font object with the "default" font family
 	private void setFontSize(Component c, int fontSize) {
-
-		try {
-			// Font font = Font.createFont(Font.TRUETYPE_FONT,
-			// new FileInputStream("res/fonts/ubuntu/Ubuntu-C.ttf"));
-			font = Font.createFont(Font.TRUETYPE_FONT, Loader
-					.getInputStream("fonts/didactgothic/DidactGothic.ttf"));
-			/*
-			 * Font font1 = new Font.createFont(Font.TRUETYPE_FONT,
-			 * (FileInputStream)Loader.getInputStream(
-			 * "res/fonts/didactgothic/DidactGothic.ttf"));
-			 */
-			font = font.deriveFont((float) fontSize);
-			GraphicsEnvironment.getLocalGraphicsEnvironment()
-					.registerFont(font);
-			c.setFont(font);
-
-		} catch (FontFormatException | IOException e) {
-			JOptionPane.showMessageDialog(this, "The font file was not found.",
-					"VTP5", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
-
-			// Use Arial font (because pretty much everyone has it)
-			new Font("Arial", Font.PLAIN, fontSize);
-		}
+		CustomFont cf = new CustomFont();
+		cf.setFont(c, fontSize);
 	}
 
 	private void showChooserDialog(int fileType) {
@@ -402,13 +380,11 @@ public class VTP5 extends JFrame {
 			int selected = txtChooser.showOpenDialog(getParent());
 			if (selected == JFileChooser.APPROVE_OPTION) {
 				test = new TestFile(txtChooser.getSelectedFile());
-				// new Importer(test);
 			}
 		} else if (fileType == 1) {
 			int selected = csvChooser.showOpenDialog(getParent());
 			if (selected == JFileChooser.APPROVE_OPTION) {
 				test = new TestFile(csvChooser.getSelectedFile());
-				// new Importer(test);
 			}
 		}
 	}
@@ -416,10 +392,6 @@ public class VTP5 extends JFrame {
 	// Inner class for the frame's content pane so that the background image can
 	// be drawn
 	private class FramePanel extends JPanel {
-
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
 
 		@Override
@@ -442,7 +414,6 @@ public class VTP5 extends JFrame {
 	// "TIMER IDEA" COURTESY OF
 	// http://stackoverflow.com/questions/10229292/get-notified-when-the-user-finishes-resizing-a-jframe
 	private class FrameListener extends ComponentAdapter {
-
 		private JFrame frame;
 		private Dimension originalSize;
 
@@ -467,51 +438,23 @@ public class VTP5 extends JFrame {
 		}
 
 		private class RescaleListener implements ActionListener {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// Scale the text when the frame is resized
-
-				// System.out.println(System.currentTimeMillis()
-				// + ": Getting the size of the frame");
-
 				// Calculate the scale factor
 				Dimension newSize = frame.getSize();
-
-				// Printlns for debugging
-				// System.out.println("originalSize: " + originalSize);
-				// System.out.println("newSize: " + newSize);
-				//
-				// System.out.println(System.currentTimeMillis()
-				// + ": Calculating the scale factor");
-
 				scaler = Math.min(newSize.getWidth() / originalSize.getWidth(),
 						newSize.getHeight() / originalSize.getHeight());
 
-				// Printlns for debugging
-				// System.out.println("Scaler: " + scaler);
-
 				for (ComponentWithFontData c : componentList) {
 					Component component = c.getComponent();
-					// System.out.println(System.currentTimeMillis()
-					// + ": Currently \"re-sizing\" component "
-					// + componentList.indexOf(c) + ": " + component);
-
 					int newFontSize = (int) ((double) c.getOriginalFontSize() * scaler);
-
-					// Printlns for debugging:
-					// System.out.println("newFontSize: " + newFontSize);
-
 					setFontSize(component, newFontSize);
 				}
 
 				frame.revalidate();
 				frame.repaint();
-
-				// System.out
-				// .println("****************************************************************");
 			}
-
 		}
 	}
 
@@ -519,7 +462,6 @@ public class VTP5 extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
 			if (e.getSource() == importFileButton) {
 				int option = JOptionPane
 						.showOptionDialog(
@@ -534,61 +476,83 @@ public class VTP5 extends JFrame {
 				if (option == 0 || option == 1) {
 					showChooserDialog(option);
 					try {
+						progressBar.setString(test.getScore()
+								+ "/"
+								+ (test.getCards().size() + test
+										.getIncorrectCards().size()));
 						Collections.shuffle(test.getCards());
 						updatePrompt(questionIndex);
+						progressBar.setValue(0);
 						progressBar.setMaximum(test.getCards().size());
-
 						saveButton.setEnabled(true);
 						leaderboardButton.setEnabled(true);
 						enterButton.setEnabled(true);
 						passButton.setEnabled(true);
 					} catch (NullPointerException npe) {
-						JOptionPane.showMessageDialog(null, "No file selected");
-
+						JOptionPane.showMessageDialog(getParent(),
+								"No file selected.", "VTP5",
+								JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 
-			} else if (e.getSource() == buttoncolours) {
-				int i = buttoncolours.getSelectedIndex();
-				bcolour = colours[i];
+			} else if (e.getSource() == changeButtonColour) {
+				displayColorChooser(1);
+			} else if (e.getSource() == changePromptColour) {
+				displayColorChooser(2);
+			} else if (e.getSource() == changeForegroundColour) {
+				displayColorChooser(3);
+			} else if (e.getSource() == aboutButton) {
+				abtDialog.setVisible(true);
+			} else if (e.getSource() == colourChanger) {
+				colourd.setVisible(false);
+				switch (colourstring[colourChanger.getSelectedIndex()]) {
+				case "Button Label Colour":
+					bcolour = JColorChooser.showDialog(colourd, "Choosecolor",
+							Color.WHITE);
+					setColour(bcolour, fcolour, tcolour);
+					break;
+				case "Button Colour":
+					fcolour = JColorChooser.showDialog(colourd, "Choosecolor",
+							Color.WHITE);
+					setColour(bcolour, fcolour, tcolour);
+					break;
+				case "Prompt Colour":
+					tcolour = JColorChooser.showDialog(colourd, "Choosecolor",
+							Color.WHITE);
+					setColour(bcolour, fcolour, tcolour);
+					break;
+				}
 
-				setColor(bcolour, fcolour, tcolour);
-
-			} else if (e.getSource() == wordbutcolours) {
-				int i = wordbutcolours.getSelectedIndex();
-				fcolour = colours[i];
-
-				setColor(bcolour, fcolour, tcolour);
-
-			} else if (e.getSource() == promptcolours) {
-				int i = promptcolours.getSelectedIndex();
-				tcolour = colours[i];
-
-				setColor(bcolour, fcolour, tcolour);
-
-			}
-
-			else if (e.getSource() == aboutButton) {
+			} else if (e.getSource() == aboutButton) {
 				abtDialog.setVisible(true);
 			} else if (e.getSource() == enterButton) {
 				doLogic();
+			} else if (e.getSource() == passButton) {
+				Collections.shuffle(test.getCards()); // Reorder cards
+				updatePrompt(questionIndex);
+			} else if (e.getSource() == helpButton) {
+				try {
+					URL help = new URL(
+							"https://github.com/duckifyz/VTP5/wiki/Help");
+					URLConnection helpConnection = help.openConnection();
+					helpConnection.connect();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 			} else if (e.getSource() == settingsButton) {
 				colourd.setVisible(true); // colour settings is displayed
-				buttoncolours.addActionListener(this);
-				wordbutcolours.addActionListener(this);
-				promptcolours.addActionListener(this);
 
-				// TODO
+				changePromptColour.addActionListener(this);
+				changeButtonColour.addActionListener(this);
+				changeForegroundColour.addActionListener(this);
 
-			} else if (e.getSource() == passButton) {
-				questionIndex++; // index is added to
-				updatePrompt(questionIndex);
+				colourChanger.addActionListener(this);
+
+				// TODO Finish this
 			} else if (e.getSource() == saveButton) {
-
 				try {
 					JFileChooser chooser = new JFileChooser();
 					int answer = chooser.showSaveDialog(getParent());
-
 					if (answer == JFileChooser.APPROVE_OPTION) {
 						FileWriter fwriter = new FileWriter(
 								chooser.getSelectedFile() + ".txt"); // filewriter
@@ -615,67 +579,59 @@ public class VTP5 extends JFrame {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-
 			}
+		}
+	}
+
+	private void displayColorChooser(int color) {
+		Color c = JColorChooser.showDialog(null, "Choose a colour", buttonList
+				.get(1).getForeground());
+		switch (color) {
+		case 1:
+			setColour(c, bcolour, tcolour);
+			bcolour = c;
+			break;
+		case 2:
+			setColour(bcolour, fcolour, c);
+			tcolour = c;
+			break;
+		case 3:
+			setColour(bcolour, c, tcolour);
+			fcolour = c;
+			break;
 		}
 
 	}
 
 	private void doLogic() {
 		if (enterButton.getText().equals("Enter")) {
-			int result = test.isCorrect(answerField.getText(), questionIndex);// checks
-																				// if
-																				// the
-																				// answer
-																				// is
-																				// correct
-
+			// Checks if answer is correct
+			int result = test.isCorrect(answerField.getText(), questionIndex);
 			// Gets the score
 			int score = test.getScore();
 
 			if (result == TestFile.PARTIALLY_CORRECT
 					|| result == TestFile.COMPLETELY_CORRECT) {
-				progressBar.setForeground(Color.GREEN); // changes the
-														// colour
-														// of the
-														// progress
-														// bar
-
+				// Set progress bar colour
+				progressBar.setForeground(Color.GREEN);
 				// Updates the list of correctly guessed answers
 				updateGuessedAnswersList(true);
 
 				if (result == TestFile.COMPLETELY_CORRECT) {
-					test.getCards().remove(questionIndex); // removes
-															// the
-															// card
-															// after it
-															// is
-															// answered.
-
-					if (test.getCards().isEmpty()) { // checks if the
-														// arraylist
-														// of cards is
-														// empty
-						JOptionPane.showMessageDialog(null, "You win"); // displays
-																		// that
-																		// you
-																		// have
-																		// won
+					// removes card once complet3ed
+					test.getCards().remove(questionIndex);
+					if (test.getCards().isEmpty()) {
+						JOptionPane.showMessageDialog(null, "You win");
 					}
-
 					updatePrompt(questionIndex); // prompt label is
 													// updated
 				}
 
 				System.out.println("Question Index:" + questionIndex);
-
-			} else if (result == TestFile.INCORRECT) { // if
-														// answer
-														// is
-														// incorrect
-				progressBar.setForeground(Color.RED); // progress bar
-														// turns
-														// red
+				progressBar.setString(test.getScore() + "/"
+						+ (test.getCards().size() + test.getScore()));
+			} else if (result == TestFile.INCORRECT) {
+				progressBar.setForeground(Color.RED);
 
 				// Turn guessedAnswersList red as well
 				guessedAnswersList.setForeground(Color.RED);
@@ -684,6 +640,7 @@ public class VTP5 extends JFrame {
 				updateGuessedAnswersList(false);
 
 				// Disable some components, change text on Enter button
+				answerField.setEditable(false);
 				passButton.setEnabled(false);
 				enterButton.setText("OK");
 
@@ -692,28 +649,33 @@ public class VTP5 extends JFrame {
 			}
 			progressBar.setValue(score); // sets value of progress bar
 		} else {
-			// Re-enable passButton, change text on Enter button back to
+			// Re-enable some components, change text on Enter button back to
 			// "Enter"
+			answerField.setEditable(true);
+			answerField.setCaretPosition(0);
+			answerField.requestFocusInWindow();
 			passButton.setEnabled(true);
 			enterButton.setText("Enter");
-
 			// Change guessedAnswersList colour back to normal
 			guessedAnswersList.setForeground(tcolour);
-
 			// Update prompt label
 			updatePrompt(questionIndex);
 		}
-
 		answerField.setText(""); // field is cleared
 	}
 
 	private void updateGuessedAnswersList(boolean isCorrect) {
 		guessedAnswersListModel.removeAllElements();
 		// Change text depending on whether user got the word right or wrong
-		guessedAnswersListModel
-				.addElement(isCorrect ? "Already guessed answers:"
-						: "Correct answers:");
-
+		guessedAnswersListModel.addElement("<html><u>"
+				+ (isCorrect ? "Already guessed answers: ("
+						+ test.getCards().get(questionIndex).getCorrectLangTo()
+								.size()
+						+ "/"
+						+ (test.getCards().get(questionIndex)
+								.getCorrectLangTo().size() + test.getCards()
+								.get(questionIndex).getLangTo().size()) + ")"
+						: "Correct answers:") + "</u></html>");
 		// Decide what the list should display based on whether user got the
 		// word right or wrong
 		for (String s : test.getCards().get(questionIndex).getCorrectLangTo()) {
@@ -728,16 +690,16 @@ public class VTP5 extends JFrame {
 	}
 
 	private class ActionEnter extends AbstractAction {
+		private static final long serialVersionUID = -5999070856026958307L;
 
 		@Override
 		public void actionPerformed(ActionEvent ae) {
-
 			enterButton.doClick();
 		}
-
 	}
 
 	private class HyperlinkLabel extends JLabel {
+		private static final long serialVersionUID = 896828172865617940L;
 
 		public HyperlinkLabel(String text, final String link) {
 			this.setText("<html><a href=\"" + link + "\">" + text
@@ -761,17 +723,13 @@ public class VTP5 extends JFrame {
 	}
 
 	public static void main(String[] args) {
-
 		SwingUtilities.invokeLater(new Runnable() {
-
 			@Override
 			public void run() {
 				startTime = System.currentTimeMillis();
 				// TODO Find out why it takes so long from here to the start of
 				// the VTP5 obj
-
 				new VTP5();
-
 			}
 		});
 	}
