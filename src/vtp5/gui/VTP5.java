@@ -490,36 +490,37 @@ public class VTP5 extends JFrame {
 
 			} else if (e.getSource() == colourChanger) {
 				colourd.setVisible(false);
-			switch(colourstring[colourChanger.getSelectedIndex()]){
+				switch (colourstring[colourChanger.getSelectedIndex()]) {
 				case "Button Label Colour":
-					 bcolour = JColorChooser.showDialog(colourd, "Choosecolor", Color.WHITE);
+					bcolour = JColorChooser.showDialog(colourd, "Choosecolor",
+							Color.WHITE);
 					setColor(bcolour, fcolour, tcolour);
 					break;
 				case "Button Colour":
-					 fcolour = JColorChooser.showDialog(colourd, "Choosecolor", Color.WHITE);
+					fcolour = JColorChooser.showDialog(colourd, "Choosecolor",
+							Color.WHITE);
 					setColor(bcolour, fcolour, tcolour);
 					break;
 				case "Prompt Colour":
-					tcolour = JColorChooser.showDialog(colourd, "Choosecolor", Color.WHITE);
+					tcolour = JColorChooser.showDialog(colourd, "Choosecolor",
+							Color.WHITE);
 					setColor(bcolour, fcolour, tcolour);
 					break;
-			}
-				
-			
+				}
+
 			} else if (e.getSource() == aboutButton) {
 				abtDialog.setVisible(true);
 			} else if (e.getSource() == enterButton) {
 				doLogic();
-			}  else if (e.getSource() == passButton) {
+			} else if (e.getSource() == passButton) {
 				Collections.shuffle(test.getCards()); // Reorder cards
 				updatePrompt(questionIndex);
-			} 
-			else if (e.getSource() == settingsButton) {
+			} else if (e.getSource() == settingsButton) {
 				colourd.setVisible(true); // colour settings is displayed
 				colourChanger.addActionListener(this);
-				
+
 				// TODO Finish this
-			}else if (e.getSource() == saveButton) {
+			} else if (e.getSource() == saveButton) {
 				try {
 					JFileChooser chooser = new JFileChooser();
 					int answer = chooser.showSaveDialog(getParent());
