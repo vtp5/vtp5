@@ -193,6 +193,13 @@ public class VTP5 extends JFrame {
 
 		separator = new JSeparator();
 		separator.setBackground(bcolour);
+		
+		// JProgressBar setup
+		progressBar = new JProgressBar(JProgressBar.VERTICAL, 0, 1000);
+		progressBar.setValue(0);
+		progressBar.setForeground(Color.GREEN);
+		progressBar.setStringPainted(true);
+		progressBar.setString("");
 
 		componentList.add(new ComponentWithFontData(importFileButton, 34));// adds
 		componentList.add(new ComponentWithFontData(saveButton, 34)); // to
@@ -207,6 +214,7 @@ public class VTP5 extends JFrame {
 																		// list
 		componentList.add(new ComponentWithFontData(aboutButton, 34));// adds to
 																		// list
+		componentList.add(new ComponentWithFontData(progressBar, 24));
 
 		// Prevent the buttons from being focusable so there is no ugly
 		// rectangle when you click it - this is purely for aesthetic reasons
@@ -299,12 +307,6 @@ public class VTP5 extends JFrame {
 
 		componentList.add(new ComponentWithFontData(statsList, 32));
 		componentList.add(new ComponentWithFontData(guessedAnswersList, 32));
-
-		progressBar = new JProgressBar(JProgressBar.VERTICAL, 0, 1000);
-		progressBar.setValue(0);
-		progressBar.setForeground(Color.GREEN);
-		progressBar.setStringPainted(true);
-		progressBar.setString("No Text File");
 
 		// Set the font size of the text in the components
 		for (ComponentWithFontData c : componentList) {
@@ -489,6 +491,7 @@ public class VTP5 extends JFrame {
 					}
 				}
 
+
 			} else if (e.getSource() == changeButtonColour) {
 				displayColorChooser(1);
 			} else if( e.getSource() == changePromptColour){
@@ -496,6 +499,29 @@ public class VTP5 extends JFrame {
 			}else if( e.getSource() == changeForegroundColour){
 				displayColorChooser(3);
 			}else if (e.getSource() == aboutButton) {
+
+			} else if (e.getSource() == colourChanger) {
+				colourd.setVisible(false);
+				switch (colourstring[colourChanger.getSelectedIndex()]) {
+				case "Button Label Colour":
+					bcolour = JColorChooser.showDialog(colourd, "Choosecolor",
+							Color.WHITE);
+					setColour(bcolour, fcolour, tcolour);
+					break;
+				case "Button Colour":
+					fcolour = JColorChooser.showDialog(colourd, "Choosecolor",
+							Color.WHITE);
+					setColour(bcolour, fcolour, tcolour);
+					break;
+				case "Prompt Colour":
+					tcolour = JColorChooser.showDialog(colourd, "Choosecolor",
+							Color.WHITE);
+					setColour(bcolour, fcolour, tcolour);
+					break;
+				}
+
+			} else if (e.getSource() == aboutButton) {
+
 				abtDialog.setVisible(true);
 			} else if (e.getSource() == enterButton) {
 				doLogic();
@@ -504,9 +530,14 @@ public class VTP5 extends JFrame {
 				updatePrompt(questionIndex);
 			} else if (e.getSource() == settingsButton) {
 				colourd.setVisible(true); // colour settings is displayed
+
 				changePromptColour.addActionListener(this);
 				changeButtonColour.addActionListener(this);
 				changeForegroundColour.addActionListener(this);
+
+				colourChanger.addActionListener(this);
+
+
 				// TODO Finish this
 			} else if (e.getSource() == saveButton) {
 				try {
