@@ -79,7 +79,7 @@ public class VTP5 extends JFrame {
 	private JScrollPane guessedAnswersScrollPane;
 	private DefaultListModel<String> guessedAnswersListModel;
 
-	public JProgressBar progressBar;
+	private JProgressBar progressBar;
 	private JSeparator separator;
 
 	private ArrayList<ComponentWithFontData> componentList = new ArrayList<>();
@@ -109,7 +109,11 @@ public class VTP5 extends JFrame {
 	private ImageIcon logo = new ImageIcon("res/images/vtp.png");
 	private ArrayList<JButton> buttonList = new ArrayList<>();
 
+	// Slightly logical instance variables
 	private TestFile test;
+	private int totalNumberOfCards;
+	private int totalTimesGuessed;
+	private double successRate;
 
 	private Color bcolour = Color.BLACK;
 	private Color fcolour = Color.WHITE;
@@ -291,7 +295,7 @@ public class VTP5 extends JFrame {
 		statsListModel.addElement("<html><u>Statistics:</u></html>");
 		statsListModel.addElement("Answered correctly: ");
 		statsListModel.addElement("Answered incorrectly: ");
-		statsListModel.addElement("Still to answer: ");
+		statsListModel.addElement("Number of words left: ");
 		statsListModel.addElement("Success rate: ");
 		statsList = new JList<>(statsListModel);
 		statsList.setVisibleRowCount(5);
@@ -473,12 +477,17 @@ public class VTP5 extends JFrame {
 				if (option == 0 || option == 1) {
 					showChooserDialog(option);
 					try {
+						totalNumberOfCards = test.getCards().size();
+						totalTimesGuessed = 0;
+						successRate = 0.0;
+
 						progressBar.setString(test.getScore()
 								+ "/"
 								+ (test.getCards().size() + test
 										.getIncorrectCards().size()));
 						Collections.shuffle(test.getCards());
 						updatePrompt(questionIndex);
+						updateStatsList();
 						progressBar.setValue(0);
 						progressBar.setMaximum(test.getCards().size());
 						saveButton.setEnabled(true);
@@ -622,6 +631,8 @@ public class VTP5 extends JFrame {
 					}
 					updatePrompt(questionIndex); // prompt label is
 													// updated
+					totalTimesGuessed++;
+					updateStatsList();
 				}
 
 				System.out.println("Question Index:" + questionIndex);
@@ -641,6 +652,14 @@ public class VTP5 extends JFrame {
 				passButton.setEnabled(false);
 				enterButton.setText("OK");
 
+				// Add card to ArrayList of "incorrect" cards
+				test.getIncorrectCards()
+						.add(test.getCards().get(questionIndex));
+
+				// Update totalTimesGuessed and statsList
+				totalTimesGuessed++;
+				updateStatsList();
+
 				// Shuffle cards
 				Collections.shuffle(test.getCards());
 			}
@@ -655,13 +674,14 @@ public class VTP5 extends JFrame {
 			enterButton.setText("Enter");
 			// Change guessedAnswersList colour back to normal
 			guessedAnswersList.setForeground(tcolour);
-			// Update prompt label
+			// Update prompt label, stats list and totalTimesGuessed
 			updatePrompt(questionIndex);
 		}
 		answerField.setText(""); // field is cleared
 	}
 
 	private void updateGuessedAnswersList(boolean isCorrect) {
+		// Update guessedAnswersList
 		guessedAnswersListModel.removeAllElements();
 		// Change text depending on whether user got the word right or wrong
 		guessedAnswersListModel.addElement("<html><u>"
@@ -684,6 +704,25 @@ public class VTP5 extends JFrame {
 				guessedAnswersListModel.addElement(s);
 			}
 		}
+	}
+
+	private void updateStatsList() {
+
+		// Update statsList
+		statsListModel.removeAllElements();
+		statsListModel.addElement("<html><u>Statistics:</u></html>");
+		statsListModel.addElement("Answered correctly: "
+				+ (totalNumberOfCards - test.getCards().size()));
+		statsListModel.addElement("Answered incorrectly: "
+				+ test.getIncorrectCards().size());
+		statsListModel.addElement("Number of words left: "
+				+ test.getCards().size());
+
+		successRate = (totalTimesGuessed == 0) ? 0.0
+				: ((double) (totalNumberOfCards - test.getCards().size()))
+						/ (double) totalTimesGuessed * 100.0;
+		statsListModel.addElement("Success rate: "
+				+ String.format("%.2f", successRate) + "%");
 	}
 
 	private class ActionEnter extends AbstractAction {
