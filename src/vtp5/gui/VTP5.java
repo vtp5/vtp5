@@ -192,6 +192,13 @@ public class VTP5 extends JFrame {
 
 		separator = new JSeparator();
 		separator.setBackground(bcolour);
+		
+		// JProgressBar setup
+		progressBar = new JProgressBar(JProgressBar.VERTICAL, 0, 1000);
+		progressBar.setValue(0);
+		progressBar.setForeground(Color.GREEN);
+		progressBar.setStringPainted(true);
+		progressBar.setString("");
 
 		componentList.add(new ComponentWithFontData(importFileButton, 34));// adds
 		componentList.add(new ComponentWithFontData(saveButton, 34)); // to
@@ -206,6 +213,7 @@ public class VTP5 extends JFrame {
 																		// list
 		componentList.add(new ComponentWithFontData(aboutButton, 34));// adds to
 																		// list
+		componentList.add(new ComponentWithFontData(progressBar, 24));
 
 		// Prevent the buttons from being focusable so there is no ugly
 		// rectangle when you click it - this is purely for aesthetic reasons
@@ -298,12 +306,6 @@ public class VTP5 extends JFrame {
 
 		componentList.add(new ComponentWithFontData(statsList, 32));
 		componentList.add(new ComponentWithFontData(guessedAnswersList, 32));
-
-		progressBar = new JProgressBar(JProgressBar.VERTICAL, 0, 1000);
-		progressBar.setValue(0);
-		progressBar.setForeground(Color.GREEN);
-		progressBar.setStringPainted(true);
-		progressBar.setString("No Text File");
 
 		// Set the font size of the text in the components
 		for (ComponentWithFontData c : componentList) {
