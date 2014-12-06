@@ -112,6 +112,7 @@ public class VTP5 extends JFrame {
 	// Slightly logical instance variables
 	private TestFile test;
 	private int totalNumberOfCards;
+	private int numberOfIncorrectCards;
 	private int totalTimesGuessed;
 	private double successRate;
 
@@ -296,9 +297,10 @@ public class VTP5 extends JFrame {
 		statsListModel.addElement("Answered correctly: ");
 		statsListModel.addElement("Answered incorrectly: ");
 		statsListModel.addElement("Number of words left: ");
+		statsListModel.addElement("Total number of guesses: ");
 		statsListModel.addElement("Success rate: ");
 		statsList = new JList<>(statsListModel);
-		statsList.setVisibleRowCount(5);
+		statsList.setVisibleRowCount(6);
 		statsList.setForeground(tcolour);// changes text colour
 		statsScrollPane = new JScrollPane(statsList);
 
@@ -306,7 +308,7 @@ public class VTP5 extends JFrame {
 		guessedAnswersListModel
 				.addElement("<html><u>Already guessed answers:</u></html>");
 		guessedAnswersList = new JList<>(guessedAnswersListModel);
-		guessedAnswersList.setVisibleRowCount(5);
+		guessedAnswersList.setVisibleRowCount(6);
 		guessedAnswersList.setForeground(tcolour);// changes text colour
 		guessedAnswersScrollPane = new JScrollPane(guessedAnswersList);
 
@@ -324,8 +326,9 @@ public class VTP5 extends JFrame {
 		mainPanel.add(answerField, "span 2 2, grow");
 		mainPanel.add(enterButton, "width 250!, wrap");
 		mainPanel.add(passButton, "width 250!, wrap");
-		mainPanel.add(statsScrollPane, "grow");
-		mainPanel.add(guessedAnswersScrollPane, "grow, push, span");
+		mainPanel.add(statsScrollPane, "grow, width 35%!");
+		mainPanel.add(guessedAnswersScrollPane,
+				"width 60%!, grow, push, span 10");
 		mainPanel.add(progressBar, "dock east, width 50!");
 
 		// Add panels to JFrame
@@ -624,13 +627,21 @@ public class VTP5 extends JFrame {
 				updateGuessedAnswersList(true);
 
 				if (result == TestFile.COMPLETELY_CORRECT) {
-					// removes card once complet3ed
+					// If card was previously incorrect, decrement
+					// numberOfIncorrectCards
+					if (test.getIncorrectCards().contains(
+							test.getCards().get(questionIndex))) {
+						numberOfIncorrectCards--;
+					}
+
+					// removes card once completed
 					test.getCards().remove(questionIndex);
 					if (test.getCards().isEmpty()) {
 						JOptionPane.showMessageDialog(null, "You win");
 					}
 					updatePrompt(questionIndex); // prompt label is
 													// updated
+
 					totalTimesGuessed++;
 					updateStatsList();
 				}
@@ -652,11 +663,18 @@ public class VTP5 extends JFrame {
 				passButton.setEnabled(false);
 				enterButton.setText("OK");
 
-				// Add card to ArrayList of "incorrect" cards
-				test.getIncorrectCards()
-						.add(test.getCards().get(questionIndex));
+				// Add card to ArrayList of "incorrect" cards and update
+				// numberOfIncorrectCards
+				if (!test.getIncorrectCards().contains(
+						test.getCards().get(questionIndex))) {
 
-				// Update totalTimesGuessed and statsList
+					test.getIncorrectCards().add(
+							test.getCards().get(questionIndex));
+					numberOfIncorrectCards++;
+				}
+
+				// Update totalTimesGuessed and
+				// statsList
 				totalTimesGuessed++;
 				updateStatsList();
 
@@ -714,7 +732,9 @@ public class VTP5 extends JFrame {
 		statsListModel.addElement("Answered correctly: "
 				+ (totalNumberOfCards - test.getCards().size()));
 		statsListModel.addElement("Answered incorrectly: "
-				+ test.getIncorrectCards().size());
+				+ numberOfIncorrectCards);
+		statsListModel.addElement("Total number of guesses: "
+				+ totalTimesGuessed);
 		statsListModel.addElement("Number of words left: "
 				+ test.getCards().size());
 
