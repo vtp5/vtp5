@@ -4,10 +4,17 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class TestFile {
+public class TestFile implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	// TODO CHANGE serialVersionUID ONCE CLASS IS FINISHED!!!
+
 	// ArrayList of "cards" for a particular test
 	private ArrayList<Card> cards = new ArrayList<>();
 	// Stores the cards the user got wrong the first time
