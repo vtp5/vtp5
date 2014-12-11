@@ -253,7 +253,7 @@ public class VTP5 extends JFrame {
 		switchLanguageCheck = new JCheckBox("Switch language");
 		switchLanguageCheck.setFocusable(false);
 		switchLanguageCheck.setForeground(tcolour);
-		switchLanguageCheck.setBackground(Color.ORANGE);
+		switchLanguageCheck.setBackground(Color.GRAY);
 		componentList.add(new ComponentWithFontData(switchLanguageCheck, 30));
 
 		promptLabel = new JLabel(
