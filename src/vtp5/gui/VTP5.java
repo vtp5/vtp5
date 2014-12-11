@@ -28,6 +28,7 @@ import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -67,6 +68,7 @@ public class VTP5 extends JFrame {
 
 	// Components in the main area of the frame
 	private JPanel mainPanel;
+	private JCheckBox switchLanguageCheck;
 	private JLabel promptLabel;
 	private JTextField answerField;
 	private JButton enterButton;
@@ -246,7 +248,13 @@ public class VTP5 extends JFrame {
 
 		// Set up main panel
 		mainPanel = new JPanel();
-		mainPanel.setLayout(new MigLayout("insets 5", "", "[][][]40[]"));
+		mainPanel.setLayout(new MigLayout("insets 5", "", "[][][][]5%[]"));
+
+		switchLanguageCheck = new JCheckBox("Switch language");
+		switchLanguageCheck.setFocusable(false);
+		switchLanguageCheck.setForeground(tcolour);
+		switchLanguageCheck.setBackground(Color.ORANGE);
+		componentList.add(new ComponentWithFontData(switchLanguageCheck, 30));
 
 		promptLabel = new JLabel(
 				"<html>Click 'Import Test File' to begin.</html>");// creates
@@ -322,13 +330,14 @@ public class VTP5 extends JFrame {
 		}
 
 		// Add components to main panel
-		mainPanel.add(promptLabel, "span 3, push, wrap, height 200!");
+		mainPanel.add(promptLabel, "span 3, push, wrap, height 30%!");
+		mainPanel.add(switchLanguageCheck, "wrap");
 		mainPanel.add(answerField, "span 2 2, grow");
 		mainPanel.add(enterButton, "width 250!, wrap");
 		mainPanel.add(passButton, "width 250!, wrap");
 		mainPanel.add(statsScrollPane, "grow, width 35%!");
 		mainPanel.add(guessedAnswersScrollPane,
-				"width 60%!, grow, push, span 10");
+				"width 60%!, grow, push, span 2");
 		mainPanel.add(progressBar, "dock east, width 50!");
 
 		// Add panels to JFrame
@@ -341,6 +350,7 @@ public class VTP5 extends JFrame {
 
 		// Sets JFrame properties.
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		System.out.println(screenSize);
 		setSize(screenSize.width < 1000 ? screenSize.width : 1000,
 				screenSize.height < 650 ? screenSize.height : 650);
 		setTitle("VTP5");
