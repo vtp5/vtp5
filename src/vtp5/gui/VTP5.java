@@ -254,6 +254,7 @@ public class VTP5 extends JFrame {
 		switchLanguageCheck.setFocusable(false);
 		switchLanguageCheck.setForeground(tcolour);
 		switchLanguageCheck.setBackground(Color.GRAY);
+		switchLanguageCheck.setEnabled(false);
 		componentList.add(new ComponentWithFontData(switchLanguageCheck, 30));
 
 		promptLabel = new JLabel(
@@ -503,6 +504,7 @@ public class VTP5 extends JFrame {
 						updateStatsList();
 						progressBar.setValue(0);
 						progressBar.setMaximum(test.getCards().size());
+						switchLanguageCheck.setEnabled(true);
 						saveButton.setEnabled(true);
 						leaderboardButton.setEnabled(true);
 						enterButton.setEnabled(true);
