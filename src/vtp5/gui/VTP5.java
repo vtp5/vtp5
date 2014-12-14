@@ -14,6 +14,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedWriter;
@@ -255,6 +257,7 @@ public class VTP5 extends JFrame {
 		switchLanguageCheck.setForeground(tcolour);
 		switchLanguageCheck.setBackground(Color.GRAY);
 		switchLanguageCheck.setEnabled(false);
+		switchLanguageCheck.addItemListener(new SwitchLanguageListener());
 		componentList.add(new ComponentWithFontData(switchLanguageCheck, 30));
 
 		promptLabel = new JLabel(
@@ -764,6 +767,15 @@ public class VTP5 extends JFrame {
 		public void actionPerformed(ActionEvent ae) {
 			enterButton.doClick();
 		}
+	}
+
+	private class SwitchLanguageListener implements ItemListener {
+
+		@Override
+		public void itemStateChanged(ItemEvent arg0) {
+			System.out.println("Checkbox clicked!");
+		}
+
 	}
 
 	private class HyperlinkLabel extends JLabel {
