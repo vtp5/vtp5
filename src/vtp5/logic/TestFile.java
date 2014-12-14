@@ -88,14 +88,6 @@ public class TestFile implements Serializable {
 		return cards;
 	}
 
-	// public int updateScore(String answer, int index) {
-	// if (isCorrect(answer, index) == COMPLETELY_CORRECT) {
-	// return score += 1;
-	// } else {
-	// return score;
-	// }
-	// }
-
 	public int isCorrect(String answer, int index) {
 		answer = answer.replaceAll("[^a-zA-Z0-9]", "");
 		System.out.println(answer);
@@ -132,27 +124,19 @@ public class TestFile implements Serializable {
 				return PARTIALLY_CORRECT;
 			}
 		} else {
+			// Check if user has already entered the answer (if it's correct)
+			for (String s : card.getCorrectLangTo()) {
+
+				if (answer.equalsIgnoreCase(s.replaceAll("[^a-zA-Z0-9]", ""))) {
+					// If user has already guessed the answer and it's correct,
+					// just return PARTIALLY_CORRECT
+					return PARTIALLY_CORRECT;
+				}
+			}
+
 			System.out.println("Incorrect");
 			return INCORRECT;
 		}
-
-		// if
-		// (answer.equalsIgnoreCase(getCards().get(index).getLangTo().get(0))) {
-		// // User is correct - but are they partially or completely correct?
-		// for (int i = 0; i < getCards().size(); i++) {
-		// String s = getCards().get(i).getLangTo().get(0);
-		// System.out.println(s);
-		// }
-		//
-		// // Work out which ans
-		//
-		// if () {
-		//
-		// }
-		// return true;
-		// } else {
-		// return INCORRECT;
-		// }
 	}
 
 	public void setCards(ArrayList<Card> cards) {
