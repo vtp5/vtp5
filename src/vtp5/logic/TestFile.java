@@ -22,6 +22,10 @@ public class TestFile implements Serializable {
 	// The user's score
 	private int score = 0;
 
+	// Boolean storing whether the prompt is langFrom or langTo - default
+	// (false) means prompt is langFrom
+	private boolean isLanguageSwitched = false;
+
 	private BufferedReader br = null;
 
 	// Three "enum"-like constants
@@ -149,6 +153,14 @@ public class TestFile implements Serializable {
 
 	public int getScore() {
 		return score;
+	}
+
+	public boolean isLanguageSwitched() {
+		return isLanguageSwitched;
+	}
+
+	public void setLanguageSwitched(boolean isLanguageSwitched) {
+		this.isLanguageSwitched = isLanguageSwitched;
 	}
 
 }

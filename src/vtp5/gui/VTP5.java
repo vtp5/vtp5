@@ -495,6 +495,7 @@ public class VTP5 extends JFrame {
 					showChooserDialog(option);
 					try {
 						totalNumberOfCards = test.getCards().size();
+						numberOfIncorrectCards = 0;
 						totalTimesGuessed = 0;
 						successRate = 0.0;
 
@@ -773,7 +774,7 @@ public class VTP5 extends JFrame {
 
 		@Override
 		public void itemStateChanged(ItemEvent arg0) {
-			System.out.println("Checkbox clicked!");
+			test.setLanguageSwitched(switchLanguageCheck.isSelected());
 		}
 
 	}
