@@ -42,20 +42,23 @@ public class TestFile implements Serializable {
 
 		try {
 			// Reading file.
-			String currentLine;
+			String langFromLine;
+			String langToLine;
 			br = new BufferedReader(new FileReader(file));
-			while ((currentLine = br.readLine()) != null) {
+			while ((langFromLine = br.readLine()) != null) {
 				// Create new card containing relevant data and add it to the
 				// ArrayList
 				// TODO Merge this code with Converter
 				// TODO Polish this code (for example, what about the "+ abl."
 				// bit after some verbs and prepositions?)
 				ArrayList<String> langFrom = new ArrayList<>(
-						Arrays.asList(currentLine));
-				ArrayList<String> langTo = new ArrayList<>(Arrays.asList(br
-						.readLine().split("/")));
+						Arrays.asList(langFromLine));
 
-				Card card = new Card(langFrom, langTo);
+				langToLine = br.readLine();
+				ArrayList<String> langTo = new ArrayList<>(
+						Arrays.asList(langToLine.split("/")));
+
+				Card card = new Card(langFromLine, langToLine, langFrom, langTo);
 				cards.add(card);
 			}
 			// Catch any exceptions.
