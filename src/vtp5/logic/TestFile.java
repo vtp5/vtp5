@@ -94,7 +94,7 @@ public class TestFile implements Serializable {
 	public ArrayList<Card> getCards() {
 		return cards;
 	}
-	
+
 	public String getPrompt(int index) {
 		if (isLanguageSwitched) {
 			// Return langTo prompt
@@ -113,7 +113,13 @@ public class TestFile implements Serializable {
 		boolean userIsCorrect = false;
 		Card card = cards.get(index);
 
-		for (String s : card.getLangTo()) {
+		// Find out whether to use langFrom or langTo
+		ArrayList<String> possibleAnswers = isLanguageSwitched ? card
+				.getLangFrom() : card.getLangTo();
+		ArrayList<String> correctAnswers = isLanguageSwitched ? card
+				.getCorrectLangFrom() : card.getCorrectLangTo();
+
+		for (String s : possibleAnswers) {
 			System.out.println("Original correct answer: " + s);
 			System.out.println("Correct answer: " + s);
 
@@ -121,9 +127,9 @@ public class TestFile implements Serializable {
 				System.out.println("User is correct");
 				userIsCorrect = true;
 				// Remove this answer from the ArayList
-				card.getLangTo().remove(s);
+				possibleAnswers.remove(s);
 				// Add answer to ArrayList containing correctly guessed answers
-				card.getCorrectLangTo().add(s);
+				correctAnswers.add(s);
 				break;
 			}
 		}
@@ -131,7 +137,7 @@ public class TestFile implements Serializable {
 		if (userIsCorrect) {
 			System.out.println("User is correct");
 			// See if user has guessed all of the possible answers
-			if (card.getLangTo().isEmpty()) {
+			if (possibleAnswers.isEmpty()) {
 				System.out.println("Completely correct");
 				score++;
 				return COMPLETELY_CORRECT;
@@ -141,7 +147,7 @@ public class TestFile implements Serializable {
 			}
 		} else {
 			// Check if user has already entered the answer (if it's correct)
-			for (String s : card.getCorrectLangTo()) {
+			for (String s : correctAnswers) {
 
 				if (answer.equalsIgnoreCase(s.replaceAll("[^a-zA-Z0-9]", ""))) {
 					// If user has already guessed the answer and it's correct,

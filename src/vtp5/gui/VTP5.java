@@ -527,22 +527,21 @@ public class VTP5 extends JFrame {
 				displayColorChooser(3);
 			} else if (e.getSource() == aboutButton) {
 				abtDialog.setVisible(true);
-			}/* else if (e.getSource() == changeButtonColour) {
-				System.out.println(bcolour.toString() + fcolour.toString() + tcolour.toString());
-				bcolour = JColorChooser.showDialog(colourd, "Choosecolor",
-						Color.BLACK);
-				setColour(bcolour, fcolour, tcolour);
-			} else if (e.getSource() == changeForegroundColour) {
-				System.out.println(bcolour.toString() + fcolour.toString() + tcolour.toString());
-				fcolour = JColorChooser.showDialog(colourd, "Choosecolor",
-						Color.BLACK);
-				setColour(bcolour, fcolour, tcolour);
-			} else if (e.getSource() == changePromptColour) {
-				System.out.println(bcolour.toString() + fcolour.toString() + tcolour.toString());
-				tcolour = JColorChooser.showDialog(colourd, "Choose color",
-						Color.BLACK);
-				setColour(bcolour, fcolour, tcolour);
-			}*/ else if (e.getSource() == aboutButton) {
+			}/*
+			 * else if (e.getSource() == changeButtonColour) {
+			 * System.out.println(bcolour.toString() + fcolour.toString() +
+			 * tcolour.toString()); bcolour = JColorChooser.showDialog(colourd,
+			 * "Choosecolor", Color.BLACK); setColour(bcolour, fcolour,
+			 * tcolour); } else if (e.getSource() == changeForegroundColour) {
+			 * System.out.println(bcolour.toString() + fcolour.toString() +
+			 * tcolour.toString()); fcolour = JColorChooser.showDialog(colourd,
+			 * "Choosecolor", Color.BLACK); setColour(bcolour, fcolour,
+			 * tcolour); } else if (e.getSource() == changePromptColour) {
+			 * System.out.println(bcolour.toString() + fcolour.toString() +
+			 * tcolour.toString()); tcolour = JColorChooser.showDialog(colourd,
+			 * "Choose color", Color.BLACK); setColour(bcolour, fcolour,
+			 * tcolour); }
+			 */else if (e.getSource() == aboutButton) {
 				abtDialog.setVisible(true);
 			} else if (e.getSource() == enterButton) {
 				doLogic();
@@ -562,7 +561,7 @@ public class VTP5 extends JFrame {
 				changePromptColour.addActionListener(this);
 				changeButtonColour.addActionListener(this);
 				changeForegroundColour.addActionListener(this);
-				colourd.setVisible(true); 
+				colourd.setVisible(true);
 				// TODO Finish this
 			} else if (e.getSource() == saveButton) {
 				try {
@@ -602,28 +601,31 @@ public class VTP5 extends JFrame {
 		Color c;
 		switch (index) {
 		case 1:
-			 c = JColorChooser.showDialog(null, "Choose a colour", buttonList.get(0).getBackground());
-			 if(c!= null){
-			setColour(c, bcolour, tcolour);
-			bcolour = c;
-			c = null;
-			 }
+			c = JColorChooser.showDialog(null, "Choose a colour", buttonList
+					.get(0).getBackground());
+			if (c != null) {
+				setColour(c, bcolour, tcolour);
+				bcolour = c;
+				c = null;
+			}
 			break;
 		case 2:
-			 c = JColorChooser.showDialog(null, "Choose a colour", promptLabel.getForeground());
-			 if(c!= null){
-			setColour(bcolour, fcolour, c);
-			tcolour = c;
-			c = null;
-			 }
+			c = JColorChooser.showDialog(null, "Choose a colour",
+					promptLabel.getForeground());
+			if (c != null) {
+				setColour(bcolour, fcolour, c);
+				tcolour = c;
+				c = null;
+			}
 			break;
 		case 3:
-			 c = JColorChooser.showDialog(null, "Choose a colour", buttonList.get(0).getForeground());
-			 if(c!= null){
-			 setColour(bcolour, c, tcolour);
-			fcolour = c;
-			c = null;
-			 }
+			c = JColorChooser.showDialog(null, "Choose a colour", buttonList
+					.get(0).getForeground());
+			if (c != null) {
+				setColour(bcolour, c, tcolour);
+				fcolour = c;
+				c = null;
+			}
 			break;
 		}
 
@@ -718,24 +720,29 @@ public class VTP5 extends JFrame {
 	private void updateGuessedAnswersList(boolean isCorrect) {
 		// Update guessedAnswersList
 		guessedAnswersListModel.removeAllElements();
+
+		// Find out whether to use langFrom or langTo
+		ArrayList<String> possibleAnswers = test.isLanguageSwitched() ? test
+				.getCards().get(questionIndex).getLangFrom() : test.getCards()
+				.get(questionIndex).getLangTo();
+		ArrayList<String> correctAnswers = test.isLanguageSwitched() ? test
+				.getCards().get(questionIndex).getCorrectLangFrom() : test
+				.getCards().get(questionIndex).getCorrectLangTo();
+
 		// Change text depending on whether user got the word right or wrong
 		guessedAnswersListModel.addElement("<html><u>"
 				+ (isCorrect ? "Already guessed answers: ("
-						+ test.getCards().get(questionIndex).getCorrectLangTo()
-								.size()
-						+ "/"
-						+ (test.getCards().get(questionIndex)
-								.getCorrectLangTo().size() + test.getCards()
-								.get(questionIndex).getLangTo().size()) + ")"
-						: "Correct answers:") + "</u></html>");
+						+ correctAnswers.size() + "/"
+						+ (correctAnswers.size() + possibleAnswers.size())
+						+ ")" : "Correct answers:") + "</u></html>");
 		// Decide what the list should display based on whether user got the
 		// word right or wrong
-		for (String s : test.getCards().get(questionIndex).getCorrectLangTo()) {
+		for (String s : correctAnswers) {
 			guessedAnswersListModel.addElement(s);
 		}
 
 		if (!isCorrect) {
-			for (String s : test.getCards().get(questionIndex).getLangTo()) {
+			for (String s : possibleAnswers) {
 				guessedAnswersListModel.addElement(s);
 			}
 		}
@@ -776,6 +783,8 @@ public class VTP5 extends JFrame {
 		@Override
 		public void itemStateChanged(ItemEvent arg0) {
 			test.setLanguageSwitched(switchLanguageCheck.isSelected());
+			Collections.shuffle(test.getCards());
+			answerField.setText("");
 			updatePrompt(questionIndex);
 		}
 
