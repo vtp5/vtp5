@@ -382,8 +382,7 @@ public class VTP5 extends JFrame {
 	}
 
 	private void updatePrompt(int index) {
-		promptLabel.setText("<html>"
-				+ test.getCards().get(index).getLangFrom().get(0) + "</html>");
+		promptLabel.setText("<html>" + test.getPrompt(index) + "</html>");
 		updateGuessedAnswersList(true);
 	}
 
@@ -777,6 +776,7 @@ public class VTP5 extends JFrame {
 		@Override
 		public void itemStateChanged(ItemEvent arg0) {
 			test.setLanguageSwitched(switchLanguageCheck.isSelected());
+			updatePrompt(questionIndex);
 		}
 
 	}
