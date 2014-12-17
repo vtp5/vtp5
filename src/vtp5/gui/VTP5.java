@@ -32,7 +32,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -65,8 +64,6 @@ public class VTP5 extends JFrame {
 	private JButton importFileButton, leaderboardButton, settingsButton,
 			helpButton, aboutButton, saveButton;
 	private int questionIndex = 0;
-	private JButton changeButtonColour, changePromptColour,
-			changeForegroundColour;
 
 	// Components in the main area of the frame
 	private JPanel mainPanel;
@@ -91,13 +88,12 @@ public class VTP5 extends JFrame {
 	private JFileChooser txtChooser = new JFileChooser();
 	private JFileChooser csvChooser = new JFileChooser();
 
-	private String colourstring[] = { "Button Colour", "Button Label Colour",
-			"Prompt Colour" };
-
-	private JDialog colourd;
-	private JLabel colour = new JLabel("Colour");
-	// private JComboBox<String> colourChanger = new JComboBox<String>(
-	// colourstring);
+	// Components for Settings Dialog
+	private JDialog settingsDialog;
+	private JButton changeButtonColour, changePromptColour,
+			changeForegroundColour;
+	private JCheckBox experimentalCheck;
+	private HyperlinkLabel exInfoLabel;
 
 	// Components for About Dialog
 	private JDialog abtDialog;
@@ -190,15 +186,22 @@ public class VTP5 extends JFrame {
 		changeButtonColour = new JButton("Change button colour");
 		changePromptColour = new JButton("Change prompt colour");
 		changeForegroundColour = new JButton("Change button text colour");
+		experimentalCheck = new JCheckBox("Enable experimental features");
+		exInfoLabel = new HyperlinkLabel(
+				"<html>Click here for more information<br />on experimental features</html>",
+				"https://github.com/duckifyz/VTP5/wiki/Help");
 
-		colourd = new JDialog(this, "Settings");
-		colourd.setLayout(new MigLayout("fillx"));
-		colourd.add(changeButtonColour, "alignx center, wrap");
-		colourd.add(changePromptColour, "alignx center, wrap");
-		colourd.add(changeForegroundColour, "alignx center, wrap");
-		colourd.pack();
-		colourd.setResizable(false);
-		colourd.setLocationRelativeTo(this);
+		settingsDialog = new JDialog(this, "Settings");
+		settingsDialog.setLayout(new MigLayout("fillx", "", "[][][]10[]10[]"));
+		settingsDialog.add(changeButtonColour, "alignx center, wrap");
+		settingsDialog.add(changePromptColour, "alignx center, wrap");
+		settingsDialog.add(changeForegroundColour, "alignx center, wrap");
+		settingsDialog.add(new JSeparator(), "grow, wrap");
+		settingsDialog.add(experimentalCheck, "alignx center, wrap");
+		settingsDialog.add(exInfoLabel);
+		settingsDialog.pack();
+		settingsDialog.setResizable(false);
+		settingsDialog.setLocationRelativeTo(this);
 
 		separator = new JSeparator();
 		separator.setBackground(bcolour);
@@ -530,17 +533,19 @@ public class VTP5 extends JFrame {
 			}/*
 			 * else if (e.getSource() == changeButtonColour) {
 			 * System.out.println(bcolour.toString() + fcolour.toString() +
-			 * tcolour.toString()); bcolour = JColorChooser.showDialog(colourd,
-			 * "Choosecolor", Color.BLACK); setColour(bcolour, fcolour,
-			 * tcolour); } else if (e.getSource() == changeForegroundColour) {
+			 * tcolour.toString()); bcolour =
+			 * JColorChooser.showDialog(settingsDialog, "Choosecolor",
+			 * Color.BLACK); setColour(bcolour, fcolour, tcolour); } else if
+			 * (e.getSource() == changeForegroundColour) {
 			 * System.out.println(bcolour.toString() + fcolour.toString() +
-			 * tcolour.toString()); fcolour = JColorChooser.showDialog(colourd,
-			 * "Choosecolor", Color.BLACK); setColour(bcolour, fcolour,
-			 * tcolour); } else if (e.getSource() == changePromptColour) {
+			 * tcolour.toString()); fcolour =
+			 * JColorChooser.showDialog(settingsDialog, "Choosecolor",
+			 * Color.BLACK); setColour(bcolour, fcolour, tcolour); } else if
+			 * (e.getSource() == changePromptColour) {
 			 * System.out.println(bcolour.toString() + fcolour.toString() +
-			 * tcolour.toString()); tcolour = JColorChooser.showDialog(colourd,
-			 * "Choose color", Color.BLACK); setColour(bcolour, fcolour,
-			 * tcolour); }
+			 * tcolour.toString()); tcolour =
+			 * JColorChooser.showDialog(settingsDialog, "Choose color",
+			 * Color.BLACK); setColour(bcolour, fcolour, tcolour); }
 			 */else if (e.getSource() == aboutButton) {
 				abtDialog.setVisible(true);
 			} else if (e.getSource() == enterButton) {
@@ -561,7 +566,7 @@ public class VTP5 extends JFrame {
 				changePromptColour.addActionListener(this);
 				changeButtonColour.addActionListener(this);
 				changeForegroundColour.addActionListener(this);
-				colourd.setVisible(true);
+				settingsDialog.setVisible(true);
 				// TODO Finish this
 			} else if (e.getSource() == saveButton) {
 				try {
@@ -735,6 +740,7 @@ public class VTP5 extends JFrame {
 						+ correctAnswers.size() + "/"
 						+ (correctAnswers.size() + possibleAnswers.size())
 						+ ")" : "Correct answers:") + "</u></html>");
+
 		// Decide what the list should display based on whether user got the
 		// word right or wrong
 		for (String s : correctAnswers) {
