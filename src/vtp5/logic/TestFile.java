@@ -94,6 +94,15 @@ public class TestFile implements Serializable {
 	public ArrayList<Card> getCards() {
 		return cards;
 	}
+	
+	public String getPrompt(int index) {
+		if (isLanguageSwitched) {
+			// Return langTo prompt
+			return cards.get(index).getLangToPrompt();
+		} else {
+			return cards.get(index).getLangFromPrompt();
+		}
+	}
 
 	public int isCorrect(String answer, int index) {
 		answer = answer.replaceAll("[^a-zA-Z0-9]", "");
