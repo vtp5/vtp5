@@ -18,9 +18,12 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -50,7 +53,6 @@ import javax.swing.Timer;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import net.miginfocom.swing.MigLayout;
-import vtp5.logic.Card;
 import vtp5.logic.TestFile;
 
 public class VTP5 extends JFrame {
@@ -87,6 +89,8 @@ public class VTP5 extends JFrame {
 
 	private JFileChooser txtChooser = new JFileChooser();
 	private JFileChooser csvChooser = new JFileChooser();
+	private JFileChooser progressOpenChooser = new JFileChooser();
+	private JFileChooser progressSaveChooser = new JFileChooser();
 
 	// Components for Settings Dialog
 	private JDialog settingsDialog;
@@ -129,7 +133,9 @@ public class VTP5 extends JFrame {
 		txtChooser.setFileFilter(new FileNameExtensionFilter(
 				"Text Files (*.txt)", "txt"));
 		csvChooser.setFileFilter(new FileNameExtensionFilter(
-				"CSV Files (*csv)", "csv"));
+				"CSV Files (*.csv)", "csv"));
+		progressOpenChooser.setFileFilter(new FileNameExtensionFilter(
+				"VTP5 Progress Files (*.vtp5)", "vtp5"));
 
 		framePanel = new FramePanel();// make primary panel
 		framePanel.setLayout(new BorderLayout());// set layout
@@ -406,6 +412,19 @@ public class VTP5 extends JFrame {
 			if (selected == JFileChooser.APPROVE_OPTION) {
 				test = new TestFile(csvChooser.getSelectedFile());
 			}
+		} else if (fileType == 2) {
+			int selected = progressOpenChooser.showOpenDialog(getParent());
+			if (selected == JFileChooser.APPROVE_OPTION) {
+				File progressFile = progressOpenChooser.getSelectedFile();
+				try {
+					ObjectInputStream input = new ObjectInputStream(
+							new FileInputStream(progressFile));
+					test = (TestFile) input.readObject();
+				} catch (IOException | ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 
@@ -486,14 +505,41 @@ public class VTP5 extends JFrame {
 				int option = JOptionPane
 						.showOptionDialog(
 								getParent(),
-								"Do you want to import a text file (for simple tests) or a CSV file (for more complex tests)?",
+								"Do you want to import a text file (for simple tests), a CSV file (for more complex tests),\n                                 or a VTP5 progress file (for partly completed tests)?",
 								"What test type do you want to import?",
 								JOptionPane.YES_NO_CANCEL_OPTION,
 								JOptionPane.PLAIN_MESSAGE, null, new String[] {
-										"Text File", "CSV File", "Cancel" },
-								null);
+										"Text File", "CSV File",
+										"Progress File", "Cancel" }, null);
 				// Open JFileChooser and then creates test file
 				if (option == 0 || option == 1) {
+					showChooserDialog(option);
+					try {
+						totalNumberOfCards = test.getCards().size();
+						numberOfIncorrectCards = 0;
+						totalTimesGuessed = 0;
+						successRate = 0.0;
+
+						progressBar.setString(test.getScore()
+								+ "/"
+								+ (test.getCards().size() + test
+										.getIncorrectCards().size()));
+						Collections.shuffle(test.getCards());
+						updatePrompt(questionIndex);
+						updateStatsList();
+						progressBar.setValue(0);
+						progressBar.setMaximum(test.getCards().size());
+						switchLanguageCheck.setEnabled(true);
+						saveButton.setEnabled(true);
+						leaderboardButton.setEnabled(true);
+						enterButton.setEnabled(true);
+						passButton.setEnabled(true);
+					} catch (NullPointerException npe) {
+						JOptionPane.showMessageDialog(getParent(),
+								"No file selected.", "VTP5",
+								JOptionPane.INFORMATION_MESSAGE);
+					}
+				} else if (option == 2) {
 					showChooserDialog(option);
 					try {
 						totalNumberOfCards = test.getCards().size();
@@ -569,35 +615,60 @@ public class VTP5 extends JFrame {
 				settingsDialog.setVisible(true);
 				// TODO Finish this
 			} else if (e.getSource() == saveButton) {
-				try {
-					JFileChooser chooser = new JFileChooser();
-					int answer = chooser.showSaveDialog(getParent());
-					if (answer == JFileChooser.APPROVE_OPTION) {
-						FileWriter fwriter = new FileWriter(
-								chooser.getSelectedFile() + ".txt"); // filewriter
-																		// for
-																		// .txt
-																		// created
-						BufferedWriter bfwriter = new BufferedWriter(fwriter); // parsed
-																				// to
-																				// buffered
-																				// writer
-						for (Card s : test.getCards()) { // card is looped
-															// through
-							bfwriter.write(s.getLangFrom().get(0)); // prompt is
-																	// written
-							bfwriter.newLine(); // new line
-							bfwriter.write(s.getLangTo().get(0)); // answer is
-																	// written
-							bfwriter.newLine();
-							System.out.println("saved");
-						}
-						bfwriter.close(); // writer is closed
-						System.out.println("File saved");
+				// Ultimately, this saves the current TestFile object containing
+				// the user's progress data to a .vtp5 file
+				// try {
+				int answer = progressSaveChooser.showSaveDialog(getParent());
+				if (answer == JFileChooser.APPROVE_OPTION) {
+					// FileWriter fwriter = new FileWriter(
+					// chooser.getSelectedFile() + ".txt"); // filewriter
+					// // for
+					// // .txt
+					// // created
+					// BufferedWriter bfwriter = new BufferedWriter(fwriter); //
+					// parsed
+					// // to
+					// // buffered
+					// // writer
+					// for (Card s : test.getCards()) { // card is looped
+					// // through
+					// bfwriter.write(s.getLangFrom().get(0)); // prompt is
+					// // written
+					// bfwriter.newLine(); // new line
+					// bfwriter.write(s.getLangTo().get(0)); // answer is
+					// // written
+					// bfwriter.newLine();
+					// System.out.println("saved");
+					// }
+					// bfwriter.close(); // writer is closed
+					// System.out.println("File saved");
+					String filePath = progressSaveChooser.getSelectedFile()
+							.getAbsolutePath();
+
+					if (!filePath.endsWith(".vtp5")) {
+						filePath = filePath + ".vtp5";
 					}
-				} catch (IOException e1) {
-					e1.printStackTrace();
+
+					File progressFile = new File(filePath);
+					try {
+						ObjectOutputStream output = new ObjectOutputStream(
+								new FileOutputStream(progressFile));
+						output.writeObject(test);
+						JOptionPane
+								.showMessageDialog(
+										null,
+										"Success! Your progress has been saved to the following file:\n\n"
+												+ filePath
+												+ "\n\nTo carry on with this test later, click \"Import Test File\"\nand then click the \"Progress File\" button.",
+										"VTP5", JOptionPane.INFORMATION_MESSAGE);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
+				// } catch (IOException e1) {
+				// e1.printStackTrace();
+				// }
 			}
 		}
 	}
@@ -788,6 +859,8 @@ public class VTP5 extends JFrame {
 
 		@Override
 		public void itemStateChanged(ItemEvent arg0) {
+			// Ultimately, this switches langFrom and langTo around, so that the
+			// user guesses the langFrom based on the langTo prompt
 			test.setLanguageSwitched(switchLanguageCheck.isSelected());
 			Collections.shuffle(test.getCards());
 			answerField.setText("");

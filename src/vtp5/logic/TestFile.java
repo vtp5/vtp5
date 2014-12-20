@@ -26,7 +26,7 @@ public class TestFile implements Serializable {
 	// (false) means prompt is langFrom
 	private boolean isLanguageSwitched = false;
 
-	private BufferedReader br = null;
+	private transient BufferedReader br = null;
 
 	// Three "enum"-like constants
 	public static final int INCORRECT = 0;
