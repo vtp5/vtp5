@@ -97,7 +97,7 @@ public class VTP5 extends JFrame {
 
 	// Components for About Dialog
 	private JDialog abtDialog;
-	private JLabel vtp5Label = new JLabel("Vocab Testing Program 5");
+	private JLabel vtp5Label = new JLabel("Vocabulary Testing Program 5");
 	private JLabel devLabel = new JLabel(
 			"Developed by Abdel Abdalla, Minghua Yin,");
 	private JLabel dev2Label = new JLabel("Yousuf Ahmed and Nikunj Paliwal.");
@@ -106,7 +106,7 @@ public class VTP5 extends JFrame {
 	private JLabel srccodeLabel = new HyperlinkLabel("Source Code",
 			"https://github.com/duckifyz/VTP5");
 	// TODO Create a better icon.
-	private ImageIcon logo = new ImageIcon("res/images/vtp.png");
+	private ImageIcon logo = new ImageIcon("res/images/vtp_logo_small.png");
 	private ArrayList<JButton> buttonList = new ArrayList<>();
 
 	// Slightly logical instance variables
