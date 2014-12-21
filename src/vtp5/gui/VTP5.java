@@ -113,12 +113,8 @@ public class VTP5 extends JFrame {
 	private ImageIcon logo = new ImageIcon("res/images/vtp_logo_small.png");
 	private ArrayList<JButton> buttonList = new ArrayList<>();
 
-	// Slightly logical instance variables
+	// The all-import TestFile object!
 	private TestFile test;
-	private int totalNumberOfCards;
-	private int numberOfIncorrectCards;
-	private int totalTimesGuessed;
-	private double successRate;
 
 	private Color bcolour = Color.BLACK;
 	private Color fcolour = Color.WHITE;
@@ -416,9 +412,8 @@ public class VTP5 extends JFrame {
 			int selected = progressOpenChooser.showOpenDialog(getParent());
 			if (selected == JFileChooser.APPROVE_OPTION) {
 				File progressFile = progressOpenChooser.getSelectedFile();
-				try {
-					ObjectInputStream input = new ObjectInputStream(
-							new FileInputStream(progressFile));
+				try (ObjectInputStream input = new ObjectInputStream(
+						new FileInputStream(progressFile))) {
 					test = (TestFile) input.readObject();
 				} catch (IOException | ClassNotFoundException e) {
 					// TODO Auto-generated catch block
@@ -511,15 +506,11 @@ public class VTP5 extends JFrame {
 								JOptionPane.PLAIN_MESSAGE, null, new String[] {
 										"Text File", "CSV File",
 										"Progress File", "Cancel" }, null);
+
 				// Open JFileChooser and then creates test file
 				if (option == 0 || option == 1) {
 					showChooserDialog(option);
 					try {
-						totalNumberOfCards = test.getCards().size();
-						numberOfIncorrectCards = 0;
-						totalTimesGuessed = 0;
-						successRate = 0.0;
-
 						progressBar.setString(test.getScore()
 								+ "/"
 								+ (test.getCards().size() + test
@@ -542,11 +533,6 @@ public class VTP5 extends JFrame {
 				} else if (option == 2) {
 					showChooserDialog(option);
 					try {
-						totalNumberOfCards = test.getCards().size();
-						numberOfIncorrectCards = 0;
-						totalTimesGuessed = 0;
-						successRate = 0.0;
-
 						progressBar.setString(test.getScore()
 								+ "/"
 								+ (test.getCards().size() + test
@@ -554,8 +540,9 @@ public class VTP5 extends JFrame {
 						Collections.shuffle(test.getCards());
 						updatePrompt(questionIndex);
 						updateStatsList();
-						progressBar.setValue(0);
-						progressBar.setMaximum(test.getCards().size());
+						progressBar.setMaximum(test.getCards().size()
+								+ test.getIncorrectCards().size());
+						progressBar.setValue(test.getScore());
 						switchLanguageCheck.setEnabled(true);
 						saveButton.setEnabled(true);
 						leaderboardButton.setEnabled(true);
@@ -650,9 +637,8 @@ public class VTP5 extends JFrame {
 					}
 
 					File progressFile = new File(filePath);
-					try {
-						ObjectOutputStream output = new ObjectOutputStream(
-								new FileOutputStream(progressFile));
+					try (ObjectOutputStream output = new ObjectOutputStream(
+							new FileOutputStream(progressFile))) {
 						output.writeObject(test);
 						JOptionPane
 								.showMessageDialog(
@@ -718,28 +704,18 @@ public class VTP5 extends JFrame {
 					|| result == TestFile.COMPLETELY_CORRECT) {
 				// Set progress bar colour
 				progressBar.setForeground(Color.GREEN);
-				// Updates the list of correctly guessed answers
-				updateGuessedAnswersList(true);
 
 				if (result == TestFile.COMPLETELY_CORRECT) {
-					// If card was previously incorrect, decrement
-					// numberOfIncorrectCards
-					if (test.getIncorrectCards().contains(
-							test.getCards().get(questionIndex))) {
-						numberOfIncorrectCards--;
-					}
-
-					// removes card once completed
-					test.getCards().remove(questionIndex);
 					if (test.getCards().isEmpty()) {
 						JOptionPane.showMessageDialog(null, "You win");
 					}
 					updatePrompt(questionIndex); // prompt label is
 													// updated
-
-					totalTimesGuessed++;
 					updateStatsList();
 				}
+
+				// Updates the list of correctly guessed answers
+				updateGuessedAnswersList(true);
 
 				System.out.println("Question Index:" + questionIndex);
 				progressBar.setString(test.getScore() + "/"
@@ -758,19 +734,7 @@ public class VTP5 extends JFrame {
 				passButton.setEnabled(false);
 				enterButton.setText("OK");
 
-				// Add card to ArrayList of "incorrect" cards and update
-				// numberOfIncorrectCards
-				if (!test.getIncorrectCards().contains(
-						test.getCards().get(questionIndex))) {
-
-					test.getIncorrectCards().add(
-							test.getCards().get(questionIndex));
-					numberOfIncorrectCards++;
-				}
-
-				// Update totalTimesGuessed and
-				// statsList
-				totalTimesGuessed++;
+				// Update statsList
 				updateStatsList();
 
 				// Shuffle cards
@@ -826,24 +790,21 @@ public class VTP5 extends JFrame {
 	}
 
 	private void updateStatsList() {
+		// { totalNumberOfCards, numberOfIncorrectCards, totalTimesGuessed,
+		// successRate }
+		Object[] stats = test.getStats();
 
 		// Update statsList
 		statsListModel.removeAllElements();
 		statsListModel.addElement("<html><u>Statistics:</u></html>");
 		statsListModel.addElement("Answered correctly: "
-				+ (totalNumberOfCards - test.getCards().size()));
-		statsListModel.addElement("Answered incorrectly: "
-				+ numberOfIncorrectCards);
-		statsListModel.addElement("Total number of guesses: "
-				+ totalTimesGuessed);
+				+ ((int) stats[0] - test.getCards().size()));
+		statsListModel.addElement("Answered incorrectly: " + stats[1]);
+		statsListModel.addElement("Total number of guesses: " + stats[2]);
 		statsListModel.addElement("Number of words left: "
 				+ test.getCards().size());
-
-		successRate = (totalTimesGuessed == 0) ? 0.0
-				: ((double) (totalNumberOfCards - test.getCards().size()))
-						/ (double) totalTimesGuessed * 100.0;
 		statsListModel.addElement("Success rate: "
-				+ String.format("%.2f", successRate) + "%");
+				+ String.format("%.2f", (double) stats[3]) + "%");
 	}
 
 	private class ActionEnter extends AbstractAction {

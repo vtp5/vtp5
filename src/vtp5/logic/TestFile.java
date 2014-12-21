@@ -26,6 +26,12 @@ public class TestFile implements Serializable {
 	// (false) means prompt is langFrom
 	private boolean isLanguageSwitched = false;
 
+	// More logical instance variables
+	private int totalNumberOfCards;
+	private int numberOfIncorrectCards;
+	private int totalTimesGuessed;
+	private double successRate;
+
 	private transient BufferedReader br = null;
 
 	// Three "enum"-like constants
@@ -35,6 +41,7 @@ public class TestFile implements Serializable {
 
 	public TestFile(File file) {
 		getVocabFromFile(file);
+		totalNumberOfCards = cards.size();
 	}
 
 	public void getVocabFromFile(File file) {
@@ -140,12 +147,35 @@ public class TestFile implements Serializable {
 			if (possibleAnswers.isEmpty()) {
 				System.out.println("Completely correct");
 				score++;
+
+				// If card was previously incorrect, decrement
+				// numberOfIncorrectCards
+				if (incorrectCards.contains(cards.get(index))) {
+					numberOfIncorrectCards--;
+				}
+
+				totalTimesGuessed++;
+
+				// removes card once completed
+				cards.remove(index);
+
+				// Calculate success rate
+				System.out.println("Calculating success rate...");
+				System.out.println("totalTimesGuessed == " + totalTimesGuessed);
+				System.out.print("(" + totalNumberOfCards + " - "
+						+ cards.size() + ") / " + totalTimesGuessed
+						+ " * 100.0");
+				successRate = (totalTimesGuessed == 0) ? 0.0
+						: ((double) (totalNumberOfCards - cards.size()))
+								/ (double) totalTimesGuessed * 100.0;
+				System.out.println(" == " + successRate);
 				return COMPLETELY_CORRECT;
 			} else {
 				System.out.println("Partially correct");
 				return PARTIALLY_CORRECT;
 			}
 		} else {
+			System.out.println("Incorrect");
 			// Check if user has already entered the answer (if it's correct)
 			for (String s : correctAnswers) {
 
@@ -156,7 +186,19 @@ public class TestFile implements Serializable {
 				}
 			}
 
-			System.out.println("Incorrect");
+			// Add card to ArrayList of "incorrect" cards and update
+			// numberOfIncorrectCards
+			if (!incorrectCards.contains(cards.get(index))) {
+				incorrectCards.add(cards.get(index));
+				numberOfIncorrectCards++;
+			}
+
+			totalTimesGuessed++;
+
+			// Calculate success rate
+			successRate = (totalTimesGuessed == 0) ? 0.0
+					: ((double) (totalNumberOfCards - cards.size()))
+							/ (double) totalTimesGuessed * 100.0;
 			return INCORRECT;
 		}
 	}
@@ -179,6 +221,11 @@ public class TestFile implements Serializable {
 
 	public void setLanguageSwitched(boolean isLanguageSwitched) {
 		this.isLanguageSwitched = isLanguageSwitched;
+	}
+
+	public Object[] getStats() {
+		return new Object[] { totalNumberOfCards, numberOfIncorrectCards,
+				totalTimesGuessed, successRate };
 	}
 
 }
