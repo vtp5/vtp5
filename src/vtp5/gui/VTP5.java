@@ -398,28 +398,45 @@ public class VTP5 extends JFrame {
 	}
 
 	private void showChooserDialog(int fileType) {
-		if (fileType == 0) {
-			int selected = txtChooser.showOpenDialog(getParent());
-			if (selected == JFileChooser.APPROVE_OPTION) {
-				test = new TestFile(txtChooser.getSelectedFile());
-			}
-		} else if (fileType == 1) {
-			int selected = csvChooser.showOpenDialog(getParent());
-			if (selected == JFileChooser.APPROVE_OPTION) {
-				test = new TestFile(csvChooser.getSelectedFile());
-			}
-		} else if (fileType == 2) {
-			int selected = progressOpenChooser.showOpenDialog(getParent());
-			if (selected == JFileChooser.APPROVE_OPTION) {
-				File progressFile = progressOpenChooser.getSelectedFile();
-				try (ObjectInputStream input = new ObjectInputStream(
-						new FileInputStream(progressFile))) {
-					test = (TestFile) input.readObject();
-				} catch (IOException | ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+		try {
+			if (fileType == 0) {
+				int selected = txtChooser.showOpenDialog(getParent());
+				if (selected == JFileChooser.APPROVE_OPTION) {
+					test = new TestFile(txtChooser.getSelectedFile());
+				}
+			} else if (fileType == 1) {
+				int selected = csvChooser.showOpenDialog(getParent());
+				if (selected == JFileChooser.APPROVE_OPTION) {
+					test = new TestFile(csvChooser.getSelectedFile());
+				}
+			} else if (fileType == 2) {
+				int selected = progressOpenChooser.showOpenDialog(getParent());
+				if (selected == JFileChooser.APPROVE_OPTION) {
+					File progressFile = progressOpenChooser.getSelectedFile();
+					try (ObjectInputStream input = new ObjectInputStream(
+							new FileInputStream(progressFile))) {
+						test = (TestFile) input.readObject();
+					} catch (IOException | ClassNotFoundException e) {
+						e.printStackTrace();
+						JOptionPane
+								.showMessageDialog(
+										null,
+										"The following error occurred:\n\n"
+												+ e.toString()
+												+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
+										"VTP5", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			JOptionPane
+					.showMessageDialog(
+							null,
+							"The following error occurred:\n\n"
+									+ e.toString()
+									+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
+							"VTP5", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -590,6 +607,13 @@ public class VTP5 extends JFrame {
 									"https://github.com/duckifyz/VTP5/wiki/Help"));
 				} catch (URISyntaxException | IOException e1) {
 					e1.printStackTrace();
+					JOptionPane
+							.showMessageDialog(
+									null,
+									"The following error occurred:\n\n"
+											+ e1.toString()
+											+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
+									"VTP5", JOptionPane.ERROR_MESSAGE);
 				}
 			} else if (e.getSource() == settingsButton) {
 				changePromptColour.addActionListener(this);
@@ -644,8 +668,14 @@ public class VTP5 extends JFrame {
 												+ "\n\nTo carry on with this test later, click \"Import Test File\"\nand then click the \"Progress File\" button.",
 										"VTP5", JOptionPane.INFORMATION_MESSAGE);
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
+						JOptionPane
+								.showMessageDialog(
+										null,
+										"The following error occurred:\n\n"
+												+ e1.toString()
+												+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
+										"VTP5", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 				// } catch (IOException e1) {
@@ -844,6 +874,13 @@ public class VTP5 extends JFrame {
 						java.awt.Desktop.getDesktop().browse(new URI(link));
 					} catch (URISyntaxException | IOException e1) {
 						e1.printStackTrace();
+						JOptionPane
+								.showMessageDialog(
+										null,
+										"The following error occurred:\n\n"
+												+ e1.toString()
+												+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
+										"VTP5", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			});

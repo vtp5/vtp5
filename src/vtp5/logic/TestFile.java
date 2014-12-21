@@ -39,48 +39,48 @@ public class TestFile implements Serializable {
 	public static final int PARTIALLY_CORRECT = 1;
 	public static final int COMPLETELY_CORRECT = 2;
 
-	public TestFile(File file) {
+	public TestFile(File file) throws IOException {
 		getVocabFromFile(file);
 		totalNumberOfCards = cards.size();
 	}
 
-	public void getVocabFromFile(File file) {
+	public void getVocabFromFile(File file) throws IOException {
 		System.out.println(file + " is being read.");
 
-		try {
-			// Reading file.
-			String langFromLine;
-			String langToLine;
-			br = new BufferedReader(new FileReader(file));
-			while ((langFromLine = br.readLine()) != null) {
-				// Create new card containing relevant data and add it to the
-				// ArrayList
-				// TODO Merge this code with Converter
-				// TODO Polish this code (for example, what about the "+ abl."
-				// bit after some verbs and prepositions?)
-				ArrayList<String> langFrom = new ArrayList<>(
-						Arrays.asList(langFromLine));
+		// try {
+		// Reading file.
+		String langFromLine;
+		String langToLine;
+		br = new BufferedReader(new FileReader(file));
+		while ((langFromLine = br.readLine()) != null) {
+			// Create new card containing relevant data and add it to the
+			// ArrayList
+			// TODO Merge this code with Converter
+			// TODO Polish this code (for example, what about the "+ abl."
+			// bit after some verbs and prepositions?)
+			ArrayList<String> langFrom = new ArrayList<>(
+					Arrays.asList(langFromLine));
 
-				langToLine = br.readLine();
-				ArrayList<String> langTo = new ArrayList<>(
-						Arrays.asList(langToLine.split("/")));
+			langToLine = br.readLine();
+			ArrayList<String> langTo = new ArrayList<>(Arrays.asList(langToLine
+					.split("/")));
 
-				Card card = new Card(langFromLine, langToLine, langFrom, langTo);
-				cards.add(card);
-			}
-			// Catch any exceptions.
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				// Close reader.
-				if (br != null) {
-					br.close();
-				}
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
+			Card card = new Card(langFromLine, langToLine, langFrom, langTo);
+			cards.add(card);
 		}
+		// Catch any exceptions.
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// } finally {
+		// try {
+		// Close reader.
+		if (br != null) {
+			br.close();
+		}
+		// } catch (IOException ex) {
+		// ex.printStackTrace();
+		// }
+		// }
 
 		// Printlns for debugging/helpful console messages
 		for (Card c : cards) {
