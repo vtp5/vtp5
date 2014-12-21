@@ -511,10 +511,8 @@ public class VTP5 extends JFrame {
 				if (option == 0 || option == 1) {
 					showChooserDialog(option);
 					try {
-						progressBar.setString(test.getScore()
-								+ "/"
-								+ (test.getCards().size() + test
-										.getIncorrectCards().size()));
+						progressBar.setString(test.getScore() + "/"
+								+ (test.getCards().size() + test.getScore()));
 						Collections.shuffle(test.getCards());
 						updatePrompt(questionIndex);
 						updateStatsList();
@@ -533,15 +531,13 @@ public class VTP5 extends JFrame {
 				} else if (option == 2) {
 					showChooserDialog(option);
 					try {
-						progressBar.setString(test.getScore()
-								+ "/"
-								+ (test.getCards().size() + test
-										.getIncorrectCards().size()));
+						progressBar.setString(test.getScore() + "/"
+								+ (test.getCards().size() + test.getScore()));
 						Collections.shuffle(test.getCards());
 						updatePrompt(questionIndex);
 						updateStatsList();
 						progressBar.setMaximum(test.getCards().size()
-								+ test.getIncorrectCards().size());
+								+ test.getScore());
 						progressBar.setValue(test.getScore());
 						switchLanguageCheck.setEnabled(true);
 						saveButton.setEnabled(true);
