@@ -44,7 +44,8 @@ public class TestFile implements Serializable {
 		totalNumberOfCards = cards.size();
 	}
 
-	public void getVocabFromFile(File file) throws IOException {
+	public void getVocabFromFile(File file) throws IOException,
+			NullPointerException {
 		System.out.println(file + " is being read.");
 
 		// try {

@@ -437,6 +437,15 @@ public class VTP5 extends JFrame {
 									+ e.toString()
 									+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
 							"VTP5", JOptionPane.ERROR_MESSAGE);
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			JOptionPane
+					.showMessageDialog(
+							null,
+							"The following error occurred:\n\n"
+									+ e.toString()
+									+ "\n\nIt's likely that the file you're trying to import isn't formatted correctly.\nPlease check the file and try again.\nIf the problem persists, please report it.",
+							"VTP5", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
