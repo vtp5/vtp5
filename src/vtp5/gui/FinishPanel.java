@@ -1,5 +1,8 @@
 package vtp5.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
@@ -36,7 +39,7 @@ public class FinishPanel extends JPanel {
 	// TODO Creating JList for leaderboard (WIP)
 	private JList<Object> leaderboards = new JList<>();
 
-	public FinishPanel(VTP5 parent) {
+	public FinishPanel(final VTP5 parent) {
 		this.parent = parent;
 
 		setLayout(new MigLayout("fillx"));
@@ -112,6 +115,18 @@ public class FinishPanel extends JPanel {
 		saveTest.setText("Save Wrong Answers To New Test");
 		restartTest.setText("Start Test Again");
 
+		restartTest.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					parent.setTest(new TestFile(parent.getTest().importedFile));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				parent.setUpTest();
+			}
+		});
+		
 		add(completedLabel, "grow");
 		add(statsScrollPane, "grow, spany 2, width 35%!, height 25%!, wrap");
 		add(showListLabel, "grow, wrap");

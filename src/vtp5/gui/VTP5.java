@@ -390,6 +390,10 @@ public class VTP5 extends JFrame {
 				+ (System.currentTimeMillis() - startTime) + " milliseconds.");
 	}
 
+	public void setTest(TestFile test) {
+		this.test = test;
+	}
+
 	private void setColour(Color background, Color foreground, Color text) {
 		for (JButton b : buttonList) {
 			b.setForeground(foreground);
@@ -642,7 +646,7 @@ public class VTP5 extends JFrame {
 				+ String.format("%.2f", (double) stats[3]) + "%");
 	}
 	
-	private void setUpTest() {
+	public void setUpTest() {
 		progressBar.setString(test.getScore() + "/"
 				+ (test.getCards().size() + test.getScore()));
 		Collections.shuffle(test.getCards());
