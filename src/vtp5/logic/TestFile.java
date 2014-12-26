@@ -229,4 +229,16 @@ public class TestFile implements Serializable {
 				totalTimesGuessed, successRate };
 	}
 
+	public int getTotalNumberOfCards() {
+		return this.totalNumberOfCards;
+	}
+
+	public int getTotalTimesGuessed() {
+		return this.totalTimesGuessed;
+	}
+
+	public double getSuccessRate() {
+		return this.successRate;
+	}
+
 }

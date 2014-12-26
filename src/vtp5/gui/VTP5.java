@@ -53,6 +53,7 @@ import javax.swing.Timer;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import net.miginfocom.swing.MigLayout;
+import vtp5.logic.Card;
 import vtp5.logic.TestFile;
 
 public class VTP5 extends JFrame {
@@ -123,6 +124,9 @@ public class VTP5 extends JFrame {
 	private static long startTime;
 
 	public Font font;
+	
+	// arraylist for wrongly guessed answers
+	ArrayList<Card> wrongAnswers = new ArrayList<>();
 
 	public VTP5() {
 		// Sets up JFileChooser
@@ -742,7 +746,7 @@ public class VTP5 extends JFrame {
 
 				if (result == TestFile.COMPLETELY_CORRECT) {
 					if (test.getCards().isEmpty()) {
-						JOptionPane.showMessageDialog(null, "You win");
+						finishTest();
 					}
 					updatePrompt(questionIndex); // prompt label is
 													// updated
@@ -760,6 +764,9 @@ public class VTP5 extends JFrame {
 
 				// Turn guessedAnswersList red as well
 				guessedAnswersList.setForeground(Color.RED);
+				
+				// add incorrect answer to arraylist
+				wrongAnswers.add(test.getCards().get(questionIndex));
 
 				// Update guessedAnswersList
 				updateGuessedAnswersList(false);
@@ -790,6 +797,16 @@ public class VTP5 extends JFrame {
 			updatePrompt(questionIndex);
 		}
 		answerField.setText(""); // field is cleared
+	}
+
+	private void finishTest() {
+		// TODO THIS IS A SIDEBAR MARKER, NOT REQUIRED
+		getContentPane().remove(mainPanel);
+		repaint();
+		revalidate();
+		getContentPane().add(new FinishPanel(this));
+		repaint();
+		revalidate();
 	}
 
 	private void updateGuessedAnswersList(boolean isCorrect) {
@@ -840,6 +857,14 @@ public class VTP5 extends JFrame {
 				+ test.getCards().size());
 		statsListModel.addElement("Success rate: "
 				+ String.format("%.2f", (double) stats[3]) + "%");
+	}
+
+	public TestFile getTest() {
+		return this.test;
+	}
+
+	public Color getTColour() {
+		return this.tcolour;
 	}
 
 	private class ActionEnter extends AbstractAction {
