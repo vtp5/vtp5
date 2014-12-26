@@ -826,6 +826,7 @@ public class VTP5 extends JFrame {
 					test.getCards().add(c);
 				}
 				updatePrompt(questionIndex);
+				answerField.setText("");
 			} else if (e.getSource() == helpButton) {
 				try {
 					java.awt.Desktop
