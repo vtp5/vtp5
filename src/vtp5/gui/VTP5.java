@@ -114,6 +114,9 @@ public class VTP5 extends JFrame {
 	private ImageIcon logo = new ImageIcon("res/images/vtp_logo_small.png");
 	private ArrayList<JButton> buttonList = new ArrayList<>();
 
+	// finishPanel instance variable
+	FinishPanel finishPanel = new FinishPanel(this);
+
 	// The all-import TestFile object!
 	private TestFile test;
 
@@ -815,7 +818,8 @@ public class VTP5 extends JFrame {
 		getContentPane().remove(mainPanel);
 		repaint();
 		revalidate();
-		getContentPane().add(new FinishPanel(this));
+		finishPanel.updatePanel();
+		getContentPane().add(finishPanel);
 		repaint();
 		revalidate();
 	}

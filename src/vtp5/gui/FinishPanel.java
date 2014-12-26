@@ -18,76 +18,30 @@ import vtp5.logic.TestFile;
 
 public class FinishPanel extends JPanel {
 
-	private JLabel completedLabel;
-	private JLabel showListLabel;
+	private JLabel completedLabel = new JLabel();
+	private JLabel showListLabel = new JLabel();
 	private CustomFont cf;
-	private JTable table;
+	private JTable table = new JTable();
 	private TestFile test;
 	private String completedMessage;
-	private JList<Object> statsList;
-	private DefaultListModel<Object> statsListModel;
-	private JScrollPane statsScrollPane;
+	private DefaultListModel<Object> statsListModel = new DefaultListModel<>();
+	private JList<Object> statsList = new JList<>(statsListModel);
+	private JScrollPane statsScrollPane = new JScrollPane(statsList);
 	private WrongAnswersTableModel watm;
-	private JButton saveTest;
-	private JButton restartTest;
+	private JButton saveTest = new JButton();
+	private JButton restartTest = new JButton();
+
+	private VTP5 parent;
 
 	// TODO Creating JList for leaderboard (WIP)
-	private JList<Object> leaderboards;
+	private JList<Object> leaderboards = new JList<>();
 
 	public FinishPanel(VTP5 parent) {
-		cf = new CustomFont();
-		test = parent.getTest();
+		this.parent = parent;
+
 		setLayout(new MigLayout("fillx"));
-		completedMessage = "<html>You made it! You got "
-				+ new BigDecimal(String.valueOf(test.getSuccessRate()))
-						.setScale(1, BigDecimal.ROUND_HALF_UP).toString()
-				+ "%.";
 
-		if (test.getSuccessRate() == 100) {
-			completedMessage = completedMessage + " That's amazing!";
-		} else if (test.getSuccessRate() >= 90) {
-			completedMessage = completedMessage + " Well done!";
-		} else if (test.getSuccessRate() >= 75) {
-			completedMessage = completedMessage + " Not too bad!";
-		} else if (test.getSuccessRate() >= 50) {
-			completedMessage = completedMessage + " Needs some work!";
-		} else {
-			completedMessage = completedMessage + " Ouch!";
-		}
-
-		completedMessage += "</html>";
-
-		statsListModel = new DefaultListModel<>();
-		// statsListModel.addElement("<html><u>Statistics:</u></html>");
-		statsListModel.addElement("Answered correctly: ");
-		statsListModel.addElement("Answered incorrectly: ");
-		statsListModel.addElement("Total number of guesses: ");
-		statsList = new JList<>(statsListModel);
-		statsList.setVisibleRowCount(4);
-		statsList.setForeground(parent.getTColour());// changes text colour
-		statsScrollPane = new JScrollPane(statsList);
-		Object[] stats = test.getStats();
-		statsListModel.removeAllElements();
-		// statsListModel.addElement("<html><u>Statistics:</u></html>");
-		statsListModel.addElement("Answered correctly: "
-				+ ((int) stats[0] - test.getCards().size()));
-		statsListModel.addElement("Answered incorrectly: "
-				+ parent.getTest().getIncorrectCards().size());
-		statsListModel.addElement("Total number of guesses: " + stats[2]);
-
-		showListLabel = new JLabel(
-				"<html>Here's a list of the words you got wrong the first time:</html>");
-		completedLabel = new JLabel(completedMessage);
-
-		watm = new WrongAnswersTableModel(parent.getTest().getIncorrectCards());
-		table = new JTable(watm);
-		table.setEnabled(false);
-
-		leaderboards = new JList<Object>();
-
-		saveTest = new JButton("Save Wrong Answers To New Test");
-		restartTest = new JButton("Start Test Again");
-
+		cf = new CustomFont();
 		cf.setFont(completedLabel, 75);
 		cf.setFont(showListLabel, 40);
 		cf.setFont(statsList, 40);
@@ -110,8 +64,55 @@ public class FinishPanel extends JPanel {
 		componentList.add(new ComponentWithFontData(leaderboards, 40));
 		componentList.add(new ComponentWithFontData(saveTest, 40));
 		componentList.add(new ComponentWithFontData(restartTest, 40));
+	}
 
+	public void updatePanel() {
+		test = parent.getTest();
+		completedMessage = "<html>You made it! You got "
+				+ new BigDecimal(String.valueOf(test.getSuccessRate()))
+						.setScale(1, BigDecimal.ROUND_HALF_UP).toString()
+				+ "%.";
+
+		if (test.getSuccessRate() == 100) {
+			completedMessage = completedMessage + " That's amazing!";
+		} else if (test.getSuccessRate() >= 90) {
+			completedMessage = completedMessage + " Well done!";
+		} else if (test.getSuccessRate() >= 75) {
+			completedMessage = completedMessage + " Not too bad!";
+		} else if (test.getSuccessRate() >= 50) {
+			completedMessage = completedMessage + " Needs some work!";
+		} else {
+			completedMessage = completedMessage + " Ouch!";
+		}
+
+		completedMessage += "</html>";
+
+		// statsListModel.addElement("<html><u>Statistics:</u></html>");
+		statsListModel.addElement("Answered correctly: ");
+		statsListModel.addElement("Answered incorrectly: ");
+		statsListModel.addElement("Total number of guesses: ");
+		statsList.setVisibleRowCount(4);
+		statsList.setForeground(parent.getTColour());// changes text colour
+		Object[] stats = test.getStats();
+		statsListModel.removeAllElements();
+		// statsListModel.addElement("<html><u>Statistics:</u></html>");
+		statsListModel.addElement("Answered correctly: "
+				+ ((int) stats[0] - test.getCards().size()));
+		statsListModel.addElement("Answered incorrectly: "
+				+ parent.getTest().getIncorrectCards().size());
+		statsListModel.addElement("Total number of guesses: " + stats[2]);
+
+		showListLabel
+				.setText("<html>Here's a list of the words you got wrong the first time:</html>");
+		completedLabel.setText(completedMessage);
+
+		watm = new WrongAnswersTableModel(parent.getTest().getIncorrectCards());
+		table.setModel(watm);
+		table.setEnabled(false);
 		table.setRowHeight(table.getFont().getSize() + 10);
+
+		saveTest.setText("Save Wrong Answers To New Test");
+		restartTest.setText("Start Test Again");
 
 		add(completedLabel, "grow");
 		add(statsScrollPane, "grow, spany 2, width 35%!, wrap");
