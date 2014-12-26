@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -17,7 +18,6 @@ import vtp5.logic.TestFile;
 
 public class FinishPanel extends JPanel {
 
-	private String[] columnNames = { "Word", "Translation" };
 	private JLabel completedLabel;
 	private JLabel showListLabel;
 	private CustomFont cf;
@@ -28,7 +28,12 @@ public class FinishPanel extends JPanel {
 	private DefaultListModel<Object> statsListModel;
 	private JScrollPane statsScrollPane;
 	private WrongAnswersTableModel watm;
+	private JButton saveTest;
+	private JButton restartTest;
 
+	// TODO Creating JList for leaderboard (WIP)
+	private JList<Object> leaderboards;
+	
 	public FinishPanel(VTP5 parent) {
 		cf = new CustomFont();
 		test = parent.getTest();
@@ -51,7 +56,7 @@ public class FinishPanel extends JPanel {
 		}
 
 		statsListModel = new DefaultListModel<>();
-		statsListModel.addElement("<html><u>Statistics:</u></html>");
+		//statsListModel.addElement("<html><u>Statistics:</u></html>");
 		statsListModel.addElement("Answered correctly: ");
 		statsListModel.addElement("Answered incorrectly: ");
 		statsListModel.addElement("Total number of guesses: ");
@@ -61,7 +66,7 @@ public class FinishPanel extends JPanel {
 		statsScrollPane = new JScrollPane(statsList);
 		Object[] stats = test.getStats();
 		statsListModel.removeAllElements();
-		statsListModel.addElement("<html><u>Statistics:</u></html>");
+		//statsListModel.addElement("<html><u>Statistics:</u></html>");
 		statsListModel.addElement("Answered correctly: "
 				+ ((int) stats[0] - test.getCards().size()));
 		statsListModel.addElement("Answered incorrectly: " + parent.getTest().getIncorrectCards().size());
@@ -74,19 +79,30 @@ public class FinishPanel extends JPanel {
 		watm = new WrongAnswersTableModel(parent.getTest().getIncorrectCards());
 		table = new JTable(watm);
 		table.setEnabled(false);
+		
+		leaderboards = new JList<Object>();
 
+		saveTest = new JButton("Save Wrong Answers To New Test");
+		restartTest = new JButton("Start Test Again");
+		
 		cf.setFont(completedLabel, 75);
 		cf.setFont(showListLabel, 60);
 		cf.setFont(statsList, 40);
 		cf.setFont(table, 30);
 		cf.setFont(table.getTableHeader(), 30);
+		cf.setFont(leaderboards, 40);
+		cf.setFont(saveTest, 40);
+		cf.setFont(restartTest, 40);
 		
 		table.setRowHeight(table.getFont().getSize() + 10);
 
 		add(completedLabel, "grow");
 		add(statsScrollPane, "grow, spany 2, wrap");
 		add(showListLabel, "grow, wrap");
-		add(new JScrollPane(table), "grow, span");
+		add(new JScrollPane(table), "grow");
+		add(new JScrollPane(leaderboards), "grow, wrap, push");
+		add(saveTest, "grow, span, split 2");
+		add(restartTest, "grow");
 	}
 }
 
