@@ -124,7 +124,7 @@ public class VTP5 extends JFrame {
 	private static long startTime;
 
 	public Font font;
-	
+
 	public VTP5() {
 		// Sets up JFileChooser
 		txtChooser.setFileFilter(new FileNameExtensionFilter(
@@ -607,7 +607,15 @@ public class VTP5 extends JFrame {
 			} else if (e.getSource() == enterButton) {
 				doLogic();
 			} else if (e.getSource() == passButton) {
-				Collections.shuffle(test.getCards()); // Reorder cards
+				// Reorder cards
+				Card c = test.getCards().get(questionIndex);
+				Collections.shuffle(test.getCards());
+				// If the first card is still the same, move it to the end of
+				// the ArrayList
+				if (c == test.getCards().get(questionIndex)) {
+					test.getCards().remove(c);
+					test.getCards().add(c);
+				}
 				updatePrompt(questionIndex);
 			} else if (e.getSource() == helpButton) {
 				try {
@@ -744,6 +752,8 @@ public class VTP5 extends JFrame {
 				if (result == TestFile.COMPLETELY_CORRECT) {
 					if (test.getCards().isEmpty()) {
 						finishTest();
+						// Stop the logic - the test is over!
+						return;
 					}
 					updatePrompt(questionIndex); // prompt label is
 													// updated
@@ -773,8 +783,15 @@ public class VTP5 extends JFrame {
 				// Update statsList
 				updateStatsList();
 
-				// Shuffle cards
+				// Reorder cards
+				Card c = test.getCards().get(questionIndex);
 				Collections.shuffle(test.getCards());
+				// If the first card is still the same, move it to the end of
+				// the ArrayList
+				if (c == test.getCards().get(questionIndex)) {
+					test.getCards().remove(c);
+					test.getCards().add(c);
+				}
 			}
 			progressBar.setValue(score); // sets value of progress bar
 		} else {
@@ -861,6 +878,14 @@ public class VTP5 extends JFrame {
 		return this.tcolour;
 	}
 
+	ArrayList<ComponentWithFontData> getComponentList() {
+		return componentList;
+	}
+
+	void setComponentList(ArrayList<ComponentWithFontData> componentList) {
+		this.componentList = componentList;
+	}
+
 	private class ActionEnter extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
@@ -877,7 +902,17 @@ public class VTP5 extends JFrame {
 			// Ultimately, this switches langFrom and langTo around, so that the
 			// user guesses the langFrom based on the langTo prompt
 			test.setLanguageSwitched(switchLanguageCheck.isSelected());
+
+			// Reorder cards
+			Card c = test.getCards().get(questionIndex);
 			Collections.shuffle(test.getCards());
+			// If the first card is still the same, move it to the end of
+			// the ArrayList
+			if (c == test.getCards().get(questionIndex)) {
+				test.getCards().remove(c);
+				test.getCards().add(c);
+			}
+
 			answerField.setText("");
 			updatePrompt(questionIndex);
 		}

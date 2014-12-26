@@ -33,12 +33,12 @@ public class FinishPanel extends JPanel {
 
 	// TODO Creating JList for leaderboard (WIP)
 	private JList<Object> leaderboards;
-	
+
 	public FinishPanel(VTP5 parent) {
 		cf = new CustomFont();
 		test = parent.getTest();
 		setLayout(new MigLayout("fillx"));
-		completedMessage = "You made it! You got "
+		completedMessage = "<html>You made it! You got "
 				+ new BigDecimal(String.valueOf(test.getSuccessRate()))
 						.setScale(1, BigDecimal.ROUND_HALF_UP).toString()
 				+ "%.";
@@ -55,8 +55,10 @@ public class FinishPanel extends JPanel {
 			completedMessage = completedMessage + " Ouch!";
 		}
 
+		completedMessage += "</html>";
+
 		statsListModel = new DefaultListModel<>();
-		//statsListModel.addElement("<html><u>Statistics:</u></html>");
+		// statsListModel.addElement("<html><u>Statistics:</u></html>");
 		statsListModel.addElement("Answered correctly: ");
 		statsListModel.addElement("Answered incorrectly: ");
 		statsListModel.addElement("Total number of guesses: ");
@@ -66,38 +68,53 @@ public class FinishPanel extends JPanel {
 		statsScrollPane = new JScrollPane(statsList);
 		Object[] stats = test.getStats();
 		statsListModel.removeAllElements();
-		//statsListModel.addElement("<html><u>Statistics:</u></html>");
+		// statsListModel.addElement("<html><u>Statistics:</u></html>");
 		statsListModel.addElement("Answered correctly: "
 				+ ((int) stats[0] - test.getCards().size()));
-		statsListModel.addElement("Answered incorrectly: " + parent.getTest().getIncorrectCards().size());
+		statsListModel.addElement("Answered incorrectly: "
+				+ parent.getTest().getIncorrectCards().size());
 		statsListModel.addElement("Total number of guesses: " + stats[2]);
 
 		showListLabel = new JLabel(
-				"Here's a list of the words you got wrong the first time:");
+				"<html>Here's a list of the words you got wrong the first time:</html>");
 		completedLabel = new JLabel(completedMessage);
 
 		watm = new WrongAnswersTableModel(parent.getTest().getIncorrectCards());
 		table = new JTable(watm);
 		table.setEnabled(false);
-		
+
 		leaderboards = new JList<Object>();
 
 		saveTest = new JButton("Save Wrong Answers To New Test");
 		restartTest = new JButton("Start Test Again");
-		
+
 		cf.setFont(completedLabel, 75);
-		cf.setFont(showListLabel, 60);
+		cf.setFont(showListLabel, 40);
 		cf.setFont(statsList, 40);
 		cf.setFont(table, 30);
 		cf.setFont(table.getTableHeader(), 30);
 		cf.setFont(leaderboards, 40);
 		cf.setFont(saveTest, 40);
 		cf.setFont(restartTest, 40);
-		
+
+		// Add components to componentList in VTP5 class so that font rescaling
+		// can occur when frame is resized
+		ArrayList<ComponentWithFontData> componentList = parent
+				.getComponentList();
+		componentList.add(new ComponentWithFontData(completedLabel, 75));
+		componentList.add(new ComponentWithFontData(showListLabel, 40));
+		componentList.add(new ComponentWithFontData(statsList, 40));
+		componentList.add(new ComponentWithFontData(table, 30));
+		componentList
+				.add(new ComponentWithFontData(table.getTableHeader(), 30));
+		componentList.add(new ComponentWithFontData(leaderboards, 40));
+		componentList.add(new ComponentWithFontData(saveTest, 40));
+		componentList.add(new ComponentWithFontData(restartTest, 40));
+
 		table.setRowHeight(table.getFont().getSize() + 10);
 
 		add(completedLabel, "grow");
-		add(statsScrollPane, "grow, spany 2, wrap");
+		add(statsScrollPane, "grow, spany 2, width 35%!, wrap");
 		add(showListLabel, "grow, wrap");
 		add(new JScrollPane(table), "grow");
 		add(new JScrollPane(leaderboards), "grow, wrap, push");
