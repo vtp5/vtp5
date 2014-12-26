@@ -564,8 +564,8 @@ public class VTP5 extends JFrame {
 		mainPanel.setVisible(false);
 		repaint();
 		revalidate();
-		// finishPanel.updatePanel();
 		getContentPane().add(finishPanel = new FinishPanel(this));
+		saveButton.setEnabled(false);
 		repaint();
 		revalidate();
 	}
