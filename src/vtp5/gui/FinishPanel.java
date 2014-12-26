@@ -38,10 +38,12 @@ public class FinishPanel extends JPanel {
 						.setScale(1, BigDecimal.ROUND_HALF_UP).toString()
 				+ "%.";
 
-		if (test.getSuccessRate() >= 90) {
+		if (test.getSuccessRate() == 100) {
 			completedMessage = completedMessage + " That's amazing!";
-		} else if (test.getSuccessRate() >= 75) {
+		} else if (test.getSuccessRate() >= 90) {
 			completedMessage = completedMessage + " Well done!";
+		} else if (test.getSuccessRate() >= 75) {
+			completedMessage = completedMessage + " Not too bad!";
 		} else if (test.getSuccessRate() >= 50) {
 			completedMessage = completedMessage + " Needs some work!";
 		} else {
@@ -62,7 +64,7 @@ public class FinishPanel extends JPanel {
 		statsListModel.addElement("<html><u>Statistics:</u></html>");
 		statsListModel.addElement("Answered correctly: "
 				+ ((int) stats[0] - test.getCards().size()));
-		statsListModel.addElement("Answered incorrectly: " + stats[1]);
+		statsListModel.addElement("Answered incorrectly: " + parent.getTest().getIncorrectCards().size());
 		statsListModel.addElement("Total number of guesses: " + stats[2]);
 
 		showListLabel = new JLabel(
@@ -71,6 +73,7 @@ public class FinishPanel extends JPanel {
 
 		watm = new WrongAnswersTableModel(parent.getTest().getIncorrectCards());
 		table = new JTable(watm);
+		table.setEnabled(false);
 
 		cf.setFont(completedLabel, 75);
 		cf.setFont(showListLabel, 60);
@@ -83,7 +86,7 @@ public class FinishPanel extends JPanel {
 		add(completedLabel, "grow");
 		add(statsScrollPane, "grow, spany 2, wrap");
 		add(showListLabel, "grow, wrap");
-		add(new JScrollPane(table), "grow");
+		add(new JScrollPane(table), "grow, span");
 	}
 }
 
