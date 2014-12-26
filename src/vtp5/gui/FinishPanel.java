@@ -1,5 +1,6 @@
 package vtp5.gui;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
@@ -26,12 +27,15 @@ public class FinishPanel extends JPanel {
 	private JList<Object> statsList;
 	private DefaultListModel<Object> statsListModel;
 	private JScrollPane statsScrollPane;
+	private WrongAnswersTableModel watm;
 
 	public FinishPanel(VTP5 parent) {
 		cf = new CustomFont();
 		test = parent.getTest();
 		setLayout(new MigLayout("fillx"));
-		completedMessage = "You made it! You got " + test.getSuccessRate()
+		completedMessage = "You made it! You got "
+				+ new BigDecimal(String.valueOf(test.getSuccessRate()))
+						.setScale(1, BigDecimal.ROUND_HALF_UP).toString()
 				+ "%.";
 
 		if (test.getSuccessRate() >= 90) {
@@ -62,16 +66,24 @@ public class FinishPanel extends JPanel {
 		statsListModel.addElement("Total number of guesses: " + stats[2]);
 
 		showListLabel = new JLabel(
-				"Here's a list of the words you got wrong the first time.");
+				"Here's a list of the words you got wrong the first time:");
 		completedLabel = new JLabel(completedMessage);
+
+		watm = new WrongAnswersTableModel(parent.getTest().getIncorrectCards());
+		table = new JTable(watm);
 
 		cf.setFont(completedLabel, 75);
 		cf.setFont(showListLabel, 60);
 		cf.setFont(statsList, 40);
+		cf.setFont(table, 30);
+		cf.setFont(table.getTableHeader(), 30);
+		
+		table.setRowHeight(table.getFont().getSize() + 10);
 
 		add(completedLabel, "grow");
 		add(statsScrollPane, "grow, spany 2, wrap");
-		add(showListLabel, "grow");
+		add(showListLabel, "grow, wrap");
+		add(new JScrollPane(table), "grow");
 	}
 }
 
@@ -96,7 +108,7 @@ class WrongAnswersTableModel extends AbstractTableModel {
 	@Override
 	public String getColumnName(int column) {
 		String name = "";
-		
+
 		switch (column) {
 		case 0:
 			name = "Word";
@@ -105,7 +117,7 @@ class WrongAnswersTableModel extends AbstractTableModel {
 			name = "Translation";
 			break;
 		}
-		
+
 		return name;
 	}
 
@@ -113,16 +125,16 @@ class WrongAnswersTableModel extends AbstractTableModel {
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		Card card = wrongAnswers.get(rowIndex);
 		String value = "";
-		
+
 		switch (columnIndex) {
 		case 0:
 			value = card.getLangFrom().toString();
 			break;
 		case 1:
-			value = card.getLangTo().toString();
+			value = card.getCorrectLangTo().toString();
 			break;
 		}
-		
+
 		value = value.substring(1, value.length() - 1);
 		return value;
 	}

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -240,5 +241,4 @@ public class TestFile implements Serializable {
 	public double getSuccessRate() {
 		return this.successRate;
 	}
-
 }
