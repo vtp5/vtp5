@@ -64,9 +64,7 @@ public class FinishPanel extends JPanel {
 		componentList.add(new ComponentWithFontData(leaderboards, 40));
 		componentList.add(new ComponentWithFontData(saveTest, 40));
 		componentList.add(new ComponentWithFontData(restartTest, 40));
-	}
 
-	public void updatePanel() {
 		test = parent.getTest();
 		completedMessage = "<html>You made it! You got "
 				+ new BigDecimal(String.valueOf(test.getSuccessRate()))

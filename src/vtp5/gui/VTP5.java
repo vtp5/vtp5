@@ -115,7 +115,7 @@ public class VTP5 extends JFrame {
 	private ArrayList<JButton> buttonList = new ArrayList<>();
 
 	// finishPanel instance variable
-	FinishPanel finishPanel = new FinishPanel(this);
+	FinishPanel finishPanel;
 
 	// The all-import TestFile object!
 	private TestFile test;
@@ -453,259 +453,6 @@ public class VTP5 extends JFrame {
 		}
 	}
 
-	// Inner class for the frame's content pane so that the background image can
-	// be drawn
-	private class FramePanel extends JPanel {
-		private static final long serialVersionUID = 1L;
-
-		@Override
-		public void paintComponent(Graphics g) {
-
-			Graphics2D g2 = (Graphics2D) g;
-			Image backgroundImage = new ImageIcon("res/images/backvtp.png")
-					.getImage();
-
-			g2.drawImage(backgroundImage, 0, 0, (int) getSize().getWidth(),
-					(int) getSize().getHeight(), 0, 0,
-					(int) backgroundImage.getWidth(this),
-					(int) backgroundImage.getHeight(this), this);
-		}
-	}
-
-	// FrameListener's componentResized() method will be thrown when the JFrame
-	// is resized, so we can scale the text
-
-	// "TIMER IDEA" COURTESY OF
-	// http://stackoverflow.com/questions/10229292/get-notified-when-the-user-finishes-resizing-a-jframe
-	private class FrameListener extends ComponentAdapter {
-		private JFrame frame;
-		private Dimension originalSize;
-
-		private double scaler;
-
-		private Timer recalculateTimer;
-
-		private FrameListener(JFrame frame) {
-			this.frame = frame;
-			this.originalSize = frame.getSize();
-			this.recalculateTimer = new Timer(20, new RescaleListener());
-			this.recalculateTimer.setRepeats(false);
-		}
-
-		@Override
-		public void componentResized(ComponentEvent e) {
-			if (recalculateTimer.isRunning()) {
-				recalculateTimer.restart();
-			} else {
-				recalculateTimer.start();
-			}
-		}
-
-		private class RescaleListener implements ActionListener {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// Scale the text when the frame is resized
-				// Calculate the scale factor
-				Dimension newSize = frame.getSize();
-				scaler = Math.min(newSize.getWidth() / originalSize.getWidth(),
-						newSize.getHeight() / originalSize.getHeight());
-
-				for (ComponentWithFontData c : componentList) {
-					Component component = c.getComponent();
-					int newFontSize = (int) ((double) c.getOriginalFontSize() * scaler);
-					setFontSize(component, newFontSize);
-				}
-
-				frame.revalidate();
-				frame.repaint();
-			}
-		}
-	}
-
-	private class EventListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == importFileButton) {
-				int option = JOptionPane
-						.showOptionDialog(
-								getParent(),
-								"Do you want to import a text file (for simple tests), a CSV file (for more complex tests),\n                                 or a VTP5 progress file (for partly completed tests)?",
-								"What test type do you want to import?",
-								JOptionPane.YES_NO_CANCEL_OPTION,
-								JOptionPane.PLAIN_MESSAGE, null, new String[] {
-										"Text File", "CSV File",
-										"Progress File", "Cancel" }, null);
-
-				// Open JFileChooser and then creates test file
-				if (option == 0 || option == 1) {
-					showChooserDialog(option);
-					try {
-						progressBar.setString(test.getScore() + "/"
-								+ (test.getCards().size() + test.getScore()));
-						Collections.shuffle(test.getCards());
-						updatePrompt(questionIndex);
-						updateStatsList();
-						progressBar.setValue(0);
-						progressBar.setMaximum(test.getCards().size());
-						switchLanguageCheck.setEnabled(true);
-						saveButton.setEnabled(true);
-						leaderboardButton.setEnabled(true);
-						enterButton.setEnabled(true);
-						passButton.setEnabled(true);
-					} catch (NullPointerException npe) {
-						JOptionPane.showMessageDialog(getParent(),
-								"No file selected.", "VTP5",
-								JOptionPane.INFORMATION_MESSAGE);
-					}
-				} else if (option == 2) {
-					showChooserDialog(option);
-					try {
-						progressBar.setString(test.getScore() + "/"
-								+ (test.getCards().size() + test.getScore()));
-						Collections.shuffle(test.getCards());
-						updatePrompt(questionIndex);
-						updateStatsList();
-						progressBar.setMaximum(test.getCards().size()
-								+ test.getScore());
-						progressBar.setValue(test.getScore());
-						switchLanguageCheck.setEnabled(true);
-						saveButton.setEnabled(true);
-						leaderboardButton.setEnabled(true);
-						enterButton.setEnabled(true);
-						passButton.setEnabled(true);
-					} catch (NullPointerException npe) {
-						JOptionPane.showMessageDialog(getParent(),
-								"No file selected.", "VTP5",
-								JOptionPane.INFORMATION_MESSAGE);
-					}
-				}
-
-			} else if (e.getSource() == changeButtonColour) {
-				displayColorChooser(1);
-			} else if (e.getSource() == changePromptColour) {
-				displayColorChooser(2);
-			} else if (e.getSource() == changeForegroundColour) {
-				displayColorChooser(3);
-			} else if (e.getSource() == aboutButton) {
-				abtDialog.setVisible(true);
-			}/*
-			 * else if (e.getSource() == changeButtonColour) {
-			 * System.out.println(bcolour.toString() + fcolour.toString() +
-			 * tcolour.toString()); bcolour =
-			 * JColorChooser.showDialog(settingsDialog, "Choosecolor",
-			 * Color.BLACK); setColour(bcolour, fcolour, tcolour); } else if
-			 * (e.getSource() == changeForegroundColour) {
-			 * System.out.println(bcolour.toString() + fcolour.toString() +
-			 * tcolour.toString()); fcolour =
-			 * JColorChooser.showDialog(settingsDialog, "Choosecolor",
-			 * Color.BLACK); setColour(bcolour, fcolour, tcolour); } else if
-			 * (e.getSource() == changePromptColour) {
-			 * System.out.println(bcolour.toString() + fcolour.toString() +
-			 * tcolour.toString()); tcolour =
-			 * JColorChooser.showDialog(settingsDialog, "Choose color",
-			 * Color.BLACK); setColour(bcolour, fcolour, tcolour); }
-			 */else if (e.getSource() == aboutButton) {
-				abtDialog.setVisible(true);
-			} else if (e.getSource() == enterButton) {
-				doLogic();
-			} else if (e.getSource() == passButton) {
-				// Reorder cards
-				Card c = test.getCards().get(questionIndex);
-				Collections.shuffle(test.getCards());
-				// If the first card is still the same, move it to the end of
-				// the ArrayList
-				if (c == test.getCards().get(questionIndex)) {
-					test.getCards().remove(c);
-					test.getCards().add(c);
-				}
-				updatePrompt(questionIndex);
-			} else if (e.getSource() == helpButton) {
-				try {
-					java.awt.Desktop
-							.getDesktop()
-							.browse(new URI(
-									"https://github.com/duckifyz/VTP5/wiki/Help"));
-				} catch (URISyntaxException | IOException e1) {
-					e1.printStackTrace();
-					JOptionPane
-							.showMessageDialog(
-									null,
-									"The following error occurred:\n\n"
-											+ e1.toString()
-											+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
-									"VTP5", JOptionPane.ERROR_MESSAGE);
-				}
-			} else if (e.getSource() == settingsButton) {
-				changePromptColour.addActionListener(this);
-				changeButtonColour.addActionListener(this);
-				changeForegroundColour.addActionListener(this);
-				settingsDialog.setVisible(true);
-				// TODO Finish this
-			} else if (e.getSource() == saveButton) {
-				// Ultimately, this saves the current TestFile object containing
-				// the user's progress data to a .vtp5 file
-				// try {
-				int answer = progressSaveChooser.showSaveDialog(getParent());
-				if (answer == JFileChooser.APPROVE_OPTION) {
-					// FileWriter fwriter = new FileWriter(
-					// chooser.getSelectedFile() + ".txt"); // filewriter
-					// // for
-					// // .txt
-					// // created
-					// BufferedWriter bfwriter = new BufferedWriter(fwriter); //
-					// parsed
-					// // to
-					// // buffered
-					// // writer
-					// for (Card s : test.getCards()) { // card is looped
-					// // through
-					// bfwriter.write(s.getLangFrom().get(0)); // prompt is
-					// // written
-					// bfwriter.newLine(); // new line
-					// bfwriter.write(s.getLangTo().get(0)); // answer is
-					// // written
-					// bfwriter.newLine();
-					// System.out.println("saved");
-					// }
-					// bfwriter.close(); // writer is closed
-					// System.out.println("File saved");
-					String filePath = progressSaveChooser.getSelectedFile()
-							.getAbsolutePath();
-
-					if (!filePath.endsWith(".vtp5")) {
-						filePath = filePath + ".vtp5";
-					}
-
-					File progressFile = new File(filePath);
-					try (ObjectOutputStream output = new ObjectOutputStream(
-							new FileOutputStream(progressFile))) {
-						output.writeObject(test);
-						JOptionPane
-								.showMessageDialog(
-										null,
-										"Success! Your progress has been saved to the following file:\n\n"
-												+ filePath
-												+ "\n\nTo carry on with this test later, click \"Import Test File\"\nand then click the \"Progress File\" button.",
-										"VTP5", JOptionPane.INFORMATION_MESSAGE);
-					} catch (IOException e1) {
-						e1.printStackTrace();
-						JOptionPane
-								.showMessageDialog(
-										null,
-										"The following error occurred:\n\n"
-												+ e1.toString()
-												+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
-										"VTP5", JOptionPane.ERROR_MESSAGE);
-					}
-				}
-				// } catch (IOException e1) {
-				// e1.printStackTrace();
-				// }
-			}
-		}
-	}
-
 	private void displayColorChooser(int index) {
 		Color c;
 		switch (index) {
@@ -814,14 +561,24 @@ public class VTP5 extends JFrame {
 	}
 
 	private void finishTest() {
-		// TODO THIS IS A SIDEBAR MARKER, NOT REQUIRED
-		getContentPane().remove(mainPanel);
+		mainPanel.setVisible(false);
 		repaint();
 		revalidate();
-		finishPanel.updatePanel();
-		getContentPane().add(finishPanel);
+		// finishPanel.updatePanel();
+		getContentPane().add(finishPanel = new FinishPanel(this));
 		repaint();
 		revalidate();
+	}
+
+	private void showMainPanel() {
+		if (finishPanel != null) {
+			getContentPane().remove(finishPanel);
+			repaint();
+			revalidate();
+		}
+			
+		mainPanel.setVisible(true);
+		answerField.setText("");
 	}
 
 	private void updateGuessedAnswersList(boolean isCorrect) {
@@ -888,6 +645,263 @@ public class VTP5 extends JFrame {
 
 	void setComponentList(ArrayList<ComponentWithFontData> componentList) {
 		this.componentList = componentList;
+	}
+
+	// Inner class for the frame's content pane so that the background image can
+	// be drawn
+	private class FramePanel extends JPanel {
+		private static final long serialVersionUID = 1L;
+	
+		@Override
+		public void paintComponent(Graphics g) {
+	
+			Graphics2D g2 = (Graphics2D) g;
+			Image backgroundImage = new ImageIcon("res/images/backvtp.png")
+					.getImage();
+	
+			g2.drawImage(backgroundImage, 0, 0, (int) getSize().getWidth(),
+					(int) getSize().getHeight(), 0, 0,
+					(int) backgroundImage.getWidth(this),
+					(int) backgroundImage.getHeight(this), this);
+		}
+	}
+
+	// FrameListener's componentResized() method will be thrown when the JFrame
+	// is resized, so we can scale the text
+	
+	// "TIMER IDEA" COURTESY OF
+	// http://stackoverflow.com/questions/10229292/get-notified-when-the-user-finishes-resizing-a-jframe
+	private class FrameListener extends ComponentAdapter {
+		private JFrame frame;
+		private Dimension originalSize;
+	
+		private double scaler;
+	
+		private Timer recalculateTimer;
+	
+		private FrameListener(JFrame frame) {
+			this.frame = frame;
+			this.originalSize = frame.getSize();
+			this.recalculateTimer = new Timer(20, new RescaleListener());
+			this.recalculateTimer.setRepeats(false);
+		}
+	
+		@Override
+		public void componentResized(ComponentEvent e) {
+			if (recalculateTimer.isRunning()) {
+				recalculateTimer.restart();
+			} else {
+				recalculateTimer.start();
+			}
+		}
+	
+		private class RescaleListener implements ActionListener {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// Scale the text when the frame is resized
+				// Calculate the scale factor
+				Dimension newSize = frame.getSize();
+				scaler = Math.min(newSize.getWidth() / originalSize.getWidth(),
+						newSize.getHeight() / originalSize.getHeight());
+	
+				for (ComponentWithFontData c : componentList) {
+					Component component = c.getComponent();
+					int newFontSize = (int) ((double) c.getOriginalFontSize() * scaler);
+					setFontSize(component, newFontSize);
+				}
+	
+				frame.revalidate();
+				frame.repaint();
+			}
+		}
+	}
+
+	private class EventListener implements ActionListener {
+	
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (e.getSource() == importFileButton) {
+				int option = JOptionPane
+						.showOptionDialog(
+								getParent(),
+								"Do you want to import a text file (for simple tests), a CSV file (for more complex tests),\n                                 or a VTP5 progress file (for partly completed tests)?",
+								"What test type do you want to import?",
+								JOptionPane.YES_NO_CANCEL_OPTION,
+								JOptionPane.PLAIN_MESSAGE, null, new String[] {
+										"Text File", "CSV File",
+										"Progress File", "Cancel" }, null);
+	
+				// Open JFileChooser and then creates test file
+				if (option == 0 || option == 1) {
+					showChooserDialog(option);
+					try {
+						progressBar.setString(test.getScore() + "/"
+								+ (test.getCards().size() + test.getScore()));
+						Collections.shuffle(test.getCards());
+						updatePrompt(questionIndex);
+						updateStatsList();
+						progressBar.setValue(0);
+						progressBar.setMaximum(test.getCards().size());
+						switchLanguageCheck.setEnabled(true);
+						saveButton.setEnabled(true);
+						leaderboardButton.setEnabled(true);
+						enterButton.setEnabled(true);
+						passButton.setEnabled(true);
+						showMainPanel();
+					} catch (NullPointerException npe) {
+						JOptionPane.showMessageDialog(getParent(),
+								"No file selected.", "VTP5",
+								JOptionPane.INFORMATION_MESSAGE);
+						npe.printStackTrace();
+					}
+				} else if (option == 2) {
+					showChooserDialog(option);
+					try {
+						progressBar.setString(test.getScore() + "/"
+								+ (test.getCards().size() + test.getScore()));
+						Collections.shuffle(test.getCards());
+						updatePrompt(questionIndex);
+						updateStatsList();
+						progressBar.setMaximum(test.getCards().size()
+								+ test.getScore());
+						progressBar.setValue(test.getScore());
+						switchLanguageCheck.setEnabled(true);
+						saveButton.setEnabled(true);
+						leaderboardButton.setEnabled(true);
+						enterButton.setEnabled(true);
+						passButton.setEnabled(true);
+						showMainPanel();
+					} catch (NullPointerException npe) {
+						JOptionPane.showMessageDialog(getParent(),
+								"No file selected.", "VTP5",
+								JOptionPane.INFORMATION_MESSAGE);
+						npe.printStackTrace();
+					}
+				}
+	
+			} else if (e.getSource() == changeButtonColour) {
+				displayColorChooser(1);
+			} else if (e.getSource() == changePromptColour) {
+				displayColorChooser(2);
+			} else if (e.getSource() == changeForegroundColour) {
+				displayColorChooser(3);
+			} else if (e.getSource() == aboutButton) {
+				abtDialog.setVisible(true);
+			}/*
+			 * else if (e.getSource() == changeButtonColour) {
+			 * System.out.println(bcolour.toString() + fcolour.toString() +
+			 * tcolour.toString()); bcolour =
+			 * JColorChooser.showDialog(settingsDialog, "Choosecolor",
+			 * Color.BLACK); setColour(bcolour, fcolour, tcolour); } else if
+			 * (e.getSource() == changeForegroundColour) {
+			 * System.out.println(bcolour.toString() + fcolour.toString() +
+			 * tcolour.toString()); fcolour =
+			 * JColorChooser.showDialog(settingsDialog, "Choosecolor",
+			 * Color.BLACK); setColour(bcolour, fcolour, tcolour); } else if
+			 * (e.getSource() == changePromptColour) {
+			 * System.out.println(bcolour.toString() + fcolour.toString() +
+			 * tcolour.toString()); tcolour =
+			 * JColorChooser.showDialog(settingsDialog, "Choose color",
+			 * Color.BLACK); setColour(bcolour, fcolour, tcolour); }
+			 */else if (e.getSource() == aboutButton) {
+				abtDialog.setVisible(true);
+			} else if (e.getSource() == enterButton) {
+				doLogic();
+			} else if (e.getSource() == passButton) {
+				// Reorder cards
+				Card c = test.getCards().get(questionIndex);
+				Collections.shuffle(test.getCards());
+				// If the first card is still the same, move it to the end of
+				// the ArrayList
+				if (c == test.getCards().get(questionIndex)) {
+					test.getCards().remove(c);
+					test.getCards().add(c);
+				}
+				updatePrompt(questionIndex);
+			} else if (e.getSource() == helpButton) {
+				try {
+					java.awt.Desktop
+							.getDesktop()
+							.browse(new URI(
+									"https://github.com/duckifyz/VTP5/wiki/Help"));
+				} catch (URISyntaxException | IOException e1) {
+					e1.printStackTrace();
+					JOptionPane
+							.showMessageDialog(
+									null,
+									"The following error occurred:\n\n"
+											+ e1.toString()
+											+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
+									"VTP5", JOptionPane.ERROR_MESSAGE);
+				}
+			} else if (e.getSource() == settingsButton) {
+				changePromptColour.addActionListener(this);
+				changeButtonColour.addActionListener(this);
+				changeForegroundColour.addActionListener(this);
+				settingsDialog.setVisible(true);
+				// TODO Finish this
+			} else if (e.getSource() == saveButton) {
+				// Ultimately, this saves the current TestFile object containing
+				// the user's progress data to a .vtp5 file
+				// try {
+				int answer = progressSaveChooser.showSaveDialog(getParent());
+				if (answer == JFileChooser.APPROVE_OPTION) {
+					// FileWriter fwriter = new FileWriter(
+					// chooser.getSelectedFile() + ".txt"); // filewriter
+					// // for
+					// // .txt
+					// // created
+					// BufferedWriter bfwriter = new BufferedWriter(fwriter); //
+					// parsed
+					// // to
+					// // buffered
+					// // writer
+					// for (Card s : test.getCards()) { // card is looped
+					// // through
+					// bfwriter.write(s.getLangFrom().get(0)); // prompt is
+					// // written
+					// bfwriter.newLine(); // new line
+					// bfwriter.write(s.getLangTo().get(0)); // answer is
+					// // written
+					// bfwriter.newLine();
+					// System.out.println("saved");
+					// }
+					// bfwriter.close(); // writer is closed
+					// System.out.println("File saved");
+					String filePath = progressSaveChooser.getSelectedFile()
+							.getAbsolutePath();
+	
+					if (!filePath.endsWith(".vtp5")) {
+						filePath = filePath + ".vtp5";
+					}
+	
+					File progressFile = new File(filePath);
+					try (ObjectOutputStream output = new ObjectOutputStream(
+							new FileOutputStream(progressFile))) {
+						output.writeObject(test);
+						JOptionPane
+								.showMessageDialog(
+										null,
+										"Success! Your progress has been saved to the following file:\n\n"
+												+ filePath
+												+ "\n\nTo carry on with this test later, click \"Import Test File\"\nand then click the \"Progress File\" button.",
+										"VTP5", JOptionPane.INFORMATION_MESSAGE);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+						JOptionPane
+								.showMessageDialog(
+										null,
+										"The following error occurred:\n\n"
+												+ e1.toString()
+												+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
+										"VTP5", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+				// } catch (IOException e1) {
+				// e1.printStackTrace();
+				// }
+			}
+		}
 	}
 
 	private class ActionEnter extends AbstractAction {
