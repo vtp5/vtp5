@@ -1,13 +1,17 @@
 package vtp5.gui;
 
+import java.util.ArrayList;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
 
 import net.miginfocom.swing.MigLayout;
+import vtp5.logic.Card;
 import vtp5.logic.TestFile;
 
 public class FinishPanel extends JPanel {
@@ -27,15 +31,14 @@ public class FinishPanel extends JPanel {
 		cf = new CustomFont();
 		test = parent.getTest();
 		setLayout(new MigLayout("fillx"));
-
 		completedMessage = "You made it! You got " + test.getSuccessRate()
 				+ "%.";
 
-		if (test.getSuccessRate() > 90) {
+		if (test.getSuccessRate() >= 90) {
 			completedMessage = completedMessage + " That's amazing!";
-		} else if (test.getSuccessRate() > 75) {
+		} else if (test.getSuccessRate() >= 75) {
 			completedMessage = completedMessage + " Well done!";
-		} else if (test.getSuccessRate() > 50) {
+		} else if (test.getSuccessRate() >= 50) {
 			completedMessage = completedMessage + " Needs some work!";
 		} else {
 			completedMessage = completedMessage + " Ouch!";
@@ -61,14 +64,66 @@ public class FinishPanel extends JPanel {
 		showListLabel = new JLabel(
 				"Here's a list of the words you got wrong the first time.");
 		completedLabel = new JLabel(completedMessage);
+
 		cf.setFont(completedLabel, 75);
 		cf.setFont(showListLabel, 60);
 		cf.setFont(statsList, 40);
-		// add(completedLabel, "left, grow");
-		// add(statsScrollPane, "right, grow, wrap");
-		// add(showListLabel, "left, grow, wrap");
+
 		add(completedLabel, "grow");
 		add(statsScrollPane, "grow, spany 2, wrap");
 		add(showListLabel, "grow");
+	}
+}
+
+class WrongAnswersTableModel extends AbstractTableModel {
+
+	private ArrayList<Card> wrongAnswers;
+
+	public WrongAnswersTableModel(ArrayList<Card> wrongAnswers) {
+		this.wrongAnswers = wrongAnswers;
+	}
+
+	@Override
+	public int getColumnCount() {
+		return 2;
+	}
+
+	@Override
+	public int getRowCount() {
+		return wrongAnswers.size();
+	}
+
+	@Override
+	public String getColumnName(int column) {
+		String name = "";
+		
+		switch (column) {
+		case 0:
+			name = "Word";
+			break;
+		case 1:
+			name = "Translation";
+			break;
+		}
+		
+		return name;
+	}
+
+	@Override
+	public Object getValueAt(int rowIndex, int columnIndex) {
+		Card card = wrongAnswers.get(rowIndex);
+		String value = "";
+		
+		switch (columnIndex) {
+		case 0:
+			value = card.getLangFrom().toString();
+			break;
+		case 1:
+			value = card.getLangTo().toString();
+			break;
+		}
+		
+		value = value.substring(1, value.length() - 1);
+		return value;
 	}
 }

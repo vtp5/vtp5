@@ -125,9 +125,6 @@ public class VTP5 extends JFrame {
 
 	public Font font;
 	
-	// arraylist for wrongly guessed answers
-	ArrayList<Card> wrongAnswers = new ArrayList<>();
-
 	public VTP5() {
 		// Sets up JFileChooser
 		txtChooser.setFileFilter(new FileNameExtensionFilter(
@@ -764,9 +761,6 @@ public class VTP5 extends JFrame {
 
 				// Turn guessedAnswersList red as well
 				guessedAnswersList.setForeground(Color.RED);
-				
-				// add incorrect answer to arraylist
-				wrongAnswers.add(test.getCards().get(questionIndex));
 
 				// Update guessedAnswersList
 				updateGuessedAnswersList(false);
