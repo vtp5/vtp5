@@ -38,8 +38,11 @@ public class TestFile implements Serializable {
 	public static final int INCORRECT = 0;
 	public static final int PARTIALLY_CORRECT = 1;
 	public static final int COMPLETELY_CORRECT = 2;
+	
+	public File importedFile;
 
 	public TestFile(File file) throws IOException {
+		this.importedFile = file;
 		getVocabFromFile(file);
 		totalNumberOfCards = cards.size();
 	}

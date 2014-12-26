@@ -65,7 +65,7 @@ public class VTP5 extends JFrame {
 	// Components for button panel at top of frame
 	private JPanel buttonPanel;
 	private JButton importFileButton, leaderboardButton, settingsButton,
-			helpButton, aboutButton, saveButton;
+			helpButton, aboutButton, saveButton, startAgainButton;
 	private int questionIndex = 0;
 
 	// Components in the main area of the frame
@@ -155,6 +155,12 @@ public class VTP5 extends JFrame {
 		saveButton.setEnabled(false);
 		buttonList.add(saveButton);
 
+		startAgainButton = new JButton("Start Again");
+		startAgainButton.setBackground(bcolour);
+		startAgainButton.setForeground(fcolour);
+		startAgainButton.setEnabled(false);
+		buttonList.add(startAgainButton);
+
 		leaderboardButton = new JButton("View Leaderboards");// creates buttons
 		leaderboardButton.setBackground(bcolour);// changes background colour
 		leaderboardButton.setForeground(fcolour);// changes foreground colour
@@ -232,6 +238,8 @@ public class VTP5 extends JFrame {
 																		// list
 		componentList.add(new ComponentWithFontData(aboutButton, 34));// adds to
 																		// list
+		componentList.add(new ComponentWithFontData(startAgainButton, 34));
+
 		componentList.add(new ComponentWithFontData(progressBar, 24));
 
 		// Prevent the buttons from being focusable so there is no ugly
@@ -242,14 +250,17 @@ public class VTP5 extends JFrame {
 		settingsButton.setFocusable(false);
 		helpButton.setFocusable(false);
 		aboutButton.setFocusable(false);
+		startAgainButton.setFocusable(false);
 
 		importFileButton.addActionListener(new EventListener());
 		saveButton.addActionListener(new EventListener());
 		aboutButton.addActionListener(new EventListener());
 		settingsButton.addActionListener(new EventListener());
 		helpButton.addActionListener(new EventListener());
+		startAgainButton.addActionListener(new EventListener());
 
 		buttonPanel.add(importFileButton, "align left");// adds to panel
+		buttonPanel.add(startAgainButton, "align left");
 		buttonPanel.add(saveButton, "align right");
 		buttonPanel.add(leaderboardButton, "align right");// adds to panel
 		buttonPanel.add(settingsButton, "align right");// adds to panel
@@ -576,7 +587,7 @@ public class VTP5 extends JFrame {
 			repaint();
 			revalidate();
 		}
-			
+
 		mainPanel.setVisible(true);
 		answerField.setText("");
 	}
@@ -630,6 +641,24 @@ public class VTP5 extends JFrame {
 		statsListModel.addElement("Success rate: "
 				+ String.format("%.2f", (double) stats[3]) + "%");
 	}
+	
+	private void setUpTest() {
+		progressBar.setString(test.getScore() + "/"
+				+ (test.getCards().size() + test.getScore()));
+		Collections.shuffle(test.getCards());
+		updatePrompt(questionIndex);
+		updateStatsList();
+		progressBar.setMaximum(test.getCards().size()
+				+ test.getScore());
+		progressBar.setValue(test.getScore());
+		switchLanguageCheck.setEnabled(true);
+		saveButton.setEnabled(true);
+		leaderboardButton.setEnabled(true);
+		enterButton.setEnabled(true);
+		passButton.setEnabled(true);
+		startAgainButton.setEnabled(true);
+		showMainPanel();
+	}
 
 	public TestFile getTest() {
 		return this.test;
@@ -651,14 +680,14 @@ public class VTP5 extends JFrame {
 	// be drawn
 	private class FramePanel extends JPanel {
 		private static final long serialVersionUID = 1L;
-	
+
 		@Override
 		public void paintComponent(Graphics g) {
-	
+
 			Graphics2D g2 = (Graphics2D) g;
 			Image backgroundImage = new ImageIcon("res/images/backvtp.png")
 					.getImage();
-	
+
 			g2.drawImage(backgroundImage, 0, 0, (int) getSize().getWidth(),
 					(int) getSize().getHeight(), 0, 0,
 					(int) backgroundImage.getWidth(this),
@@ -668,24 +697,24 @@ public class VTP5 extends JFrame {
 
 	// FrameListener's componentResized() method will be thrown when the JFrame
 	// is resized, so we can scale the text
-	
+
 	// "TIMER IDEA" COURTESY OF
 	// http://stackoverflow.com/questions/10229292/get-notified-when-the-user-finishes-resizing-a-jframe
 	private class FrameListener extends ComponentAdapter {
 		private JFrame frame;
 		private Dimension originalSize;
-	
+
 		private double scaler;
-	
+
 		private Timer recalculateTimer;
-	
+
 		private FrameListener(JFrame frame) {
 			this.frame = frame;
 			this.originalSize = frame.getSize();
 			this.recalculateTimer = new Timer(20, new RescaleListener());
 			this.recalculateTimer.setRepeats(false);
 		}
-	
+
 		@Override
 		public void componentResized(ComponentEvent e) {
 			if (recalculateTimer.isRunning()) {
@@ -694,7 +723,7 @@ public class VTP5 extends JFrame {
 				recalculateTimer.start();
 			}
 		}
-	
+
 		private class RescaleListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -703,13 +732,13 @@ public class VTP5 extends JFrame {
 				Dimension newSize = frame.getSize();
 				scaler = Math.min(newSize.getWidth() / originalSize.getWidth(),
 						newSize.getHeight() / originalSize.getHeight());
-	
+
 				for (ComponentWithFontData c : componentList) {
 					Component component = c.getComponent();
 					int newFontSize = (int) ((double) c.getOriginalFontSize() * scaler);
 					setFontSize(component, newFontSize);
 				}
-	
+
 				frame.revalidate();
 				frame.repaint();
 			}
@@ -717,7 +746,7 @@ public class VTP5 extends JFrame {
 	}
 
 	private class EventListener implements ActionListener {
-	
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == importFileButton) {
@@ -730,24 +759,12 @@ public class VTP5 extends JFrame {
 								JOptionPane.PLAIN_MESSAGE, null, new String[] {
 										"Text File", "CSV File",
 										"Progress File", "Cancel" }, null);
-	
+
 				// Open JFileChooser and then creates test file
 				if (option == 0 || option == 1) {
 					showChooserDialog(option);
 					try {
-						progressBar.setString(test.getScore() + "/"
-								+ (test.getCards().size() + test.getScore()));
-						Collections.shuffle(test.getCards());
-						updatePrompt(questionIndex);
-						updateStatsList();
-						progressBar.setValue(0);
-						progressBar.setMaximum(test.getCards().size());
-						switchLanguageCheck.setEnabled(true);
-						saveButton.setEnabled(true);
-						leaderboardButton.setEnabled(true);
-						enterButton.setEnabled(true);
-						passButton.setEnabled(true);
-						showMainPanel();
+						setUpTest();
 					} catch (NullPointerException npe) {
 						JOptionPane.showMessageDialog(getParent(),
 								"No file selected.", "VTP5",
@@ -757,20 +774,7 @@ public class VTP5 extends JFrame {
 				} else if (option == 2) {
 					showChooserDialog(option);
 					try {
-						progressBar.setString(test.getScore() + "/"
-								+ (test.getCards().size() + test.getScore()));
-						Collections.shuffle(test.getCards());
-						updatePrompt(questionIndex);
-						updateStatsList();
-						progressBar.setMaximum(test.getCards().size()
-								+ test.getScore());
-						progressBar.setValue(test.getScore());
-						switchLanguageCheck.setEnabled(true);
-						saveButton.setEnabled(true);
-						leaderboardButton.setEnabled(true);
-						enterButton.setEnabled(true);
-						passButton.setEnabled(true);
-						showMainPanel();
+						setUpTest();
 					} catch (NullPointerException npe) {
 						JOptionPane.showMessageDialog(getParent(),
 								"No file selected.", "VTP5",
@@ -778,7 +782,7 @@ public class VTP5 extends JFrame {
 						npe.printStackTrace();
 					}
 				}
-	
+
 			} else if (e.getSource() == changeButtonColour) {
 				displayColorChooser(1);
 			} else if (e.getSource() == changePromptColour) {
@@ -870,11 +874,11 @@ public class VTP5 extends JFrame {
 					// System.out.println("File saved");
 					String filePath = progressSaveChooser.getSelectedFile()
 							.getAbsolutePath();
-	
+
 					if (!filePath.endsWith(".vtp5")) {
 						filePath = filePath + ".vtp5";
 					}
-	
+
 					File progressFile = new File(filePath);
 					try (ObjectOutputStream output = new ObjectOutputStream(
 							new FileOutputStream(progressFile))) {
@@ -900,6 +904,13 @@ public class VTP5 extends JFrame {
 				// } catch (IOException e1) {
 				// e1.printStackTrace();
 				// }
+			} else if (e.getSource() == startAgainButton) {
+				try {
+					test = new TestFile(test.importedFile);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				setUpTest();		
 			}
 		}
 	}
