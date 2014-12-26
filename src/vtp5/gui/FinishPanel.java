@@ -115,7 +115,7 @@ public class FinishPanel extends JPanel {
 		restartTest.setText("Start Test Again");
 
 		add(completedLabel, "grow");
-		add(statsScrollPane, "grow, spany 2, width 35%!, wrap");
+		add(statsScrollPane, "grow, spany 2, width 35%!, height 25%!, wrap");
 		add(showListLabel, "grow, wrap");
 		add(new JScrollPane(table), "grow");
 		add(new JScrollPane(leaderboards), "grow, wrap, push");

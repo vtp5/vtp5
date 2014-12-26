@@ -820,6 +820,7 @@ public class VTP5 extends JFrame {
 		revalidate();
 		finishPanel.updatePanel();
 		getContentPane().add(finishPanel);
+		saveButton.setEnabled(false);
 		repaint();
 		revalidate();
 	}
