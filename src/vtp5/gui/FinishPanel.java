@@ -74,57 +74,6 @@ public class FinishPanel extends JPanel {
 		componentList.add(new ComponentWithFontData(leaderboards, 40));
 		componentList.add(new ComponentWithFontData(saveTest, 40));
 		componentList.add(new ComponentWithFontData(restartTest, 40));
-	}
-
-	// DO NOT DELETE THIS METHOD - it makes text-rescaling work!
-	public void updatePanel() {
-		removeAll();
-		test = parent.getTest();
-		completedMessage = "<html>You made it! You got "
-				+ new BigDecimal(String.valueOf(test.getSuccessRate()))
-						.setScale(1, BigDecimal.ROUND_HALF_UP).toString()
-				+ "%.";
-
-		if (test.getSuccessRate() == 100) {
-			completedMessage = completedMessage + " That's amazing!";
-		} else if (test.getSuccessRate() >= 90) {
-			completedMessage = completedMessage + " Well done!";
-		} else if (test.getSuccessRate() >= 75) {
-			completedMessage = completedMessage + " Not too bad!";
-		} else if (test.getSuccessRate() >= 50) {
-			completedMessage = completedMessage + " Needs some work!";
-		} else {
-			completedMessage = completedMessage + " Ouch!";
-		}
-
-		completedMessage += "</html>";
-
-		statsListModel.addElement("<html><u>Statistics:</u></html>");
-		statsListModel.addElement("Answered correctly: ");
-		statsListModel.addElement("Answered incorrectly: ");
-		statsListModel.addElement("Total number of guesses: ");
-		statsList.setVisibleRowCount(4);
-		statsList.setForeground(parent.getTColour());// changes text colour
-		Object[] stats = test.getStats();
-		statsListModel.removeAllElements();
-		statsListModel.addElement("<html><u>Statistics:</u></html>");
-		statsListModel.addElement("Answered correctly: "
-				+ ((int) stats[0] - test.getCards().size()));
-		statsListModel.addElement("Answered incorrectly: "
-				+ parent.getTest().getIncorrectCards().size());
-		statsListModel.addElement("Total number of guesses: " + stats[2]);
-
-		showListLabel
-				.setText("<html>Here's a list of the words you got wrong the first time:</html>");
-		completedLabel.setText(completedMessage);
-
-		watm = new WrongAnswersTableModel(parent.getTest().getIncorrectCards());
-		table.setModel(watm);
-		table.setEnabled(false);
-		table.setRowHeight(table.getFont().getSize() + 10);
-
-		saveTest.setText("Save Wrong Answers To New Test");
-		restartTest.setText("Start Test Again");
 
 		// TODO Proper exception handling for the two ActionListeners below
 
@@ -225,6 +174,57 @@ public class FinishPanel extends JPanel {
 				}
 			}
 		});
+	}
+
+	// DO NOT DELETE THIS METHOD - it makes text-rescaling work!
+	public void updatePanel() {
+		removeAll();
+		test = parent.getTest();
+		completedMessage = "<html>You made it! You got "
+				+ new BigDecimal(String.valueOf(test.getSuccessRate()))
+						.setScale(1, BigDecimal.ROUND_HALF_UP).toString()
+				+ "%.";
+
+		if (test.getSuccessRate() == 100) {
+			completedMessage = completedMessage + " That's amazing!";
+		} else if (test.getSuccessRate() >= 90) {
+			completedMessage = completedMessage + " Well done!";
+		} else if (test.getSuccessRate() >= 75) {
+			completedMessage = completedMessage + " Not too bad!";
+		} else if (test.getSuccessRate() >= 50) {
+			completedMessage = completedMessage + " Needs some work!";
+		} else {
+			completedMessage = completedMessage + " Ouch!";
+		}
+
+		completedMessage += "</html>";
+
+		statsListModel.addElement("<html><u>Statistics:</u></html>");
+		statsListModel.addElement("Answered correctly: ");
+		statsListModel.addElement("Answered incorrectly: ");
+		statsListModel.addElement("Total number of guesses: ");
+		statsList.setVisibleRowCount(4);
+		statsList.setForeground(parent.getTColour());// changes text colour
+		Object[] stats = test.getStats();
+		statsListModel.removeAllElements();
+		statsListModel.addElement("<html><u>Statistics:</u></html>");
+		statsListModel.addElement("Answered correctly: "
+				+ ((int) stats[0] - test.getCards().size()));
+		statsListModel.addElement("Answered incorrectly: "
+				+ parent.getTest().getIncorrectCards().size());
+		statsListModel.addElement("Total number of guesses: " + stats[2]);
+
+		showListLabel
+				.setText("<html>Here's a list of the words you got wrong the first time:</html>");
+		completedLabel.setText(completedMessage);
+
+		watm = new WrongAnswersTableModel(parent.getTest().getIncorrectCards());
+		table.setModel(watm);
+		table.setEnabled(false);
+		table.setRowHeight(table.getFont().getSize() + 10);
+
+		saveTest.setText("Save Wrong Answers To New Test");
+		restartTest.setText("Start Test Again");
 
 		add(completedLabel, "grow");
 		add(statsScrollPane, "grow, spany 2, width 35%!, wrap");

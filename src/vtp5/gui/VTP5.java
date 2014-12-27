@@ -781,7 +781,7 @@ public class VTP5 extends JFrame {
 					showChooserDialog(option);
 					try {
 						setUpTest();
-					} catch (NullPointerException npe) {
+					} catch (NullPointerException | IndexOutOfBoundsException npe) {
 						JOptionPane.showMessageDialog(getParent(),
 								"No file selected.", "VTP5",
 								JOptionPane.INFORMATION_MESSAGE);
@@ -942,7 +942,6 @@ public class VTP5 extends JFrame {
 
 		@Override
 		public void itemStateChanged(ItemEvent arg0) {
-			System.out.println("State changed!");
 			// Ultimately, this switches langFrom and langTo around, so that the
 			// user guesses the langFrom based on the langTo prompt
 			test.setLanguageSwitched(switchLanguageCheck.isSelected());
