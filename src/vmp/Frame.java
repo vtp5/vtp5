@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -33,6 +34,9 @@ public class Frame extends JFrame {
 	public static JTextArea prim, sec;
 
 	private JPanel contentPane;
+	
+	
+	private ImageIcon logo = new ImageIcon("res/images/vmp.png");
 
 	/**
 	 * Launch the application.
@@ -54,6 +58,8 @@ public class Frame extends JFrame {
 	 * Create the frame.
 	 */
 	public Frame() {
+		
+		setIconImage(logo.getImage());
 
 		importChooser.setFileFilter(new FileNameExtensionFilter(
 				"Text Files (*.txt)", "txt"));

@@ -111,7 +111,7 @@ public class VTP5 extends JFrame {
 	private JLabel srccodeLabel = new HyperlinkLabel("Source Code",
 			"https://github.com/duckifyz/VTP5");
 	// TODO Create a better icon.
-	private ImageIcon logo = new ImageIcon("res/images/vtp_logo_small.png");
+	private ImageIcon logo = new ImageIcon("res/images/vtp.png");
 	private ArrayList<JButton> buttonList = new ArrayList<>();
 
 	// The all-import TestFile object!
