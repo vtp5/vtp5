@@ -114,16 +114,16 @@ public class VTP5 extends JFrame {
 	private ImageIcon logo = new ImageIcon("res/images/vtp_logo_small.png");
 	private ArrayList<JButton> buttonList = new ArrayList<>();
 
-	// finishPanel instance variable - must create the object HERE (i.e. as soon
-	// as program begins), otherwise text-rescaling won't work properly
-	FinishPanel finishPanel = new FinishPanel(this);
-
 	// The all-import TestFile object!
 	private TestFile test;
 
 	private Color bcolour = Color.BLACK;
 	private Color fcolour = Color.WHITE;
 	private Color tcolour = Color.BLACK;
+
+	// finishPanel instance variable - must create the object HERE (i.e. as soon
+	// as program begins), otherwise text-rescaling won't work properly
+	FinishPanel finishPanel = new FinishPanel(this);
 
 	private static long startTime;
 
@@ -406,6 +406,8 @@ public class VTP5 extends JFrame {
 		statsList.setForeground(text);
 		guessedAnswersList.setForeground(text);
 
+		finishPanel.setTextColour(text);
+
 	}
 
 	private void updatePrompt(int index) {
@@ -680,16 +682,24 @@ public class VTP5 extends JFrame {
 		return this.test;
 	}
 
-	public Color getTColour() {
-		return this.tcolour;
+	ArrayList<JButton> getButtonList() {
+		return buttonList;
+	}
+
+	Color getBcolour() {
+		return bcolour;
+	}
+
+	Color getFcolour() {
+		return fcolour;
+	}
+
+	Color getTcolour() {
+		return tcolour;
 	}
 
 	ArrayList<ComponentWithFontData> getComponentList() {
 		return componentList;
-	}
-
-	void setComponentList(ArrayList<ComponentWithFontData> componentList) {
-		this.componentList = componentList;
 	}
 
 	// Inner class for the frame's content pane so that the background image can

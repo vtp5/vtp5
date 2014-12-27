@@ -1,5 +1,6 @@
 package vtp5.gui;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
@@ -50,6 +51,20 @@ public class FinishPanel extends JPanel {
 		this.parent = parent;
 
 		setLayout(new MigLayout("fillx"));
+
+		saveTest.setBackground(parent.getBcolour());// changes background colour
+		saveTest.setForeground(parent.getFcolour());// changes foreground colour
+		parent.getButtonList().add(saveTest);
+
+		restartTest.setBackground(parent.getBcolour());// changes background
+														// colour
+		restartTest.setForeground(parent.getFcolour());// changes foreground
+														// colour
+		parent.getButtonList().add(restartTest);
+
+		// Aesthetics!
+		saveTest.setFocusable(false);
+		restartTest.setFocusable(false);
 
 		cf = new CustomFont();
 		cf.setFont(completedLabel, 75);
@@ -199,16 +214,12 @@ public class FinishPanel extends JPanel {
 
 		completedMessage += "</html>";
 
-		statsListModel.addElement("<html><u>Statistics:</u></html>");
-		statsListModel.addElement("Answered correctly: ");
-		statsListModel.addElement("Answered incorrectly: ");
-		statsListModel.addElement("Total number of guesses: ");
 		statsList.setVisibleRowCount(4);
-		statsList.setForeground(parent.getTColour());// changes text colour
+		statsList.setForeground(parent.getTcolour());// changes text colour
 		Object[] stats = test.getStats();
 		statsListModel.removeAllElements();
 		statsListModel.addElement("<html><u>Statistics:</u></html>");
-		statsListModel.addElement("Answered correctly: "
+		statsListModel.addElement("Total number of words: "
 				+ ((int) stats[0] - test.getCards().size()));
 		statsListModel.addElement("Answered incorrectly: "
 				+ parent.getTest().getIncorrectCards().size());
@@ -233,6 +244,15 @@ public class FinishPanel extends JPanel {
 		add(new JScrollPane(leaderboards), "grow, wrap, push");
 		add(saveTest, "grow, span, split 2");
 		add(restartTest, "grow");
+	}
+
+	void setTextColour(Color text) {
+		completedLabel.setForeground(text);
+		statsList.setForeground(text);
+		showListLabel.setForeground(text);
+		table.setForeground(text);
+		table.getTableHeader().setForeground(text);
+		leaderboards.setForeground(text);
 	}
 }
 
