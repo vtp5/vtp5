@@ -645,15 +645,14 @@ public class VTP5 extends JFrame {
 		statsListModel.addElement("Success rate: "
 				+ String.format("%.2f", (double) stats[3]) + "%");
 	}
-	
+
 	public void setUpTest() {
 		progressBar.setString(test.getScore() + "/"
 				+ (test.getCards().size() + test.getScore()));
 		Collections.shuffle(test.getCards());
 		updatePrompt(questionIndex);
 		updateStatsList();
-		progressBar.setMaximum(test.getCards().size()
-				+ test.getScore());
+		progressBar.setMaximum(test.getCards().size() + test.getScore());
 		progressBar.setValue(test.getScore());
 		switchLanguageCheck.setEnabled(true);
 		saveButton.setEnabled(true);
@@ -765,17 +764,7 @@ public class VTP5 extends JFrame {
 										"Progress File", "Cancel" }, null);
 
 				// Open JFileChooser and then creates test file
-				if (option == 0 || option == 1) {
-					showChooserDialog(option);
-					try {
-						setUpTest();
-					} catch (NullPointerException npe) {
-						JOptionPane.showMessageDialog(getParent(),
-								"No file selected.", "VTP5",
-								JOptionPane.INFORMATION_MESSAGE);
-						npe.printStackTrace();
-					}
-				} else if (option == 2) {
+				if (option == 0 || option == 1 || option == 2) {
 					showChooserDialog(option);
 					try {
 						setUpTest();
@@ -915,7 +904,7 @@ public class VTP5 extends JFrame {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				setUpTest();		
+				setUpTest();
 			}
 		}
 	}

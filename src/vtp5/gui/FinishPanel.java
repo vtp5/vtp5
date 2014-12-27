@@ -2,14 +2,19 @@ package vtp5.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -33,15 +38,12 @@ public class FinishPanel extends JPanel {
 	private WrongAnswersTableModel watm;
 	private JButton saveTest = new JButton();
 	private JButton restartTest = new JButton();
-
-	private VTP5 parent;
+	private JFileChooser wrongAnswersTest = new JFileChooser();
 
 	// TODO Creating JList for leaderboard (WIP)
 	private JList<Object> leaderboards = new JList<>();
 
 	public FinishPanel(final VTP5 parent) {
-		this.parent = parent;
-
 		setLayout(new MigLayout("fillx"));
 
 		cf = new CustomFont();
@@ -115,6 +117,8 @@ public class FinishPanel extends JPanel {
 		saveTest.setText("Save Wrong Answers To New Test");
 		restartTest.setText("Start Test Again");
 
+		// TODO Proper exception handling for the two ActionListeners below
+
 		restartTest.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -126,7 +130,73 @@ public class FinishPanel extends JPanel {
 				parent.setUpTest();
 			}
 		});
-		
+
+		saveTest.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (parent.getTest().getIncorrectCards().size() == 0) {
+					JOptionPane
+							.showMessageDialog(
+									parent,
+									"You don't have any wrong answers! Why would you want to save them to a test?",
+									"VTP5", JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					int answer = wrongAnswersTest.showSaveDialog(parent);
+					if (answer == JFileChooser.APPROVE_OPTION) {
+						String filePath = wrongAnswersTest.getSelectedFile()
+								.getAbsolutePath();
+
+						if (!filePath.endsWith(".txt")) {
+							filePath = filePath + ".txt";
+						}
+
+						PrintWriter writer = null;
+						
+						try {
+							writer = new PrintWriter(filePath,
+									"UTF-8");
+
+							for (int i = 0; i < parent.getTest()
+									.getIncorrectCards().size(); i++) {
+								Card card = parent.getTest()
+										.getIncorrectCards().get(i);
+								writer.println(card.getLangFrom().get(0));
+
+								for (int j = 0; j < card.getCorrectLangTo()
+										.size(); j++) {
+									writer.print(card.getCorrectLangTo().get(j));
+
+									if (!(j == card.getCorrectLangTo().size() - 1)) {
+										writer.print("/");
+									}
+
+									if (j == card.getCorrectLangTo().size() - 1) {
+										writer.print("\n");
+									}
+								}
+							}
+
+							JOptionPane
+									.showMessageDialog(
+											null,
+											"Success! Your wrong answers have been saved to the following file:\n\n"
+													+ filePath
+													+ "\n\nTo do a test with only these questions, click \"Import Test File\",\n click the \"Text File\" button and then select the file you've just saved.",
+											"VTP5",
+											JOptionPane.INFORMATION_MESSAGE);
+						} catch (FileNotFoundException e) {
+							e.printStackTrace();
+						} catch (UnsupportedEncodingException e) {
+							e.printStackTrace();
+						} finally {
+							writer.close();
+						}
+					}
+
+				}
+			}
+		});
+
 		add(completedLabel, "grow");
 		add(statsScrollPane, "grow, spany 2, width 35%!, height 25%!, wrap");
 		add(showListLabel, "grow, wrap");
