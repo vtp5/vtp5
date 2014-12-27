@@ -664,7 +664,10 @@ public class VTP5 extends JFrame {
 		updateStatsList();
 		progressBar.setMaximum(test.getCards().size() + test.getScore());
 		progressBar.setValue(test.getScore());
+		progressBar.setForeground(Color.GREEN);
 		switchLanguageCheck.setEnabled(true);
+		switchLanguageCheck.setSelected(false);
+		test.setLanguageSwitched(false);
 		saveButton.setEnabled(true);
 		// leaderboardButton.setEnabled(true);
 		enterButton.setEnabled(true);
@@ -939,6 +942,7 @@ public class VTP5 extends JFrame {
 
 		@Override
 		public void itemStateChanged(ItemEvent arg0) {
+			System.out.println("State changed!");
 			// Ultimately, this switches langFrom and langTo around, so that the
 			// user guesses the langFrom based on the langTo prompt
 			test.setLanguageSwitched(switchLanguageCheck.isSelected());
