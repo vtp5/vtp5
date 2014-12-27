@@ -129,6 +129,17 @@ public class VTP5 extends JFrame {
 
 	public Font font;
 
+	//TODO change each time a change is made
+	
+	//x.y.z
+	//x = major change
+	//y = slightly big change
+	//z = minor change
+	//0.0.x = alpha
+	//0.x.x = beta
+	//x.x.x = full
+	String appTitle = "VTP5 - Alpha build 0.0.1";
+	
 	public VTP5() {
 		// Sets up JFileChooser
 		txtChooser.setFileFilter(new FileNameExtensionFilter(
@@ -384,7 +395,7 @@ public class VTP5 extends JFrame {
 		System.out.println(screenSize);
 		setSize(screenSize.width < 1000 ? screenSize.width : 1000,
 				screenSize.height < 650 ? screenSize.height : 650);
-		setTitle("VTP5");
+		setTitle(appTitle);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
