@@ -64,8 +64,8 @@ public class VTP5 extends JFrame {
 
 	// Components for button panel at top of frame
 	private JPanel buttonPanel;
-	private JButton importFileButton, leaderboardButton, settingsButton,
-			helpButton, aboutButton, saveButton, startAgainButton;
+	private JButton importFileButton, settingsButton, helpButton, aboutButton,
+			saveButton, startAgainButton;
 	private int questionIndex = 0;
 
 	// Components in the main area of the frame
@@ -114,8 +114,9 @@ public class VTP5 extends JFrame {
 	private ImageIcon logo = new ImageIcon("res/images/vtp_logo_small.png");
 	private ArrayList<JButton> buttonList = new ArrayList<>();
 
-	// finishPanel instance variable
-	FinishPanel finishPanel;
+	// finishPanel instance variable - must create the object HERE (i.e. as soon
+	// as program begins), otherwise text-rescaling won't work properly
+	FinishPanel finishPanel = new FinishPanel(this);
 
 	// The all-import TestFile object!
 	private TestFile test;
@@ -161,11 +162,12 @@ public class VTP5 extends JFrame {
 		startAgainButton.setEnabled(false);
 		buttonList.add(startAgainButton);
 
-		leaderboardButton = new JButton("View Leaderboards");// creates buttons
-		leaderboardButton.setBackground(bcolour);// changes background colour
-		leaderboardButton.setForeground(fcolour);// changes foreground colour
-		leaderboardButton.setEnabled(false);
-		buttonList.add(leaderboardButton);
+		// leaderboardButton = new JButton("View Leaderboards");// creates
+		// buttons
+		// leaderboardButton.setBackground(bcolour);// changes background colour
+		// leaderboardButton.setForeground(fcolour);// changes foreground colour
+		// leaderboardButton.setEnabled(false);
+		// buttonList.add(leaderboardButton);
 
 		settingsButton = new JButton("Settings");// creates buttons
 		settingsButton.setBackground(bcolour);// changes background colour
@@ -228,9 +230,10 @@ public class VTP5 extends JFrame {
 		componentList.add(new ComponentWithFontData(importFileButton, 34));// adds
 		componentList.add(new ComponentWithFontData(saveButton, 34)); // to
 		// list
-		componentList.add(new ComponentWithFontData(leaderboardButton, 34));// adds
-																			// to
-																			// list
+		// componentList.add(new ComponentWithFontData(leaderboardButton,
+		// 34));// adds
+		// to
+		// list
 		componentList.add(new ComponentWithFontData(settingsButton, 34));// adds
 																			// to
 																			// list
@@ -246,7 +249,7 @@ public class VTP5 extends JFrame {
 		// rectangle when you click it - this is purely for aesthetic reasons
 		importFileButton.setFocusable(false);
 		saveButton.setFocusable(false);
-		leaderboardButton.setFocusable(false);
+		// leaderboardButton.setFocusable(false);
 		settingsButton.setFocusable(false);
 		helpButton.setFocusable(false);
 		aboutButton.setFocusable(false);
@@ -262,7 +265,7 @@ public class VTP5 extends JFrame {
 		buttonPanel.add(importFileButton, "align left");// adds to panel
 		buttonPanel.add(startAgainButton, "align left");
 		buttonPanel.add(saveButton, "align right");
-		buttonPanel.add(leaderboardButton, "align right");// adds to panel
+		// buttonPanel.add(leaderboardButton, "align right");// adds to panel
 		buttonPanel.add(settingsButton, "align right");// adds to panel
 		buttonPanel.add(helpButton, "align right");// adds to panel
 		buttonPanel.add(aboutButton, "align right, wrap");// adds to panel
@@ -579,7 +582,12 @@ public class VTP5 extends JFrame {
 		mainPanel.setVisible(false);
 		repaint();
 		revalidate();
-		getContentPane().add(finishPanel = new FinishPanel(this));
+		// Do not create a new instance of FinishPanel here - otherwise,
+		// text-rescaling won't work
+		finishPanel.updatePanel();
+		framePanel.removeAll();
+		framePanel.add(buttonPanel, BorderLayout.NORTH);
+		framePanel.add(finishPanel, BorderLayout.CENTER);
 		saveButton.setEnabled(false);
 		repaint();
 		revalidate();
@@ -587,7 +595,9 @@ public class VTP5 extends JFrame {
 
 	private void showMainPanel() {
 		if (finishPanel != null) {
-			getContentPane().remove(finishPanel);
+			framePanel.removeAll();
+			framePanel.add(buttonPanel, BorderLayout.NORTH);
+			framePanel.add(mainPanel, BorderLayout.CENTER);
 			repaint();
 			revalidate();
 		}
@@ -656,7 +666,7 @@ public class VTP5 extends JFrame {
 		progressBar.setValue(test.getScore());
 		switchLanguageCheck.setEnabled(true);
 		saveButton.setEnabled(true);
-		leaderboardButton.setEnabled(true);
+		// leaderboardButton.setEnabled(true);
 		enterButton.setEnabled(true);
 		passButton.setEnabled(true);
 		startAgainButton.setEnabled(true);

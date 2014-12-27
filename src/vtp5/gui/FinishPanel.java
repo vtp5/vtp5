@@ -40,10 +40,15 @@ public class FinishPanel extends JPanel {
 	private JButton restartTest = new JButton();
 	private JFileChooser wrongAnswersTest = new JFileChooser();
 
+	// Do not remove this variable - it makes text-rescaling work!
+	private VTP5 parent;
+
 	// TODO Creating JList for leader boards (WIP)
 	private JList<Object> leaderboards = new JList<>();
 
 	public FinishPanel(final VTP5 parent) {
+		this.parent = parent;
+
 		setLayout(new MigLayout("fillx"));
 
 		cf = new CustomFont();
@@ -69,7 +74,11 @@ public class FinishPanel extends JPanel {
 		componentList.add(new ComponentWithFontData(leaderboards, 40));
 		componentList.add(new ComponentWithFontData(saveTest, 40));
 		componentList.add(new ComponentWithFontData(restartTest, 40));
+	}
 
+	// DO NOT DELETE THIS METHOD - it makes text-rescaling work!
+	public void updatePanel() {
+		removeAll();
 		test = parent.getTest();
 		completedMessage = "<html>You made it! You got "
 				+ new BigDecimal(String.valueOf(test.getSuccessRate()))
@@ -177,7 +186,7 @@ public class FinishPanel extends JPanel {
 									}
 
 									if (j == card.getCorrectLangTo().size() - 1) {
-										writer.print("\n");
+										writer.println();
 									}
 								}
 							}
@@ -187,7 +196,7 @@ public class FinishPanel extends JPanel {
 											null,
 											"Success! Your wrong answers have been saved to the following file:\n\n"
 													+ filePath
-													+ "\n\nTo do a test with only these questions, click \"Import Test File\",\n click the \"Text File\" button and then select the file you've just saved.",
+													+ "\n\nTo do a test with only these questions, click \"Import Test File\",\nclick the \"Text File\" button and then select the file you've just saved.",
 											"VTP5",
 											JOptionPane.INFORMATION_MESSAGE);
 						} catch (FileNotFoundException e) {
@@ -218,7 +227,7 @@ public class FinishPanel extends JPanel {
 		});
 
 		add(completedLabel, "grow");
-		add(statsScrollPane, "grow, spany 2, width 35%!, height 25%!, wrap");
+		add(statsScrollPane, "grow, spany 2, width 35%!, wrap");
 		add(showListLabel, "grow, wrap");
 		add(new JScrollPane(table), "grow");
 		add(new JScrollPane(leaderboards), "grow, wrap, push");
