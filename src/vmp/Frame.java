@@ -123,7 +123,7 @@ public class Frame extends JFrame {
 				int selected = importChooser.showOpenDialog(getParent());
 				if (selected == JFileChooser.APPROVE_OPTION) {
 					f = importChooser.getSelectedFile();
-					Work.importer();
+					vmp.Work.importer();
 				}
 
 			} else if (i == 1) {
@@ -132,7 +132,7 @@ public class Frame extends JFrame {
 					// TODO save file here
 					//
 					f = exportChooser.getSelectedFile();
-					 Work.exporter();
+					 vmp.Work.exporter();
 				}
 			}
 		}
