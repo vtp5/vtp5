@@ -903,6 +903,13 @@ public class VTP5 extends JFrame {
 					test = new TestFile(test.importedFile);
 				} catch (IOException e1) {
 					e1.printStackTrace();
+					JOptionPane
+							.showMessageDialog(
+									null,
+									"The following error occurred:\n\n"
+											+ e1.toString()
+											+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
+									"VTP5", JOptionPane.ERROR_MESSAGE);
 				}
 				setUpTest();
 			}

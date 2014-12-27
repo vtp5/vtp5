@@ -40,7 +40,7 @@ public class FinishPanel extends JPanel {
 	private JButton restartTest = new JButton();
 	private JFileChooser wrongAnswersTest = new JFileChooser();
 
-	// TODO Creating JList for leaderboard (WIP)
+	// TODO Creating JList for leader boards (WIP)
 	private JList<Object> leaderboards = new JList<>();
 
 	public FinishPanel(final VTP5 parent) {
@@ -90,7 +90,7 @@ public class FinishPanel extends JPanel {
 
 		completedMessage += "</html>";
 
-		// statsListModel.addElement("<html><u>Statistics:</u></html>");
+		statsListModel.addElement("<html><u>Statistics:</u></html>");
 		statsListModel.addElement("Answered correctly: ");
 		statsListModel.addElement("Answered incorrectly: ");
 		statsListModel.addElement("Total number of guesses: ");
@@ -98,7 +98,7 @@ public class FinishPanel extends JPanel {
 		statsList.setForeground(parent.getTColour());// changes text colour
 		Object[] stats = test.getStats();
 		statsListModel.removeAllElements();
-		// statsListModel.addElement("<html><u>Statistics:</u></html>");
+		statsListModel.addElement("<html><u>Statistics:</u></html>");
 		statsListModel.addElement("Answered correctly: "
 				+ ((int) stats[0] - test.getCards().size()));
 		statsListModel.addElement("Answered incorrectly: "
@@ -126,6 +126,13 @@ public class FinishPanel extends JPanel {
 					parent.setTest(new TestFile(parent.getTest().importedFile));
 				} catch (IOException e) {
 					e.printStackTrace();
+					JOptionPane
+							.showMessageDialog(
+									null,
+									"The following error occurred:\n\n"
+											+ e.toString()
+											+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
+									"VTP5", JOptionPane.ERROR_MESSAGE);
 				}
 				parent.setUpTest();
 			}
@@ -151,10 +158,9 @@ public class FinishPanel extends JPanel {
 						}
 
 						PrintWriter writer = null;
-						
+
 						try {
-							writer = new PrintWriter(filePath,
-									"UTF-8");
+							writer = new PrintWriter(filePath, "UTF-8");
 
 							for (int i = 0; i < parent.getTest()
 									.getIncorrectCards().size(); i++) {
@@ -186,8 +192,22 @@ public class FinishPanel extends JPanel {
 											JOptionPane.INFORMATION_MESSAGE);
 						} catch (FileNotFoundException e) {
 							e.printStackTrace();
+							JOptionPane
+									.showMessageDialog(
+											null,
+											"The following error occurred:\n\n"
+													+ e.toString()
+													+ "\n\nThat's really sad :(. This could be because VTP5 can't find or access the file you selected.\nPlease report the problem if it keeps happening.",
+											"VTP5", JOptionPane.ERROR_MESSAGE);
 						} catch (UnsupportedEncodingException e) {
 							e.printStackTrace();
+							JOptionPane
+									.showMessageDialog(
+											null,
+											"The following error occurred:\n\n"
+													+ e.toString()
+													+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
+											"VTP5", JOptionPane.ERROR_MESSAGE);
 						} finally {
 							writer.close();
 						}
