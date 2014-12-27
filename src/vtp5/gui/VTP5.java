@@ -123,7 +123,7 @@ public class VTP5 extends JFrame {
 
 	// finishPanel instance variable - must create the object HERE (i.e. as soon
 	// as program begins), otherwise text-rescaling won't work properly
-	FinishPanel finishPanel = new FinishPanel(this);
+	private FinishPanel finishPanel = new FinishPanel(this);
 
 	private static long startTime;
 
@@ -255,12 +255,16 @@ public class VTP5 extends JFrame {
 		aboutButton.setFocusable(false);
 		startAgainButton.setFocusable(false);
 
-		importFileButton.addActionListener(new EventListener());
-		saveButton.addActionListener(new EventListener());
-		aboutButton.addActionListener(new EventListener());
-		settingsButton.addActionListener(new EventListener());
-		helpButton.addActionListener(new EventListener());
-		startAgainButton.addActionListener(new EventListener());
+		EventListener eventListener = new EventListener();
+		importFileButton.addActionListener(eventListener);
+		saveButton.addActionListener(eventListener);
+		aboutButton.addActionListener(eventListener);
+		settingsButton.addActionListener(eventListener);
+		helpButton.addActionListener(eventListener);
+		startAgainButton.addActionListener(eventListener);
+		changePromptColour.addActionListener(eventListener);
+		changeButtonColour.addActionListener(eventListener);
+		changeForegroundColour.addActionListener(eventListener);
 
 		buttonPanel.add(importFileButton, "align left");// adds to panel
 		buttonPanel.add(startAgainButton, "align left");
@@ -412,7 +416,7 @@ public class VTP5 extends JFrame {
 
 	private void updatePrompt(int index) {
 		promptLabel.setText("<html>" + test.getPrompt(index) + "</html>");
-		updateGuessedAnswersList(true);
+		updateGuessedAnswersList(true, null);
 	}
 
 	// Method that returns a font object with the "default" font family
@@ -509,8 +513,10 @@ public class VTP5 extends JFrame {
 
 	private void doLogic() {
 		if (enterButton.getText().equals("Enter")) {
+			String userAnswer = answerField.getText();
+
 			// Checks if answer is correct
-			int result = test.isCorrect(answerField.getText(), questionIndex);
+			int result = test.isCorrect(userAnswer, questionIndex);
 			// Gets the score
 			int score = test.getScore();
 
@@ -531,7 +537,7 @@ public class VTP5 extends JFrame {
 				}
 
 				// Updates the list of correctly guessed answers
-				updateGuessedAnswersList(true);
+				updateGuessedAnswersList(true, userAnswer);
 
 				System.out.println("Question Index:" + questionIndex);
 				progressBar.setString(test.getScore() + "/"
@@ -543,7 +549,7 @@ public class VTP5 extends JFrame {
 				guessedAnswersList.setForeground(Color.RED);
 
 				// Update guessedAnswersList
-				updateGuessedAnswersList(false);
+				updateGuessedAnswersList(false, userAnswer);
 
 				// Disable some components, change text on Enter button
 				answerField.setEditable(false);
@@ -608,7 +614,7 @@ public class VTP5 extends JFrame {
 		answerField.setText("");
 	}
 
-	private void updateGuessedAnswersList(boolean isCorrect) {
+	private void updateGuessedAnswersList(boolean isCorrect, String userAnswer) {
 		// Update guessedAnswersList
 		guessedAnswersListModel.removeAllElements();
 
@@ -637,6 +643,12 @@ public class VTP5 extends JFrame {
 			for (String s : possibleAnswers) {
 				guessedAnswersListModel.addElement(s);
 			}
+
+			if (userAnswer != null) {
+				guessedAnswersListModel
+						.addElement("<html><u>Your answer:</u></html>");
+				guessedAnswersListModel.addElement(userAnswer);
+			}
 		}
 	}
 
@@ -658,7 +670,7 @@ public class VTP5 extends JFrame {
 				+ String.format("%.2f", (double) stats[3]) + "%");
 	}
 
-	public void setUpTest() {
+	void setUpTest() {
 		progressBar.setString(test.getScore() + "/"
 				+ (test.getCards().size() + test.getScore()));
 		Collections.shuffle(test.getCards());
@@ -678,7 +690,7 @@ public class VTP5 extends JFrame {
 		showMainPanel();
 	}
 
-	public TestFile getTest() {
+	TestFile getTest() {
 		return this.test;
 	}
 
@@ -856,9 +868,6 @@ public class VTP5 extends JFrame {
 									"VTP5", JOptionPane.ERROR_MESSAGE);
 				}
 			} else if (e.getSource() == settingsButton) {
-				changePromptColour.addActionListener(this);
-				changeButtonColour.addActionListener(this);
-				changeForegroundColour.addActionListener(this);
 				settingsDialog.setVisible(true);
 				// TODO Finish this
 			} else if (e.getSource() == saveButton) {

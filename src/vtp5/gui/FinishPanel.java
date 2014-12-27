@@ -66,6 +66,8 @@ public class FinishPanel extends JPanel {
 		saveTest.setFocusable(false);
 		restartTest.setFocusable(false);
 
+		setTextColour(parent.getTcolour());
+
 		cf = new CustomFont();
 		cf.setFont(completedLabel, 75);
 		cf.setFont(showListLabel, 40);
