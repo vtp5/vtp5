@@ -20,6 +20,21 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import net.miginfocom.swing.MigLayout;
 
+/*VTP5 Copyright (C) 2014-2015  Abdel Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 public class Frame extends JFrame {
 
 	static ArrayList<String> q = new ArrayList<String>();
@@ -34,8 +49,7 @@ public class Frame extends JFrame {
 	public static JTextArea prim, sec;
 
 	private JPanel contentPane;
-	
-	
+
 	private ImageIcon logo = new ImageIcon("res/images/vmp.png");
 
 	/**
@@ -58,12 +72,12 @@ public class Frame extends JFrame {
 	 * Create the frame.
 	 */
 	public Frame() {
-		
+
 		setIconImage(logo.getImage());
 
 		importChooser.setFileFilter(new FileNameExtensionFilter(
 				"Text Files (*.txt)", "txt"));
-		
+
 		exportChooser.setFileFilter(new FileNameExtensionFilter(
 				"Text Files (*.txt)", "txt"));
 
@@ -132,7 +146,7 @@ public class Frame extends JFrame {
 					// TODO save file here
 					//
 					f = exportChooser.getSelectedFile();
-					 vmp.Work.exporter();
+					vmp.Work.exporter();
 				}
 			}
 		}

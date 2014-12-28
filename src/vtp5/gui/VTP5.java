@@ -56,6 +56,21 @@ import net.miginfocom.swing.MigLayout;
 import vtp5.logic.Card;
 import vtp5.logic.TestFile;
 
+/*VTP5 Copyright (C) 2014-2015  Abdel Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 public class VTP5 extends JFrame {
 
 	// TODO Generate the serialVersionUID once class has been finished.
@@ -111,6 +126,17 @@ public class VTP5 extends JFrame {
 			"https://github.com/duckifyz/VTP5/wiki");
 	private JLabel srccodeLabel = new HyperlinkLabel("Source Code",
 			"https://github.com/duckifyz/VTP5");
+	private JLabel separatorLabel = new JLabel(
+			"------------------------------------------------------------------");
+	private JLabel license1aLabel = new JLabel(
+			"VTP5 Copyright (C) 2014-2015 Abdel Abdalla, Minghua Yin,");
+	private JLabel license1bLabel = new JLabel(
+			"Yousuf Mohamed-Ahmed and Nikunj Paliwal");
+	private JLabel license2Label = new JLabel(
+			"VTP5 is licensed under the GNU General Public License (Version 3).");
+	private JLabel license3Label = new HyperlinkLabel(
+			"Click here for more information",
+			"https://github.com/duckifyz/VTP5/wiki/Licensing");
 	// TODO Create a better icon.
 	private ImageIcon logo = new ImageIcon("res/images/vtp.png");
 	private ArrayList<JButton> buttonList = new ArrayList<>();
@@ -139,7 +165,7 @@ public class VTP5 extends JFrame {
 	// 0.0.x = alpha
 	// 0.x.x = beta
 	// x.x.x = full
-	String appTitle = "VTP5 - Alpha Build 0.0.1";
+	private String appTitle = "VTP5 - Alpha Build 0.0.1";
 
 	public VTP5() {
 		// Sets up JFileChooser
@@ -204,7 +230,12 @@ public class VTP5 extends JFrame {
 		abtDialog.add(devLabel, "alignx center, wrap");
 		abtDialog.add(dev2Label, "alignx center, wrap");
 		abtDialog.add(wikiLabel, "alignx center, wrap");
-		abtDialog.add(srccodeLabel, "alignx center");
+		abtDialog.add(srccodeLabel, "alignx center, wrap");
+		abtDialog.add(separatorLabel, "alignx center, wrap");
+		abtDialog.add(license1aLabel, "alignx center, wrap");
+		abtDialog.add(license1bLabel, "alignx center, wrap");
+		abtDialog.add(license2Label, "alignx center, wrap");
+		abtDialog.add(license3Label, "alignx center");
 		abtDialog.pack();
 		abtDialog.setResizable(false);
 		abtDialog.setLocationRelativeTo(this);
@@ -944,7 +975,7 @@ public class VTP5 extends JFrame {
 				// }
 			} else if (e.getSource() == startAgainButton) {
 				try {
-					test = new TestFile(test.importedFile);
+					test = new TestFile(test.getImportedFile());
 				} catch (IOException e1) {
 					e1.printStackTrace();
 					JOptionPane

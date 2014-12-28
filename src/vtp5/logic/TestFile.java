@@ -8,6 +8,21 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/*VTP5 Copyright (C) 2014-2015  Abdel Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 public class TestFile implements Serializable {
 	/**
 	 * 
@@ -39,10 +54,10 @@ public class TestFile implements Serializable {
 	public static final int PARTIALLY_CORRECT = 1;
 	public static final int COMPLETELY_CORRECT = 2;
 
-	public File importedFile;
+	private File importedFile;
 
 	public TestFile(File file) throws IOException {
-		this.importedFile = file;
+		this.setImportedFile(file);
 		getVocabFromFile(file);
 		totalNumberOfCards = cards.size();
 	}
@@ -242,5 +257,13 @@ public class TestFile implements Serializable {
 
 	public double getSuccessRate() {
 		return this.successRate;
+	}
+
+	public File getImportedFile() {
+		return importedFile;
+	}
+
+	public void setImportedFile(File importedFile) {
+		this.importedFile = importedFile;
 	}
 }
