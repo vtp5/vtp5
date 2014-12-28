@@ -102,7 +102,8 @@ public class VTP5 extends JFrame {
 
 	// Components for About Dialog
 	private JDialog abtDialog;
-	private JLabel vtp5Label = new JLabel("Vocabulary Testing Program 5");
+	private JLabel vtp5Label = new JLabel(
+			"Vocabulary Testing Program 5, Alpha Build 0.0.1");
 	private JLabel devLabel = new JLabel(
 			"Developed by Abdel Abdalla, Minghua Yin,");
 	private JLabel dev2Label = new JLabel("Yousuf Ahmed and Nikunj Paliwal.");
@@ -129,17 +130,17 @@ public class VTP5 extends JFrame {
 
 	public Font font;
 
-	//TODO change each time a change is made
-	
-	//x.y.z
-	//x = major change
-	//y = slightly big change
-	//z = minor change
-	//0.0.x = alpha
-	//0.x.x = beta
-	//x.x.x = full
-	String appTitle = "VTP5 - Alpha build 0.0.1";
-	
+	// TODO change each time a change is made
+
+	// x.y.z
+	// x = major change
+	// y = slightly big change
+	// z = minor change
+	// 0.0.x = alpha
+	// 0.x.x = beta
+	// x.x.x = full
+	String appTitle = "VTP5 - Alpha Build 0.0.1";
+
 	public VTP5() {
 		// Sets up JFileChooser
 		txtChooser.setFileFilter(new FileNameExtensionFilter(
