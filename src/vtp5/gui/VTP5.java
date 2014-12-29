@@ -154,6 +154,15 @@ public class VTP5 extends JFrame {
 
 	// The all-import TestFile object!
 	private TestFile test;
+	// Timer to help with "experimental features"
+	private Timer experimentalTimer = new Timer(750, new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			updatePrompt(questionIndex);
+			experimentalTimer.stop();
+		}
+	});
 
 	private Color bcolour = Color.BLACK;
 	private Color fcolour = Color.WHITE;
@@ -560,11 +569,14 @@ public class VTP5 extends JFrame {
 	}
 
 	private void doLogic() {
-		if (enterButton.getText().equals("Enter")) {
+		if (enterButton.getText().equals("Enter")
+				|| enterButton.getText().equals("I'm sure!")) {
 			String userAnswer = answerField.getText();
 
 			// Checks if answer is correct
-			int result = test.isCorrect(userAnswer, questionIndex);
+			int result = test.isCorrect(userAnswer, questionIndex, enterButton
+					.getText().equals("Enter") ? experimentalCheck.isSelected()
+					: false);
 			// Gets the score
 			int score = test.getScore();
 
@@ -590,6 +602,10 @@ public class VTP5 extends JFrame {
 				System.out.println("Question Index:" + questionIndex);
 				progressBar.setString(test.getScore() + "/"
 						+ (test.getCards().size() + test.getScore()));
+
+				if (enterButton.getText().equals("I'm sure!")) {
+					enterButton.setText("Enter");
+				}
 			} else if (result == TestFile.INCORRECT) {
 				progressBar.setForeground(Color.RED);
 
@@ -616,9 +632,14 @@ public class VTP5 extends JFrame {
 					test.getCards().remove(c);
 					test.getCards().add(c);
 				}
+			} else if (result == TestFile.PROMPT_USER) {
+				promptLabel.setText("Are you sure?");
+				enterButton.setText("I'm sure!");
+				experimentalTimer.start();
 			}
+
 			progressBar.setValue(score); // sets value of progress bar
-		} else {
+		} else if (enterButton.getText().equals("OK")) {
 			// Re-enable some components, change text on Enter button back to
 			// "Enter"
 			answerField.setEditable(true);
@@ -631,6 +652,7 @@ public class VTP5 extends JFrame {
 			// Update prompt label, stats list and totalTimesGuessed
 			updatePrompt(questionIndex);
 		}
+
 		answerField.setText(""); // field is cleared
 	}
 
@@ -733,6 +755,7 @@ public class VTP5 extends JFrame {
 		saveButton.setEnabled(true);
 		// leaderboardButton.setEnabled(true);
 		enterButton.setEnabled(true);
+		enterButton.setText("Enter");
 		passButton.setEnabled(true);
 		startAgainButton.setEnabled(true);
 		showMainPanel();
@@ -899,6 +922,7 @@ public class VTP5 extends JFrame {
 				}
 				updatePrompt(questionIndex);
 				answerField.setText("");
+				enterButton.setText("Enter");
 			} else if (e.getSource() == helpButton) {
 				try {
 					java.awt.Desktop
@@ -1024,6 +1048,7 @@ public class VTP5 extends JFrame {
 			}
 
 			answerField.setText("");
+			enterButton.setText("Enter");
 			updatePrompt(questionIndex);
 		}
 

@@ -49,15 +49,16 @@ public class TestFile implements Serializable {
 
 	private transient BufferedReader br = null;
 
-	// Three "enum"-like constants
+	// "Enum"-like constants
 	public static final int INCORRECT = 0;
 	public static final int PARTIALLY_CORRECT = 1;
 	public static final int COMPLETELY_CORRECT = 2;
+	public static final int PROMPT_USER = 3;
 
 	private File importedFile;
 
 	public TestFile(File file) throws IOException {
-		this.setImportedFile(file);
+		setImportedFile(file);
 		getVocabFromFile(file);
 		totalNumberOfCards = cards.size();
 	}
@@ -130,7 +131,7 @@ public class TestFile implements Serializable {
 		}
 	}
 
-	public int isCorrect(String answer, int index) {
+	public int isCorrect(String answer, int index, boolean isExperimental) {
 		answer = answer.replaceAll("[^a-zA-Z0-9]", "");
 		System.out.println(answer);
 
@@ -202,6 +203,32 @@ public class TestFile implements Serializable {
 					// If user has already guessed the answer and it's correct,
 					// just return PARTIALLY_CORRECT
 					return PARTIALLY_CORRECT;
+				}
+			}
+
+			// If "experimental features" is enabled, work out if the program
+			// should prompt the user
+			if (isExperimental) {
+				// Work out if user has only typed part of the answer, or if the
+				// answer is part of the user's input
+				for (String s : correctAnswers) {
+					s = s.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+					answer = answer.toLowerCase();
+
+					if (answer.contains(s) || s.contains(answer)) {
+						// Tell the program to prompt the user
+						return PROMPT_USER;
+					}
+				}
+
+				for (String s : possibleAnswers) {
+					s = s.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+					answer = answer.toLowerCase();
+
+					if (answer.contains(s) || s.contains(answer)) {
+						// Tell the program to prompt the user
+						return PROMPT_USER;
+					}
 				}
 			}
 
