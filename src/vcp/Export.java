@@ -4,7 +4,7 @@ import java.io.FileWriter;
 
 import java.io.IOException;
 
-/*VTP5 Copyright (C) 2014-2015  Abdel Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
+/*VTP5 Copyright (C) 2014-2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by

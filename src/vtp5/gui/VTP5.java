@@ -56,7 +56,7 @@ import net.miginfocom.swing.MigLayout;
 import vtp5.logic.Card;
 import vtp5.logic.TestFile;
 
-/*VTP5 Copyright (C) 2014-2015  Abdel Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
+/*VTP5 Copyright (C) 2014-2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -74,6 +74,17 @@ import vtp5.logic.TestFile;
 public class VTP5 extends JFrame {
 
 	// TODO Generate the serialVersionUID once class has been finished.
+
+	// TODO change each time a change is made
+
+	// x.y.z
+	// x = major change
+	// y = slightly big change
+	// z = minor change
+	// 0.0.x = alpha
+	// 0.x.x = beta
+	// x.x.x = full
+	private String appVersion = "Alpha Build 0.0.1";
 
 	private FramePanel framePanel;
 
@@ -117,8 +128,8 @@ public class VTP5 extends JFrame {
 
 	// Components for About Dialog
 	private JDialog abtDialog;
-	private JLabel vtp5Label = new JLabel(
-			"Vocabulary Testing Program 5, Alpha Build 0.0.1");
+	private JLabel vtp5Label = new JLabel("Vocabulary Testing Program 5, "
+			+ appVersion);
 	private JLabel devLabel = new JLabel(
 			"Developed by Abdel Abdalla, Minghua Yin,");
 	private JLabel dev2Label = new JLabel("Yousuf Ahmed and Nikunj Paliwal.");
@@ -129,7 +140,7 @@ public class VTP5 extends JFrame {
 	private JLabel separatorLabel = new JLabel(
 			"------------------------------------------------------------------");
 	private JLabel license1aLabel = new JLabel(
-			"VTP5 Copyright (C) 2014-2015 Abdel Abdalla, Minghua Yin,");
+			"VTP5 Copyright (C) 2014-2015 Abdel-Rahim Abdalla, Minghua Yin,");
 	private JLabel license1bLabel = new JLabel(
 			"Yousuf Mohamed-Ahmed and Nikunj Paliwal");
 	private JLabel license2Label = new JLabel(
@@ -155,17 +166,6 @@ public class VTP5 extends JFrame {
 	private static long startTime;
 
 	public Font font;
-
-	// TODO change each time a change is made
-
-	// x.y.z
-	// x = major change
-	// y = slightly big change
-	// z = minor change
-	// 0.0.x = alpha
-	// 0.x.x = beta
-	// x.x.x = full
-	private String appTitle = "VTP5 - Alpha Build 0.0.1";
 
 	public VTP5() {
 		// Sets up JFileChooser
@@ -246,7 +246,7 @@ public class VTP5 extends JFrame {
 		experimentalCheck = new JCheckBox("Enable experimental features");
 		exInfoLabel = new HyperlinkLabel(
 				"<html>Click here for more information<br />on experimental features</html>",
-				"https://github.com/duckifyz/VTP5/wiki/Help");
+				"https://github.com/duckifyz/VTP5/wiki/Help#experimental-features");
 
 		settingsDialog = new JDialog(this, "Settings");
 		settingsDialog.setLayout(new MigLayout("fillx", "", "[][][]10[]10[]"));
@@ -427,7 +427,7 @@ public class VTP5 extends JFrame {
 		System.out.println(screenSize);
 		setSize(screenSize.width < 1000 ? screenSize.width : 1000,
 				screenSize.height < 650 ? screenSize.height : 650);
-		setTitle(appTitle);
+		setTitle("VTP5 - " + appVersion);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -476,10 +476,15 @@ public class VTP5 extends JFrame {
 					test = new TestFile(txtChooser.getSelectedFile());
 				}
 			} else if (fileType == 1) {
-				int selected = csvChooser.showOpenDialog(getParent());
-				if (selected == JFileChooser.APPROVE_OPTION) {
-					test = new TestFile(csvChooser.getSelectedFile());
-				}
+				JOptionPane
+						.showMessageDialog(
+								null,
+								"Did you expect every feature to be complete in the first alpha version? :P (We're working on it...)",
+								"VTP5", JOptionPane.INFORMATION_MESSAGE);
+				// int selected = csvChooser.showOpenDialog(getParent());
+				// if (selected == JFileChooser.APPROVE_OPTION) {
+				// test = new TestFile(csvChooser.getSelectedFile());
+				// }
 			} else if (fileType == 2) {
 				int selected = progressOpenChooser.showOpenDialog(getParent());
 				if (selected == JFileChooser.APPROVE_OPTION) {
