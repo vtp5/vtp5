@@ -633,7 +633,7 @@ public class VTP5 extends JFrame {
 					test.getCards().add(c);
 				}
 			} else if (result == TestFile.PROMPT_USER) {
-				promptLabel.setText("Are you sure?");
+				promptLabel.setText("<html><i>Are you sure? </i></html>");
 				enterButton.setText("I'm sure!");
 				experimentalTimer.start();
 			}
