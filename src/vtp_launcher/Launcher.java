@@ -18,6 +18,8 @@ import net.miginfocom.swing.MigLayout;
 
 public class Launcher extends JFrame {
 
+	public static String vtpversion;
+	
 	JButton vtp,vmp,vcp;
 	static JTextPane tp;
 	
