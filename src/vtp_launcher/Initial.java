@@ -22,7 +22,8 @@ public class Initial extends Launcher{
 		
 		tp.setText(p[0]);
 		
-		String vtpdir = p[0]+"\\VTP5_files\\vtp5";
+		//String vtpdir = p[0]+"\\VTP5_files\\vtp5";
+		String vtpdir ="E:\\VTP5_files\\vtp5";
 		
 		File theDir = new File(vtpdir);
 
@@ -38,7 +39,7 @@ public class Initial extends Launcher{
 		        
 		     }        
 		     if(result) {    
-		       System.out.println("DIR created");  
+		       System.out.println(vtpdir);  
 		       
 		     }
 		  }else{
@@ -49,14 +50,8 @@ public class Initial extends Launcher{
 				  System.out.println("Latest build present");
 			  }
 			  else{
-				  
-				  File srcFolder = new File("http://192.168.1.141/vtp5"  );
-				  try {
-					copyFolder(srcFolder,theDir);
-				} catch (IOException e) {
-					
-					e.printStackTrace();
-				}
+				//copyFolder(srcFolder,theDir);
+				  File srcFolder = new File("http://192.168.1.141/vtp5/"  /*"http://sabr.ddns.net/vtp5"*/);
 			  }
 			  
 		  }
@@ -71,7 +66,7 @@ public class Initial extends Launcher{
 			Document docabdel = Jsoup.connect("http://192.168.1.141").get(); //this is needed for abdel to work on this
 			Document doc = Jsoup.connect("http://sabr.ddns.net").get(); //other people
 			
-			vtpversion = docabdel.title();
+			vtpversion = docabdel.title();//change this too
 			System.out.println(vtpversion);
 			
 		} catch (IOException e) {
