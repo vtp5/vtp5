@@ -140,7 +140,7 @@ public class VTP5 extends JFrame {
 	private JLabel separatorLabel = new JLabel(
 			"------------------------------------------------------------------");
 	private JLabel license1aLabel = new JLabel(
-			"VTP5 Copyright (C) 2014-2015 Abdel-Rahim Abdalla, Minghua Yin,");
+			"VTP5 Copyright (C) 2015 Abdel-Rahim Abdalla, Minghua Yin,");
 	private JLabel license1bLabel = new JLabel(
 			"Yousuf Mohamed-Ahmed and Nikunj Paliwal");
 	private JLabel license2Label = new JLabel(
