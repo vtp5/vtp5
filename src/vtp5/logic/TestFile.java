@@ -237,10 +237,12 @@ public class TestFile implements Serializable {
 					}
 				}
 
-				// Use the spell-checker to see if the user has made any
-				// potential typos
-				if (SpellCheck.containsSpellingErrors(origAnswer)) {
-					return PROMPT_USER;
+				if (!isLanguageSwitched) {
+					// Use the spell-checker to see if the user has made any
+					// potential typos
+					if (SpellCheck.containsSpellingErrors(origAnswer)) {
+						return PROMPT_USER;
+					}
 				}
 			}
 

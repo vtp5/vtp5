@@ -9,13 +9,13 @@ import com.swabunga.spell.engine.SpellDictionaryHashMap;
 import com.swabunga.spell.event.SpellChecker;
 import com.swabunga.spell.event.StringWordTokenizer;
 
-class SpellCheck {
+public class SpellCheck {
 	// Variables for spell-checker
 	private static String dictFile = "jazzy/dict/english.0";
 	// private static String phonetFile = "/VTP5/jazzy/dict/phonet.en";
 	private static SpellChecker spellCheck = null;
 
-	static {
+	public static void loadSpellChecker() {
 		// Set up spell-checker
 		try {
 			SpellDictionary dictionary = new SpellDictionaryHashMap(new File(

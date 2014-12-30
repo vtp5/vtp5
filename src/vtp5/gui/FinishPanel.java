@@ -157,20 +157,26 @@ public class FinishPanel extends JPanel {
 									.getIncorrectCards().size(); i++) {
 								Card card = parent.getTest()
 										.getIncorrectCards().get(i);
-								writer.println(card.getLangFrom().get(0));
+								writer.println(card.getLangFromPrompt());
 
-								for (int j = 0; j < card.getCorrectLangTo()
-										.size(); j++) {
-									writer.print(card.getCorrectLangTo().get(j));
+								// NOT SURE IF THIS WILL ALWAYS WORK...
+								// for (int j = 0; j < card.getCorrectLangTo()
+								// .size(); j++) {
+								// writer.print(card.getCorrectLangTo().get(j));
+								//
+								// if (!(j == card.getCorrectLangTo().size() -
+								// 1)) {
+								// writer.print("/");
+								// }
+								//
+								// if (j == card.getCorrectLangTo().size() - 1)
+								// {
+								// writer.println();
+								// }
+								// }
 
-									if (!(j == card.getCorrectLangTo().size() - 1)) {
-										writer.print("/");
-									}
-
-									if (j == card.getCorrectLangTo().size() - 1) {
-										writer.println();
-									}
-								}
+								// ... so I (Ming) changed it to this:
+								writer.println(card.getLangToPrompt());
 							}
 
 							JOptionPane
@@ -313,16 +319,18 @@ class WrongAnswersTableModel extends AbstractTableModel {
 		Card card = wrongAnswers.get(rowIndex);
 		String value = "";
 
+		// Ming: I changed the methods so that the string gotten is the original
+		// word string
 		switch (columnIndex) {
 		case 0:
-			value = card.getLangFrom().toString();
+			value = card.getLangFromPrompt();
 			break;
 		case 1:
-			value = card.getCorrectLangTo().toString();
+			value = card.getLangToPrompt();
 			break;
 		}
 
-		value = value.substring(1, value.length() - 1);
+		// value = value.substring(1, value.length() - 1);
 		return value;
 	}
 }

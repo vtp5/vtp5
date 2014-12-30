@@ -54,6 +54,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import net.miginfocom.swing.MigLayout;
 import vtp5.logic.Card;
+import vtp5.logic.SpellCheck;
 import vtp5.logic.TestFile;
 
 /*VTP5 Copyright (C) 2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
@@ -150,6 +151,12 @@ public class VTP5 extends JFrame {
 	private JLabel license3Label = new HyperlinkLabel(
 			"Click here for more information",
 			"https://github.com/duckifyz/VTP5/wiki/Licensing");
+	private JLabel separatorLabel2 = new JLabel(
+			"------------------------------------------------------------------");
+	private JLabel license4Label = new JLabel(
+			"Jazzy, the spell-checking library used in VTP5,");
+	private JLabel license5Label = new JLabel("is licensed under the LGPL.");
+
 	// TODO Create a better icon.
 	private ImageIcon logo = new ImageIcon("res/images/vtp.png");
 	private ArrayList<JButton> buttonList = new ArrayList<>();
@@ -179,6 +186,9 @@ public class VTP5 extends JFrame {
 	public Font font;
 
 	public VTP5() {
+		// Load spell-checker
+		SpellCheck.loadSpellChecker();
+
 		// Sets up JFileChooser
 		txtChooser.setFileFilter(new FileNameExtensionFilter(
 				"Text Files (*.txt)", "txt"));
@@ -246,7 +256,10 @@ public class VTP5 extends JFrame {
 		abtDialog.add(license1aLabel, "alignx center, wrap");
 		abtDialog.add(license1bLabel, "alignx center, wrap");
 		abtDialog.add(license2Label, "alignx center, wrap");
-		abtDialog.add(license3Label, "alignx center");
+		abtDialog.add(license3Label, "alignx center, wrap");
+		abtDialog.add(separatorLabel2, "alignx center, wrap");
+		abtDialog.add(license4Label, "alignx center, wrap");
+		abtDialog.add(license5Label, "alignx center, wrap");
 		abtDialog.pack();
 		abtDialog.setResizable(false);
 		abtDialog.setLocationRelativeTo(this);
@@ -608,6 +621,7 @@ public class VTP5 extends JFrame {
 				if (enterButton.getText().equals("I'm sure!")) {
 					enterButton.setText("Enter");
 				}
+				answerField.setText(""); // field is cleared
 			} else if (result == TestFile.INCORRECT) {
 				progressBar.setForeground(Color.RED);
 
@@ -634,10 +648,12 @@ public class VTP5 extends JFrame {
 					test.getCards().remove(c);
 					test.getCards().add(c);
 				}
+				answerField.setText(""); // field is cleared
 			} else if (result == TestFile.PROMPT_USER) {
 				promptLabel.setText("<html><i>Are you sure? </i></html>");
 				enterButton.setText("I'm sure!");
 				experimentalTimer.start();
+				// Don't clear field here
 			}
 
 			progressBar.setValue(score); // sets value of progress bar
@@ -653,9 +669,8 @@ public class VTP5 extends JFrame {
 			guessedAnswersList.setForeground(tcolour);
 			// Update prompt label, stats list and totalTimesGuessed
 			updatePrompt(questionIndex);
+			answerField.setText(""); // field is cleared
 		}
-
-		answerField.setText(""); // field is cleared
 	}
 
 	private void finishTest() {
