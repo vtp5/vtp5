@@ -84,7 +84,9 @@ public class VTP5 extends JFrame {
 	// 0.0.x = alpha
 	// 0.x.x = beta
 	// x.x.x = full
-	private String appVersion = "Alpha Build 0.0.1";
+	private String build = "0.0.0";
+	private String version = "Alpha Build";
+	private String appVersion = version + " " + build;
 
 	private FramePanel framePanel;
 

@@ -1,31 +1,25 @@
 package vtp_launcher;
 
 import java.awt.EventQueue;
-import java.awt.GridBagLayout;
-import java.awt.Image;
-
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import net.miginfocom.swing.MigLayout;
-
-import javax.swing.JButton;
-
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JTextPane;
+
+import net.miginfocom.swing.MigLayout;
 
 public class Launcher extends JFrame {
 
 	JButton vtp,vmp,vcp;
-	JTextPane tp;
+	static JTextPane tp;
 	
 	
 	/**
@@ -48,8 +42,11 @@ public class Launcher extends JFrame {
 	 * Create the frame.
 	 */
 	public Launcher() {
+		
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(280, 300);
+		setResizable(false);
 		getContentPane().setLayout(new MigLayout("", "[grow][grow][][][][][][][][][][][][][][]", "[][][][][][grow]"));
 		
 		BufferedImage vtpp = null;
@@ -59,7 +56,7 @@ public class Launcher extends JFrame {
 		vtp.setContentAreaFilled(false);
 		vtp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.exit(0);
+				tp.setText("vtp");
 			}
 		});
 		getContentPane().add(vtp, "cell 8 2");
@@ -72,7 +69,7 @@ public class Launcher extends JFrame {
 		vmp.setContentAreaFilled(false);
 		vmp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.exit(0);
+				tp.setText("vmp");
 			}
 		});
 		getContentPane().add(vmp, "cell 4 4");
@@ -85,16 +82,17 @@ public class Launcher extends JFrame {
 		vcp.setContentAreaFilled(false);
 		vcp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.exit(0);
+				tp.setText("vcp");
 			}
 		});
 		getContentPane().add(vcp, "cell 12 4");
 		
 		tp = new JTextPane();
 		getContentPane().add(tp, "cell 0 5 16 1,grow");
+		tp.setEditable(false);
 		
 
-
+		Initial.start();
 	}
 
 }
