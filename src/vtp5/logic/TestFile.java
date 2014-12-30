@@ -4,19 +4,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import javax.swing.JOptionPane;
-
-import com.swabunga.spell.engine.SpellDictionary;
-import com.swabunga.spell.engine.SpellDictionaryHashMap;
 import com.swabunga.spell.event.SpellCheckEvent;
 import com.swabunga.spell.event.SpellCheckListener;
-import com.swabunga.spell.event.SpellChecker;
-import com.swabunga.spell.event.StringWordTokenizer;
 
 /*VTP5 Copyright (C) 2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
 
@@ -33,7 +26,7 @@ import com.swabunga.spell.event.StringWordTokenizer;
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class TestFile implements Serializable, SpellCheckListener {
+public class TestFile implements Serializable {
 	/**
 	 * 
 	 */
@@ -66,11 +59,6 @@ public class TestFile implements Serializable, SpellCheckListener {
 	public static final int PROMPT_USER = 3;
 
 	private File importedFile;
-
-	// Variables for spell-checker
-	private static String dictFile = "jazzy/dict/english.0";
-	// private static String phonetFile = "/VTP5/jazzy/dict/phonet.en";
-	private transient SpellChecker spellCheck = null;
 
 	public TestFile(File file) throws IOException {
 		setImportedFile(file);
@@ -249,19 +237,10 @@ public class TestFile implements Serializable, SpellCheckListener {
 					}
 				}
 
-				// Make sure spell-checker has been created
-				if (spellCheck == null) {
-					setUpSpellChecker();
-				}
-
-				if (spellCheck != null) {
-					// Use the spell-checker to see if the user has made any
-					// potential typos
-					int result = spellCheck
-							.checkSpelling(new StringWordTokenizer(origAnswer));
-					if (result != SpellChecker.SPELLCHECK_OK) {
-						return PROMPT_USER;
-					}
+				// Use the spell-checker to see if the user has made any
+				// potential typos
+				if (SpellCheck.containsSpellingErrors(origAnswer)) {
+					return PROMPT_USER;
 				}
 			}
 
@@ -280,31 +259,6 @@ public class TestFile implements Serializable, SpellCheckListener {
 							/ (double) totalTimesGuessed * 100.0;
 			return INCORRECT;
 		}
-	}
-
-	private void setUpSpellChecker() {
-		// Set up spell-checker
-		try {
-			SpellDictionary dictionary = new SpellDictionaryHashMap(new File(
-					dictFile), null);
-
-			spellCheck = new SpellChecker(dictionary);
-			spellCheck.addSpellCheckListener(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-			JOptionPane
-					.showMessageDialog(
-							null,
-							"The following error occurred:\n\n"
-									+ e.toString()
-									+ "\n\nThat's really sad :(. It means that the spell-checker hasn't loaded properly.\nHowever, you'll still be able to complete your test - as long as you HAVEN'T enabled \"experimental settings\".\n\nPlease report the problem if it keeps happening.",
-							"VTP5", JOptionPane.ERROR_MESSAGE);
-		}
-	}
-
-	@Override
-	public void spellingError(SpellCheckEvent event) {
-		// Do nothing (for now at least...)
 	}
 
 	public void setCards(ArrayList<Card> cards) {
