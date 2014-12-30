@@ -6,12 +6,14 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 
 import net.miginfocom.swing.MigLayout;
@@ -21,7 +23,7 @@ public class Launcher extends JFrame {
 	public static String vtpversion;
 	
 	JButton vtp,vmp,vcp;
-	static JTextPane tp;
+	static JTextArea tp;
 	
 	
 	/**
@@ -58,7 +60,19 @@ public class Launcher extends JFrame {
 		vtp.setContentAreaFilled(false);
 		vtp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				tp.setText("vtp");
+				
+				tp.setText("Opening VTP5");
+				// Run a java app in a separate system process
+				Process proc = null;
+				try {
+					proc = Runtime.getRuntime().exec("java -jar " + Initial.fil);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				// Then retreive the process output
+				InputStream in = proc.getInputStream();
+				InputStream err = proc.getErrorStream();
 			}
 		});
 		getContentPane().add(vtp, "cell 8 2");
@@ -89,11 +103,9 @@ public class Launcher extends JFrame {
 		});
 		getContentPane().add(vcp, "cell 12 4");
 		
-		tp = new JTextPane();
+		tp = new JTextArea();
 		getContentPane().add(tp, "cell 0 5 16 1,grow");
 		tp.setEditable(false);
-		
-
 		Initial.start();
 	}
 
