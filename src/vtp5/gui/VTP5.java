@@ -56,7 +56,7 @@ import net.miginfocom.swing.MigLayout;
 import vtp5.logic.Card;
 import vtp5.logic.TestFile;
 
-/*VTP5 Copyright (C) 2014-2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
+/*VTP5 Copyright (C) 2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -84,7 +84,9 @@ public class VTP5 extends JFrame {
 	// 0.0.x = alpha
 	// 0.x.x = beta
 	// x.x.x = full
-	private String appVersion = "Alpha Build 0.0.1";
+	private String build = "0.0.0";
+	private String version = "Alpha Build";
+	private String appVersion = version + " " + build;
 
 	private FramePanel framePanel;
 
