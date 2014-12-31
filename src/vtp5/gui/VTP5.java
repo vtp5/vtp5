@@ -162,6 +162,9 @@ public class VTP5 extends JFrame {
 
 	// TODO Create a better icon.
 	private ImageIcon logo = new ImageIcon("res/images/vtp.png");
+	// TODO USE THIS WHEN EXPORTING TO JAR!
+	// private ImageIcon logo = new ImageIcon(getClass().getResource(
+	// "/images/vtp.png"));
 	private ArrayList<JButton> buttonList = new ArrayList<>();
 
 	// The all-import TestFile object!
@@ -813,14 +816,14 @@ public class VTP5 extends JFrame {
 		@Override
 		public void paintComponent(Graphics g) {
 
-			Graphics2D g2 = (Graphics2D) g;
-			Image backgroundImage = new ImageIcon("res/images/backvtp.png")
-					.getImage();
+			// Graphics2D g2 = (Graphics2D) g;
+			// Image backgroundImage = new ImageIcon("res/images/backvtp.png")
+			// .getImage();
 
-			g2.drawImage(backgroundImage, 0, 0, (int) getSize().getWidth(),
-					(int) getSize().getHeight(), 0, 0,
-					(int) backgroundImage.getWidth(this),
-					(int) backgroundImage.getHeight(this), this);
+			// g2.drawImage(backgroundImage, 0, 0, (int) getSize().getWidth(),
+			// (int) getSize().getHeight(), 0, 0,
+			// (int) backgroundImage.getWidth(this),
+			// (int) backgroundImage.getHeight(this), this);
 		}
 	}
 

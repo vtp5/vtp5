@@ -12,6 +12,8 @@ import com.swabunga.spell.event.StringWordTokenizer;
 public class SpellCheck {
 	// Variables for spell-checker
 	private static String dictFile = "jazzy/dict/english.0";
+	// TODO USE THIS WHEN EXPORTING TO JAR!
+	// private static String dictFile = "english.0";
 	// private static String phonetFile = "/VTP5/jazzy/dict/phonet.en";
 	private static SpellChecker spellCheck = null;
 
@@ -20,6 +22,10 @@ public class SpellCheck {
 		try {
 			SpellDictionary dictionary = new SpellDictionaryHashMap(new File(
 					dictFile), null);
+
+			// TODO USE THIS WHEN EXPORTING TO JAR!
+			// SpellDictionary dictionary = new SpellDictionaryHashMap(new File(
+			// dictFile), null);
 
 			spellCheck = new SpellChecker(dictionary);
 		} catch (Exception e) {

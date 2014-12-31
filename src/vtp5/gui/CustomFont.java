@@ -32,6 +32,11 @@ public class CustomFont {
 		try {
 			Font font = Font.createFont(Font.TRUETYPE_FONT,
 					new FileInputStream("res/fonts/ubuntu/Ubuntu-C.ttf"));
+
+			// TODO USE THIS WHEN EXPORTING TO JAR!
+			// Font font = Font.createFont(Font.TRUETYPE_FONT, getClass()
+			// .getResourceAsStream("/fonts/ubuntu/Ubuntu-C.ttf"));
+
 			// font = Font.createFont(Font.TRUETYPE_FONT, Loader
 			// .getInputStream("fonts/didactgothic/DidactGothic.ttf"));
 			/*
@@ -55,5 +60,4 @@ public class CustomFont {
 			new Font("Arial", Font.PLAIN, fontSize);
 		}
 	}
-
 }
