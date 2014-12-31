@@ -74,10 +74,13 @@ import vtp5.logic.TestFile;
  */
 public class VTP5 extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// TODO Generate the serialVersionUID once class has been finished.
 
 	// TODO change each time a change is made
-
 	// x.y.z
 	// x = major change
 	// y = slightly big change

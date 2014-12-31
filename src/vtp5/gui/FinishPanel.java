@@ -42,6 +42,11 @@ import vtp5.logic.TestFile;
  */
 public class FinishPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private JLabel completedLabel = new JLabel();
 	private JLabel showListLabel = new JLabel();
 	private CustomFont cf;
@@ -281,6 +286,11 @@ public class FinishPanel extends JPanel {
 }
 
 class WrongAnswersTableModel extends AbstractTableModel {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private ArrayList<Card> wrongAnswers;
 
