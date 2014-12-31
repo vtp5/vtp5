@@ -37,6 +37,10 @@ import net.miginfocom.swing.MigLayout;
  */
 public class Frame extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	static ArrayList<String> q = new ArrayList<String>();
 	static ArrayList<String> a = new ArrayList<String>();
 

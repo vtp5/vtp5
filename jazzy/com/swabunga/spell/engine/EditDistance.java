@@ -77,7 +77,8 @@ public class EditDistance {
    * @return a number representing how easy or complex it is to transform on
    * word into a similar one.
    */
-  public static final int getDistance(String word, String similar, int[][] matrix) {
+  @SuppressWarnings("unused")
+public static final int getDistance(String word, String similar, int[][] matrix) {
     /* JMH Again, there is no need to have a global class matrix variable
      *  in this class. I have removed it and made the getDistance static final
      * DMV: I refactored this method to make it more efficient, more readable, and simpler.

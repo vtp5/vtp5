@@ -33,6 +33,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
+@SuppressWarnings("serial")
 public class JSpellChecker extends Applet {
 
   private class JSpellCheckListener extends Thread implements SpellCheckListener {

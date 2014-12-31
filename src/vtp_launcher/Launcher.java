@@ -14,8 +14,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
-import javax.swing.JTextPane;
-
 import net.miginfocom.swing.MigLayout;
 
 public class Launcher extends JFrame {

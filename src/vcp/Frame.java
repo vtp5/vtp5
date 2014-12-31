@@ -31,6 +31,12 @@ import net.miginfocom.swing.MigLayout;
  */
 public class Frame extends JFrame {
 
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private ImageIcon logo = new ImageIcon("res/images/vcp.png");
 
 	static File f;
