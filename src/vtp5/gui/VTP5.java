@@ -3,7 +3,6 @@ package vtp5.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -14,8 +13,6 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -1068,36 +1065,5 @@ public class VTP5 extends JFrame {
 			updatePrompt(questionIndex);
 		}
 
-	}
-
-	private class HyperlinkLabel extends JLabel {
-		private static final long serialVersionUID = 1L;
-
-		public HyperlinkLabel(String text, final String link) {
-			this.setText("<html><a href=\"" + link + "\">" + text
-					+ "</a></html>");
-			this.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseEntered(MouseEvent e) {
-					setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-				}
-
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					try {
-						java.awt.Desktop.getDesktop().browse(new URI(link));
-					} catch (URISyntaxException | IOException e1) {
-						e1.printStackTrace();
-						JOptionPane
-								.showMessageDialog(
-										null,
-										"The following error occurred:\n\n"
-												+ e1.toString()
-												+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
-										"VTP5", JOptionPane.ERROR_MESSAGE);
-					}
-				}
-			});
-		}
 	}
 }
