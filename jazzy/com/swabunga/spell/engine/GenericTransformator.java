@@ -19,11 +19,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 package com.swabunga.spell.engine;
 
-import com.swabunga.util.StringUtility;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.Vector;
+
+import com.swabunga.util.StringUtility;
 
 /**
  * A Generic implementation of a transformator takes an 

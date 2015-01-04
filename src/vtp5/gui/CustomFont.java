@@ -4,7 +4,6 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 /*VTP5 Copyright (C) 2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
@@ -30,12 +29,12 @@ public class CustomFont {
 
 	public void setFont(Component c, int fontSize) {
 		try {
-			Font font = Font.createFont(Font.TRUETYPE_FONT,
-					new FileInputStream("res/fonts/ubuntu/Ubuntu-C.ttf"));
+			//Font font = Font.createFont(Font.TRUETYPE_FONT,
+			//		new FileInputStream("res/fonts/ubuntu/Ubuntu-C.ttf"));
 
 			// TODO USE THIS WHEN EXPORTING TO JAR!
-			// Font font = Font.createFont(Font.TRUETYPE_FONT, getClass()
-			// .getResourceAsStream("/fonts/ubuntu/Ubuntu-C.ttf"));
+			 Font font = Font.createFont(Font.TRUETYPE_FONT, getClass()
+			 .getResourceAsStream("/fonts/ubuntu/Ubuntu-C.ttf"));
 
 			// font = Font.createFont(Font.TRUETYPE_FONT, Loader
 			// .getInputStream("fonts/didactgothic/DidactGothic.ttf"));

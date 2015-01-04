@@ -1,7 +1,6 @@
 package vcp;
 
 import java.io.FileWriter;
-
 import java.io.IOException;
 
 /*VTP5 Copyright (C) 2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal

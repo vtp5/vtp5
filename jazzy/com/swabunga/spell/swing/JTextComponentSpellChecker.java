@@ -19,23 +19,31 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 package com.swabunga.spell.swing;
 
-import com.swabunga.spell.engine.SpellDictionary;
-import com.swabunga.spell.engine.SpellDictionaryHashMap;
-import com.swabunga.spell.engine.SpellDictionaryCachedDichoDisk;
-import com.swabunga.spell.event.DocumentWordTokenizer;
-import com.swabunga.spell.event.SpellCheckEvent;
-import com.swabunga.spell.event.SpellCheckListener;
-import com.swabunga.spell.event.SpellChecker;
-import com.swabunga.spell.swing.autospell.AutoSpellEditorKit;
-
-import javax.swing.*;
-import javax.swing.text.*;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dialog;
+import java.awt.Frame;
+import java.awt.Window;
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import com.swabunga.spell.swing.autospell.*;
+
+import javax.swing.JEditorPane;
+import javax.swing.SwingUtilities;
+import javax.swing.text.Document;
+import javax.swing.text.EditorKit;
+import javax.swing.text.JTextComponent;
+import javax.swing.text.StyledEditorKit;
+
+import com.swabunga.spell.engine.SpellDictionary;
+import com.swabunga.spell.engine.SpellDictionaryCachedDichoDisk;
+import com.swabunga.spell.engine.SpellDictionaryHashMap;
+import com.swabunga.spell.event.DocumentWordTokenizer;
+import com.swabunga.spell.event.SpellCheckEvent;
+import com.swabunga.spell.event.SpellCheckListener;
+import com.swabunga.spell.event.SpellChecker;
+import com.swabunga.spell.swing.autospell.AutoSpellCheckHandler;
+import com.swabunga.spell.swing.autospell.AutoSpellEditorKit;
 
 /** This class spellchecks a JTextComponent throwing up a Dialog everytime
  *  it encounters a misspelled word.

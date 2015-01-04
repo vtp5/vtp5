@@ -25,16 +25,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 package com.swabunga.spell.swing.autospell;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.Shape;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.Element;
+import javax.swing.text.Position.Bias;
 import javax.swing.text.View;
 import javax.swing.text.ViewFactory;
-import javax.swing.text.Position.Bias;
 
 /**
  * This View just forward all calls to the original view but also paints

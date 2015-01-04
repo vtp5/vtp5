@@ -19,14 +19,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 package com.swabunga.spell.swing;
 
-import com.swabunga.spell.event.SpellCheckEvent;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Dialog;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+
+import javax.swing.JDialog;
+
+import com.swabunga.spell.event.SpellCheckEvent;
 
 /** Implementation of a spell check dialog.
  *

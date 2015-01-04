@@ -159,10 +159,10 @@ public class VTP5 extends JFrame {
 	private JLabel license5Label = new JLabel("is licensed under the LGPL.");
 
 	// TODO Create a better icon.
-	private ImageIcon logo = new ImageIcon("res/images/vtp.png");
+	//private ImageIcon logo = new ImageIcon("res/images/vtp.png");
 	// TODO USE THIS WHEN EXPORTING TO JAR!
-	// private ImageIcon logo = new ImageIcon(getClass().getResource(
-	// "/images/vtp.png"));
+	 private ImageIcon logo = new ImageIcon(getClass().getResource(
+	 "/images/vtp.png"));
 	private ArrayList<JButton> buttonList = new ArrayList<>();
 
 	// The all-import TestFile object!

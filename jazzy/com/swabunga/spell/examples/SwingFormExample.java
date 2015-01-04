@@ -19,11 +19,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 package com.swabunga.spell.examples;
 
-import com.swabunga.spell.swing.JSpellApplet;
-
-import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
+import javax.swing.JFrame;
+
+import com.swabunga.spell.swing.JSpellApplet;
 
 /** This class shows an example of how to use the spell checking capability
  *  for a text area on a swing form.

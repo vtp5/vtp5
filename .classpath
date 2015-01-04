@@ -2,9 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="miglayout"/>
-	<classpathentry excluding="Ubuntu/|Ubuntu/|ubuntu/|ubuntu/" including="files/|fonts/|images/" kind="src" path="res"/>
+	<classpathentry excluding="Ubuntu/|Ubuntu/|ubuntu/|ubuntu/|lib/|lib/" including="files/|fonts/|images/" kind="src" path="res"/>
 	<classpathentry kind="src" path="jazzy"/>
-	<classpathentry kind="src" path="launcherlibs"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry exported="true" kind="lib" path="miglayout/miglayout-4.0-ideutil.jar"/>
 	<classpathentry exported="true" kind="lib" path="miglayout/miglayout-4.0-javadoc.jar"/>
@@ -13,9 +12,9 @@
 	<classpathentry exported="true" kind="lib" path="miglayout/miglayout-4.0-swt.jar"/>
 	<classpathentry exported="true" kind="lib" path="miglayout/miglayout-4.0.jar"/>
 	<classpathentry kind="lib" path="res/utils.jar"/>
-	<classpathentry kind="lib" path="forms-1.3.0.jar" sourcepath="forms-1.3.0-src.zip"/>
-	<classpathentry kind="lib" path="launcherlibs/commonsIO/commons-io-2.4-javadoc.jar"/>
-	<classpathentry kind="lib" path="launcherlibs/commonsIO/commons-io-2.4.jar"/>
-	<classpathentry kind="lib" path="launcherlibs/JSoup/jsoup-1.8.1.jar"/>
+	<classpathentry kind="lib" path="res/lib/commonsio/commons-io-2.4-javadoc.jar"/>
+	<classpathentry kind="lib" path="res/lib/commonsio/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="res/lib/jsoup/jsoup-1.8.1.jar"/>
+	<classpathentry kind="lib" path="res/lib/forms-1.3.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

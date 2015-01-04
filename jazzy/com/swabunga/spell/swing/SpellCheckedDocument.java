@@ -19,11 +19,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 package com.swabunga.spell.swing;
 
-import com.swabunga.spell.engine.SpellDictionary;
-
-import javax.swing.text.*;
-import java.awt.*;
+import java.awt.Color;
 import java.util.StringTokenizer;
+
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+
+import com.swabunga.spell.engine.SpellDictionary;
 
 /**
  * @author Stig Tanggaard

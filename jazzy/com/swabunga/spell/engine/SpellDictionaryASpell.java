@@ -24,7 +24,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.security.InvalidParameterException;
-import java.util.*;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Vector;
 
 /**
  * Container for various methods that any <code>SpellDictionary</code> will use.
