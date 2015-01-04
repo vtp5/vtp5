@@ -46,7 +46,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -159,10 +158,10 @@ public class VTP5 extends JFrame {
 	private JLabel license5Label = new JLabel("is licensed under the LGPL.");
 
 	// TODO Create a better icon.
-	//private ImageIcon logo = new ImageIcon("res/images/vtp.png");
+	// private ImageIcon logo = new ImageIcon("res/images/vtp.png");
 	// TODO USE THIS WHEN EXPORTING TO JAR!
-	 private ImageIcon logo = new ImageIcon(getClass().getResource(
-	 "/images/vtp.png"));
+	private ImageIcon logo = new ImageIcon(getClass().getResource(
+			"/images/vtp.png"));
 	private ArrayList<JButton> buttonList = new ArrayList<>();
 
 	// The all-import TestFile object!
@@ -184,8 +183,6 @@ public class VTP5 extends JFrame {
 	// finishPanel instance variable - must create the object HERE (i.e. as soon
 	// as program begins), otherwise text-rescaling won't work properly
 	private FinishPanel finishPanel = new FinishPanel(this);
-
-	private static long startTime;
 
 	public Font font;
 
@@ -464,8 +461,6 @@ public class VTP5 extends JFrame {
 		// Add FrameListener to JFrame so we can detect when the frame is
 		// resized
 		addComponentListener(new FrameListener(this));
-		System.out.println("Boot completed in "
-				+ (System.currentTimeMillis() - startTime) + " milliseconds.");
 	}
 
 	public void setTest(TestFile test) {
@@ -1104,17 +1099,5 @@ public class VTP5 extends JFrame {
 				}
 			});
 		}
-	}
-
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				startTime = System.currentTimeMillis();
-				// TODO Find out why it takes so long from here to the start of
-				// the VTP5 obj
-				new VTP5();
-			}
-		});
 	}
 }
