@@ -47,6 +47,7 @@ import javax.swing.Timer;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import net.miginfocom.swing.MigLayout;
+import vtp5.Main;
 import vtp5.logic.Card;
 import vtp5.logic.SpellCheck;
 import vtp5.logic.TestFile;
@@ -73,18 +74,6 @@ public class VTP5 extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	// TODO Generate the serialVersionUID once class has been finished.
-
-	// TODO change each time a change is made
-	// x.y.z
-	// x = major change
-	// y = slightly big change
-	// z = minor change
-	// 0.0.x = alpha
-	// 0.x.x = beta
-	// x.x.x = full
-	private String build = "v0.1.0";
-	private String version = "Alpha";
-	private String appVersion = version + " " + build;
 
 	private FramePanel framePanel;
 
@@ -127,32 +116,7 @@ public class VTP5 extends JFrame {
 	private HyperlinkLabel exInfoLabel;
 
 	// Components for About Dialog
-	private JDialog abtDialog;
-	private JLabel vtp5Label = new JLabel("Vocabulary Testing Program 5, "
-			+ appVersion);
-	private JLabel devLabel = new JLabel(
-			"Developed by Abdel Abdalla, Minghua Yin,");
-	private JLabel dev2Label = new JLabel("Yousuf Ahmed and Nikunj Paliwal.");
-	private JLabel wikiLabel = new HyperlinkLabel("Wiki",
-			"https://github.com/duckifyz/VTP5/wiki");
-	private JLabel srccodeLabel = new HyperlinkLabel("Source Code",
-			"https://github.com/duckifyz/VTP5");
-	private JLabel separatorLabel = new JLabel(
-			"------------------------------------------------------------------");
-	private JLabel license1aLabel = new JLabel(
-			"VTP5 Copyright (C) 2015 Abdel-Rahim Abdalla, Minghua Yin,");
-	private JLabel license1bLabel = new JLabel(
-			"Yousuf Mohamed-Ahmed and Nikunj Paliwal");
-	private JLabel license2Label = new JLabel(
-			"VTP5 is licensed under the GNU General Public License (Version 3).");
-	private JLabel license3Label = new HyperlinkLabel(
-			"Click here for more information",
-			"https://github.com/duckifyz/VTP5/wiki/Licensing");
-	private JLabel separatorLabel2 = new JLabel(
-			"------------------------------------------------------------------");
-	private JLabel license4Label = new JLabel(
-			"Jazzy, the spell-checking library used in VTP5,");
-	private JLabel license5Label = new JLabel("is licensed under the LGPL.");
+	private AboutDialog abtDialog;
 
 	// TODO Create a better icon.
 	// private ImageIcon logo = new ImageIcon("res/images/vtp.png");
@@ -242,25 +206,7 @@ public class VTP5 extends JFrame {
 		buttonList.add(aboutButton);
 
 		// Sets up about dialog
-		abtDialog = new JDialog(this, "About VTP5");
-		abtDialog.setLayout(new MigLayout("fillx"));
-		abtDialog.add(new JLabel(logo), "alignx center, aligny top, wrap");
-		abtDialog.add(vtp5Label, "alignx center, wrap");
-		abtDialog.add(devLabel, "alignx center, wrap");
-		abtDialog.add(dev2Label, "alignx center, wrap");
-		abtDialog.add(wikiLabel, "alignx center, wrap");
-		abtDialog.add(srccodeLabel, "alignx center, wrap");
-		abtDialog.add(separatorLabel, "alignx center, wrap");
-		abtDialog.add(license1aLabel, "alignx center, wrap");
-		abtDialog.add(license1bLabel, "alignx center, wrap");
-		abtDialog.add(license2Label, "alignx center, wrap");
-		abtDialog.add(license3Label, "alignx center, wrap");
-		abtDialog.add(separatorLabel2, "alignx center, wrap");
-		abtDialog.add(license4Label, "alignx center, wrap");
-		abtDialog.add(license5Label, "alignx center, wrap");
-		abtDialog.pack();
-		abtDialog.setResizable(false);
-		abtDialog.setLocationRelativeTo(this);
+		abtDialog = new AboutDialog();
 
 		changeButtonColour = new JButton("Change button colour");
 		changePromptColour = new JButton("Change prompt colour");
@@ -449,7 +395,7 @@ public class VTP5 extends JFrame {
 		System.out.println(screenSize);
 		setSize(screenSize.width < 1000 ? screenSize.width : 1000,
 				screenSize.height < 650 ? screenSize.height : 650);
-		setTitle("VTP5 - " + appVersion);
+		setTitle("VTP5 - " + Main.appVersion);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -902,24 +848,6 @@ public class VTP5 extends JFrame {
 			} else if (e.getSource() == changeForegroundColour) {
 				displayColorChooser(3);
 			} else if (e.getSource() == aboutButton) {
-				abtDialog.setVisible(true);
-			}/*
-			 * else if (e.getSource() == changeButtonColour) {
-			 * System.out.println(bcolour.toString() + fcolour.toString() +
-			 * tcolour.toString()); bcolour =
-			 * JColorChooser.showDialog(settingsDialog, "Choosecolor",
-			 * Color.BLACK); setColour(bcolour, fcolour, tcolour); } else if
-			 * (e.getSource() == changeForegroundColour) {
-			 * System.out.println(bcolour.toString() + fcolour.toString() +
-			 * tcolour.toString()); fcolour =
-			 * JColorChooser.showDialog(settingsDialog, "Choosecolor",
-			 * Color.BLACK); setColour(bcolour, fcolour, tcolour); } else if
-			 * (e.getSource() == changePromptColour) {
-			 * System.out.println(bcolour.toString() + fcolour.toString() +
-			 * tcolour.toString()); tcolour =
-			 * JColorChooser.showDialog(settingsDialog, "Choose color",
-			 * Color.BLACK); setColour(bcolour, fcolour, tcolour); }
-			 */else if (e.getSource() == aboutButton) {
 				abtDialog.setVisible(true);
 			} else if (e.getSource() == enterButton) {
 				doLogic();
