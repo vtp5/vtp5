@@ -3,6 +3,7 @@ package vtp5.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -32,6 +33,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -44,7 +46,13 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.Timer;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import org.kohsuke.github.GHRelease;
+import org.kohsuke.github.GHRepository;
+import org.kohsuke.github.GitHub;
 
 import net.miginfocom.swing.MigLayout;
 import vtp5.Main;
@@ -111,7 +119,7 @@ public class VTP5 extends JFrame {
 	// Components for Settings Dialog
 	private JDialog settingsDialog;
 	private JButton changeButtonColour, changePromptColour,
-			changeForegroundColour;
+			changeForegroundColour, checkForUpdateButton;
 	private JCheckBox experimentalCheck;
 	private HyperlinkLabel exInfoLabel;
 
@@ -208,9 +216,10 @@ public class VTP5 extends JFrame {
 		// Sets up about dialog
 		abtDialog = new AboutDialog();
 
-		changeButtonColour = new JButton("Change button colour");
-		changePromptColour = new JButton("Change prompt colour");
-		changeForegroundColour = new JButton("Change button text colour");
+		changeButtonColour = new JButton("Change Button Colour");
+		changePromptColour = new JButton("Change Prompt Colour");
+		changeForegroundColour = new JButton("Change Button Text Colour");
+		checkForUpdateButton = new JButton("Check For Update");
 		experimentalCheck = new JCheckBox("Enable experimental features");
 		exInfoLabel = new HyperlinkLabel(
 				"<html>Click here for more information<br />on experimental features</html>",
@@ -218,6 +227,8 @@ public class VTP5 extends JFrame {
 
 		settingsDialog = new JDialog(this, "Settings");
 		settingsDialog.setLayout(new MigLayout("fillx", "", "[][][]10[]10[]"));
+		settingsDialog.add(checkForUpdateButton, "alignx center, wrap");
+		settingsDialog.add(new JSeparator(), "grow, wrap");
 		settingsDialog.add(changeButtonColour, "alignx center, wrap");
 		settingsDialog.add(changePromptColour, "alignx center, wrap");
 		settingsDialog.add(changeForegroundColour, "alignx center, wrap");
@@ -276,6 +287,7 @@ public class VTP5 extends JFrame {
 		changePromptColour.addActionListener(eventListener);
 		changeButtonColour.addActionListener(eventListener);
 		changeForegroundColour.addActionListener(eventListener);
+		checkForUpdateButton.addActionListener(eventListener);
 
 		buttonPanel.add(importFileButton, "align left");// adds to panel
 		buttonPanel.add(startAgainButton, "align left");
@@ -699,6 +711,56 @@ public class VTP5 extends JFrame {
 				+ String.format("%.2f", (double) stats[3]) + "%");
 	}
 
+	private void checkForUpdate() {
+		try {
+			GHRepository repo = GitHub.connectAnonymously().getRepository(
+					"duckifyz/VTP5");
+			GHRelease release = repo.listReleases().asList().get(0);
+
+			if (release.getTagName().contains(Main.build)
+					|| release.getName().contains(Main.build)) {
+				JOptionPane
+						.showMessageDialog(
+								this,
+								"You are running the latest version of VTP5. There's no need to worry :)",
+								"VTP5", JOptionPane.INFORMATION_MESSAGE);
+			} else {
+				JEditorPane editorPane = new JEditorPane();
+				editorPane.setContentType("text/html");
+				setFontSize(editorPane, 20);
+				editorPane
+						.setText("You are not running the latest release of VTP5. \n\nThe latest version, titled "
+								+ release.getName()
+								+ ", can be found "
+								+ "<a href='https://github.com/duckifyz/VTP5/releases'>here</a>.");
+
+				editorPane.setEditable(false);
+				editorPane.setOpaque(false);
+
+				editorPane.addHyperlinkListener(new HyperlinkListener() {
+					@Override
+					public void hyperlinkUpdate(HyperlinkEvent hle) {
+						if (HyperlinkEvent.EventType.ACTIVATED.equals(hle
+								.getEventType())) {
+							System.out.println(hle.getURL());
+							Desktop desktop = Desktop.getDesktop();
+							try {
+								desktop.browse(hle.getURL().toURI());
+							} catch (Exception ex) {
+								ex.printStackTrace();
+							}
+						}
+					}
+				});
+
+				JOptionPane.showMessageDialog(this, editorPane, "VTP5",
+						JOptionPane.WARNING_MESSAGE);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	void setUpTest() {
 		progressBar.setString(test.getScore() + "/"
 				+ (test.getCards().size() + test.getScore()));
@@ -957,6 +1019,8 @@ public class VTP5 extends JFrame {
 									"VTP5", JOptionPane.ERROR_MESSAGE);
 				}
 				setUpTest();
+			} else if (e.getSource() == checkForUpdateButton) {
+				checkForUpdate();
 			}
 		}
 	}
