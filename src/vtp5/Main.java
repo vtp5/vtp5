@@ -16,7 +16,7 @@ public class Main {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				long startTime = System.currentTimeMillis();		
+				long startTime = System.currentTimeMillis();
 				new VTP5();
 				System.out.println("Boot completed in "
 						+ (System.currentTimeMillis() - startTime)

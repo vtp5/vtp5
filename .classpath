@@ -4,7 +4,6 @@
 	<classpathentry excluding="Ubuntu/|Ubuntu/|ubuntu/|ubuntu/|lib/|lib/" including="files/|fonts/|images/" kind="src" path="res"/>
 	<classpathentry kind="src" path="jazzy"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="res/lib/commonsio/commons-io-2.4.jar"/>
 	<classpathentry kind="lib" path="res/lib/jsoup/jsoup-1.8.1.jar"/>
 	<classpathentry kind="lib" path="res/lib/forms-1.3.0.jar"/>
 	<classpathentry kind="lib" path="res/lib/miglayout/miglayout-4.0-ideutil.jar"/>
@@ -12,16 +11,14 @@
 	<classpathentry kind="lib" path="res/lib/miglayout/miglayout-4.0-swt.jar"/>
 	<classpathentry kind="lib" path="res/lib/miglayout/miglayout-4.0.jar" sourcepath="res/lib/miglayout/miglayout-4.0-sources.jar"/>
 	<classpathentry kind="lib" path="res/lib/utils.jar"/>
-	<classpathentry kind="lib" path="res/lib/github/commons-codec-1.10.jar"/>
-	<classpathentry kind="lib" path="res/lib/github/commons-lang3-3.3.2.jar"/>
 	<classpathentry kind="lib" path="res/lib/github/github-api-1.59.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="http://github-api.kohsuke.org/apidocs/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="res/lib/github/mockito-all-1.9.5.jar"/>
 	<classpathentry kind="lib" path="res/lib/github/jackson-databind-2.2.3.jar"/>
 	<classpathentry kind="lib" path="res/lib/github/jackson-core-2.2.3.jar"/>
 	<classpathentry kind="lib" path="res/lib/github/jackson-annotations-2.2.3.jar"/>
+	<classpathentry kind="lib" path="res/lib/commonsio/commons-io-2.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
