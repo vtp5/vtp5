@@ -839,8 +839,7 @@ public class VTP5 extends JFrame {
 			this.frame = frame;
 			// The screen res of Ming's laptop, on which the GUI looks pretty
 			// good
-			// this.originalSize = new Dimension(1366, 768);
-			this.originalSize = frame.getSize();
+			this.originalSize = new Dimension(1366, 768);
 			this.recalculateTimer = new Timer(20, new RescaleListener());
 			this.recalculateTimer.setRepeats(false);
 		}
