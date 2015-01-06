@@ -507,7 +507,7 @@ public class VTP5 extends JFrame {
 			c = JColorChooser.showDialog(null, "Choose a colour", buttonList
 					.get(0).getBackground());
 			if (c != null) {
-				setColour(c, bcolour, tcolour);
+				setColour(c, fcolour, tcolour);
 				bcolour = c;
 				c = null;
 			}
