@@ -837,7 +837,7 @@ public class VTP5 extends JFrame {
 
 		private FrameListener(JFrame frame) {
 			this.frame = frame;
-			this.originalSize = frame.getSize();
+			this.originalSize = new Dimension(1366, 768);
 			this.recalculateTimer = new Timer(20, new RescaleListener());
 			this.recalculateTimer.setRepeats(false);
 		}
