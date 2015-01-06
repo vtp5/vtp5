@@ -12,10 +12,25 @@ import org.apache.commons.io.FileUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+/*VTP5 Copyright (C) 2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 public class Initial extends Launcher {
 
 	static String fil = null;
-	
+
 	public static void start() {
 		parse();
 		File f = new File(System.getProperty("java.class.path"));
@@ -24,17 +39,17 @@ public class Initial extends Launcher {
 
 		String p[] = path.split(";");
 
-		//tp.setText(p[0]);
+		// tp.setText(p[0]);
 
-		String vtpdir = p[0]+"\\VTP5_files";
-		String vtpdir2 = p[0]+"\\VTP5_files\\vtp5";
-		//String vtpdir = "E:\\VTP5_files";
-		//String vtpdir2 = "E:\\VTP5_files\\vtp5";
+		String vtpdir = p[0] + "\\VTP5_files";
+		String vtpdir2 = p[0] + "\\VTP5_files\\vtp5";
+		// String vtpdir = "E:\\VTP5_files";
+		// String vtpdir2 = "E:\\VTP5_files\\vtp5";
 		File theDir = new File(vtpdir);
 		File theDir2 = new File(vtpdir2);
 
 		fil = vtpdir2 + "\\" + vtpversion + ".jar";
-		
+
 		if (!theDir.exists()) {
 			System.out.println("creating directory: " + "VTP5");
 			boolean result = false;
@@ -86,20 +101,22 @@ public class Initial extends Launcher {
 				tp.append("Latest build of VTP5 present\n");
 			} else {
 				tp.append("fetching newest version...\n");
-				
+
 				try {
 					FileUtils.cleanDirectory(theDir2);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				} 
-				
-				
+				}
+
 				File file = new File(fil);
 				URL url = null;
 				try {
-					url = new URL(/*"http://192.168.1.141/vtp5/"+vtpversion+".jar"*/ "http://sabr.ddns.net/vtp5"+vtpversion+".jar");
-					FileUtils.copyURLToFile(url,file);
+					url = new URL(/*
+								 * "http://192.168.1.141/vtp5/"+vtpversion+".jar"
+								 */"http://sabr.ddns.net/vtp5" + vtpversion
+							+ ".jar");
+					FileUtils.copyURLToFile(url, file);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
