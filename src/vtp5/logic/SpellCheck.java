@@ -4,6 +4,8 @@ import java.io.File;
 
 import javax.swing.JOptionPane;
 
+import vtp5.Main;
+
 import com.swabunga.spell.engine.SpellDictionary;
 import com.swabunga.spell.engine.SpellDictionaryHashMap;
 import com.swabunga.spell.event.SpellChecker;
@@ -11,21 +13,19 @@ import com.swabunga.spell.event.StringWordTokenizer;
 
 public class SpellCheck {
 	// Variables for spell-checker
-	private static String dictFile = "jazzy/dict/english.0";
-	// TODO USE THIS WHEN EXPORTING TO JAR!
-	// private static String dictFile = "english.0";
-	private static String phonetFile = "/VTP5/jazzy/dict/phonet.en";
+	private static String dictFile;
 	private static SpellChecker spellCheck = null;
 
 	public static void loadSpellChecker() {
-		// Set up spell-checker
 		try {
 			SpellDictionary dictionary = new SpellDictionaryHashMap(new File(
 					dictFile), null);
 
-			// TODO USE THIS WHEN EXPORTING TO JAR!
-			 //SpellDictionary dictionary = new SpellDictionaryHashMap(new File(
-			// dictFile), null);
+			if (Main.exportingToJar) {
+				dictFile = "english.0";
+			} else {
+				dictFile = "jazzy/dict/english.0";
+			}
 
 			spellCheck = new SpellChecker(dictionary);
 		} catch (Exception e) {

@@ -9,6 +9,8 @@ import net.miginfocom.swing.MigLayout;
 
 public class AboutDialog extends JDialog {
 
+	private static final long serialVersionUID = 8305515388027804491L;
+
 	private JLabel vtp5Label = new JLabel("Vocabulary Testing Program 5, "
 			+ Main.appVersion);
 	private JLabel devLabel = new JLabel(

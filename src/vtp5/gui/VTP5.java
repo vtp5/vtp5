@@ -126,9 +126,6 @@ public class VTP5 extends JFrame {
 	// Components for About Dialog
 	private AboutDialog abtDialog;
 
-	// TODO Create a better icon.
-	// private ImageIcon logo = new ImageIcon("res/images/vtp.png");
-	// TODO USE THIS WHEN EXPORTING TO JAR!
 	private ImageIcon logo = new ImageIcon(getClass().getResource(
 			"/images/vtp.png"));
 	private ArrayList<JButton> buttonList = new ArrayList<>();
