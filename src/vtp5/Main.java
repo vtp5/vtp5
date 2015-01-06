@@ -19,11 +19,12 @@ import vtp5.gui.VTP5;
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 public class Main {
 
 	// TODO Change each time a release is about to be pushed out.
 	// See http://semver.org/ for more info.
-	public static final String build = "v0.1.1";
+	public static final String build = "v0.1.2";
 	public static final String version = "Alpha";
 	public static final String appVersion = version + " " + build;
 	public static final boolean exportingToJar = false;
