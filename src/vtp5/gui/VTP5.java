@@ -590,6 +590,12 @@ public class VTP5 extends JFrame {
 				// Update statsList
 				updateStatsList();
 
+				if (experimentalTimer.isRunning()) {
+					promptLabel.setText("<html>"
+							+ test.getPrompt(questionIndex) + "</html>");
+					experimentalTimer.stop();
+				}
+
 				// Reorder cards
 				Card c = test.getCards().get(questionIndex);
 				Collections.shuffle(test.getCards());
@@ -669,7 +675,7 @@ public class VTP5 extends JFrame {
 				+ (isCorrect ? "Already guessed answers: ("
 						+ correctAnswers.size() + "/"
 						+ (correctAnswers.size() + possibleAnswers.size())
-						+ ")" : "Correct answers:") + "</u></html>");
+						+ ")" : "All answers:") + "</u></html>");
 
 		// Decide what the list should display based on whether user got the
 		// word right or wrong
@@ -679,7 +685,8 @@ public class VTP5 extends JFrame {
 
 		if (!isCorrect) {
 			for (String s : possibleAnswers) {
-				guessedAnswersListModel.addElement(s);
+				guessedAnswersListModel.addElement("<html><b><i>" + s
+						+ "</i></b></html>");
 			}
 
 			if (userAnswer != null) {
@@ -950,28 +957,6 @@ public class VTP5 extends JFrame {
 				// try {
 				int answer = progressSaveChooser.showSaveDialog(getParent());
 				if (answer == JFileChooser.APPROVE_OPTION) {
-					// FileWriter fwriter = new FileWriter(
-					// chooser.getSelectedFile() + ".txt"); // filewriter
-					// // for
-					// // .txt
-					// // created
-					// BufferedWriter bfwriter = new BufferedWriter(fwriter); //
-					// parsed
-					// // to
-					// // buffered
-					// // writer
-					// for (Card s : test.getCards()) { // card is looped
-					// // through
-					// bfwriter.write(s.getLangFrom().get(0)); // prompt is
-					// // written
-					// bfwriter.newLine(); // new line
-					// bfwriter.write(s.getLangTo().get(0)); // answer is
-					// // written
-					// bfwriter.newLine();
-					// System.out.println("saved");
-					// }
-					// bfwriter.close(); // writer is closed
-					// System.out.println("File saved");
 					String filePath = progressSaveChooser.getSelectedFile()
 							.getAbsolutePath();
 
