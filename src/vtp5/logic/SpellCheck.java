@@ -17,15 +17,17 @@ public class SpellCheck {
 	private static SpellChecker spellCheck = null;
 
 	public static void loadSpellChecker() {
+		// Set up spell-checker
 		try {
-			SpellDictionary dictionary = new SpellDictionaryHashMap(new File(
-					dictFile), null);
-
+			
 			if (Main.exportingToJar) {
 				dictFile = "english.0";
 			} else {
 				dictFile = "jazzy/dict/english.0";
 			}
+			
+			 SpellDictionary dictionary = new SpellDictionaryHashMap(new File(
+			 dictFile), null);
 
 			spellCheck = new SpellChecker(dictionary);
 		} catch (Exception e) {
