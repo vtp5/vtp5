@@ -607,7 +607,7 @@ public class VTP5 extends JFrame {
 				}
 				answerField.setText(""); // field is cleared
 			} else if (result == TestFile.PROMPT_USER) {
-				promptLabel.setText("<html><i>Are you sure? </i></html>");
+				promptLabel.setText("<html><font color=\"red\"><i>Are you sure? </i></font></html>");
 				enterButton.setText("I'm sure!");
 				experimentalTimer.start();
 				// Don't clear field here
