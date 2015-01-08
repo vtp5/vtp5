@@ -76,7 +76,6 @@ public class TestFile implements Serializable {
 		totalNumberOfCards = cards.size();
 	}
 
-	@SuppressWarnings("unchecked")
 	public void getVocabFromFile(File file) throws IOException,
 			NullPointerException {
 		System.out.println(file + " is being read.");
@@ -103,7 +102,10 @@ public class TestFile implements Serializable {
 			origCards.add(card);
 		}
 
-		cards = (ArrayList<Card>) origCards.clone();
+		for (Card c : origCards) {
+			cards.add(new Card(c.getLangFromPrompt(), c.getLangToPrompt(), c
+					.getLangFrom(), c.getLangTo()));
+		}
 
 		if (br != null) {
 			br.close();
@@ -125,9 +127,13 @@ public class TestFile implements Serializable {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public void resetTest() {
-		cards = (ArrayList<Card>) origCards.clone();
+		cards.clear();
+		for (Card c : origCards) {
+			cards.add(new Card(c.getLangFromPrompt(), c.getLangToPrompt(), c
+					.getLangFrom(), c.getLangTo()));
+		}
+
 		incorrectCards.clear();
 		score = 0;
 		isLanguageSwitched = false;
