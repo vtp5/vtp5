@@ -30,6 +30,8 @@ public class TestFile implements Serializable {
 	private static final long serialVersionUID = 1L;
 	// TODO CHANGE serialVersionUID ONCE CLASS IS FINISHED!!!
 
+	// Array storing all the original "cards" for the test
+	private Card[] origCards;
 	// ArrayList of "cards" for a particular test
 	private ArrayList<Card> cards = new ArrayList<>();
 	// Stores the cards the user got wrong the first time
@@ -57,15 +59,17 @@ public class TestFile implements Serializable {
 
 	private File importedFile;
 
-	public TestFile(File file) throws IOException {
-		setImportedFile(file);
-		getVocabFromFile(file);
-		totalNumberOfCards = cards.size();
-	}
+	// public TestFile(File file) throws IOException {
+	// setImportedFile(file);
+	// getVocabFromFile(file);
+	// totalNumberOfCards = cards.size();
+	// }
 
 	public TestFile(File[] files) throws IOException {
-		// TODO What to do with importedFile? (a.k.a. start again)
-		setImportedFile(files[0]);
+		if (files.length == 1) {
+			setImportedFile(files[0]);
+		}
+
 		for (File f : files) {
 			getVocabFromFile(f);
 		}
@@ -97,19 +101,10 @@ public class TestFile implements Serializable {
 			Card card = new Card(langFromLine, langToLine, langFrom, langTo);
 			cards.add(card);
 		}
-		// Catch any exceptions.
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// } finally {
-		// try {
-		// Close reader.
+
 		if (br != null) {
 			br.close();
 		}
-		// } catch (IOException ex) {
-		// ex.printStackTrace();
-		// }
-		// }
 
 		// Printlns for debugging/helpful console messages
 		for (Card c : cards) {
@@ -125,6 +120,22 @@ public class TestFile implements Serializable {
 
 			System.out.println();
 		}
+
+		origCards = (Card[]) cards.toArray();
+	}
+
+	public void resetTest() {
+		cards = new ArrayList<>(Arrays.asList(origCards));
+		incorrectCards.clear();
+		score = 0;
+		isLanguageSwitched = false;
+		numberOfIncorrectCards = 0;
+		totalTimesGuessed = 0;
+		successRate = 0.0;
+	}
+
+	public Card[] getOrigCards() {
+		return origCards;
 	}
 
 	public ArrayList<Card> getCards() {

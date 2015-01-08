@@ -117,19 +117,7 @@ public class FinishPanel extends JPanel {
 		restartTest.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-					parent.setTest(new TestFile(parent.getTest()
-							.getImportedFile()));
-				} catch (IOException e) {
-					e.printStackTrace();
-					JOptionPane
-							.showMessageDialog(
-									null,
-									"The following error occurred:\n\n"
-											+ e.toString()
-											+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
-									"VTP5", JOptionPane.ERROR_MESSAGE);
-				}
+				parent.restartTest();
 				parent.setUpTest();
 			}
 		});

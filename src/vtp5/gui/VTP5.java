@@ -766,6 +766,13 @@ public class VTP5 extends JFrame {
 						JOptionPane.WARNING_MESSAGE);
 			}
 		} catch (IOException e) {
+			JOptionPane
+					.showMessageDialog(
+							null,
+							"The following error occurred:\n\n"
+									+ e.toString()
+									+ "\n\nYour computer probably isn't connected to the Internet.",
+							"VTP5", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 	}
@@ -789,6 +796,25 @@ public class VTP5 extends JFrame {
 		passButton.setEnabled(true);
 		startAgainButton.setEnabled(true);
 		showMainPanel();
+	}
+
+	void restartTest() {
+		try {
+			if (test.getImportedFile() != null) {
+				test = new TestFile(new File[] { test.getImportedFile() });
+			} else if (test.getOrigCards() != null) {
+				test.resetTest();
+			}
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			JOptionPane
+					.showMessageDialog(
+							null,
+							"The following error occurred:\n\n"
+									+ e1.toString()
+									+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
+							"VTP5", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	TestFile getTest() {
@@ -995,18 +1021,7 @@ public class VTP5 extends JFrame {
 				// e1.printStackTrace();
 				// }
 			} else if (e.getSource() == startAgainButton) {
-				try {
-					test = new TestFile(test.getImportedFile());
-				} catch (IOException e1) {
-					e1.printStackTrace();
-					JOptionPane
-							.showMessageDialog(
-									null,
-									"The following error occurred:\n\n"
-											+ e1.toString()
-											+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
-									"VTP5", JOptionPane.ERROR_MESSAGE);
-				}
+				restartTest();
 				setUpTest();
 			} else if (e.getSource() == checkForUpdateButton) {
 				checkForUpdate();
