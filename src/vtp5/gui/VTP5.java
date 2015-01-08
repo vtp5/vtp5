@@ -164,6 +164,9 @@ public class VTP5 extends JFrame {
 		progressOpenChooser.setFileFilter(new FileNameExtensionFilter(
 				"VTP5 Progress Files (*.vtp5)", "vtp5"));
 
+		txtChooser.setMultiSelectionEnabled(true);
+		csvChooser.setMultiSelectionEnabled(true);
+
 		framePanel = new FramePanel();// make primary panel
 		framePanel.setLayout(new BorderLayout());// set layout
 
@@ -448,7 +451,8 @@ public class VTP5 extends JFrame {
 			if (fileType == 0) {
 				int selected = txtChooser.showOpenDialog(getParent());
 				if (selected == JFileChooser.APPROVE_OPTION) {
-					test = new TestFile(txtChooser.getSelectedFile());
+					File[] files = txtChooser.getSelectedFiles();
+					test = new TestFile(files);
 				}
 			} else if (fileType == 1) {
 				JOptionPane
@@ -607,7 +611,8 @@ public class VTP5 extends JFrame {
 				}
 				answerField.setText(""); // field is cleared
 			} else if (result == TestFile.PROMPT_USER) {
-				promptLabel.setText("<html><font color=\"red\"><i>Are you sure? </i></font></html>");
+				promptLabel
+						.setText("<html><font color=\"red\"><i>Are you sure? </i></font></html>");
 				enterButton.setText("I'm sure!");
 				experimentalTimer.start();
 				// Don't clear field here

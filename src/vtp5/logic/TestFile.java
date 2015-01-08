@@ -63,6 +63,15 @@ public class TestFile implements Serializable {
 		totalNumberOfCards = cards.size();
 	}
 
+	public TestFile(File[] files) throws IOException {
+		// TODO What to do with importedFile? (a.k.a. start again)
+		setImportedFile(files[0]);
+		for (File f : files) {
+			getVocabFromFile(f);
+		}
+		totalNumberOfCards = cards.size();
+	}
+
 	public void getVocabFromFile(File file) throws IOException,
 			NullPointerException {
 		System.out.println(file + " is being read.");
