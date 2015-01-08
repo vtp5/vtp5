@@ -65,6 +65,7 @@ public class TestFile implements Serializable {
 	// totalNumberOfCards = cards.size();
 	// }
 
+	@SuppressWarnings("unchecked")
 	public TestFile(File[] files) throws IOException {
 		if (files.length == 1) {
 			setImportedFile(files[0]);
@@ -73,6 +74,13 @@ public class TestFile implements Serializable {
 		for (File f : files) {
 			getVocabFromFile(f);
 		}
+
+		for (Card c : origCards) {
+			cards.add(new Card(c.getLangFromPrompt(), c.getLangToPrompt(),
+					(ArrayList<String>) c.getLangFrom().clone(),
+					(ArrayList<String>) c.getLangTo().clone()));
+		}
+
 		totalNumberOfCards = cards.size();
 	}
 
@@ -102,11 +110,6 @@ public class TestFile implements Serializable {
 			origCards.add(card);
 		}
 
-		for (Card c : origCards) {
-			cards.add(new Card(c.getLangFromPrompt(), c.getLangToPrompt(), c
-					.getLangFrom(), c.getLangTo()));
-		}
-
 		if (br != null) {
 			br.close();
 		}
@@ -127,11 +130,13 @@ public class TestFile implements Serializable {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void resetTest() {
 		cards.clear();
 		for (Card c : origCards) {
-			cards.add(new Card(c.getLangFromPrompt(), c.getLangToPrompt(), c
-					.getLangFrom(), c.getLangTo()));
+			cards.add(new Card(c.getLangFromPrompt(), c.getLangToPrompt(),
+					(ArrayList<String>) c.getLangFrom().clone(),
+					(ArrayList<String>) c.getLangTo().clone()));
 		}
 
 		incorrectCards.clear();
