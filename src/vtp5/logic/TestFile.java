@@ -30,8 +30,8 @@ public class TestFile implements Serializable {
 	private static final long serialVersionUID = 1L;
 	// TODO CHANGE serialVersionUID ONCE CLASS IS FINISHED!!!
 
-	// Array storing all the original "cards" for the test
-	private Card[] origCards;
+	// ArrayList storing all the original "cards" for the test
+	private ArrayList<Card> origCards = new ArrayList<>();
 	// ArrayList of "cards" for a particular test
 	private ArrayList<Card> cards = new ArrayList<>();
 	// Stores the cards the user got wrong the first time
@@ -76,6 +76,7 @@ public class TestFile implements Serializable {
 		totalNumberOfCards = cards.size();
 	}
 
+	@SuppressWarnings("unchecked")
 	public void getVocabFromFile(File file) throws IOException,
 			NullPointerException {
 		System.out.println(file + " is being read.");
@@ -99,8 +100,10 @@ public class TestFile implements Serializable {
 					.split("/")));
 
 			Card card = new Card(langFromLine, langToLine, langFrom, langTo);
-			cards.add(card);
+			origCards.add(card);
 		}
+
+		cards = (ArrayList<Card>) origCards.clone();
 
 		if (br != null) {
 			br.close();
@@ -120,12 +123,11 @@ public class TestFile implements Serializable {
 
 			System.out.println();
 		}
-
-		origCards = (Card[]) cards.toArray();
 	}
 
+	@SuppressWarnings("unchecked")
 	public void resetTest() {
-		cards = new ArrayList<>(Arrays.asList(origCards));
+		cards = (ArrayList<Card>) origCards.clone();
 		incorrectCards.clear();
 		score = 0;
 		isLanguageSwitched = false;
@@ -134,7 +136,7 @@ public class TestFile implements Serializable {
 		successRate = 0.0;
 	}
 
-	public Card[] getOrigCards() {
+	public ArrayList<Card> getOrigCards() {
 		return origCards;
 	}
 
