@@ -19,7 +19,7 @@ import java.util.ArrayList;
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 // A "card" holds the data for each word and its translation/meaning
-public class Card implements Serializable, Cloneable {
+public class Card implements Serializable {
 	/**
 	 * 
 	 */
