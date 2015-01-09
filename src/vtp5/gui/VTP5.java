@@ -46,15 +46,19 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.Timer;
+import javax.swing.colorchooser.ColorSelectionModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import net.miginfocom.swing.MigLayout;
 
 import org.kohsuke.github.GHRelease;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 
-import net.miginfocom.swing.MigLayout;
 import vtp5.Main;
 import vtp5.logic.Card;
 import vtp5.logic.SpellCheck;
@@ -141,7 +145,8 @@ public class VTP5 extends JFrame {
 			experimentalTimer.stop();
 		}
 	});
-
+	
+	
 	private JColorChooser colourChooser = new JColorChooser();
 	private Color buttonColour = Color.BLACK;
 	private Color fcolour = Color.WHITE;
@@ -193,6 +198,8 @@ public class VTP5 extends JFrame {
 		startAgainButton.setForeground(fcolour);
 		startAgainButton.setEnabled(false);
 		buttonList.add(startAgainButton);
+		
+		
 
 		// leaderboardButton = new JButton("View Leaderboards");// creates
 		// buttons
@@ -516,12 +523,13 @@ public class VTP5 extends JFrame {
 	}
 
 	private void displayColorChooser(int index) {
-		colourChooser.setPreviewPanel(null);
+		colourChooser.setPreviewPanel(new JPanel());
+		JDialog d = JColorChooser.createDialog(null, "", true, colourChooser, null, null);
 		Color c;
 		switch (index) {
 		case 1:
-			c = colourChooser.showDialog(null, "Choose a colour", buttonList
-					.get(0).getBackground());
+			d.setVisible(true); 
+			c = colourChooser.getColor();
 			if (c != null) {
 				setColour(c, fcolour, textColour);
 				buttonColour = c;
@@ -529,8 +537,8 @@ public class VTP5 extends JFrame {
 			}
 			break;
 		case 2:
-			c = colourChooser.showDialog(null, "Choose a colour",
-					promptLabel.getForeground());
+			d.setVisible(true);
+			c = colourChooser.getColor();
 			if (c != null) {
 				setColour(buttonColour, fcolour, c);
 				textColour = c;
@@ -538,8 +546,8 @@ public class VTP5 extends JFrame {
 			}
 			break;
 		case 3:
-			c = colourChooser.showDialog(null, "Choose a colour", buttonList
-					.get(0).getForeground());
+			d.setVisible(true);
+			c = colourChooser.getColor();
 			if (c != null) {
 				setColour(buttonColour, c, textColour);
 				fcolour = c;
@@ -548,8 +556,8 @@ public class VTP5 extends JFrame {
 			break;
 
 		case 4:
-			c = colourChooser.showDialog(null, "Choose a colour", buttonList
-					.get(0).getForeground());
+			d.setVisible(true);
+			c = colourChooser.getColor();
 			if (c != null) {
 				updateFrameColour(c);
 				c = null;
@@ -1097,6 +1105,7 @@ public class VTP5 extends JFrame {
 	}
 
 	private class ActionEnter extends AbstractAction {
+
 		private static final long serialVersionUID = 1L;
 
 		@Override
@@ -1104,6 +1113,7 @@ public class VTP5 extends JFrame {
 			enterButton.doClick();
 		}
 	}
+
 
 	private class SwitchLanguageListener implements ItemListener {
 
