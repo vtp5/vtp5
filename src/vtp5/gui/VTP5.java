@@ -174,7 +174,6 @@ public class VTP5 extends JFrame {
 		// Set up button panel
 		buttonPanel = new JPanel();// make panel for buttons
 		buttonPanel.setLayout(new MigLayout());// set layout
-		buttonPanel.setBackground(panelColour);
 
 		importFileButton = new JButton("Import Test File");// creates buttons
 		importFileButton.setBackground(buttonColour);// changes background
@@ -304,7 +303,6 @@ public class VTP5 extends JFrame {
 		// Set up main panel
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new MigLayout("insets 5", "", "[][][][]5%[]"));
-		mainPanel.setBackground(panelColour);
 
 		switchLanguageCheck = new JCheckBox("Switch language");
 		switchLanguageCheck.setFocusable(false);
@@ -615,8 +613,7 @@ public class VTP5 extends JFrame {
 				}
 				answerField.setText(""); // field is cleared
 			} else if (result == TestFile.PROMPT_USER) {
-				promptLabel
-						.setText("<html><font color=\"red\"><i>Are you sure? </i></font></html>");
+				promptLabel.setText("<html><i>Are you sure? </i></html>");
 				enterButton.setText("I'm sure!");
 				experimentalTimer.start();
 				// Don't clear field here
@@ -641,6 +638,7 @@ public class VTP5 extends JFrame {
 
 	private void finishTest() {
 		mainPanel.setVisible(false);
+		buttonPanel.setBackground(null);
 		repaint();
 		revalidate();
 		// Do not create a new instance of FinishPanel here - otherwise,
