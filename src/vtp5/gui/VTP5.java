@@ -170,14 +170,15 @@ public class VTP5 extends JFrame {
 
 		framePanel = new FramePanel();// make primary panel
 		framePanel.setLayout(new BorderLayout());// set layout
-	
+
 		// Set up button panel
 		buttonPanel = new JPanel();// make panel for buttons
 		buttonPanel.setLayout(new MigLayout());// set layout
 		buttonPanel.setBackground(panelColour);
 
 		importFileButton = new JButton("Import Test File");// creates buttons
-		importFileButton.setBackground(buttonColour);// changes background colour
+		importFileButton.setBackground(buttonColour);// changes background
+														// colour
 		importFileButton.setForeground(fcolour);// changes foreground colour
 		buttonList.add(importFileButton);
 
@@ -705,6 +706,11 @@ public class VTP5 extends JFrame {
 		}
 	}
 
+	private void updateFrameColour(Color col) {
+		buttonPanel.setBackground(col);
+		mainPanel.setBackground(col);
+	}
+
 	private void updateStatsList() {
 		// { totalNumberOfCards, numberOfIncorrectCards, totalTimesGuessed,
 		// successRate }
@@ -721,9 +727,30 @@ public class VTP5 extends JFrame {
 				+ test.getCards().size());
 		statsListModel.addElement("Success rate: "
 				+ String.format("%.2f", (double) stats[3]) + "%");
-		if((double)stats[3] >= 70){
-			//change panel colour
+
+		if ((double) stats[3] >= 95) {
+			// change panel colour
+			panelColour = new Color(5, 255, 0);
+		} else if ((double) stats[3] >= 90) {
+			panelColour = new Color(20, 230, 0);
+		} else if ((double) stats[3] >= 80) {
+			panelColour = new Color(40, 210, 0);
+		} else if ((double) stats[3] >= 70) {
+			panelColour = new Color(60, 200, 0);
+		} else if ((double) stats[3] >= 60) {
+			panelColour = new Color(80, 180, 0);
+		} else if ((double) stats[3] >= 50) {
+			panelColour = new Color(100, 160, 0);
+		} else if ((double) stats[3] >= 40) {
+			panelColour = new Color(110, 140, 0);
+		} else if ((double) stats[3] >= 30) {
+			panelColour = new Color(200, 100, 0);
+		} else if ((double) stats[3] >= 20) {
+			panelColour = new Color(250, 60, 0);
+		} else if ((double) stats[3] >= 0) {
+			panelColour = new Color(255, 0, 0);
 		}
+		updateFrameColour(panelColour);
 	}
 
 	private void checkForUpdate() {
