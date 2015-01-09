@@ -118,8 +118,8 @@ public class VTP5 extends JFrame {
 
 	// Components for Settings Dialog
 	private JDialog settingsDialog;
-	private JButton changeButtonColour, changePromptColour,
-			changeForegroundColour, checkForUpdateButton;
+	private JButton changeButtonColour, changePromptColour, changeTextColour,
+			checkForUpdateButton, changeBackgroundColour;
 	private JCheckBox experimentalCheck;
 	private HyperlinkLabel exInfoLabel;
 
@@ -220,7 +220,8 @@ public class VTP5 extends JFrame {
 
 		changeButtonColour = new JButton("Change Button Colour");
 		changePromptColour = new JButton("Change Prompt Colour");
-		changeForegroundColour = new JButton("Change Button Text Colour");
+		changeTextColour = new JButton("Change Button Text Colour");
+		changeBackgroundColour = new JButton("Change Background Colour");
 		checkForUpdateButton = new JButton("Check For Update");
 		experimentalCheck = new JCheckBox("Enable experimental features");
 		exInfoLabel = new HyperlinkLabel(
@@ -233,7 +234,8 @@ public class VTP5 extends JFrame {
 		settingsDialog.add(new JSeparator(), "grow, wrap");
 		settingsDialog.add(changeButtonColour, "alignx center, wrap");
 		settingsDialog.add(changePromptColour, "alignx center, wrap");
-		settingsDialog.add(changeForegroundColour, "alignx center, wrap");
+		settingsDialog.add(changeTextColour, "alignx center, wrap");
+		settingsDialog.add(changeBackgroundColour, "alignx center, wrap");
 		settingsDialog.add(new JSeparator(), "grow, wrap");
 		settingsDialog.add(experimentalCheck, "alignx center, wrap");
 		settingsDialog.add(exInfoLabel);
@@ -288,7 +290,8 @@ public class VTP5 extends JFrame {
 		startAgainButton.addActionListener(eventListener);
 		changePromptColour.addActionListener(eventListener);
 		changeButtonColour.addActionListener(eventListener);
-		changeForegroundColour.addActionListener(eventListener);
+		changeTextColour.addActionListener(eventListener);
+		changeBackgroundColour.addActionListener(eventListener);
 		checkForUpdateButton.addActionListener(eventListener);
 
 		buttonPanel.add(importFileButton, "align left");// adds to panel
@@ -536,8 +539,17 @@ public class VTP5 extends JFrame {
 				c = null;
 			}
 			break;
+		
+		case 4:
+		c = JColorChooser.showDialog(null, "Choose a colour", buttonList
+				.get(0).getForeground());
+		if (c != null) {
+			updateFrameColour(c);
+			c = null;
 		}
+		break;
 
+	}
 	}
 
 	private void doLogic() {
@@ -977,9 +989,12 @@ public class VTP5 extends JFrame {
 				displayColorChooser(1);
 			} else if (e.getSource() == changePromptColour) {
 				displayColorChooser(2);
-			} else if (e.getSource() == changeForegroundColour) {
+			} else if (e.getSource() == changeTextColour) {
 				displayColorChooser(3);
+			} else if (e.getSource() == changeBackgroundColour) {
+				displayColorChooser(4);
 			} else if (e.getSource() == aboutButton) {
+
 				abtDialog.setVisible(true);
 			} else if (e.getSource() == enterButton) {
 				doLogic();
