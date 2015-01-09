@@ -142,9 +142,10 @@ public class VTP5 extends JFrame {
 		}
 	});
 
-	private Color bcolour = Color.BLACK;
+	private Color buttonColour = Color.BLACK;
 	private Color fcolour = Color.WHITE;
-	private Color tcolour = Color.BLACK;
+	private Color textColour = Color.BLACK;
+	private Color panelColour = Color.WHITE;
 
 	// finishPanel instance variable - must create the object HERE (i.e. as soon
 	// as program begins), otherwise text-rescaling won't work properly
@@ -169,24 +170,25 @@ public class VTP5 extends JFrame {
 
 		framePanel = new FramePanel();// make primary panel
 		framePanel.setLayout(new BorderLayout());// set layout
-
+	
 		// Set up button panel
 		buttonPanel = new JPanel();// make panel for buttons
 		buttonPanel.setLayout(new MigLayout());// set layout
+		buttonPanel.setBackground(panelColour);
 
 		importFileButton = new JButton("Import Test File");// creates buttons
-		importFileButton.setBackground(bcolour);// changes background colour
+		importFileButton.setBackground(buttonColour);// changes background colour
 		importFileButton.setForeground(fcolour);// changes foreground colour
 		buttonList.add(importFileButton);
 
 		saveButton = new JButton("Complete Later");
-		saveButton.setBackground(bcolour);
+		saveButton.setBackground(buttonColour);
 		saveButton.setForeground(fcolour);
 		saveButton.setEnabled(false);
 		buttonList.add(saveButton);
 
 		startAgainButton = new JButton("Start Again");
-		startAgainButton.setBackground(bcolour);
+		startAgainButton.setBackground(buttonColour);
 		startAgainButton.setForeground(fcolour);
 		startAgainButton.setEnabled(false);
 		buttonList.add(startAgainButton);
@@ -199,17 +201,17 @@ public class VTP5 extends JFrame {
 		// buttonList.add(leaderboardButton);
 
 		settingsButton = new JButton("Settings");// creates buttons
-		settingsButton.setBackground(bcolour);// changes background colour
+		settingsButton.setBackground(buttonColour);// changes background colour
 		settingsButton.setForeground(fcolour);// changes foreground colour
 		buttonList.add(settingsButton);
 
 		helpButton = new JButton("Help");// ads button
-		helpButton.setBackground(bcolour);// changes background colour
+		helpButton.setBackground(buttonColour);// changes background colour
 		helpButton.setForeground(fcolour);// changes foreground colour
 		buttonList.add(helpButton);
 
 		aboutButton = new JButton("About");// creates buttons
-		aboutButton.setBackground(bcolour);// changes background colour
+		aboutButton.setBackground(buttonColour);// changes background colour
 		aboutButton.setForeground(fcolour);// changes foreground colour
 		buttonList.add(aboutButton);
 
@@ -240,7 +242,7 @@ public class VTP5 extends JFrame {
 		settingsDialog.setLocationRelativeTo(this);
 
 		separator = new JSeparator();
-		separator.setBackground(bcolour);
+		separator.setBackground(buttonColour);
 
 		// JProgressBar setup
 		progressBar = new JProgressBar(JProgressBar.VERTICAL, 0, 1000);
@@ -301,10 +303,11 @@ public class VTP5 extends JFrame {
 		// Set up main panel
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new MigLayout("insets 5", "", "[][][][]5%[]"));
+		mainPanel.setBackground(panelColour);
 
 		switchLanguageCheck = new JCheckBox("Switch language");
 		switchLanguageCheck.setFocusable(false);
-		switchLanguageCheck.setForeground(tcolour);
+		switchLanguageCheck.setForeground(textColour);
 		switchLanguageCheck.setBackground(Color.GRAY);
 		switchLanguageCheck.setEnabled(false);
 		switchLanguageCheck.addItemListener(new SwitchLanguageListener());
@@ -313,14 +316,14 @@ public class VTP5 extends JFrame {
 		promptLabel = new JLabel(
 				"<html>Click 'Import Test File' to begin.</html>");// creates
 		// label
-		promptLabel.setForeground(tcolour);// changes text colour
+		promptLabel.setForeground(textColour);// changes text colour
 
 		answerField = new JTextField();// creates text field
 		answerField.addActionListener(new EventListener());
 		answerField.getInputMap(JComponent.WHEN_FOCUSED).put(
 				KeyStroke.getKeyStroke("released ENTER"), "Enter");
 		answerField.getActionMap().put("Enter", new ActionEnter());
-		answerField.setForeground(tcolour);// changes text colour
+		answerField.setForeground(textColour);// changes text colour
 
 		componentList.add(new ComponentWithFontData(promptLabel, 72));// adds to
 																		// list
@@ -331,7 +334,7 @@ public class VTP5 extends JFrame {
 		enterButton.addActionListener(new EventListener());
 		buttonList.add(enterButton);
 
-		enterButton.setBackground(bcolour);// changes background colour
+		enterButton.setBackground(buttonColour);// changes background colour
 		enterButton.setForeground(fcolour);// changes foreground colour
 		enterButton.setEnabled(false);
 
@@ -339,7 +342,7 @@ public class VTP5 extends JFrame {
 																		// list
 
 		passButton = new JButton("Skip");// creates buttons
-		passButton.setBackground(bcolour);// changes background colour
+		passButton.setBackground(buttonColour);// changes background colour
 		passButton.setForeground(fcolour);// changes foreground colour
 		buttonList.add(passButton);
 		passButton.addActionListener(new EventListener());
@@ -363,7 +366,7 @@ public class VTP5 extends JFrame {
 		statsListModel.addElement("Success rate: ");
 		statsList = new JList<>(statsListModel);
 		statsList.setVisibleRowCount(6);
-		statsList.setForeground(tcolour);// changes text colour
+		statsList.setForeground(textColour);// changes text colour
 		statsScrollPane = new JScrollPane(statsList);
 
 		guessedAnswersListModel = new DefaultListModel<>();
@@ -371,7 +374,7 @@ public class VTP5 extends JFrame {
 				.addElement("<html><u>Already guessed answers:</u></html>");
 		guessedAnswersList = new JList<>(guessedAnswersListModel);
 		guessedAnswersList.setVisibleRowCount(6);
-		guessedAnswersList.setForeground(tcolour);// changes text colour
+		guessedAnswersList.setForeground(textColour);// changes text colour
 		guessedAnswersScrollPane = new JScrollPane(guessedAnswersList);
 
 		componentList.add(new ComponentWithFontData(statsList, 32));
@@ -511,8 +514,8 @@ public class VTP5 extends JFrame {
 			c = JColorChooser.showDialog(null, "Choose a colour", buttonList
 					.get(0).getBackground());
 			if (c != null) {
-				setColour(c, fcolour, tcolour);
-				bcolour = c;
+				setColour(c, fcolour, textColour);
+				buttonColour = c;
 				c = null;
 			}
 			break;
@@ -520,8 +523,8 @@ public class VTP5 extends JFrame {
 			c = JColorChooser.showDialog(null, "Choose a colour",
 					promptLabel.getForeground());
 			if (c != null) {
-				setColour(bcolour, fcolour, c);
-				tcolour = c;
+				setColour(buttonColour, fcolour, c);
+				textColour = c;
 				c = null;
 			}
 			break;
@@ -529,7 +532,7 @@ public class VTP5 extends JFrame {
 			c = JColorChooser.showDialog(null, "Choose a colour", buttonList
 					.get(0).getForeground());
 			if (c != null) {
-				setColour(bcolour, c, tcolour);
+				setColour(buttonColour, c, textColour);
 				fcolour = c;
 				c = null;
 			}
@@ -628,7 +631,7 @@ public class VTP5 extends JFrame {
 			passButton.setEnabled(true);
 			enterButton.setText("Enter");
 			// Change guessedAnswersList colour back to normal
-			guessedAnswersList.setForeground(tcolour);
+			guessedAnswersList.setForeground(textColour);
 			// Update prompt label, stats list and totalTimesGuessed
 			updatePrompt(questionIndex);
 			answerField.setText(""); // field is cleared
@@ -718,6 +721,9 @@ public class VTP5 extends JFrame {
 				+ test.getCards().size());
 		statsListModel.addElement("Success rate: "
 				+ String.format("%.2f", (double) stats[3]) + "%");
+		if((double)stats[3] >= 70){
+			//change panel colour
+		}
 	}
 
 	private void checkForUpdate() {
@@ -826,7 +832,7 @@ public class VTP5 extends JFrame {
 	}
 
 	Color getBcolour() {
-		return bcolour;
+		return buttonColour;
 	}
 
 	Color getFcolour() {
@@ -834,7 +840,7 @@ public class VTP5 extends JFrame {
 	}
 
 	Color getTcolour() {
-		return tcolour;
+		return textColour;
 	}
 
 	ArrayList<ComponentWithFontData> getComponentList() {
