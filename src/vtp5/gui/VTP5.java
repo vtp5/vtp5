@@ -142,6 +142,7 @@ public class VTP5 extends JFrame {
 		}
 	});
 
+	private JColorChooser colourChooser = new JColorChooser();
 	private Color buttonColour = Color.BLACK;
 	private Color fcolour = Color.WHITE;
 	private Color textColour = Color.BLACK;
@@ -515,10 +516,11 @@ public class VTP5 extends JFrame {
 	}
 
 	private void displayColorChooser(int index) {
+		colourChooser.setPreviewPanel(null);
 		Color c;
 		switch (index) {
 		case 1:
-			c = JColorChooser.showDialog(null, "Choose a colour", buttonList
+			c = colourChooser.showDialog(null, "Choose a colour", buttonList
 					.get(0).getBackground());
 			if (c != null) {
 				setColour(c, fcolour, textColour);
@@ -527,7 +529,7 @@ public class VTP5 extends JFrame {
 			}
 			break;
 		case 2:
-			c = JColorChooser.showDialog(null, "Choose a colour",
+			c = colourChooser.showDialog(null, "Choose a colour",
 					promptLabel.getForeground());
 			if (c != null) {
 				setColour(buttonColour, fcolour, c);
@@ -536,7 +538,7 @@ public class VTP5 extends JFrame {
 			}
 			break;
 		case 3:
-			c = JColorChooser.showDialog(null, "Choose a colour", buttonList
+			c = colourChooser.showDialog(null, "Choose a colour", buttonList
 					.get(0).getForeground());
 			if (c != null) {
 				setColour(buttonColour, c, textColour);
@@ -546,7 +548,7 @@ public class VTP5 extends JFrame {
 			break;
 
 		case 4:
-			c = JColorChooser.showDialog(null, "Choose a colour", buttonList
+			c = colourChooser.showDialog(null, "Choose a colour", buttonList
 					.get(0).getForeground());
 			if (c != null) {
 				updateFrameColour(c);
@@ -748,12 +750,11 @@ public class VTP5 extends JFrame {
 
 		}
 	}
-	
+
 	private void updateFrameColour(Color col) {
 		buttonPanel.setBackground(col);
 		mainPanel.setBackground(col);
 	}
-	
 
 	private void updateStatsList() {
 		// { totalNumberOfCards, numberOfIncorrectCards, totalTimesGuessed,
@@ -998,7 +999,11 @@ public class VTP5 extends JFrame {
 				}
 
 			} else if (e.getSource() == changingFrameColourCheck) {
-				changeBackgroundColour.setEnabled(true);
+				if (changingFrameColourCheck.isSelected()) {
+					changeBackgroundColour.setEnabled(true);
+				} else {
+					changeBackgroundColour.setEnabled(false);
+				}
 			} else if (e.getSource() == changeButtonColour) {
 				displayColorChooser(1);
 			} else if (e.getSource() == changePromptColour) {
