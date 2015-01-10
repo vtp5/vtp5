@@ -71,6 +71,11 @@ public class Work {
 		try {
 			FileWriter writer = new FileWriter(file);
 
+			int time = words.size();
+			
+			writer.append(Integer.toString(time));
+			writer.append('\n');
+			
 			for (int i = 0; i < words.size(); i = i + 2) {
 
 				String out = words.get(i);//"\"" + words.get(i) + "\"";
