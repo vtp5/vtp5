@@ -145,8 +145,7 @@ public class VTP5 extends JFrame {
 			experimentalTimer.stop();
 		}
 	});
-	
-	
+
 	private JColorChooser colourChooser = new JColorChooser();
 	private Color buttonColour = Color.BLACK;
 	private Color fcolour = Color.WHITE;
@@ -198,8 +197,6 @@ public class VTP5 extends JFrame {
 		startAgainButton.setForeground(fcolour);
 		startAgainButton.setEnabled(false);
 		buttonList.add(startAgainButton);
-		
-		
 
 		// leaderboardButton = new JButton("View Leaderboards");// creates
 		// buttons
@@ -234,7 +231,7 @@ public class VTP5 extends JFrame {
 		checkForUpdateButton = new JButton("Check For Update");
 		experimentalCheck = new JCheckBox("Enable experimental features");
 		changingFrameColourCheck = new JCheckBox(
-				"Disable changing frame colour based on performance");
+				"Enable changing background colour", true);
 		exInfoLabel = new HyperlinkLabel(
 				"<html>Click here for more information<br />on experimental features</html>",
 				"https://github.com/duckifyz/VTP5/wiki/Help#experimental-features");
@@ -524,11 +521,12 @@ public class VTP5 extends JFrame {
 
 	private void displayColorChooser(int index) {
 		colourChooser.setPreviewPanel(new JPanel());
-		JDialog d = JColorChooser.createDialog(null, "", true, colourChooser, null, null);
+		JDialog d = JColorChooser.createDialog(null, "", true, colourChooser,
+				null, null);
 		Color c;
 		switch (index) {
 		case 1:
-			d.setVisible(true); 
+			d.setVisible(true);
 			c = colourChooser.getColor();
 			if (c != null) {
 				setColour(c, fcolour, textColour);
@@ -665,7 +663,6 @@ public class VTP5 extends JFrame {
 
 	private void finishTest() {
 		mainPanel.setVisible(false);
-		buttonPanel.setBackground(null);
 		repaint();
 		revalidate();
 		// Do not create a new instance of FinishPanel here - otherwise,
@@ -763,6 +760,7 @@ public class VTP5 extends JFrame {
 	private void updateFrameColour(Color col) {
 		buttonPanel.setBackground(col);
 		mainPanel.setBackground(col);
+		finishPanel.setBackground(col);
 	}
 
 	private void updateStatsList() {
@@ -847,6 +845,7 @@ public class VTP5 extends JFrame {
 				+ (test.getCards().size() + test.getScore()));
 		Collections.shuffle(test.getCards());
 		updatePrompt(questionIndex);
+		panelColour = null;
 		updateStatsList();
 		progressBar.setMaximum(test.getCards().size() + test.getScore());
 		progressBar.setValue(test.getScore());
@@ -989,7 +988,8 @@ public class VTP5 extends JFrame {
 								getParent(),
 								"Do you want to import a text file (for simple tests), a CSV file (for more complex tests),"
 										+ "\n                                 or a VTP5 progress file (for partly completed tests)?"
-										+ "\n\nTIP: You can combine text files by holding CTRL and selecting multiple text files.",
+										+ "\n\nTIP: You can combine text files by holding CTRL (or Command on Mac OS) and selecting"
+										+ "\n                                                                  multiple text files.",
 								"What test type do you want to import?",
 								JOptionPane.YES_NO_CANCEL_OPTION,
 								JOptionPane.PLAIN_MESSAGE, null, new String[] {
@@ -1011,9 +1011,11 @@ public class VTP5 extends JFrame {
 
 			} else if (e.getSource() == changingFrameColourCheck) {
 				if (changingFrameColourCheck.isSelected()) {
-					changeBackgroundColour.setEnabled(true);
-				} else {
 					changeBackgroundColour.setEnabled(false);
+					updateStatsList();
+				} else {
+					changeBackgroundColour.setEnabled(true);
+					updateFrameColour(null);
 				}
 			} else if (e.getSource() == changeButtonColour) {
 				displayColorChooser(1);
@@ -1116,7 +1118,6 @@ public class VTP5 extends JFrame {
 			enterButton.doClick();
 		}
 	}
-
 
 	private class SwitchLanguageListener implements ItemListener {
 
