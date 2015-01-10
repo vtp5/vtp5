@@ -55,7 +55,7 @@ public class AboutDialog extends JDialog {
 	public AboutDialog() {
 		setTitle("About VTP5");
 		setLayout(new MigLayout("fillx"));
-		add(new JLabel(new ImageIcon(getClass().getResource("/images/vtp.png"))),
+		add(new JLabel(new ImageIcon(getClass().getResource("/images/vtpsmall.png"))),
 				"alignx center, aligny top, wrap");
 		add(vtp5Label, "alignx center, wrap");
 		add(devLabel, "alignx center, wrap");

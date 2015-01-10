@@ -128,7 +128,7 @@ public class VTP5 extends JFrame {
 	private AboutDialog abtDialog;
 
 	private ImageIcon logo = new ImageIcon(getClass().getResource(
-			"/images/vtp.png"));
+			"/images/vtpsmall.png"));
 	private ArrayList<JButton> buttonList = new ArrayList<>();
 
 	// The all-import TestFile object!
