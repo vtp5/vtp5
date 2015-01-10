@@ -31,7 +31,7 @@ public class TestFile implements Serializable {
 	// TODO CHANGE serialVersionUID ONCE CLASS IS FINISHED!!!
 
 	// ArrayList storing all the original "cards" for the test
-	private ArrayList<Card> origCards = new ArrayList<>();
+	private final ArrayList<Card> origCards = new ArrayList<>();
 	// ArrayList of "cards" for a particular test
 	private ArrayList<Card> cards = new ArrayList<>();
 	// Stores the cards the user got wrong the first time
