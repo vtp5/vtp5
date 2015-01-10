@@ -732,7 +732,7 @@ public class VTP5 extends JFrame {
 	}
 
 	private void calculateFrameColour(Object[] stats) {
-		if (changeBackgroundColour.isEnabled()) {
+		if (!changeBackgroundColour.isEnabled()) {
 			if ((double) stats[3] >= 95) {
 				// change panel colour
 				panelColour = new Color(5, 255, 0);
@@ -755,6 +755,7 @@ public class VTP5 extends JFrame {
 			} else if ((double) stats[3] >= 0) {
 				panelColour = new Color(255, 0, 0);
 			}
+			updateFrameColour(panelColour);
 
 		}
 	}
@@ -855,11 +856,13 @@ public class VTP5 extends JFrame {
 		test.setLanguageSwitched(false);
 		saveButton.setEnabled(true);
 		// leaderboardButton.setEnabled(true);
+		answerField.setEditable(true);
 		enterButton.setEnabled(true);
 		enterButton.setText("Enter");
 		passButton.setEnabled(true);
 		startAgainButton.setEnabled(true);
 		showMainPanel();
+		updateFrameColour(panelColour);
 	}
 
 	void restartTest() {
