@@ -31,7 +31,6 @@ import net.miginfocom.swing.MigLayout;
  */
 public class Frame extends JFrame {
 
-
 	/**
 	 * 
 	 */

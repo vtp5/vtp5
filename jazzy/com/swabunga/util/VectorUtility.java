@@ -16,23 +16,23 @@ Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ */
 package com.swabunga.util;
 
 import java.util.Iterator;
 import java.util.List;
 
 public class VectorUtility {
-  public static List addAll(List dest, List src) {
-    return addAll(dest, src, true);
-  }
+	public static List addAll(List dest, List src) {
+		return addAll(dest, src, true);
+	}
 
-  public static List addAll(List dest, List src, boolean allow_duplicates) {
-    for (Iterator e = src.iterator(); e.hasNext();) {
-      Object o = e.next();
-      if (allow_duplicates || !dest.contains(o))
-        dest.add(o);
-    }
-    return dest;
-  }
+	public static List addAll(List dest, List src, boolean allow_duplicates) {
+		for (Iterator e = src.iterator(); e.hasNext();) {
+			Object o = e.next();
+			if (allow_duplicates || !dest.contains(o))
+				dest.add(o);
+		}
+		return dest;
+	}
 }

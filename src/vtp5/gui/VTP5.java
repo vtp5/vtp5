@@ -229,10 +229,10 @@ public class VTP5 extends JFrame {
 		changeTextColour = new JButton("Change Button Text Colour");
 		changeBackgroundColour = new JButton("Change Background Colour");
 		changeBackgroundColour.setEnabled(false);
-		checkForUpdateButton = new JButton("Check For Update");
-		experimentalCheck = new JCheckBox("Enable experimental features");
+		checkForUpdateButton = new JButton("Check For Updates");
+		experimentalCheck = new JCheckBox("Enable Experimental Features");
 		changingFrameColourCheck = new JCheckBox(
-				"Enable changing background colour", true);
+				"Enable Dynamic Background Colour", true);
 		exInfoLabel = new HyperlinkLabel(
 				"<html>Click here for more information<br />on experimental features</html>",
 				"https://github.com/duckifyz/VTP5/wiki/Help#experimental-features");
@@ -318,7 +318,7 @@ public class VTP5 extends JFrame {
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new MigLayout("insets 5", "", "[][][][]5%[]"));
 
-		switchLanguageCheck = new JCheckBox("Switch language");
+		switchLanguageCheck = new JCheckBox("Switch Language");
 		switchLanguageCheck.setFocusable(false);
 		switchLanguageCheck.setForeground(textColour);
 		switchLanguageCheck.setBackground(Color.GRAY);
@@ -1017,9 +1017,6 @@ public class VTP5 extends JFrame {
 					try {
 						setUpTest();
 					} catch (NullPointerException | IndexOutOfBoundsException npe) {
-						JOptionPane.showMessageDialog(getParent(),
-								"No file selected.", "VTP5",
-								JOptionPane.INFORMATION_MESSAGE);
 						npe.printStackTrace();
 					}
 				}

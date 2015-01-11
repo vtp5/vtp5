@@ -41,14 +41,14 @@ public class Work {
 			br = new BufferedReader(new FileReader(loc));
 
 			int i = 0;
-			
+
 			while ((sCurrentLine = br.readLine()) != null) {
 				// System.out.println(sCurrentLine);
-				
+
 				String a = sCurrentLine.replace(", ", ",");
 				a = a.replace(" m.", "");
 				a = a.replace(" f.", "");
-				a  =a.replace("/", ",");
+				a = a.replace("/", ",");
 				words.add(a);
 			}
 
@@ -72,14 +72,15 @@ public class Work {
 			FileWriter writer = new FileWriter(file);
 
 			int time = words.size();
-			
+
 			writer.append(Integer.toString(time));
 			writer.append('\n');
-			
+
 			for (int i = 0; i < words.size(); i = i + 2) {
 
-				String out = words.get(i);//"\"" + words.get(i) + "\"";
-				String out2 = words.get(i + 1);//"\"" + words.get(i + 1) + "\"";
+				String out = words.get(i);// "\"" + words.get(i) + "\"";
+				String out2 = words.get(i + 1);// "\"" + words.get(i + 1) +
+												// "\"";
 				writer.append(out);
 				writer.append(',');
 				writer.append("|");

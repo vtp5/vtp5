@@ -48,7 +48,6 @@ public class SpecialCharacterDialog extends JDialog {
 			new JButton("á"), new JButton("é"), new JButton("í"),
 			new JButton("ó"), new JButton("ú"), new JButton("ü"),
 			new JButton("ñ"), new JButton("¿"), new JButton("¡") };
-	//bitcoin miner
 
 	private JTextField answerField;
 
@@ -68,20 +67,19 @@ public class SpecialCharacterDialog extends JDialog {
 			germanPanel.add(button);
 			button.addActionListener(new EventListener());
 		}
-		
+
 		spanishPanel = new JPanel(new MigLayout());
 		for (JButton button : spanishCharacters) {
 			spanishPanel.add(button);
 			button.addActionListener(new EventListener());
 		}
-		
-		
+
 		tabbedPane.addTab("French", frenchPanel);
 		tabbedPane.addTab("German", germanPanel);
 		tabbedPane.addTab("Spanish", spanishPanel);
-		
+
 		setFocusable(false);
-		setTitle("Input special characters");
+		setTitle("Input Special Characters");
 		setContentPane(tabbedPane);
 		pack();
 		setResizable(false);
