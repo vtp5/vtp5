@@ -97,6 +97,7 @@ public class VTP5 extends JFrame {
 	private JCheckBox switchLanguageCheck;
 	private JLabel promptLabel;
 	private JTextField answerField;
+	private JButton characterButton;
 	private JButton enterButton;
 	private JButton passButton;
 
@@ -116,6 +117,9 @@ public class VTP5 extends JFrame {
 	private JFileChooser csvChooser = new JFileChooser();
 	private JFileChooser progressOpenChooser = new JFileChooser();
 	private JFileChooser progressSaveChooser = new JFileChooser();
+
+	// Special character dialog
+	SpecialCharacterDialog characterDialog;
 
 	// Components for Settings Dialog
 	private JDialog settingsDialog;
@@ -339,6 +343,18 @@ public class VTP5 extends JFrame {
 		componentList.add(new ComponentWithFontData(answerField, 50));// adds to
 		// list
 
+		// Set up character dialog
+		characterDialog = new SpecialCharacterDialog(answerField);
+
+		characterButton = new JButton("é");
+		characterButton.addActionListener(new EventListener());
+		buttonList.add(characterButton);
+
+		characterButton.setBackground(buttonColour);// changes background colour
+		characterButton.setForeground(fcolour);// changes foreground colour
+		characterButton.setEnabled(false);
+		componentList.add(new ComponentWithFontData(characterButton, 32));
+
 		enterButton = new JButton("Enter");// creates buttons
 		enterButton.addActionListener(new EventListener());
 		buttonList.add(enterButton);
@@ -396,14 +412,15 @@ public class VTP5 extends JFrame {
 		}
 
 		// Add components to main panel
-		mainPanel.add(promptLabel, "span 3, push, wrap, height 30%!");
+		mainPanel.add(promptLabel, "span 4, push, wrap, height 30%!");
 		mainPanel.add(switchLanguageCheck, "wrap");
 		mainPanel.add(answerField, "span 2 2, grow");
+		mainPanel.add(characterButton, "span 1 2, growy");
 		mainPanel.add(enterButton, "width 250!, wrap");
 		mainPanel.add(passButton, "width 250!, wrap");
 		mainPanel.add(statsScrollPane, "grow, width 35%!");
 		mainPanel.add(guessedAnswersScrollPane,
-				"width 60%!, grow, push, span 2");
+				"width 60%!, grow, push, span 3");
 		mainPanel.add(progressBar, "dock east, width 50!");
 
 		// Add panels to JFrame
@@ -853,6 +870,7 @@ public class VTP5 extends JFrame {
 		saveButton.setEnabled(true);
 		// leaderboardButton.setEnabled(true);
 		answerField.setEditable(true);
+		characterButton.setEnabled(true);
 		enterButton.setEnabled(true);
 		enterButton.setText("Enter");
 		passButton.setEnabled(true);
@@ -1102,6 +1120,9 @@ public class VTP5 extends JFrame {
 				setUpTest();
 			} else if (e.getSource() == checkForUpdateButton) {
 				checkForUpdate();
+			} else if (e.getSource() == characterButton) {
+				characterDialog.setVisible(true);
+				answerField.requestFocus();
 			}
 		}
 	}
