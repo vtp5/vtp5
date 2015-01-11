@@ -48,6 +48,7 @@ public class SpecialCharacterDialog extends JDialog {
 			new JButton("á"), new JButton("é"), new JButton("í"),
 			new JButton("ó"), new JButton("ú"), new JButton("ü"),
 			new JButton("ñ"), new JButton("¿"), new JButton("¡") };
+	//bitcoin miner
 
 	private JTextField answerField;
 
