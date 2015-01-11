@@ -43,6 +43,12 @@ public class SpecialCharacterDialog extends JDialog {
 	private JButton[] germanCharacters = { new JButton("ä"), new JButton("ö"),
 			new JButton("ü"), new JButton("ß") };
 
+	private JPanel spanishPanel;
+	private JButton[] spanishCharacters = { new JButton("á"), new JButton("á"),
+			new JButton("á"), new JButton("é"), new JButton("í"),
+			new JButton("ó"), new JButton("ú"), new JButton("ü"),
+			new JButton("ñ"), new JButton("¿"), new JButton("¡") };
+
 	private JTextField answerField;
 
 	public SpecialCharacterDialog(JTextField answerField) {
@@ -61,10 +67,18 @@ public class SpecialCharacterDialog extends JDialog {
 			germanPanel.add(button);
 			button.addActionListener(new EventListener());
 		}
-
+		
+		spanishPanel = new JPanel(new MigLayout());
+		for (JButton button : spanishCharacters) {
+			spanishPanel.add(button);
+			button.addActionListener(new EventListener());
+		}
+		
+		
 		tabbedPane.addTab("French", frenchPanel);
 		tabbedPane.addTab("German", germanPanel);
-
+		tabbedPane.addTab("Spanish", spanishPanel);
+		
 		setFocusable(false);
 		setTitle("Input special characters");
 		setContentPane(tabbedPane);
