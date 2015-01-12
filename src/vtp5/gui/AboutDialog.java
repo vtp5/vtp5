@@ -1,8 +1,16 @@
 package vtp5.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import net.miginfocom.swing.MigLayout;
 import vtp5.Main;
@@ -51,10 +59,33 @@ public class AboutDialog extends JDialog {
 	private JLabel license4Label = new JLabel(
 			"Jazzy, the spell-checking library used in VTP5,");
 	private JLabel license5Label = new JLabel("is licensed under the LGPL.");
+	private JButton giveFeedback = new JButton("Give Feedback");
 
 	public AboutDialog() {
 		setTitle("About VTP5");
 		setLayout(new MigLayout("fillx"));
+
+		giveFeedback.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					java.awt.Desktop
+							.getDesktop()
+							.browse(new URI(
+									"https://docs.google.com/forms/d/1TK5I8IXvcCES6Xk1yRAZPRAreRLo9Sjm2o_vx6MA4hY/viewform?usp=send_form"));
+				} catch (URISyntaxException | IOException e1) {
+					e1.printStackTrace();
+					JOptionPane
+							.showMessageDialog(
+									null,
+									"The following error occurred:\n\n"
+											+ e1.toString()
+											+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
+									"VTP5", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+
 		add(new JLabel(new ImageIcon(getClass().getResource(
 				"/images/vtpsmall.png"))), "alignx center, aligny top, wrap");
 		add(vtp5Label, "alignx center, wrap");
@@ -70,6 +101,7 @@ public class AboutDialog extends JDialog {
 		add(separatorLabel2, "alignx center, wrap");
 		add(license4Label, "alignx center, wrap");
 		add(license5Label, "alignx center, wrap");
+		add(giveFeedback, "alignx center, wrap");
 		pack();
 		setResizable(false);
 		setLocationRelativeTo(this);
