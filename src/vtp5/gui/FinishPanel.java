@@ -287,7 +287,7 @@ class WrongAnswersTableModel extends AbstractTableModel {
 
 	@Override
 	public int getColumnCount() {
-		return 2;
+		return 3;
 	}
 
 	@Override
@@ -306,6 +306,8 @@ class WrongAnswersTableModel extends AbstractTableModel {
 		case 1:
 			name = "Translation";
 			break;
+		case 2:
+			name = "Times Incorrect";
 		}
 
 		return name;
@@ -316,8 +318,6 @@ class WrongAnswersTableModel extends AbstractTableModel {
 		Card card = wrongAnswers.get(rowIndex);
 		String value = "";
 
-		// Ming: I changed the methods so that the string gotten is the original
-		// word string
 		switch (columnIndex) {
 		case 0:
 			value = card.getLangFromPrompt();
@@ -325,9 +325,11 @@ class WrongAnswersTableModel extends AbstractTableModel {
 		case 1:
 			value = card.getLangToPrompt();
 			break;
+		case 2: 
+			value = "" + card.getGuessedWrong();
+			break;
 		}
 
-		// value = value.substring(1, value.length() - 1);
 		return value;
 	}
 }

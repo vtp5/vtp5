@@ -621,6 +621,12 @@ public class VTP5 extends JFrame {
 			} else if (result == TestFile.INCORRECT) {
 				progressBar.setForeground(Color.RED);
 
+				test.getCards()
+						.get(questionIndex)
+						.setGuessedWrong(
+								test.getCards().get(questionIndex)
+										.getGuessedWrong() + 1);
+
 				// Turn guessedAnswersList red as well
 				guessedAnswersList.setForeground(Color.RED);
 

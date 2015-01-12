@@ -38,6 +38,8 @@ public class Card implements Serializable {
 	// correctly
 	private ArrayList<String> correctLangFrom;
 	private ArrayList<String> correctLangTo;
+	
+	private int guessedWrong = 0;
 
 	public Card() {
 		super();
@@ -94,4 +96,11 @@ public class Card implements Serializable {
 		return correctLangTo;
 	}
 
+	public int getGuessedWrong() {
+		return guessedWrong;
+	}
+
+	public void setGuessedWrong(int guessedWrong) {
+		this.guessedWrong = guessedWrong;
+	}
 }
