@@ -250,7 +250,7 @@ public class FinishPanel extends JPanel {
 		table.setEnabled(false);
 		table.setRowHeight(table.getFont().getSize() + 10);
 
-		saveTest.setText("Save Wrong Answers To New Test");
+		saveTest.setText("Create New Test File With These Words");
 		restartTest.setText("Start Test Again");
 
 		add(completedLabel, "grow");
