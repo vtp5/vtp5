@@ -775,21 +775,21 @@ public class VTP5 extends JFrame {
 			// change panel colour
 			panelColour = new Color(5, 255, 0);
 		} else if ((double) stats[3] >= 90) {
-			panelColour = new Color(20, 230, 0);
+			panelColour = new Color(20, 225, 0);
 		} else if ((double) stats[3] >= 80) {
-			panelColour = new Color(40, 210, 0);
-		} else if ((double) stats[3] >= 70) {
 			panelColour = new Color(60, 200, 0);
+		} else if ((double) stats[3] >= 70) {
+			panelColour = new Color(100, 180, 0);
 		} else if ((double) stats[3] >= 60) {
-			panelColour = new Color(80, 180, 0);
+			panelColour = new Color(140, 140, 0);
 		} else if ((double) stats[3] >= 50) {
-			panelColour = new Color(100, 160, 0);
+			panelColour = new Color(180, 100, 0);
 		} else if ((double) stats[3] >= 40) {
-			panelColour = new Color(110, 140, 0);
+			panelColour = new Color(220, 60, 0);
 		} else if ((double) stats[3] >= 30) {
-			panelColour = new Color(200, 100, 0);
+			panelColour = new Color(255, 30, 0);
 		} else if ((double) stats[3] >= 20) {
-			panelColour = new Color(250, 60, 0);
+			panelColour = new Color(255, 20, 0);
 		} else if ((double) stats[3] >= 0) {
 			panelColour = new Color(255, 0, 0);
 		}
