@@ -743,31 +743,33 @@ public class VTP5 extends JFrame {
 	}
 
 	private void calculateFrameColour(Object[] stats) {
-		if (!changeBackgroundColour.isEnabled()) {
-			if ((double) stats[3] >= 95) {
-				// change panel colour
-				panelColour = new Color(5, 255, 0);
-			} else if ((double) stats[3] >= 90) {
-				panelColour = new Color(20, 230, 0);
-			} else if ((double) stats[3] >= 80) {
-				panelColour = new Color(40, 210, 0);
-			} else if ((double) stats[3] >= 70) {
-				panelColour = new Color(60, 200, 0);
-			} else if ((double) stats[3] >= 60) {
-				panelColour = new Color(80, 180, 0);
-			} else if ((double) stats[3] >= 50) {
-				panelColour = new Color(100, 160, 0);
-			} else if ((double) stats[3] >= 40) {
-				panelColour = new Color(110, 140, 0);
-			} else if ((double) stats[3] >= 30) {
-				panelColour = new Color(200, 100, 0);
-			} else if ((double) stats[3] >= 20) {
-				panelColour = new Color(250, 60, 0);
-			} else if ((double) stats[3] >= 0) {
-				panelColour = new Color(255, 0, 0);
-			}
-			updateFrameColour(panelColour);
+		if ((double) stats[3] >= 95) {
+			// change panel colour
+			panelColour = new Color(5, 255, 0);
+		} else if ((double) stats[3] >= 90) {
+			panelColour = new Color(20, 230, 0);
+		} else if ((double) stats[3] >= 80) {
+			panelColour = new Color(40, 210, 0);
+		} else if ((double) stats[3] >= 70) {
+			panelColour = new Color(60, 200, 0);
+		} else if ((double) stats[3] >= 60) {
+			panelColour = new Color(80, 180, 0);
+		} else if ((double) stats[3] >= 50) {
+			panelColour = new Color(100, 160, 0);
+		} else if ((double) stats[3] >= 40) {
+			panelColour = new Color(110, 140, 0);
+		} else if ((double) stats[3] >= 30) {
+			panelColour = new Color(200, 100, 0);
+		} else if ((double) stats[3] >= 20) {
+			panelColour = new Color(250, 60, 0);
+		} else if ((double) stats[3] >= 0) {
+			panelColour = new Color(255, 0, 0);
+		}
 
+		if (!changeBackgroundColour.isEnabled()) {
+			updateFrameColour(panelColour);
+		} else {
+			progressBar.setForeground(panelColour);
 		}
 	}
 
@@ -1119,7 +1121,6 @@ public class VTP5 extends JFrame {
 				checkForUpdate();
 			} else if (e.getSource() == characterButton) {
 				characterDialog.setVisible(true);
-				answerField.requestFocus();
 			}
 		}
 	}
