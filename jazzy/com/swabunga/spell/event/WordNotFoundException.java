@@ -16,7 +16,7 @@ Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ */
 package com.swabunga.spell.event;
 
 /**
@@ -24,21 +24,23 @@ package com.swabunga.spell.event;
  */
 public class WordNotFoundException extends RuntimeException {
 
-  //~ Constructors ............................................................
+	// ~ Constructors
+	// ............................................................
 
-  /**
-   * Creates a new WordNotFoundException object.
-   */
-  public WordNotFoundException() {
-    super();
-  }
+	/**
+	 * Creates a new WordNotFoundException object.
+	 */
+	public WordNotFoundException() {
+		super();
+	}
 
-  /**
-   * Creates a new WordNotFoundException object.
-   *
-   * @param s a message.
-   */
-  public WordNotFoundException(String s) {
-    super(s);
-  }
+	/**
+	 * Creates a new WordNotFoundException object.
+	 * 
+	 * @param s
+	 *            a message.
+	 */
+	public WordNotFoundException(String s) {
+		super(s);
+	}
 }

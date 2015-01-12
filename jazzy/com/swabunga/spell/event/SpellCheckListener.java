@@ -16,21 +16,23 @@ Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ */
 package com.swabunga.spell.event;
 
 import java.util.EventListener;
 
 /**
  * This is the event based listener interface.
- *
+ * 
  * @author Jason Height (jheight@chariot.net.au)
  */
 public interface SpellCheckListener extends EventListener {
-    
-  /**
-   * Propagates the spelling errors to listeners.
-   * @param event The event to handle
-   */
-  public void spellingError(SpellCheckEvent event);
+
+	/**
+	 * Propagates the spelling errors to listeners.
+	 * 
+	 * @param event
+	 *            The event to handle
+	 */
+	public void spellingError(SpellCheckEvent event);
 }
