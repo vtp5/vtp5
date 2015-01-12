@@ -25,6 +25,9 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -462,6 +465,25 @@ public class VTP5 extends JFrame {
 
 		finishPanel.setTextColour(text);
 
+	}
+
+	public void playSound(String path) {
+		try {
+			Clip clip = AudioSystem.getClip();
+			AudioInputStream aIS = AudioSystem.getAudioInputStream(Main.class
+					.getResourceAsStream(path));
+			clip.open(aIS);
+			clip.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane
+					.showMessageDialog(
+							null,
+							"The following error occurred:\n\n"
+									+ e.toString()
+									+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
+							"VTP5", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	private void updatePrompt(int index) {
