@@ -124,10 +124,10 @@ public class VTP5 extends JFrame {
 
 	// Special character dialog
 	SpecialCharacterDialog characterDialog;
-	
-	//Number of questions dialog
+
+	// Number of questions dialog
 	QuestionsDialog questionsDialog = new QuestionsDialog();
-	
+
 	// Components for Settings Dialog
 	private JDialog settingsDialog;
 	private JButton changeButtonColour, changePromptColour, changeTextColour,
@@ -619,17 +619,15 @@ public class VTP5 extends JFrame {
 
 			if (result == TestFile.PARTIALLY_CORRECT
 					|| result == TestFile.COMPLETELY_CORRECT) {
-				try
-			    {
-			        Clip clip = AudioSystem.getClip();
-			        clip.open(AudioSystem.getAudioInputStream(new File("qcorrect.wav")));
-			        clip.start();
-			    }
-			    catch (Exception exc)
-			    {
-			        exc.printStackTrace(System.out);
-			    
-			}
+				try {
+					Clip clip = AudioSystem.getClip();
+					clip.open(AudioSystem.getAudioInputStream(new File(
+							"qcorrect.wav")));
+					clip.start();
+				} catch (Exception exc) {
+					exc.printStackTrace(System.out);
+
+				}
 				// Set progress bar colour
 				progressBar.setForeground(Color.GREEN);
 
@@ -717,8 +715,7 @@ public class VTP5 extends JFrame {
 			answerField.setText(""); // field is cleared
 		}
 	}
-	
-	
+
 	private void finishTest() {
 		mainPanel.setVisible(false);
 		repaint();
@@ -913,6 +910,7 @@ public class VTP5 extends JFrame {
 		progressBar.setForeground(Color.GREEN);
 		switchLanguageCheck.setEnabled(true);
 		switchLanguageCheck.setSelected(false);
+		guessedAnswersList.setForeground(textColour);
 		test.setLanguageSwitched(false);
 		saveButton.setEnabled(true);
 		// leaderboardButton.setEnabled(true);

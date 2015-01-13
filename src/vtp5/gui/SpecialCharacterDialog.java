@@ -44,10 +44,10 @@ public class SpecialCharacterDialog extends JDialog {
 			new JButton("ü"), new JButton("ß") };
 
 	private JPanel spanishPanel;
-	private JButton[] spanishCharacters = { new JButton("á"), new JButton("á"),
-			new JButton("á"), new JButton("é"), new JButton("í"),
-			new JButton("ó"), new JButton("ú"), new JButton("ü"),
-			new JButton("ñ"), new JButton("¿"), new JButton("¡") };
+	private JButton[] spanishCharacters = { new JButton("á"), new JButton("é"),
+			new JButton("í"), new JButton("ó"), new JButton("ú"),
+			new JButton("ü"), new JButton("ñ"), new JButton("¿"),
+			new JButton("¡") };
 
 	private JTextField answerField;
 

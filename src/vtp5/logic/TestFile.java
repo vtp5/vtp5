@@ -59,12 +59,6 @@ public class TestFile implements Serializable {
 
 	private File importedFile;
 
-	// public TestFile(File file) throws IOException {
-	// setImportedFile(file);
-	// getVocabFromFile(file);
-	// totalNumberOfCards = cards.size();
-	// }
-
 	@SuppressWarnings("unchecked")
 	public TestFile(File[] files) throws IOException {
 		if (files.length == 1) {
@@ -168,7 +162,8 @@ public class TestFile implements Serializable {
 		// Original answer saved for spell-checker
 		String origAnswer = answer;
 
-		answer = answer.replaceAll("[^a-zA-Z0-9]", "");
+		answer = answer.replaceAll("[^a-zA-Z0-9יטאשגךמפûכןחזהצüßביםףתüס¿¡]",
+				"");
 		System.out.println(answer);
 
 		// Find out if the user is correct, and if so, remove the correctly
