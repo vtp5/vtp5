@@ -921,7 +921,6 @@ public class VTP5 extends JFrame {
 		passButton.setEnabled(true);
 		startAgainButton.setEnabled(true);
 		showMainPanel();
-		updateFrameColour(panelColour);
 	}
 
 	void restartTest() {
@@ -1069,7 +1068,9 @@ public class VTP5 extends JFrame {
 			} else if (e.getSource() == changingFrameColourCheck) {
 				if (changingFrameColourCheck.isSelected()) {
 					changeBackgroundColour.setEnabled(false);
-					updateStatsList();
+					if (test != null) {
+						updateStatsList();
+					}
 				} else {
 					changeBackgroundColour.setEnabled(true);
 					updateFrameColour(null);
