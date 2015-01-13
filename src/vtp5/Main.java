@@ -3,6 +3,7 @@ package vtp5;
 import javax.swing.SwingUtilities;
 
 import vtp5.gui.VTP5;
+import vtp5.util.DingSound;
 
 /*VTP5 Copyright (C) 2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
 
@@ -35,6 +36,8 @@ public class Main {
 			public void run() {
 				long startTime = System.currentTimeMillis();
 				new VTP5();
+				DingSound sound = new DingSound();
+				sound.play();
 				System.out.println("Boot completed in "
 						+ (System.currentTimeMillis() - startTime)
 						+ " milliseconds.");
