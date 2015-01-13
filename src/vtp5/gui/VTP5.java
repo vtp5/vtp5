@@ -520,7 +520,7 @@ public class VTP5 extends JFrame {
 				// test = new TestFile(csvChooser.getSelectedFile());
 				// }
 			} else if (fileType == 2) {
-				int selected = progressOpenChooser.showOpenDialog(getParent());
+				int selected = progressOpenChooser.showOpenDialog(getParent()); 
 				if (selected == JFileChooser.APPROVE_OPTION) {
 					File progressFile = progressOpenChooser.getSelectedFile();
 					try (ObjectInputStream input = new ObjectInputStream(
