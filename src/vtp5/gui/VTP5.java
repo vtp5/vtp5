@@ -46,6 +46,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.Timer;
@@ -123,7 +124,10 @@ public class VTP5 extends JFrame {
 
 	// Special character dialog
 	SpecialCharacterDialog characterDialog;
-
+	
+	//Number of questions dialog
+	QuestionsDialog questionsDialog = new QuestionsDialog();
+	
 	// Components for Settings Dialog
 	private JDialog settingsDialog;
 	private JButton changeButtonColour, changePromptColour, changeTextColour,
@@ -615,6 +619,17 @@ public class VTP5 extends JFrame {
 
 			if (result == TestFile.PARTIALLY_CORRECT
 					|| result == TestFile.COMPLETELY_CORRECT) {
+				try
+			    {
+			        Clip clip = AudioSystem.getClip();
+			        clip.open(AudioSystem.getAudioInputStream(new File("qcorrect.wav")));
+			        clip.start();
+			    }
+			    catch (Exception exc)
+			    {
+			        exc.printStackTrace(System.out);
+			    
+			}
 				// Set progress bar colour
 				progressBar.setForeground(Color.GREEN);
 
@@ -702,7 +717,8 @@ public class VTP5 extends JFrame {
 			answerField.setText(""); // field is cleared
 		}
 	}
-
+	
+	
 	private void finishTest() {
 		mainPanel.setVisible(false);
 		repaint();
@@ -885,6 +901,7 @@ public class VTP5 extends JFrame {
 	}
 
 	void setUpTest() {
+		questionsDialog.setVisible(true);
 		progressBar.setString(test.getScore() + "/"
 				+ (test.getCards().size() + test.getScore()));
 		Collections.shuffle(test.getCards());
