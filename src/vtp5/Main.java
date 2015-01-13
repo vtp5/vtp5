@@ -38,6 +38,7 @@ public class Main {
 				System.out.println("Boot completed in "
 						+ (System.currentTimeMillis() - startTime)
 						+ " milliseconds.");
+				VTP5.playSound("res/sounds/qcorrect.wav");
 			}
 		});
 	}

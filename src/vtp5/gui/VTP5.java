@@ -467,7 +467,7 @@ public class VTP5 extends JFrame {
 
 	}
 
-	public void playSound(String path) {
+	public static void playSound(String path) {
 		try {
 			Clip clip = AudioSystem.getClip();
 			AudioInputStream aIS = AudioSystem.getAudioInputStream(Main.class
