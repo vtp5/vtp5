@@ -520,7 +520,7 @@ public class VTP5 extends JFrame {
 				// test = new TestFile(csvChooser.getSelectedFile());
 				// }
 			} else if (fileType == 2) {
-				int selected = progressOpenChooser.showOpenDialog(getParent()); 
+				int selected = progressOpenChooser.showOpenDialog(getParent());
 				if (selected == JFileChooser.APPROVE_OPTION) {
 					File progressFile = progressOpenChooser.getSelectedFile();
 					try (ObjectInputStream input = new ObjectInputStream(
@@ -669,6 +669,7 @@ public class VTP5 extends JFrame {
 				updateGuessedAnswersList(false, userAnswer);
 
 				// Disable some components, change text on Enter button
+				switchLanguageCheck.setEnabled(false);
 				answerField.setEditable(false);
 				passButton.setEnabled(false);
 				enterButton.setText("OK");
@@ -703,6 +704,7 @@ public class VTP5 extends JFrame {
 		} else if (enterButton.getText().equals("OK")) {
 			// Re-enable some components, change text on Enter button back to
 			// "Enter"
+			switchLanguageCheck.setEnabled(true);
 			answerField.setEditable(true);
 			answerField.setCaretPosition(0);
 			answerField.requestFocusInWindow();
@@ -915,6 +917,7 @@ public class VTP5 extends JFrame {
 		saveButton.setEnabled(true);
 		// leaderboardButton.setEnabled(true);
 		answerField.setEditable(true);
+		answerField.requestFocus();
 		characterButton.setEnabled(true);
 		enterButton.setEnabled(true);
 		enterButton.setText("Enter");

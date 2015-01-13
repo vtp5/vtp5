@@ -177,11 +177,13 @@ public class TestFile implements Serializable {
 		ArrayList<String> correctAnswers = isLanguageSwitched ? card
 				.getCorrectLangFrom() : card.getCorrectLangTo();
 
+		answer = answer.toLowerCase();
+
 		for (String s : possibleAnswers) {
 			System.out.println("Original correct answer: " + s);
 			System.out.println("Correct answer: " + s);
 
-			if (answer.equalsIgnoreCase(s.replaceAll(
+			if (answer.equalsIgnoreCase(s.toLowerCase().replaceAll(
 					"[^a-zA-Z0-9יטאשגךמפûכןחזהצüßביםףתüס¿¡]", ""))) {
 				System.out.println("User is correct");
 				userIsCorrect = true;
@@ -231,7 +233,7 @@ public class TestFile implements Serializable {
 			// Check if user has already entered the answer (if it's correct)
 			for (String s : correctAnswers) {
 
-				if (answer.equalsIgnoreCase(s.replaceAll(
+				if (answer.equalsIgnoreCase(s.toLowerCase().replaceAll(
 						"[^a-zA-Z0-9יטאשגךמפûכןחזהצüßביםףתüס¿¡]", ""))) {
 					// If user has already guessed the answer and it's correct,
 					// just return PARTIALLY_CORRECT
