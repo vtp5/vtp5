@@ -181,7 +181,8 @@ public class TestFile implements Serializable {
 			System.out.println("Original correct answer: " + s);
 			System.out.println("Correct answer: " + s);
 
-			if (answer.equalsIgnoreCase(s.replaceAll("[^a-zA-Z0-9]", ""))) {
+			if (answer.equalsIgnoreCase(s.replaceAll(
+					"[^a-zA-Z0-9יטאשגךמפûכןחזהצüßביםףתüס¿¡]", ""))) {
 				System.out.println("User is correct");
 				userIsCorrect = true;
 				// Remove this answer from the ArayList
@@ -230,7 +231,8 @@ public class TestFile implements Serializable {
 			// Check if user has already entered the answer (if it's correct)
 			for (String s : correctAnswers) {
 
-				if (answer.equalsIgnoreCase(s.replaceAll("[^a-zA-Z0-9]", ""))) {
+				if (answer.equalsIgnoreCase(s.replaceAll(
+						"[^a-zA-Z0-9יטאשגךמפûכןחזהצüßביםףתüס¿¡]", ""))) {
 					// If user has already guessed the answer and it's correct,
 					// just return PARTIALLY_CORRECT
 					return PARTIALLY_CORRECT;
@@ -243,7 +245,8 @@ public class TestFile implements Serializable {
 				// Work out if user has only typed part of the answer, or if the
 				// answer is part of the user's input
 				for (String s : correctAnswers) {
-					s = s.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+					s = s.replaceAll("[^a-zA-Z0-9יטאשגךמפûכןחזהצüßביםףתüס¿¡]",
+							"").toLowerCase();
 					answer = answer.toLowerCase();
 
 					if (answer.contains(s) || s.contains(answer)) {
@@ -253,7 +256,8 @@ public class TestFile implements Serializable {
 				}
 
 				for (String s : possibleAnswers) {
-					s = s.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+					s = s.replaceAll("[^a-zA-Z0-9יטאשגךמפûכןחזהצüßביםףתüס¿¡]",
+							"").toLowerCase();
 					answer = answer.toLowerCase();
 
 					if (answer.contains(s) || s.contains(answer)) {
