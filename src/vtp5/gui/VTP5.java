@@ -125,7 +125,7 @@ public class VTP5 extends JFrame {
 	SpecialCharacterDialog characterDialog;
 
 	// Number of questions dialog
-	QuestionsDialog questionsDialog = new QuestionsDialog();
+	QuestionsDialog questionsDialog;
 
 	// Components for Settings Dialog
 	private JDialog settingsDialog;
@@ -899,7 +899,12 @@ public class VTP5 extends JFrame {
 	}
 
 	void setUpTest() {
-		questionsDialog.setVisible(true);
+		questionsDialog = new QuestionsDialog(this);
+		questionsDialog.slider.setMaximum(test.getCards().size());
+		questionsDialog.slider.setValue(test.getCards().size());
+		
+		
+		JOptionPane.showMessageDialog(this, questionsDialog, "VTP5", JOptionPane.PLAIN_MESSAGE);
 		progressBar.setString(test.getScore() + "/"
 				+ (test.getCards().size() + test.getScore()));
 		Collections.shuffle(test.getCards());
