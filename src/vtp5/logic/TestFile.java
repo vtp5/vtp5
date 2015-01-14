@@ -44,7 +44,7 @@ public class TestFile implements Serializable {
 	private boolean isLanguageSwitched = false;
 
 	// More logical instance variables
-	private int totalNumberOfCards;
+	public int totalNumberOfCards;
 	private int numberOfIncorrectCards;
 	private int totalTimesGuessed;
 	private double successRate;

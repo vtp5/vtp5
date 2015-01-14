@@ -907,9 +907,19 @@ public class VTP5 extends JFrame {
 		questionsDialog = new QuestionsDialog(this);
 		questionsDialog.slider.setMaximum(test.getCards().size());
 		questionsDialog.slider.setValue(test.getCards().size());
+		JOptionPane.showMessageDialog(this, questionsDialog, "VTP5",
+				JOptionPane.PLAIN_MESSAGE);
+
+		int limit = test.getCards().size();
+
+		for (int x = 0; x < limit - questionsDialog.slider.getValue(); x++) {
+			Collections.shuffle(test.getCards());
+			test.getCards().remove(0);
+			// test.getOrigCards().remove(0);
+		}
 		
-		
-		JOptionPane.showMessageDialog(this, questionsDialog, "VTP5", JOptionPane.PLAIN_MESSAGE);
+		test.totalNumberOfCards = test.getCards().size();
+
 		progressBar.setString(test.getScore() + "/"
 				+ (test.getCards().size() + test.getScore()));
 		Collections.shuffle(test.getCards());
