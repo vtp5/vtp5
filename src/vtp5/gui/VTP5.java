@@ -142,6 +142,10 @@ public class VTP5 extends JFrame {
 			"/images/vtpsmall.png"));
 	private ArrayList<JButton> buttonList = new ArrayList<>();
 
+	// finishPanel instance variable - must create the object HERE (i.e. as soon
+	// as program begins), otherwise text-rescaling won't work properly
+	private FinishPanel finishPanel = new FinishPanel(this);
+
 	// The all-import TestFile object!
 	private TestFile test;
 	// Timer to help with "experimental features"
@@ -159,10 +163,6 @@ public class VTP5 extends JFrame {
 	private Color fcolour = Color.WHITE;
 	private Color textColour = Color.BLACK;
 	private Color panelColour = Color.WHITE;
-
-	// finishPanel instance variable - must create the object HERE (i.e. as soon
-	// as program begins), otherwise text-rescaling won't work properly
-	private FinishPanel finishPanel = new FinishPanel(this);
 
 	public Font font;
 
@@ -625,8 +625,8 @@ public class VTP5 extends JFrame {
 					|| result == TestFile.COMPLETELY_CORRECT) {
 				try {
 					Clip clip = AudioSystem.getClip();
-					clip.open(AudioSystem.getAudioInputStream(new File(
-							"qcorrect.wav")));
+					// clip.open(AudioSystem.getAudioInputStream(new File(
+					// "qcorrect.wav")));
 					clip.start();
 				} catch (Exception exc) {
 					exc.printStackTrace(System.out);
@@ -917,7 +917,7 @@ public class VTP5 extends JFrame {
 			test.getCards().remove(0);
 			// test.getOrigCards().remove(0);
 		}
-		
+
 		test.totalNumberOfCards = test.getCards().size();
 
 		progressBar.setString(test.getScore() + "/"

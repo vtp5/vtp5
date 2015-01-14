@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -18,7 +19,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.RowSorter.SortKey;
+import javax.swing.SortOrder;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import net.miginfocom.swing.MigLayout;
 import vtp5.logic.Card;
@@ -59,6 +64,7 @@ public class FinishPanel extends JPanel {
 	private JButton saveTest = new JButton();
 	private JButton restartTest = new JButton();
 	private JFileChooser wrongAnswersTest = new JFileChooser();
+	private TableRowSorter<AbstractTableModel> sorter;
 
 	// Do not remove this variable - it makes text-rescaling work!
 	private VTP5 parent;
@@ -245,10 +251,17 @@ public class FinishPanel extends JPanel {
 				.setText("<html>Here's a list of the words you got wrong the first time:</html>");
 		completedLabel.setText(completedMessage);
 
+		List<SortKey> sortKeys = new ArrayList<SortKey>();
+		sortKeys.add(new SortKey(2, SortOrder.DESCENDING));		
 		watm = new WrongAnswersTableModel(parent.getTest().getIncorrectCards());
-		table.setModel(watm);
+		table = new JTable(watm);
 		table.setEnabled(false);
 		table.setRowHeight(table.getFont().getSize() + 10);
+		sorter = new TableRowSorter<AbstractTableModel>(watm);
+		sorter.setSortKeys(sortKeys);
+		table.setRowSorter(sorter);
+		((AbstractTableModel) table.getModel()).fireTableDataChanged();
+		sorter.sort();
 
 		saveTest.setText("Create New Test File With These Words");
 		restartTest.setText("Start Test Again");
@@ -274,9 +287,6 @@ public class FinishPanel extends JPanel {
 
 class WrongAnswersTableModel extends AbstractTableModel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private ArrayList<Card> wrongAnswers;
@@ -325,7 +335,7 @@ class WrongAnswersTableModel extends AbstractTableModel {
 		case 1:
 			value = card.getLangToPrompt();
 			break;
-		case 2: 
+		case 2:
 			value = "" + card.getGuessedWrong();
 			break;
 		}
