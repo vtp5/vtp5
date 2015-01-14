@@ -226,9 +226,9 @@ public class FinishPanel extends JPanel {
 			completedMessage = completedMessage + " That's amazing!";
 		} else if (test.getSuccessRate() >= 90) {
 			completedMessage = completedMessage + " Well done!";
-		} else if (test.getSuccessRate() >= 75) {
+		} else if (test.getSuccessRate() >= 80) {
 			completedMessage = completedMessage + " Not too bad!";
-		} else if (test.getSuccessRate() >= 50) {
+		} else if (test.getSuccessRate() >= 70) {
 			completedMessage = completedMessage + " Needs some work!";
 		} else {
 			completedMessage = completedMessage + " Ouch!";
@@ -252,7 +252,7 @@ public class FinishPanel extends JPanel {
 		completedLabel.setText(completedMessage);
 
 		List<SortKey> sortKeys = new ArrayList<SortKey>();
-		sortKeys.add(new SortKey(2, SortOrder.DESCENDING));		
+		sortKeys.add(new SortKey(2, SortOrder.DESCENDING));
 		watm = new WrongAnswersTableModel(parent.getTest().getIncorrectCards());
 		table = new JTable(watm);
 		table.setEnabled(false);
