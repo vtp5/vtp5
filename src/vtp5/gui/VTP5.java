@@ -30,6 +30,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -387,6 +388,8 @@ public class VTP5 extends JFrame {
 		enterButton.setFocusable(false);
 		passButton.setFocusable(false);
 
+		DisabledItemSelectionModel selectionModel = new DisabledItemSelectionModel();
+
 		// Set up JLists and their respective ListModels
 		statsListModel = new DefaultListModel<>();
 		statsListModel.addElement("<html><u>Statistics:</u></html>");
@@ -398,6 +401,7 @@ public class VTP5 extends JFrame {
 		statsList = new JList<>(statsListModel);
 		statsList.setVisibleRowCount(6);
 		statsList.setForeground(textColour);// changes text colour
+		statsList.setSelectionModel(selectionModel);
 		statsScrollPane = new JScrollPane(statsList);
 
 		guessedAnswersListModel = new DefaultListModel<>();
@@ -406,6 +410,7 @@ public class VTP5 extends JFrame {
 		guessedAnswersList = new JList<>(guessedAnswersListModel);
 		guessedAnswersList.setVisibleRowCount(6);
 		guessedAnswersList.setForeground(textColour);// changes text colour
+		guessedAnswersList.setSelectionModel(selectionModel);
 		guessedAnswersScrollPane = new JScrollPane(guessedAnswersList);
 
 		componentList.add(new ComponentWithFontData(statsList, 32));
@@ -971,6 +976,14 @@ public class VTP5 extends JFrame {
 
 	ArrayList<ComponentWithFontData> getComponentList() {
 		return componentList;
+	}
+
+	private class DisabledItemSelectionModel extends DefaultListSelectionModel {
+
+		@Override
+		public void setSelectionInterval(int index0, int index1) {
+			super.setSelectionInterval(-1, -1);
+		}
 	}
 
 	// Inner class for the frame's content pane so that the background image can
