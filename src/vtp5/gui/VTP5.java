@@ -834,9 +834,9 @@ public class VTP5 extends JFrame {
 		// Update statsList
 		statsListModel.removeAllElements();
 		statsListModel.addElement("<html><u>Statistics:</u></html>");
-		statsListModel.addElement("Answered correctly: "
-				+ ((int) stats[0] - test.getCards().size()));
-		statsListModel.addElement("Answered incorrectly: " + stats[1]);
+		// statsListModel.addElement("Answered correctly: "
+		// + ((int) stats[0] - test.getCards().size()));
+		// statsListModel.addElement("Answered incorrectly: " + stats[1]);
 		statsListModel.addElement("Total number of guesses: " + stats[2]);
 		statsListModel.addElement("Number of words left: "
 				+ test.getCards().size());
