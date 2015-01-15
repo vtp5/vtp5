@@ -394,6 +394,7 @@ public class VTP5 extends JFrame {
 
 		// Prevent the buttons from being focusable so there is no ugly
 		// rectangle when you click it - this is purely for aesthetic reasons
+		characterButton.setFocusable(false);
 		enterButton.setFocusable(false);
 		passButton.setFocusable(false);
 
@@ -429,9 +430,13 @@ public class VTP5 extends JFrame {
 			setFontSize(component, c.getOriginalFontSize());
 		}
 
+		// Try and make the colours of the buttons and "Switch Language" check
+		// box show on Mac OS...
 		for (JButton button : buttonList) {
-
+			button.setOpaque(true);
 		}
+
+		switchLanguageCheck.setOpaque(true);
 
 		// Add components to main panel
 		mainPanel.add(promptLabel, "span 4, push, wrap, height 30%!");
