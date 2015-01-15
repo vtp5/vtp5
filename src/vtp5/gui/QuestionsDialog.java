@@ -4,7 +4,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
-import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -24,9 +23,19 @@ public class QuestionsDialog extends JPanel {
 		spinner = new JSpinner(new SpinnerNumberModel(obj.getTest().getCards()
 				.size(), 0, obj.getTest().getCards().size(), 1));
 		spinner = new JSpinner();
+		
 		cf.setFont(spinner, 25);
-		slider.setMinorTickSpacing(Math.round(obj.getTest().getCards().size()/10));
-		slider.setMajorTickSpacing(Math.round(obj.getTest().getCards().size()/3));
+		cf.setFont(slider, 25);
+		cf.setFont(questionsDialog, 25);
+		
+		slider.setMaximum(obj.getTest().getCards().size());
+		slider.setValue(obj.getTest().getCards().size());
+		slider.setMajorTickSpacing(Math
+				.round(obj.getTest().getCards().size() / 4));
+		slider.setPaintTicks(true);
+		
+		spinner.setValue(obj.getTest().getCards().size());
+
 		slider.addChangeListener(new ChangeListener() {
 
 			@Override

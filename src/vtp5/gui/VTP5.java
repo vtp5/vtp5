@@ -396,8 +396,6 @@ public class VTP5 extends JFrame {
 		// Set up JLists and their respective ListModels
 		statsListModel = new DefaultListModel<>();
 		statsListModel.addElement("<html><u>Statistics:</u></html>");
-		statsListModel.addElement("Answered correctly: ");
-		statsListModel.addElement("Answered incorrectly: ");
 		statsListModel.addElement("Number of words left: ");
 		statsListModel.addElement("Total number of guesses: ");
 		statsListModel.addElement("Success rate: ");
@@ -914,8 +912,6 @@ public class VTP5 extends JFrame {
 
 	void setUpTest() {
 		questionsDialog = new QuestionsDialog(this);
-		questionsDialog.slider.setMaximum(test.getCards().size());
-		questionsDialog.slider.setValue(test.getCards().size());
 		JOptionPane.showMessageDialog(this, questionsDialog, "VTP5",
 				JOptionPane.PLAIN_MESSAGE);
 
