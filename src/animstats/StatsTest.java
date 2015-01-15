@@ -28,12 +28,20 @@ public class StatsTest extends Thread {
 	//http://www.hardcode.de/jxinput/
 	//https://code.google.com/p/tankz/source/browse/src/tankz/test/JXInputTest.java?r=65
 	
+	int percentageY = 350;
+	int leftY = 350;
+	int correctY = 350;
+	int correctX = 230;
+	int incorrectX = 230;
+	
+	int changeX = 0; 
+	int changeY = 0; 
 	
 	//velocities
-	int velx = 5;
-	int vely = 0;
+	int vely = 5;
+	int velx = 0;
 	
-	int ticks=0;
+	int ticks = 0;
 	int size = 0;
 	// GUI constants
 	private static final String TITLE = "StatsTest";
@@ -73,10 +81,21 @@ public class StatsTest extends Thread {
 		g.setColor(Color.BLACK);
 		g.fillRect(0,0,900,700);
 		
+		//circles
+		
 		g.setColor(new Color(102,51,153));
-	    g.fillOval(230,70,40,40);
+	    g.fillOval(230,leftY,40,40);
+	    
 	    g.setColor(Color.GREEN);
-	    g.fillOval(230,50,40,40);
+	    g.fillOval(230,percentageY,40,40);
+	    
+	    g.setColor(Color.ORANGE);
+	    g.fillOval(incorrectX,correctY,40,40);
+	    
+	    g.setColor(Color.BLUE);
+	    g.fillOval(correctX,correctY,40,40);
+	    
+	    
 	}
 	
 	public void tickt(){
@@ -99,7 +118,20 @@ public class StatsTest extends Thread {
 	}
 	
 	private void tick() {
-		size++;
+		
+		if(leftY>190){
+			leftY-=vely;
+			percentageY-=vely;
+			correctY-=vely;
+		}else{
+			int c = 4;
+			changeX = (int) Math.sqrt((double) c);
+			
+			if(percentageY>110){
+				percentageY-=vely;
+			}
+		}
+		
 	}
 	
 }
