@@ -428,9 +428,9 @@ public class VTP5 extends JFrame {
 			Component component = c.getComponent();
 			setFontSize(component, c.getOriginalFontSize());
 		}
-		
+
 		for (JButton button : buttonList) {
-			
+
 		}
 
 		// Add components to main panel
@@ -950,20 +950,22 @@ public class VTP5 extends JFrame {
 		}
 	}
 
-	void setUpTest() {
-		questionsDialog = new QuestionsDialog(this);
-		JOptionPane.showMessageDialog(this, questionsDialog, "VTP5",
-				JOptionPane.PLAIN_MESSAGE);
+	void setUpTest(int option) {
+		if (option == 0) {
+			questionsDialog = new QuestionsDialog(this);
+			JOptionPane.showMessageDialog(this, questionsDialog, "VTP5",
+					JOptionPane.PLAIN_MESSAGE);
+			int limit = test.getCards().size();
+			for (int x = 0; x < limit - questionsDialog.slider.getValue(); x++) {
+				Collections.shuffle(test.getCards());
+				test.getCards().remove(0);
+				// test.getOrigCards().remove(0);
+			}
 
-		int limit = test.getCards().size();
-
-		for (int x = 0; x < limit - questionsDialog.slider.getValue(); x++) {
-			Collections.shuffle(test.getCards());
-			test.getCards().remove(0);
-			// test.getOrigCards().remove(0);
+			test.totalNumberOfCards = test.getCards().size();
 		}
 
-		test.totalNumberOfCards = test.getCards().size();
+		test.setLanguageSwitched(false);
 
 		progressBar.setString(test.getScore() + "/"
 				+ (test.getCards().size() + test.getScore()));
@@ -977,7 +979,6 @@ public class VTP5 extends JFrame {
 		switchLanguageCheck.setEnabled(true);
 		switchLanguageCheck.setSelected(false);
 		guessedAnswersList.setForeground(textColour);
-		test.setLanguageSwitched(false);
 		saveButton.setEnabled(true);
 		// leaderboardButton.setEnabled(true);
 		answerField.setEditable(true);
@@ -1139,7 +1140,7 @@ public class VTP5 extends JFrame {
 				if (option == 0 || option == 1 || option == 2) {
 					showChooserDialog(option);
 					try {
-						setUpTest();
+						setUpTest(option);
 					} catch (NullPointerException | IndexOutOfBoundsException npe) {
 						npe.printStackTrace();
 					}
@@ -1242,7 +1243,7 @@ public class VTP5 extends JFrame {
 				// }
 			} else if (e.getSource() == startAgainButton) {
 				restartTest();
-				setUpTest();
+				setUpTest(0);
 			} else if (e.getSource() == checkForUpdateButton) {
 				checkForUpdate();
 			} else if (e.getSource() == characterButton) {

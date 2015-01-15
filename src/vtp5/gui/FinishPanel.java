@@ -81,8 +81,6 @@ public class FinishPanel extends JPanel {
 		saveTest.setForeground(parent.getFcolour());// changes foreground colour
 		parent.getButtonList().add(saveTest);
 
-		System.out.println("Bcolour: " + parent.getBcolour());
-		System.out.println("Fcolour: " + parent.getFcolour());
 		restartTest.setBackground(parent.getBcolour());// changes background
 														// colour
 		restartTest.setForeground(parent.getFcolour());// changes foreground
@@ -127,7 +125,7 @@ public class FinishPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				parent.restartTest();
-				parent.setUpTest();
+				parent.setUpTest(0);
 			}
 		});
 
