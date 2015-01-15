@@ -20,10 +20,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Properties;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -121,6 +123,10 @@ public class VTP5 extends JFrame {
 	private JFileChooser csvChooser = new JFileChooser();
 	private JFileChooser progressOpenChooser = new JFileChooser();
 	private JFileChooser progressSaveChooser = new JFileChooser();
+	
+	//Settings file
+	Properties properties;
+	OutputStream output;
 
 	// Special character dialog
 	SpecialCharacterDialog characterDialog;
@@ -902,6 +908,35 @@ public class VTP5 extends JFrame {
 			e.printStackTrace();
 		}
 	}
+	private void createSettingsFile(){
+		properties = new Properties();
+	 
+		try {
+	 
+			output = new FileOutputStream("U:/config.properties");
+			
+		
+				
+		
+			// set the properties value
+			properties.setProperty("experimental", String.valueOf(experimentalCheck.isEnabled()));
+	 
+			// save properties to project root folder
+			properties.store(output, null);
+	 
+		} catch (IOException io) {
+			io.printStackTrace();
+		} finally {
+			if (output != null) {
+				try {
+					output.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	 
+		}
+	}
 
 	void setUpTest() {
 		questionsDialog = new QuestionsDialog(this);
@@ -915,6 +950,8 @@ public class VTP5 extends JFrame {
 			test.getCards().remove(0);
 			// test.getOrigCards().remove(0);
 		}
+		
+	  
 
 		test.totalNumberOfCards = test.getCards().size();
 
