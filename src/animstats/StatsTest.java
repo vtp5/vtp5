@@ -8,8 +8,30 @@ import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+/*VTP5 Copyright (C) 2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
 
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 public class StatsTest extends Thread {
+	
+	//http://www.hardcode.de/jxinput/
+	//https://code.google.com/p/tankz/source/browse/src/tankz/test/JXInputTest.java?r=65
+	
+	
+	//velocities
+	int velx = 5;
+	int vely = 0;
 	
 	int ticks=0;
 	int size = 0;
@@ -26,7 +48,7 @@ public class StatsTest extends Thread {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setLocationRelativeTo(null);
 		f.setTitle(TITLE);
-		f.setSize(900,700);
+		f.setSize(500,300);
 		f.add(panel);
 		f.createBufferStrategy(2);
 		bs = f.getBufferStrategy();
@@ -51,8 +73,10 @@ public class StatsTest extends Thread {
 		g.setColor(Color.BLACK);
 		g.fillRect(0,0,900,700);
 		
-	    g.setColor(Color.RED);
-	    g.fillOval(50,50,size, size);
+		g.setColor(new Color(102,51,153));
+	    g.fillOval(230,70,40,40);
+	    g.setColor(Color.GREEN);
+	    g.fillOval(230,50,40,40);
 	}
 	
 	public void tickt(){
