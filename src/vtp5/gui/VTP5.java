@@ -903,8 +903,6 @@ public class VTP5 extends JFrame {
 
 	void setUpTest() {
 		questionsDialog = new QuestionsDialog(this);
-		questionsDialog.slider.setMaximum(test.getCards().size());
-		questionsDialog.slider.setValue(test.getCards().size());
 		JOptionPane.showMessageDialog(this, questionsDialog, "VTP5",
 				JOptionPane.PLAIN_MESSAGE);
 
