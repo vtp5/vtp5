@@ -150,7 +150,7 @@ public class VTP5 extends JFrame {
 
 	// finishPanel instance variable - must create the object HERE (i.e. as soon
 	// as program begins), otherwise text-rescaling won't work properly
-	private FinishPanel finishPanel = new FinishPanel(this);
+	private FinishPanel finishPanel;
 
 	// The all-import TestFile object!
 	private TestFile test;
@@ -171,6 +171,9 @@ public class VTP5 extends JFrame {
 	private Color panelColour = Color.WHITE;
 
 	public Font font;
+	
+	private int alpha = 191;
+	private int minColour = 70;
 
 	public VTP5() {
 		// Load spell-checker
@@ -460,6 +463,8 @@ public class VTP5 extends JFrame {
 		// Add FrameListener to JFrame so we can detect when the frame is
 		// resized
 		addComponentListener(new FrameListener(this));
+
+		finishPanel = new FinishPanel(this);
 	}
 
 	public void setTest(TestFile test) {
@@ -628,10 +633,10 @@ public class VTP5 extends JFrame {
 			if (result == TestFile.PARTIALLY_CORRECT
 					|| result == TestFile.COMPLETELY_CORRECT) {
 				try {
-					Clip clip = AudioSystem.getClip();
+					// Clip clip = AudioSystem.getClip();
 					// clip.open(AudioSystem.getAudioInputStream(new File(
 					// "qcorrect.wav")));
-					clip.start();
+					// clip.start();
 				} catch (Exception exc) {
 					exc.printStackTrace(System.out);
 
@@ -795,7 +800,6 @@ public class VTP5 extends JFrame {
 
 	private void calculateFrameColour(Object[] stats) {
 		if ((double) stats[3] >= 95) {
-			// change panel colour
 			panelColour = new Color(5, 255, 0);
 		} else if ((double) stats[3] >= 90) {
 			panelColour = new Color(20, 225, 0);
@@ -817,11 +821,18 @@ public class VTP5 extends JFrame {
 			panelColour = new Color(255, 0, 0);
 		}
 
+		int rate = (int) ((double) stats[3]);
+		
 		if (!changeBackgroundColour.isEnabled()) {
+			// if (rate <= minColour) {
+			// updateFrameColour(new Color(255, 0, 0, alpha));
+			// } else {
+			// updateFrameColour(new Color(255 - (rate / 100 * 255), rate / 100
+			// * 255, 0, alpha));
+			// }
 			updateFrameColour(panelColour);
-		} else {
-			progressBar.setForeground(panelColour);
 		}
+		progressBar.setForeground(panelColour);
 	}
 
 	private void updateFrameColour(Color col) {
@@ -1151,6 +1162,8 @@ public class VTP5 extends JFrame {
 				abtDialog.setVisible(true);
 			} else if (e.getSource() == enterButton) {
 				doLogic();
+				revalidate();
+				repaint();
 			} else if (e.getSource() == passButton) {
 				// Reorder cards
 				Card c = test.getCards().get(questionIndex);
