@@ -123,8 +123,8 @@ public class VTP5 extends JFrame {
 	private JFileChooser csvChooser = new JFileChooser();
 	private JFileChooser progressOpenChooser = new JFileChooser();
 	private JFileChooser progressSaveChooser = new JFileChooser();
-	
-	//Settings file
+
+	// Settings file
 	Properties properties;
 	OutputStream output;
 
@@ -171,7 +171,7 @@ public class VTP5 extends JFrame {
 	private Color panelColour = Color.WHITE;
 
 	public Font font;
-	
+
 	private int alpha = 191;
 	private int minColour = 70;
 
@@ -427,6 +427,10 @@ public class VTP5 extends JFrame {
 		for (ComponentWithFontData c : componentList) {
 			Component component = c.getComponent();
 			setFontSize(component, c.getOriginalFontSize());
+		}
+		
+		for (JButton button : buttonList) {
+			
 		}
 
 		// Add components to main panel
@@ -822,7 +826,7 @@ public class VTP5 extends JFrame {
 		}
 
 		int rate = (int) ((double) stats[3]);
-		
+
 		if (!changeBackgroundColour.isEnabled()) {
 			// if (rate <= minColour) {
 			// updateFrameColour(new Color(255, 0, 0, alpha));
@@ -917,22 +921,21 @@ public class VTP5 extends JFrame {
 			e.printStackTrace();
 		}
 	}
-	private void createSettingsFile(){
+
+	private void createSettingsFile() {
 		properties = new Properties();
-	 
+
 		try {
-	 
+
 			output = new FileOutputStream("U:/config.properties");
-			
-		
-				
-		
+
 			// set the properties value
-			properties.setProperty("experimental", String.valueOf(experimentalCheck.isEnabled()));
-	 
+			properties.setProperty("experimental",
+					String.valueOf(experimentalCheck.isEnabled()));
+
 			// save properties to project root folder
 			properties.store(output, null);
-	 
+
 		} catch (IOException io) {
 			io.printStackTrace();
 		} finally {
@@ -943,7 +946,7 @@ public class VTP5 extends JFrame {
 					e.printStackTrace();
 				}
 			}
-	 
+
 		}
 	}
 
@@ -959,8 +962,6 @@ public class VTP5 extends JFrame {
 			test.getCards().remove(0);
 			// test.getOrigCards().remove(0);
 		}
-		
-	  
 
 		test.totalNumberOfCards = test.getCards().size();
 
@@ -1033,6 +1034,11 @@ public class VTP5 extends JFrame {
 	}
 
 	private class DisabledItemSelectionModel extends DefaultListSelectionModel {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 
 		@Override
 		public void setSelectionInterval(int index0, int index1) {

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -93,6 +94,8 @@ public class FinishPanel extends JPanel {
 		restartTest.setFocusable(false);
 
 		setTextColour(parent.getTcolour());
+
+		statsList.setSelectionModel(new DisabledItemSelectionModel());
 
 		cf = new CustomFont();
 		cf.setFont(completedLabel, 75);
@@ -283,6 +286,19 @@ public class FinishPanel extends JPanel {
 		table.setForeground(text);
 		table.getTableHeader().setForeground(text);
 		leaderboards.setForeground(text);
+	}
+
+	private class DisabledItemSelectionModel extends DefaultListSelectionModel {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public void setSelectionInterval(int index0, int index1) {
+			super.setSelectionInterval(-1, -1);
+		}
 	}
 }
 
