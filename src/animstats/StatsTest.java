@@ -28,6 +28,8 @@ public class StatsTest extends Thread {
 	//http://www.hardcode.de/jxinput/
 	//https://code.google.com/p/tankz/source/browse/src/tankz/test/JXInputTest.java?r=65
 	
+	final int r = 1000;
+	
 	int percentageY = 350;
 	int leftY = 350;
 	int correctY = 350;
@@ -73,6 +75,9 @@ public class StatsTest extends Thread {
 	}
 	
 	public static void main(String[] args) {
+		
+		
+		
 		new StatsTest().start();
 	}
 	/***Your Code***/
@@ -124,11 +129,16 @@ public class StatsTest extends Thread {
 			percentageY-=vely;
 			correctY-=vely;
 		}else{
-			int c = 4;
-			changeX = (int) Math.sqrt((double) c);
+			
+			
+			int c = (int) -Math.sqrt(r^2 - (190 - correctY)^2);
+			System.out.println(c);
 			
 			if(percentageY>110){
 				percentageY-=vely;
+				
+				correctX+=c;
+				correctY-=vely;
 			}
 		}
 		
