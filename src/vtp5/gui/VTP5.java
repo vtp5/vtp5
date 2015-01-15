@@ -144,7 +144,7 @@ public class VTP5 extends JFrame {
 
 	// finishPanel instance variable - must create the object HERE (i.e. as soon
 	// as program begins), otherwise text-rescaling won't work properly
-	private FinishPanel finishPanel = new FinishPanel(this);
+	private FinishPanel finishPanel;
 
 	// The all-import TestFile object!
 	private TestFile test;
@@ -454,6 +454,8 @@ public class VTP5 extends JFrame {
 		// Add FrameListener to JFrame so we can detect when the frame is
 		// resized
 		addComponentListener(new FrameListener(this));
+
+		finishPanel = new FinishPanel(this);
 	}
 
 	public void setTest(TestFile test) {
