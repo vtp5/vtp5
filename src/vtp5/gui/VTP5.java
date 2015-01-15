@@ -246,7 +246,7 @@ public class VTP5 extends JFrame {
 		changeBackgroundColour = new JButton("Change Background Colour");
 		changeBackgroundColour.setEnabled(false);
 		checkForUpdateButton = new JButton("Check For Updates");
-		experimentalCheck = new JCheckBox("Enable Experimental Features");
+		experimentalCheck = new JCheckBox("Enable Experimental Features", true);
 		changingFrameColourCheck = new JCheckBox(
 				"Enable Dynamic Background Colour", true);
 		exInfoLabel = new HyperlinkLabel(

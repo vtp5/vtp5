@@ -1,8 +1,13 @@
 package vtp5.logic;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import javax.swing.JOptionPane;
+
+import org.apache.commons.io.IOUtils;
 
 import vtp5.Main;
 
@@ -28,7 +33,7 @@ import com.swabunga.spell.event.StringWordTokenizer;
  */
 public class SpellCheck {
 	// Variables for spell-checker
-	private static String dictFile;
+	private static File dictFile;
 	private static SpellChecker spellCheck = null;
 
 	public static void loadSpellChecker() {
@@ -36,13 +41,14 @@ public class SpellCheck {
 		try {
 
 			if (Main.exportingToJar) {
-				dictFile = "english.0";
+				dictFile = streamToFile(SpellCheck.class
+						.getResourceAsStream("/dict/english.0"));
 			} else {
-				dictFile = "jazzy/dict/english.0";
+				dictFile = new File("jazzy/dict/english.0");
 			}
 
-			SpellDictionary dictionary = new SpellDictionaryHashMap(new File(
-					dictFile), null);
+			SpellDictionary dictionary = new SpellDictionaryHashMap(dictFile,
+					null);
 
 			spellCheck = new SpellChecker(dictionary);
 		} catch (Exception e) {
@@ -64,5 +70,14 @@ public class SpellCheck {
 		} else {
 			return false;
 		}
+	}
+
+	private static File streamToFile(InputStream in) throws IOException {
+		final File tempFile = File.createTempFile("vtp5_temp_file", ".temp");
+		tempFile.deleteOnExit();
+		try (FileOutputStream out = new FileOutputStream(tempFile)) {
+			IOUtils.copy(in, out);
+		}
+		return tempFile;
 	}
 }
