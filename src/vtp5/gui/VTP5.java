@@ -137,7 +137,7 @@ public class VTP5 extends JFrame {
 	// Components for Settings Dialog
 	private JDialog settingsDialog;
 	private JButton changeButtonColour, changePromptColour, changeTextColour,
-			checkForUpdateButton, changeBackgroundColour, resetToDefault;
+			checkForUpdateButton, changeBackgroundColour, resetToDefaults;
 	private JCheckBox experimentalCheck, changingFrameColourCheck,
 			questionNumberCheck;
 	private HyperlinkLabel exInfoLabel;
@@ -243,7 +243,7 @@ public class VTP5 extends JFrame {
 		// Sets up about dialog
 		abtDialog = new AboutDialog();
 
-		resetToDefault = new JButton("Reset to Default");
+		resetToDefaults = new JButton("Reset to Defaults");
 		changeButtonColour = new JButton("Change Button Colour");
 		changePromptColour = new JButton("Change Prompt Colour");
 		changeTextColour = new JButton("Change Button Text Colour");
@@ -274,7 +274,7 @@ public class VTP5 extends JFrame {
 		settingsDialog.add(experimentalCheck, "alignx center, wrap");
 		settingsDialog.add(exInfoLabel, "alignx center, wrap");
 		settingsDialog.add(new JSeparator(), "grow, wrap");
-		settingsDialog.add(resetToDefault, "alignx center");
+		settingsDialog.add(resetToDefaults, "alignx center");
 		settingsDialog.pack();
 		settingsDialog.setResizable(false);
 		settingsDialog.setLocationRelativeTo(this);
@@ -330,7 +330,7 @@ public class VTP5 extends JFrame {
 		changeBackgroundColour.addActionListener(eventListener);
 		checkForUpdateButton.addActionListener(eventListener);
 		changingFrameColourCheck.addActionListener(eventListener);
-		resetToDefault.addActionListener(eventListener);
+		resetToDefaults.addActionListener(eventListener);
 
 		buttonPanel.add(importFileButton, "align left");// adds to panel
 		buttonPanel.add(startAgainButton, "align left");
@@ -1016,6 +1016,8 @@ public class VTP5 extends JFrame {
 		panelColour = Color.WHITE;
 		questionNumberCheck.setSelected(true);
 		experimentalCheck.setSelected(true);
+		setColour(buttonColour, buttonTextColor, textColour);
+		updateFrameColour(panelColour);
 	}
 
 	void restartTest() {
@@ -1275,7 +1277,7 @@ public class VTP5 extends JFrame {
 				checkForUpdate();
 			} else if (e.getSource() == characterButton) {
 				characterDialog.setVisible(true);
-			} else if (e.getSource() == resetToDefault) {
+			} else if (e.getSource() == resetToDefaults) {
 				resetToDefaults();
 			}
 		}
