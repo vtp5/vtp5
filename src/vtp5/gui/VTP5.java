@@ -201,7 +201,8 @@ public class VTP5 extends JFrame {
 		importFileButton = new JButton("Import Test File");// creates buttons
 		importFileButton.setBackground(buttonColour);// changes background
 														// colour
-		importFileButton.setForeground(buttonTextColor);// changes foreground colour
+		importFileButton.setForeground(buttonTextColor);// changes foreground
+														// colour
 		buttonList.add(importFileButton);
 
 		saveButton = new JButton("Complete Later");
@@ -225,7 +226,8 @@ public class VTP5 extends JFrame {
 
 		settingsButton = new JButton("Settings");// creates buttons
 		settingsButton.setBackground(buttonColour);// changes background colour
-		settingsButton.setForeground(buttonTextColor);// changes foreground colour
+		settingsButton.setForeground(buttonTextColor);// changes foreground
+														// colour
 		buttonList.add(settingsButton);
 
 		helpButton = new JButton("Help");// ads button
@@ -271,6 +273,7 @@ public class VTP5 extends JFrame {
 		settingsDialog.add(new JSeparator(), "grow, wrap");
 		settingsDialog.add(experimentalCheck, "alignx center, wrap");
 		settingsDialog.add(exInfoLabel, "alignx center, wrap");
+		settingsDialog.add(new JSeparator(), "grow, wrap");
 		settingsDialog.add(resetToDefault, "alignx center");
 		settingsDialog.pack();
 		settingsDialog.setResizable(false);
@@ -375,7 +378,8 @@ public class VTP5 extends JFrame {
 		buttonList.add(characterButton);
 
 		characterButton.setBackground(buttonColour);// changes background colour
-		characterButton.setForeground(buttonTextColor);// changes foreground colour
+		characterButton.setForeground(buttonTextColor);// changes foreground
+														// colour
 		characterButton.setEnabled(false);
 		componentList.add(new ComponentWithFontData(characterButton, 32));
 
@@ -1013,7 +1017,7 @@ public class VTP5 extends JFrame {
 		questionNumberCheck.setSelected(true);
 		experimentalCheck.setSelected(true);
 	}
-	
+
 	void restartTest() {
 		try {
 			if (test.getImportedFile() != null) {
