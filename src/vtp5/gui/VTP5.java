@@ -138,7 +138,8 @@ public class VTP5 extends JFrame {
 	private JDialog settingsDialog;
 	private JButton changeButtonColour, changePromptColour, changeTextColour,
 			checkForUpdateButton, changeBackgroundColour;
-	private JCheckBox experimentalCheck, changingFrameColourCheck;
+	private JCheckBox experimentalCheck, changingFrameColourCheck,
+			questionNumberCheck;
 	private HyperlinkLabel exInfoLabel;
 
 	// Components for About Dialog
@@ -252,6 +253,8 @@ public class VTP5 extends JFrame {
 		exInfoLabel = new HyperlinkLabel(
 				"<html>Click here for more information<br />on experimental features</html>",
 				"https://github.com/duckifyz/VTP5/wiki/Help#experimental-features");
+		questionNumberCheck = new JCheckBox("Enable Question Number Selection",
+				true);
 
 		settingsDialog = new JDialog(this, "Settings");
 		settingsDialog.setLayout(new MigLayout("fillx", "", "[][][]10[]10[]"));
@@ -262,6 +265,8 @@ public class VTP5 extends JFrame {
 		settingsDialog.add(changePromptColour, "alignx center, wrap");
 		settingsDialog.add(changeTextColour, "alignx center, wrap");
 		settingsDialog.add(changeBackgroundColour, "alignx center, wrap");
+		settingsDialog.add(new JSeparator(), "grow, wrap");
+		settingsDialog.add(questionNumberCheck, "alignx center, wrap");
 		settingsDialog.add(new JSeparator(), "grow, wrap");
 		settingsDialog.add(experimentalCheck, "alignx center, wrap");
 		settingsDialog.add(exInfoLabel);
@@ -956,7 +961,7 @@ public class VTP5 extends JFrame {
 	}
 
 	void setUpTest(int option) {
-		if (option == 0) {
+		if (option == 0 && questionNumberCheck.isSelected()) {
 			questionsDialog = new QuestionsDialog(this);
 			JOptionPane.showMessageDialog(this, questionsDialog, "VTP5",
 					JOptionPane.PLAIN_MESSAGE);

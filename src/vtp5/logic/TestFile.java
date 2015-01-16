@@ -139,6 +139,7 @@ public class TestFile implements Serializable {
 		numberOfIncorrectCards = 0;
 		totalTimesGuessed = 0;
 		successRate = 0.0;
+		totalNumberOfCards = cards.size();
 	}
 
 	public ArrayList<Card> getOrigCards() {
