@@ -752,6 +752,7 @@ public class VTP5 extends JFrame {
 			// "Enter"
 			switchLanguageCheck.setEnabled(true);
 			answerField.setEditable(true);
+			answerField.getCaret().setVisible(true);
 			answerField.setCaretPosition(0);
 			answerField.requestFocusInWindow();
 			passButton.setEnabled(true);
