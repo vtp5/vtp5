@@ -14,10 +14,13 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
@@ -125,8 +128,11 @@ public class VTP5 extends JFrame {
 	private JFileChooser progressSaveChooser = new JFileChooser();
 
 	// Settings file
-	Properties properties;
-	OutputStream output;
+	private Properties properties;
+	private OutputStream output;
+	private String CONFIG_FILE = "config.properties";
+	private InputStream inputStream;
+	private File APPDATA_PATH;
 
 	// Special character dialog
 	SpecialCharacterDialog characterDialog;
@@ -169,7 +175,7 @@ public class VTP5 extends JFrame {
 	private Color buttonColour = Color.BLACK;
 	private Color buttonTextColor = Color.WHITE;
 	private Color textColour = Color.BLACK;
-	private Color panelColour = Color.WHITE;
+	private Color panelColour = null;
 
 	public Font font;
 
@@ -422,6 +428,7 @@ public class VTP5 extends JFrame {
 		statsList.setVisibleRowCount(6);
 		statsList.setForeground(textColour);// changes text colour
 		statsList.setSelectionModel(selectionModel);
+		statsList.setFocusable(false);
 		statsScrollPane = new JScrollPane(statsList);
 
 		guessedAnswersListModel = new DefaultListModel<>();
@@ -431,6 +438,7 @@ public class VTP5 extends JFrame {
 		guessedAnswersList.setVisibleRowCount(6);
 		guessedAnswersList.setForeground(textColour);// changes text colour
 		guessedAnswersList.setSelectionModel(selectionModel);
+		guessedAnswersList.setFocusable(false);
 		guessedAnswersScrollPane = new JScrollPane(guessedAnswersList);
 
 		componentList.add(new ComponentWithFontData(statsList, 32));
@@ -449,6 +457,10 @@ public class VTP5 extends JFrame {
 		}
 
 		switchLanguageCheck.setOpaque(true);
+
+		// Get user's preferences for settings from the config.properties file
+		createHiddenDirectory();
+		loadSettingsFile();
 
 		// Add components to main panel
 		mainPanel.add(promptLabel, "span 4, push, wrap, height 30%!");
@@ -481,9 +493,9 @@ public class VTP5 extends JFrame {
 		setVisible(true);
 		setIconImage(logo.getImage());
 
-		// Add FrameListener to JFrame so we can detect when the frame is
-		// resized
-		addComponentListener(new FrameListener(this));
+		// Add listeners to JFrame=
+		addComponentListener(new FrameResizeListener(this));
+		addWindowListener(new FrameClosingListener());
 
 		finishPanel = new FinishPanel(this);
 	}
@@ -944,11 +956,12 @@ public class VTP5 extends JFrame {
 
 		try {
 
-			output = new FileOutputStream("U:/config.properties");
+			output = new FileOutputStream(APPDATA_PATH
+					+ System.getProperty("file.separator") + CONFIG_FILE);
 
 			// set the properties value
 			properties.setProperty("experimental",
-					String.valueOf(experimentalCheck.isEnabled()));
+					String.valueOf(experimentalCheck.isSelected()));
 
 			// save properties to project root folder
 			properties.store(output, null);
@@ -967,7 +980,46 @@ public class VTP5 extends JFrame {
 		}
 	}
 
+	private void loadSettingsFile() {
+		properties = new Properties();
+		try {
+			inputStream = new FileInputStream(APPDATA_PATH
+					+ System.getProperty("file.separator") + CONFIG_FILE);
+			properties.load(inputStream);
+			updateSettings(properties.getProperty("experimental"));
+		} catch (Exception gg) {
+			createSettingsFile();
+			gg.printStackTrace();
+		}
+
+	}
+
+	private void updateSettings(String experimental) {
+		if (experimental.equals("true")) {
+			experimentalCheck.setSelected(true);
+		} else {
+			experimentalCheck.setSelected(false);
+		}
+
+	}
+
+	private void createHiddenDirectory() {
+		try {
+			APPDATA_PATH = new File(getClass().getProtectionDomain()
+					.getCodeSource().getLocation().toURI().getPath()
+					+ ".vtp5");
+			if (!APPDATA_PATH.exists()) {
+				APPDATA_PATH.mkdir();
+				System.out.println("Appdata created");
+			}
+		} catch (Exception e) {
+
+		}
+
+	}
+
 	void setUpTest(int option) {
+
 		if (option == 0 && questionNumberCheck.isSelected()) {
 			questionsDialog = new QuestionsDialog(this);
 			JOptionPane.showMessageDialog(this, questionsDialog, "VTP5",
@@ -1013,7 +1065,7 @@ public class VTP5 extends JFrame {
 		buttonColour = Color.BLACK;
 		buttonTextColor = Color.WHITE;
 		textColour = Color.BLACK;
-		panelColour = Color.WHITE;
+		panelColour = null;
 		questionNumberCheck.setSelected(true);
 		experimentalCheck.setSelected(true);
 		setColour(buttonColour, buttonTextColor, textColour);
@@ -1100,7 +1152,7 @@ public class VTP5 extends JFrame {
 
 	// "TIMER IDEA" COURTESY OF
 	// http://stackoverflow.com/questions/10229292/get-notified-when-the-user-finishes-resizing-a-jframe
-	private class FrameListener extends ComponentAdapter {
+	private class FrameResizeListener extends ComponentAdapter {
 		private JFrame frame;
 		private Dimension originalSize;
 
@@ -1108,7 +1160,7 @@ public class VTP5 extends JFrame {
 
 		private Timer recalculateTimer;
 
-		private FrameListener(JFrame frame) {
+		private FrameResizeListener(JFrame frame) {
 			this.frame = frame;
 			// The screen res of Ming's laptop, on which the GUI looks pretty
 			// good
@@ -1144,6 +1196,16 @@ public class VTP5 extends JFrame {
 				frame.revalidate();
 				frame.repaint();
 			}
+		}
+	}
+
+	// Listener for detecting when the main VTP5 frame is being closed
+	private class FrameClosingListener extends WindowAdapter {
+
+		@Override
+		public void windowClosing(WindowEvent e) {
+			System.out.println("Window is being closed");
+			createSettingsFile();
 		}
 	}
 
