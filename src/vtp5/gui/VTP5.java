@@ -458,7 +458,6 @@ public class VTP5 extends JFrame {
 
 		switchLanguageCheck.setOpaque(true);
 
-		
 		// Add components to main panel
 		mainPanel.add(promptLabel, "span 4, push, wrap, height 30%!");
 		mainPanel.add(switchLanguageCheck, "wrap");
@@ -496,8 +495,8 @@ public class VTP5 extends JFrame {
 
 		finishPanel = new FinishPanel(this);
 		// Get user's preferences for settings from the config.properties file
-				createHiddenDirectory();
-				loadSettingsFile();
+		createHiddenDirectory();
+		loadSettingsFile();
 
 	}
 
@@ -965,12 +964,20 @@ public class VTP5 extends JFrame {
 			// sets the user preferences
 			properties.setProperty("experimental",
 					String.valueOf(experimentalCheck.isSelected()));
-			properties.setProperty("button colour",
-					"#"+Integer.toHexString(buttonColour.getRGB()).substring(2));
+			properties.setProperty(
+					"button colour",
+					"#"
+							+ Integer.toHexString(buttonColour.getRGB())
+									.substring(2));
 			properties.setProperty("button text colour",
-					"#"+Integer.toHexString(buttonTextColour.getRGB()).substring(2));
-			properties.setProperty("text colour", 
-					"#"+Integer.toHexString(textColour.getRGB()).substring(2));
+					"#"
+							+ Integer.toHexString(buttonTextColour.getRGB())
+									.substring(2));
+			properties
+					.setProperty("text colour",
+							"#"
+									+ Integer.toHexString(textColour.getRGB())
+											.substring(2));
 
 			// save properties to .vtp5 folder
 			properties.store(output, null);
@@ -992,12 +999,12 @@ public class VTP5 extends JFrame {
 	private void loadSettingsFile() {
 		properties = new Properties();
 		try {
-			
+
 			inputStream = new FileInputStream(APPDATA_PATH
 					+ System.getProperty("file.separator") + CONFIG_FILE);
-			
+
 			properties.load(inputStream);
-			
+
 			updateSettings(properties.getProperty("experimental"),
 					properties.getProperty("button colour"),
 					properties.getProperty("button text colour"),
@@ -1019,7 +1026,10 @@ public class VTP5 extends JFrame {
 			experimentalCheck.setSelected(false);
 		}
 		System.out.println(background);
-		setColour(Color.decode(background), Color.decode(foreground), Color.decode(text));
+		buttonColour = Color.decode(background);
+		buttonTextColour = Color.decode(foreground);
+		textColour = Color.decode(text);
+		setColour(buttonColour, buttonTextColour, textColour);
 
 	}
 
