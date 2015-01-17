@@ -752,6 +752,7 @@ public class VTP5 extends JFrame {
 			// "Enter"
 			switchLanguageCheck.setEnabled(true);
 			answerField.setEditable(true);
+			answerField.getCaret().setVisible(true);
 			answerField.setCaretPosition(0);
 			answerField.requestFocusInWindow();
 			passButton.setEnabled(true);
@@ -1076,7 +1077,12 @@ public class VTP5 extends JFrame {
 		buttonColour = Color.BLACK;
 		buttonTextColour = Color.WHITE;
 		textColour = Color.BLACK;
-		panelColour = null;
+		if ((test != null)) {
+			calculateFrameColour(test.getStats());
+		} else {
+			panelColour = null;
+		}
+		changeBackgroundColour.setEnabled(false);
 		questionNumberCheck.setSelected(true);
 		experimentalCheck.setSelected(true);
 		setColour(buttonColour, buttonTextColour, textColour);
