@@ -131,6 +131,7 @@ public class VTP5 extends JFrame {
 	private OutputStream output;
 	private String CONFIG_FILE = "config.properties";
 	private InputStream inputStream;
+	private File APPDATA_PATH;
 
 	// Special character dialog
 	SpecialCharacterDialog characterDialog;
@@ -947,15 +948,16 @@ public class VTP5 extends JFrame {
 		properties = new Properties();
 
 		try {
-
-			output = new FileOutputStream(CONFIG_FILE);
-
+			
+			output = new FileOutputStream(APPDATA_PATH + System.getProperty("file.separator")+CONFIG_FILE);
+			
 			// set the properties value
 			properties.setProperty("experimental",
 					String.valueOf(experimentalCheck.isEnabled()));
 
 			// save properties to project root folder
 			properties.store(output, null);
+			
 
 		} catch (IOException io) {
 			io.printStackTrace();
@@ -974,19 +976,11 @@ public class VTP5 extends JFrame {
 	private void loadSettingsFile(){
 		properties = new Properties();
 		try {
-			inputStream= new FileInputStream(CONFIG_FILE);
-		
-		if(inputStream==null){
-            createSettingsFile();
-	    return;
-		}
-		
+			inputStream= new FileInputStream(APPDATA_PATH + System.getProperty("file.separator")+CONFIG_FILE);
 			properties.load(inputStream);
-			if(properties.getProperty("experimental").equals("true")){
-				System.out.println("Cares");
-				
-			}
+			updateSettings(properties.getProperty("experimental"));
 		} catch (Exception gg) {
+			 createSettingsFile();
 			gg.printStackTrace();
 		}
 		
@@ -996,11 +990,25 @@ public class VTP5 extends JFrame {
 			experimentalCheck.setSelected(true);
 		}
 			
-		
+	}
+	private void createHiddenDirectory(){
+		try {
+			APPDATA_PATH = new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath() + ".appdata");
+			if(!APPDATA_PATH.exists()){
+				APPDATA_PATH.mkdir();
+				System.out.println("Appdata created");
+			}
+				}catch(Exception e){
+					
+				}
+			
 	}
 	
 	void setUpTest(int option) {
+		createHiddenDirectory();
+		createSettingsFile();
 		loadSettingsFile();
+		
 		if (option == 0 && questionNumberCheck.isSelected()) {
 			questionsDialog = new QuestionsDialog(this);
 			JOptionPane.showMessageDialog(this, questionsDialog, "VTP5",
