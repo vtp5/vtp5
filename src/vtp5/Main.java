@@ -27,7 +27,7 @@ public class Main {
 	public static final String build = "v0.2.0";
 	public static final String version = "Alpha";
 	public static final String appVersion = version + " " + build;
-	public static final boolean exportingToJar = false;
+	public static final boolean exportingToJar = true;
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {

@@ -16,6 +16,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -142,7 +143,7 @@ public class VTP5 extends JFrame {
 
 	// Components for Settings Dialog
 	private JDialog settingsDialog;
-	private JButton changeButtonColour, changePromptColour, changeTextColour,
+	private JButton changeButtonColour, changeTextColour, changeButtonTextColour,
 			checkForUpdateButton, changeBackgroundColour, resetToDefaults;
 	private JCheckBox experimentalCheck, changingFrameColourCheck,
 			questionNumberCheck;
@@ -185,6 +186,8 @@ public class VTP5 extends JFrame {
 	public VTP5() {
 		// Load spell-checker
 		SpellCheck.loadSpellChecker();
+
+		playSound("/sounds/qcorrect.wav");
 
 		// Sets up JFileChooser
 		txtChooser.setFileFilter(new FileNameExtensionFilter(
@@ -251,8 +254,8 @@ public class VTP5 extends JFrame {
 
 		resetToDefaults = new JButton("Reset to Defaults");
 		changeButtonColour = new JButton("Change Button Colour");
-		changePromptColour = new JButton("Change Prompt Colour");
-		changeTextColour = new JButton("Change Button Text Colour");
+		changeTextColour = new JButton("Change Text Colour");
+		changeButtonTextColour = new JButton("Change Button Text Colour");
 		changeBackgroundColour = new JButton("Change Background Colour");
 		changeBackgroundColour.setEnabled(false);
 		checkForUpdateButton = new JButton("Check For Updates");
@@ -271,8 +274,8 @@ public class VTP5 extends JFrame {
 		settingsDialog.add(new JSeparator(), "grow, wrap");
 		settingsDialog.add(changingFrameColourCheck, "alignx center, wrap");
 		settingsDialog.add(changeButtonColour, "alignx center, wrap");
-		settingsDialog.add(changePromptColour, "alignx center, wrap");
 		settingsDialog.add(changeTextColour, "alignx center, wrap");
+		settingsDialog.add(changeButtonTextColour, "alignx center, wrap");
 		settingsDialog.add(changeBackgroundColour, "alignx center, wrap");
 		settingsDialog.add(new JSeparator(), "grow, wrap");
 		settingsDialog.add(questionNumberCheck, "alignx center, wrap");
@@ -330,9 +333,9 @@ public class VTP5 extends JFrame {
 		settingsButton.addActionListener(eventListener);
 		helpButton.addActionListener(eventListener);
 		startAgainButton.addActionListener(eventListener);
-		changePromptColour.addActionListener(eventListener);
-		changeButtonColour.addActionListener(eventListener);
 		changeTextColour.addActionListener(eventListener);
+		changeButtonColour.addActionListener(eventListener);
+		changeButtonTextColour.addActionListener(eventListener);
 		changeBackgroundColour.addActionListener(eventListener);
 		checkForUpdateButton.addActionListener(eventListener);
 		changingFrameColourCheck.addActionListener(eventListener);
@@ -517,11 +520,12 @@ public class VTP5 extends JFrame {
 
 	}
 
-	public static void playSound(String path) {
+	public void playSound(String path) {
 		try {
-			Clip clip = AudioSystem.getClip();
-			AudioInputStream aIS = AudioSystem.getAudioInputStream(Main.class
+			BufferedInputStream bIS = new BufferedInputStream(getClass()
 					.getResourceAsStream(path));
+			AudioInputStream aIS = AudioSystem.getAudioInputStream(bIS);
+			Clip clip = AudioSystem.getClip();
 			clip.open(aIS);
 			clip.start();
 		} catch (Exception e) {
@@ -535,6 +539,28 @@ public class VTP5 extends JFrame {
 							"VTP5", JOptionPane.ERROR_MESSAGE);
 		}
 	}
+
+	// public Clip loadClip(String filepath) {
+	// Clip clip = null;
+	//
+	// try {
+	// AudioInputStream audioIn = AudioSystem
+	// .getAudioInputStream(getClass().getResource(filepath));
+	// clip = AudioSystem.getClip();
+	// clip.open(audioIn);
+	// } catch (Exception e) {
+	// JOptionPane
+	// .showMessageDialog(
+	// null,
+	// "The following error occurred:\n\n"
+	// + e.toString()
+	// +
+	// "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
+	// "VTP5", JOptionPane.ERROR_MESSAGE);
+	// }
+	//
+	// return clip;
+	// }
 
 	private void updatePrompt(int index) {
 		promptLabel.setText("<html>" + test.getPrompt(index) + "</html>");
@@ -1035,9 +1061,9 @@ public class VTP5 extends JFrame {
 
 	private void createHiddenDirectory() {
 		try {
-			APPDATA_PATH = new File(getClass().getProtectionDomain()
+			APPDATA_PATH = new File(/*getClass().getProtectionDomain()
 					.getCodeSource().getLocation().toURI().getPath()
-					+ ".vtp5");
+					+ */".vtp5");
 			if (!APPDATA_PATH.exists()) {
 				APPDATA_PATH.mkdir();
 				System.out.println("Appdata created");
@@ -1284,9 +1310,9 @@ public class VTP5 extends JFrame {
 				}
 			} else if (e.getSource() == changeButtonColour) {
 				displayColorChooser(1);
-			} else if (e.getSource() == changePromptColour) {
-				displayColorChooser(2);
 			} else if (e.getSource() == changeTextColour) {
+				displayColorChooser(2);
+			} else if (e.getSource() == changeButtonTextColour) {
 				displayColorChooser(3);
 			} else if (e.getSource() == changeBackgroundColour) {
 				displayColorChooser(4);
