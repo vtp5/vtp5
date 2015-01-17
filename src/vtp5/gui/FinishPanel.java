@@ -77,14 +77,19 @@ public class FinishPanel extends JPanel {
 
 		setLayout(new MigLayout("fillx"));
 
-		saveTest.setBackground(parent.getButtonColour());// changes background colour
-		saveTest.setForeground(parent.getButtonTextColour());// changes foreground colour
+		saveTest.setBackground(parent.getButtonColour());// changes background
+															// colour
+		saveTest.setForeground(parent.getButtonTextColour());// changes
+																// foreground
+																// colour
 		parent.getButtonList().add(saveTest);
 
-		restartTest.setBackground(parent.getButtonColour());// changes background
-														// colour
-		restartTest.setForeground(parent.getButtonTextColour());// changes foreground
-														// colour
+		restartTest.setBackground(parent.getButtonColour());// changes
+															// background
+		// colour
+		restartTest.setForeground(parent.getButtonTextColour());// changes
+																// foreground
+		// colour
 		parent.getButtonList().add(restartTest);
 
 		// Aesthetics!
@@ -151,7 +156,7 @@ public class FinishPanel extends JPanel {
 						PrintWriter writer = null;
 
 						try {
-							writer = new PrintWriter(filePath, "UTF-8");
+							writer = new PrintWriter(filePath, "ISO8859_1");
 
 							for (int i = 0; i < parent.getTest()
 									.getIncorrectCards().size(); i++) {
