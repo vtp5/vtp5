@@ -1065,7 +1065,7 @@ public class VTP5 extends JFrame {
 		buttonColour = Color.BLACK;
 		buttonTextColor = Color.WHITE;
 		textColour = Color.BLACK;
-		panelColour = null;
+		calculateFrameColour(test.getStats());
 		questionNumberCheck.setSelected(true);
 		experimentalCheck.setSelected(true);
 		setColour(buttonColour, buttonTextColor, textColour);
