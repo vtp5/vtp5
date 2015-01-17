@@ -428,6 +428,7 @@ public class VTP5 extends JFrame {
 		statsList.setVisibleRowCount(6);
 		statsList.setForeground(textColour);// changes text colour
 		statsList.setSelectionModel(selectionModel);
+		statsList.setFocusable(false);
 		statsScrollPane = new JScrollPane(statsList);
 
 		guessedAnswersListModel = new DefaultListModel<>();
@@ -437,6 +438,7 @@ public class VTP5 extends JFrame {
 		guessedAnswersList.setVisibleRowCount(6);
 		guessedAnswersList.setForeground(textColour);// changes text colour
 		guessedAnswersList.setSelectionModel(selectionModel);
+		guessedAnswersList.setFocusable(false);
 		guessedAnswersScrollPane = new JScrollPane(guessedAnswersList);
 
 		componentList.add(new ComponentWithFontData(statsList, 32));
@@ -1049,7 +1051,7 @@ public class VTP5 extends JFrame {
 		saveButton.setEnabled(true);
 		// leaderboardButton.setEnabled(true);
 		answerField.setEditable(true);
-		answerField.requestFocus();
+		answerField.requestFocusInWindow();
 		characterButton.setEnabled(true);
 		enterButton.setEnabled(true);
 		enterButton.setText("Enter");
