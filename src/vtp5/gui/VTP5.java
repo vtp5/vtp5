@@ -458,10 +458,7 @@ public class VTP5 extends JFrame {
 
 		switchLanguageCheck.setOpaque(true);
 
-		// Get user's preferences for settings from the config.properties file
-		createHiddenDirectory();
-		loadSettingsFile();
-
+		
 		// Add components to main panel
 		mainPanel.add(promptLabel, "span 4, push, wrap, height 30%!");
 		mainPanel.add(switchLanguageCheck, "wrap");
@@ -498,6 +495,10 @@ public class VTP5 extends JFrame {
 		addWindowListener(new FrameClosingListener());
 
 		finishPanel = new FinishPanel(this);
+		// Get user's preferences for settings from the config.properties file
+				createHiddenDirectory();
+				loadSettingsFile();
+
 	}
 
 	public void setTest(TestFile test) {
@@ -617,6 +618,7 @@ public class VTP5 extends JFrame {
 			if (c != null) {
 				setColour(c, buttonTextColour, textColour);
 				buttonColour = c;
+				System.out.println(String.valueOf(buttonColour));
 				c = null;
 			}
 			break;
@@ -964,11 +966,11 @@ public class VTP5 extends JFrame {
 			properties.setProperty("experimental",
 					String.valueOf(experimentalCheck.isSelected()));
 			properties.setProperty("button colour",
-					String.valueOf(buttonColour));
+					"#"+Integer.toHexString(buttonColour.getRGB()).substring(2));
 			properties.setProperty("button text colour",
-					String.valueOf(textColour));
+					"#"+Integer.toHexString(buttonTextColour.getRGB()).substring(2));
 			properties.setProperty("text colour", 
-					String.valueOf(textColour));
+					"#"+Integer.toHexString(textColour.getRGB()).substring(2));
 
 			// save properties to .vtp5 folder
 			properties.store(output, null);
@@ -990,15 +992,21 @@ public class VTP5 extends JFrame {
 	private void loadSettingsFile() {
 		properties = new Properties();
 		try {
+			
 			inputStream = new FileInputStream(APPDATA_PATH
 					+ System.getProperty("file.separator") + CONFIG_FILE);
+			
 			properties.load(inputStream);
+			
 			updateSettings(properties.getProperty("experimental"),
-					properties.getProperty("background colour"),
-					properties.getProperty("foreground"),
+					properties.getProperty("button colour"),
+					properties.getProperty("button text colour"),
 					properties.getProperty("text colour"));
+			System.out.println("FF");
+			System.out.println(properties.getProperty("background colour"));
 		} catch (Exception gg) {
 			createSettingsFile();
+			System.out.println("cc");
 			gg.printStackTrace();
 		}
 
@@ -1011,6 +1019,7 @@ public class VTP5 extends JFrame {
 		} else {
 			experimentalCheck.setSelected(false);
 		}
+		System.out.println(background);
 		setColour(Color.decode(background), Color.decode(foreground), Color.decode(text));
 
 	}
