@@ -16,8 +16,10 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
@@ -125,8 +127,10 @@ public class VTP5 extends JFrame {
 	private JFileChooser progressSaveChooser = new JFileChooser();
 
 	// Settings file
-	Properties properties;
-	OutputStream output;
+	private Properties properties;
+	private OutputStream output;
+	private String CONFIG_FILE = "config.properties";
+	private InputStream inputStream;
 
 	// Special character dialog
 	SpecialCharacterDialog characterDialog;
@@ -944,7 +948,7 @@ public class VTP5 extends JFrame {
 
 		try {
 
-			output = new FileOutputStream("U:/config.properties");
+			output = new FileOutputStream(CONFIG_FILE);
 
 			// set the properties value
 			properties.setProperty("experimental",
@@ -967,7 +971,36 @@ public class VTP5 extends JFrame {
 		}
 	}
 
+	private void loadSettingsFile(){
+		properties = new Properties();
+		try {
+			inputStream= new FileInputStream(CONFIG_FILE);
+		
+		if(inputStream==null){
+            createSettingsFile();
+	    return;
+		}
+		
+			properties.load(inputStream);
+			if(properties.getProperty("experimental").equals("true")){
+				System.out.println("Cares");
+				
+			}
+		} catch (Exception gg) {
+			gg.printStackTrace();
+		}
+		
+	}
+	private void updateSettings(String experimental){
+		if(experimental.equals("true")){
+			experimentalCheck.setSelected(true);
+		}
+			
+		
+	}
+	
 	void setUpTest(int option) {
+		loadSettingsFile();
 		if (option == 0 && questionNumberCheck.isSelected()) {
 			questionsDialog = new QuestionsDialog(this);
 			JOptionPane.showMessageDialog(this, questionsDialog, "VTP5",
