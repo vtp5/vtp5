@@ -993,7 +993,7 @@ public class VTP5 extends JFrame {
 	}
 	private void createHiddenDirectory(){
 		try {
-			APPDATA_PATH = new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath() + ".appdata");
+			APPDATA_PATH = new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath() + ".vtp5");
 			if(!APPDATA_PATH.exists()){
 				APPDATA_PATH.mkdir();
 				System.out.println("Appdata created");
