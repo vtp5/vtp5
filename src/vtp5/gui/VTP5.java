@@ -1002,7 +1002,6 @@ public class VTP5 extends JFrame {
 					properties.getProperty("button colour"),
 					properties.getProperty("button text colour"),
 					properties.getProperty("text colour"));
-			System.out.println("FF");
 			System.out.println(properties.getProperty("background colour"));
 		} catch (Exception gg) {
 			createSettingsFile();
