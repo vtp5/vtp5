@@ -1117,24 +1117,24 @@ public class VTP5 extends JFrame {
 		}
 	}
 
+	public Color getButtonColour() {
+		return this.buttonColour;
+	}
+
+	public Color getButtonTextColour() {
+		return this.buttonTextColour;
+	}
+
+	public Color getTextColour() {
+		return this.textColour;
+	}
+
 	TestFile getTest() {
 		return this.test;
 	}
 
 	ArrayList<JButton> getButtonList() {
 		return buttonList;
-	}
-
-	Color getBcolour() {
-		return buttonColour;
-	}
-
-	Color getFcolour() {
-		return buttonTextColour;
-	}
-
-	Color getTcolour() {
-		return textColour;
 	}
 
 	ArrayList<ComponentWithFontData> getComponentList() {

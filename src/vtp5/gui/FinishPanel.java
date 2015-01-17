@@ -77,13 +77,13 @@ public class FinishPanel extends JPanel {
 
 		setLayout(new MigLayout("fillx"));
 
-		saveTest.setBackground(parent.getBcolour());// changes background colour
-		saveTest.setForeground(parent.getFcolour());// changes foreground colour
+		saveTest.setBackground(parent.getButtonColour());// changes background colour
+		saveTest.setForeground(parent.getButtonTextColour());// changes foreground colour
 		parent.getButtonList().add(saveTest);
 
-		restartTest.setBackground(parent.getBcolour());// changes background
+		restartTest.setBackground(parent.getButtonColour());// changes background
 														// colour
-		restartTest.setForeground(parent.getFcolour());// changes foreground
+		restartTest.setForeground(parent.getButtonTextColour());// changes foreground
 														// colour
 		parent.getButtonList().add(restartTest);
 
@@ -91,7 +91,7 @@ public class FinishPanel extends JPanel {
 		saveTest.setFocusable(false);
 		restartTest.setFocusable(false);
 
-		setTextColour(parent.getTcolour());
+		setTextColour(parent.getTextColour());
 
 		statsList.setSelectionModel(new DisabledItemSelectionModel());
 
@@ -239,7 +239,7 @@ public class FinishPanel extends JPanel {
 		completedMessage += "</html>";
 
 		statsList.setVisibleRowCount(4);
-		statsList.setForeground(parent.getTcolour());// changes text colour
+		statsList.setForeground(parent.getTextColour());// changes text colour
 		Object[] stats = test.getStats();
 		statsListModel.removeAllElements();
 		statsListModel.addElement("<html><u>Statistics:</u></html>");
