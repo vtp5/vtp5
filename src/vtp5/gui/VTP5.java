@@ -728,6 +728,9 @@ public class VTP5 extends JFrame {
 				}
 				answerField.setText(""); // field is cleared
 			} else if (result == TestFile.INCORRECT) {
+				
+				playSound("/sounds/qincorrect.wav");
+				
 				progressBar.setForeground(Color.RED);
 
 				test.getCards()
