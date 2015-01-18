@@ -143,8 +143,9 @@ public class VTP5 extends JFrame {
 
 	// Components for Settings Dialog
 	private JDialog settingsDialog;
-	private JButton changeButtonColour, changeTextColour, changeButtonTextColour,
-			checkForUpdateButton, changeBackgroundColour, resetToDefaults;
+	private JButton changeButtonColour, changeTextColour,
+			changeButtonTextColour, checkForUpdateButton,
+			changeBackgroundColour, resetToDefaults;
 	private JCheckBox experimentalCheck, changingFrameColourCheck,
 			questionNumberCheck;
 	private HyperlinkLabel exInfoLabel;
@@ -186,8 +187,6 @@ public class VTP5 extends JFrame {
 	public VTP5() {
 		// Load spell-checker
 		SpellCheck.loadSpellChecker();
-
-		playSound("/sounds/qcorrect.wav");
 
 		// Sets up JFileChooser
 		txtChooser.setFileFilter(new FileNameExtensionFilter(
@@ -670,7 +669,7 @@ public class VTP5 extends JFrame {
 			d.setVisible(true);
 			c = colourChooser.getColor();
 			if (c != null) {
-				updateFrameColour(c);
+				updatePanelColour(c);
 				c = null;
 			}
 			break;
@@ -693,13 +692,9 @@ public class VTP5 extends JFrame {
 			if (result == TestFile.PARTIALLY_CORRECT
 					|| result == TestFile.COMPLETELY_CORRECT) {
 				try {
-					// Clip clip = AudioSystem.getClip();
-					// clip.open(AudioSystem.getAudioInputStream(new File(
-					// "qcorrect.wav")));
-					// clip.start();
+					playSound("/sounds/qcorrect.wav");
 				} catch (Exception exc) {
 					exc.printStackTrace(System.out);
-
 				}
 				// Set progress bar colour
 				progressBar.setForeground(Color.GREEN);
@@ -859,7 +854,7 @@ public class VTP5 extends JFrame {
 		}
 	}
 
-	private void calculateFrameColour(Object[] stats) {
+	private void calculatePanelColour(Object[] stats) {
 		if ((double) stats[3] >= 95) {
 			panelColour = new Color(5, 255, 0);
 		} else if ((double) stats[3] >= 90) {
@@ -891,12 +886,13 @@ public class VTP5 extends JFrame {
 			// updateFrameColour(new Color(255 - (rate / 100 * 255), rate / 100
 			// * 255, 0, alpha));
 			// }
-			updateFrameColour(panelColour);
+			updatePanelColour(panelColour);
+		} else {
+			progressBar.setForeground(panelColour);
 		}
-		progressBar.setForeground(panelColour);
 	}
 
-	private void updateFrameColour(Color col) {
+	private void updatePanelColour(Color col) {
 		buttonPanel.setBackground(col);
 		mainPanel.setBackground(col);
 		finishPanel.setBackground(col);
@@ -919,7 +915,7 @@ public class VTP5 extends JFrame {
 		statsListModel.addElement("Success rate: "
 				+ String.format("%.2f", (double) stats[3]) + "%");
 
-		calculateFrameColour(stats);
+		calculatePanelColour(stats);
 	}
 
 	private void checkForUpdate() {
@@ -1061,9 +1057,11 @@ public class VTP5 extends JFrame {
 
 	private void createHiddenDirectory() {
 		try {
-			APPDATA_PATH = new File(/*getClass().getProtectionDomain()
-					.getCodeSource().getLocation().toURI().getPath()
-					+ */".vtp5");
+			APPDATA_PATH = new File(/*
+									 * getClass().getProtectionDomain()
+									 * .getCodeSource
+									 * ().getLocation().toURI().getPath() +
+									 */".vtp5");
 			if (!APPDATA_PATH.exists()) {
 				APPDATA_PATH.mkdir();
 				System.out.println("Appdata created");
@@ -1122,7 +1120,7 @@ public class VTP5 extends JFrame {
 		buttonTextColour = Color.WHITE;
 		textColour = Color.BLACK;
 		if ((test != null)) {
-			calculateFrameColour(test.getStats());
+			calculatePanelColour(test.getStats());
 		} else {
 			panelColour = null;
 		}
@@ -1130,7 +1128,7 @@ public class VTP5 extends JFrame {
 		questionNumberCheck.setSelected(true);
 		experimentalCheck.setSelected(true);
 		setColour(buttonColour, buttonTextColour, textColour);
-		updateFrameColour(panelColour);
+		updatePanelColour(panelColour);
 	}
 
 	void restartTest() {
@@ -1306,7 +1304,7 @@ public class VTP5 extends JFrame {
 					}
 				} else {
 					changeBackgroundColour.setEnabled(true);
-					updateFrameColour(null);
+					updatePanelColour(null);
 				}
 			} else if (e.getSource() == changeButtonColour) {
 				displayColorChooser(1);
