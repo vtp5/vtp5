@@ -1072,9 +1072,14 @@ public class VTP5 extends JFrame {
 				System.out.println("Appdata created");
 			}
 		} catch (Exception e) {
-
+			JOptionPane
+			.showMessageDialog(
+					null,
+					"The following error occurred:\n\n"
+							+ e.toString()
+							+ "\n\nThis means that VTP5 cannot create a folder to store its settings. Please report the problem if it keeps happening.",
+					"VTP5", JOptionPane.ERROR_MESSAGE);
 		}
-
 	}
 
 	void setUpTest(int option) {
