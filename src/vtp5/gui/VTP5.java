@@ -1010,6 +1010,16 @@ public class VTP5 extends JFrame {
 							"#"
 									+ Integer.toHexString(textColour.getRGB())
 											.substring(2));
+			properties.setProperty("dynamic-background",
+					String.valueOf(changingFrameColourCheck.isSelected()));
+			
+				properties.setProperty(
+						"background-colour",
+						"#"
+								+ Integer.toHexString(
+										mainPanel.getBackground().getRGB())
+										.substring(2));
+			
 
 			// save properties to .vtp5 folder
 			properties.store(output, null);
@@ -1045,24 +1055,27 @@ public class VTP5 extends JFrame {
 					properties.getProperty("question-number-prompt"),
 					properties.getProperty("button-colour"),
 					properties.getProperty("button-text-colour"),
-					properties.getProperty("text-colour"));
-			System.out.println(properties.getProperty("background colour"));
+					properties.getProperty("text-colour"),
+					properties.getProperty("dynamic-background"),
+					properties.getProperty("background-colour"));
+			System.out.println(properties.getProperty("background-colour"));
 		} catch (FileNotFoundException gg) {
 			createSettingsFile();
 		} catch (IOException e) {
 			e.printStackTrace();
 			JOptionPane
-			.showMessageDialog(
-					null,
-					"The following error occurred:\n\n"
-							+ e.toString()
-							+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
-					"VTP5", JOptionPane.ERROR_MESSAGE);
+					.showMessageDialog(
+							null,
+							"The following error occurred:\n\n"
+									+ e.toString()
+									+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
+							"VTP5", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
 	private void updateSettings(String experimental, String sound,
-			String qnumber, String background, String foreground, String text) {
+			String qnumber, String background, String foreground, String text,
+			String dynamic,String panel) {
 
 		if (experimental.equals("true")) {
 			experimentalCheck.setSelected(true);
@@ -1081,11 +1094,19 @@ public class VTP5 extends JFrame {
 		} else {
 			questionNumberCheck.setSelected(false);
 		}
+		if (dynamic.equals("true")) {
+			changingFrameColourCheck.setSelected(true);
+		} else {
+			changingFrameColourCheck.setSelected(false);
+		}
 
 		buttonColour = Color.decode(background);
 		buttonTextColour = Color.decode(foreground);
 		textColour = Color.decode(text);
 		setColour(buttonColour, buttonTextColour, textColour);
+		if(!changingFrameColourCheck.isSelected()){
+		updatePanelColour(Color.decode(panel));
+		}
 	}
 
 	private void createHiddenDirectory() {
