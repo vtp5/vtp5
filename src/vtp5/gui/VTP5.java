@@ -147,7 +147,7 @@ public class VTP5 extends JFrame {
 			changeButtonTextColour, checkForUpdateButton,
 			changeBackgroundColour, resetToDefaults;
 	private JCheckBox experimentalCheck, changingFrameColourCheck,
-			questionNumberCheck;
+			questionNumberCheck, soundCheck;
 	private HyperlinkLabel exInfoLabel;
 
 	// Components for About Dialog
@@ -180,7 +180,7 @@ public class VTP5 extends JFrame {
 	private Color panelColour = null;
 
 	public Font font;
-
+	
 	private int alpha = 191;
 	private int minColour = 70;
 
@@ -266,6 +266,7 @@ public class VTP5 extends JFrame {
 				"https://github.com/duckifyz/VTP5/wiki/Help#experimental-features");
 		questionNumberCheck = new JCheckBox("Enable Question Number Selection",
 				true);
+		soundCheck = new JCheckBox("Enable Sound");
 
 		settingsDialog = new JDialog(this, "Settings");
 		settingsDialog.setLayout(new MigLayout("fillx", "", "[][][]10[]10[]"));
@@ -278,6 +279,7 @@ public class VTP5 extends JFrame {
 		settingsDialog.add(changeBackgroundColour, "alignx center, wrap");
 		settingsDialog.add(new JSeparator(), "grow, wrap");
 		settingsDialog.add(questionNumberCheck, "alignx center, wrap");
+		settingsDialog.add(soundCheck, "alignx center, wrap");
 		settingsDialog.add(new JSeparator(), "grow, wrap");
 		settingsDialog.add(experimentalCheck, "alignx center, wrap");
 		settingsDialog.add(exInfoLabel, "alignx center, wrap");
@@ -496,6 +498,7 @@ public class VTP5 extends JFrame {
 		addWindowListener(new FrameClosingListener());
 
 		finishPanel = new FinishPanel(this);
+		resetToDefaults();
 		// Get user's preferences for settings from the config.properties file
 		createHiddenDirectory();
 		loadSettingsFile();
@@ -520,22 +523,24 @@ public class VTP5 extends JFrame {
 	}
 
 	public void playSound(String path) {
-		try {
-			BufferedInputStream bIS = new BufferedInputStream(getClass()
-					.getResourceAsStream(path));
-			AudioInputStream aIS = AudioSystem.getAudioInputStream(bIS);
-			Clip clip = AudioSystem.getClip();
-			clip.open(aIS);
-			clip.start();
-		} catch (Exception e) {
-			e.printStackTrace();
-			JOptionPane
-					.showMessageDialog(
-							null,
-							"The following error occurred:\n\n"
-									+ e.toString()
-									+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
-							"VTP5", JOptionPane.ERROR_MESSAGE);
+		if (soundCheck.isSelected()) {
+			try {
+				BufferedInputStream bIS = new BufferedInputStream(getClass()
+						.getResourceAsStream(path));
+				AudioInputStream aIS = AudioSystem.getAudioInputStream(bIS);
+				Clip clip = AudioSystem.getClip();
+				clip.open(aIS);
+				clip.start();
+			} catch (Exception e) {
+				e.printStackTrace();
+				JOptionPane
+						.showMessageDialog(
+								null,
+								"The following error occurred:\n\n"
+										+ e.toString()
+										+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
+								"VTP5", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 
@@ -1126,6 +1131,7 @@ public class VTP5 extends JFrame {
 		}
 		changeBackgroundColour.setEnabled(false);
 		questionNumberCheck.setSelected(true);
+		soundCheck.setSelected(true);
 		experimentalCheck.setSelected(true);
 		setColour(buttonColour, buttonTextColour, textColour);
 		updatePanelColour(panelColour);
