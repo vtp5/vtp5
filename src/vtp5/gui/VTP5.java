@@ -19,6 +19,7 @@ import java.awt.event.WindowEvent;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -180,7 +181,7 @@ public class VTP5 extends JFrame {
 	private Color panelColour = null;
 
 	public Font font;
-	
+
 	private int alpha = 191;
 	private int minColour = 70;
 
@@ -989,19 +990,23 @@ public class VTP5 extends JFrame {
 					+ System.getProperty("file.separator") + CONFIG_FILE);
 
 			// sets the user preferences
-			properties.setProperty("experimental",
+			properties.setProperty("experimental-features",
 					String.valueOf(experimentalCheck.isSelected()));
+			properties.setProperty("sound",
+					String.valueOf(soundCheck.isSelected()));
+			properties.setProperty("question-number-prompt",
+					String.valueOf(questionNumberCheck.isSelected()));
 			properties.setProperty(
-					"button colour",
+					"button-colour",
 					"#"
 							+ Integer.toHexString(buttonColour.getRGB())
 									.substring(2));
-			properties.setProperty("button text colour",
+			properties.setProperty("button-text-colour",
 					"#"
 							+ Integer.toHexString(buttonTextColour.getRGB())
 									.substring(2));
 			properties
-					.setProperty("text colour",
+					.setProperty("text-colour",
 							"#"
 									+ Integer.toHexString(textColour.getRGB())
 											.substring(2));
@@ -1010,7 +1015,13 @@ public class VTP5 extends JFrame {
 			properties.store(output, null);
 
 		} catch (IOException io) {
-			io.printStackTrace();
+			JOptionPane
+					.showMessageDialog(
+							null,
+							"The following error occurred:\n\n"
+									+ io.toString()
+									+ "\n\nThis means that VTP5 cannot create a file to store its settings. Please report the problem if it keeps happening.",
+							"VTP5", JOptionPane.ERROR_MESSAGE);
 		} finally {
 			if (output != null) {
 				try {
@@ -1026,38 +1037,55 @@ public class VTP5 extends JFrame {
 	private void loadSettingsFile() {
 		properties = new Properties();
 		try {
-
 			inputStream = new FileInputStream(APPDATA_PATH
 					+ System.getProperty("file.separator") + CONFIG_FILE);
-
 			properties.load(inputStream);
-
-			updateSettings(properties.getProperty("experimental"),
-					properties.getProperty("button colour"),
-					properties.getProperty("button text colour"),
-					properties.getProperty("text colour"));
+			updateSettings(properties.getProperty("experimental-features"),
+					properties.getProperty("sound"),
+					properties.getProperty("question-number-prompt"),
+					properties.getProperty("button-colour"),
+					properties.getProperty("button-text-colour"),
+					properties.getProperty("text-colour"));
 			System.out.println(properties.getProperty("background colour"));
-		} catch (Exception gg) {
+		} catch (FileNotFoundException gg) {
 			createSettingsFile();
-			System.out.println("cc");
-			gg.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+			JOptionPane
+			.showMessageDialog(
+					null,
+					"The following error occurred:\n\n"
+							+ e.toString()
+							+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
+					"VTP5", JOptionPane.ERROR_MESSAGE);
 		}
-
 	}
 
-	private void updateSettings(String experimental, String background,
-			String foreground, String text) {
+	private void updateSettings(String experimental, String sound,
+			String qnumber, String background, String foreground, String text) {
+
 		if (experimental.equals("true")) {
 			experimentalCheck.setSelected(true);
 		} else {
 			experimentalCheck.setSelected(false);
 		}
-		System.out.println(background);
+
+		if (sound.equals("true")) {
+			soundCheck.setSelected(true);
+		} else {
+			soundCheck.setSelected(false);
+		}
+
+		if (qnumber.equals("true")) {
+			questionNumberCheck.setSelected(true);
+		} else {
+			questionNumberCheck.setSelected(false);
+		}
+
 		buttonColour = Color.decode(background);
 		buttonTextColour = Color.decode(foreground);
 		textColour = Color.decode(text);
 		setColour(buttonColour, buttonTextColour, textColour);
-
 	}
 
 	private void createHiddenDirectory() {
@@ -1069,16 +1097,16 @@ public class VTP5 extends JFrame {
 									 */".vtp5");
 			if (!APPDATA_PATH.exists()) {
 				APPDATA_PATH.mkdir();
-				System.out.println("Appdata created");
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			JOptionPane
-			.showMessageDialog(
-					null,
-					"The following error occurred:\n\n"
-							+ e.toString()
-							+ "\n\nThis means that VTP5 cannot create a folder to store its settings. Please report the problem if it keeps happening.",
-					"VTP5", JOptionPane.ERROR_MESSAGE);
+					.showMessageDialog(
+							null,
+							"The following error occurred:\n\n"
+									+ e.toString()
+									+ "\n\nThis means that VTP5 cannot create a folder to store its settings. Please report the problem if it keeps happening.",
+							"VTP5", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -1271,10 +1299,8 @@ public class VTP5 extends JFrame {
 
 	// Listener for detecting when the main VTP5 frame is being closed
 	private class FrameClosingListener extends WindowAdapter {
-
 		@Override
 		public void windowClosing(WindowEvent e) {
-			System.out.println("Window is being closed");
 			createSettingsFile();
 		}
 	}
