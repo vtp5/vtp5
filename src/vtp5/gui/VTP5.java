@@ -188,7 +188,7 @@ public class VTP5 extends JFrame {
 	public VTP5() {
 		// Load spell-checker
 		SpellCheck.loadSpellChecker();
-
+		
 		// Sets up JFileChooser
 		txtChooser.setFileFilter(new FileNameExtensionFilter(
 				"Text Files (*.txt)", "txt"));
@@ -499,6 +499,7 @@ public class VTP5 extends JFrame {
 		addWindowListener(new FrameClosingListener());
 
 		finishPanel = new FinishPanel(this);
+		
 		resetToDefaults();
 		// Get user's preferences for settings from the config.properties file
 		createHiddenDirectory();
@@ -930,7 +931,7 @@ public class VTP5 extends JFrame {
 	private void checkForUpdate() {
 		try {
 			GHRepository repo = GitHub.connectAnonymously().getRepository(
-					"duckifyz/VTP5");
+					"vtp5/vtp5");
 			GHRelease release = repo.listReleases().asList().get(0);
 
 			if (release.getTagName().contains(Main.build)
@@ -1095,7 +1096,7 @@ public class VTP5 extends JFrame {
 		}
 		if (dynamic.equals("true")) {
 			changingFrameColourCheck.setSelected(true);
-			changeBackgroundColour.setEnabled(false);
+			changeBackgroundColour.setEnabled(false);	
 		} else {
 			changingFrameColourCheck.setSelected(false);
 			changeBackgroundColour.setEnabled(true);
@@ -1360,6 +1361,8 @@ public class VTP5 extends JFrame {
 					changeBackgroundColour.setEnabled(false);
 					if (test != null) {
 						updateStatsList();
+					} else {
+						updatePanelColour(new Color(238,238,238));
 					}
 				} else {
 					changeBackgroundColour.setEnabled(true);
