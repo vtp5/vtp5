@@ -728,9 +728,9 @@ public class VTP5 extends JFrame {
 				}
 				answerField.setText(""); // field is cleared
 			} else if (result == TestFile.INCORRECT) {
-				
+
 				playSound("/sounds/qincorrect.wav");
-				
+
 				progressBar.setForeground(Color.RED);
 
 				test.getCards()
@@ -1015,14 +1015,10 @@ public class VTP5 extends JFrame {
 											.substring(2));
 			properties.setProperty("dynamic-background",
 					String.valueOf(changingFrameColourCheck.isSelected()));
-			
-				properties.setProperty(
-						"background-colour",
-						"#"
-								+ Integer.toHexString(
-										mainPanel.getBackground().getRGB())
-										.substring(2));
-			
+
+			properties.setProperty("background-colour", "#"
+					+ Integer.toHexString(mainPanel.getBackground().getRGB())
+							.substring(2));
 
 			// save properties to .vtp5 folder
 			properties.store(output, null);
@@ -1078,7 +1074,7 @@ public class VTP5 extends JFrame {
 
 	private void updateSettings(String experimental, String sound,
 			String qnumber, String background, String foreground, String text,
-			String dynamic,String panel) {
+			String dynamic, String panel) {
 
 		if (experimental.equals("true")) {
 			experimentalCheck.setSelected(true);
@@ -1099,16 +1095,18 @@ public class VTP5 extends JFrame {
 		}
 		if (dynamic.equals("true")) {
 			changingFrameColourCheck.setSelected(true);
+			changeBackgroundColour.setEnabled(false);
 		} else {
 			changingFrameColourCheck.setSelected(false);
+			changeBackgroundColour.setEnabled(true);
 		}
 
 		buttonColour = Color.decode(background);
 		buttonTextColour = Color.decode(foreground);
 		textColour = Color.decode(text);
 		setColour(buttonColour, buttonTextColour, textColour);
-		if(!changingFrameColourCheck.isSelected()){
-		updatePanelColour(Color.decode(panel));
+		if (!changingFrameColourCheck.isSelected()) {
+			updatePanelColour(Color.decode(panel));
 		}
 	}
 
