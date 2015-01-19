@@ -949,7 +949,7 @@ public class VTP5 extends JFrame {
 						.setText("You are not running the latest release of VTP5. \n\nThe latest version, titled "
 								+ release.getName()
 								+ ", can be found "
-								+ "<a href='https://github.com/duckifyz/VTP5/releases'>here</a>.");
+								+ "<a href='https://github.com/vtp5/vtp5/releases'>here</a>.");
 
 				editorPane.setEditable(false);
 				editorPane.setOpaque(false);
@@ -1398,10 +1398,8 @@ public class VTP5 extends JFrame {
 				enterButton.setText("Enter");
 			} else if (e.getSource() == helpButton) {
 				try {
-					java.awt.Desktop
-							.getDesktop()
-							.browse(new URI(
-									"https://github.com/duckifyz/VTP5/wiki/Help"));
+					java.awt.Desktop.getDesktop().browse(
+							new URI("https://github.com/vtp5/vtp5/wiki/Help"));
 				} catch (URISyntaxException | IOException e1) {
 					e1.printStackTrace();
 					JOptionPane
