@@ -598,7 +598,7 @@ public class VTP5 extends JFrame {
 		cf.setFont(c, fontSize);
 	}
 
-	private void showChooserDialog(int fileType) {
+	private int showChooserDialog(int fileType) {
 		try {
 			if (fileType == 0) {
 				int selected = txtChooser.showOpenDialog(getParent());
@@ -606,6 +606,7 @@ public class VTP5 extends JFrame {
 					File[] files = txtChooser.getSelectedFiles();
 					test = new TestFile(files);
 				}
+				return selected;
 			} else if (fileType == 1) {
 				JOptionPane
 						.showMessageDialog(
@@ -616,6 +617,7 @@ public class VTP5 extends JFrame {
 				// if (selected == JFileChooser.APPROVE_OPTION) {
 				// test = new TestFile(csvChooser.getSelectedFile());
 				// }
+				return JFileChooser.CANCEL_OPTION;
 			} else if (fileType == 2) {
 				int selected = progressOpenChooser.showOpenDialog(getParent());
 				if (selected == JFileChooser.APPROVE_OPTION) {
@@ -634,6 +636,7 @@ public class VTP5 extends JFrame {
 										"VTP5", JOptionPane.ERROR_MESSAGE);
 					}
 				}
+				return selected;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -654,6 +657,7 @@ public class VTP5 extends JFrame {
 									+ "\n\nIt's likely that the file you're trying to import isn't formatted correctly.\nPlease check the file and try again.\nIf the problem persists, please report it.",
 							"VTP5", JOptionPane.ERROR_MESSAGE);
 		}
+		return JFileChooser.CANCEL_OPTION;
 	}
 
 	private void displayColorChooser(int index) {
@@ -1169,7 +1173,7 @@ public class VTP5 extends JFrame {
 			JOptionPane.showMessageDialog(this, questionsDialog, "VTP5",
 					JOptionPane.PLAIN_MESSAGE);
 			int limit = test.getCards().size();
-			for (int x = 0; x < limit - questionsDialog.slider.getValue(); x++) {
+			for (int x = 0; x < limit - questionsDialog.getSlider().getValue(); x++) {
 				Collections.shuffle(test.getCards());
 				test.getCards().remove(0);
 				// test.getOrigCards().remove(0);
@@ -1379,11 +1383,15 @@ public class VTP5 extends JFrame {
 
 				// Open JFileChooser and then creates test file
 				if (option == 0 || option == 1 || option == 2) {
-					showChooserDialog(option);
-					try {
-						setUpTest(option);
-					} catch (NullPointerException | IndexOutOfBoundsException npe) {
-						npe.printStackTrace();
+					int selected = showChooserDialog(option);
+					System.out.println(selected);
+					if (selected == JFileChooser.APPROVE_OPTION) {
+						try {
+							setUpTest(option);
+						} catch (NullPointerException
+								| IndexOutOfBoundsException npe) {
+							npe.printStackTrace();
+						}
 					}
 				}
 
