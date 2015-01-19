@@ -538,7 +538,8 @@ public class VTP5 extends JFrame {
 			Clip clip = (Clip) AudioSystem.getLine(info);
 			clip.open(inputStream);
 			clip.start();
-		} catch (Exception e) {}
+		} catch (Exception e) {
+		}
 	}
 
 	// public void playSound(String path) {
@@ -1223,8 +1224,13 @@ public class VTP5 extends JFrame {
 
 	void restartTest() {
 		try {
-			test = new TestFile(test.getImportedFiles());
-
+			if (test.getImportedFiles() != null) {
+				test = new TestFile(test.getImportedFiles());
+			} else if (test.getImportedFile() != null) {
+				test = new TestFile(new File[] { test.getImportedFile() });
+			} else if (test.getOrigCards() != null) {
+				test.resetTest();
+			}
 		} catch (IOException e1) {
 			e1.printStackTrace();
 			JOptionPane
