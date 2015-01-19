@@ -44,7 +44,7 @@ public class TestFile implements Serializable {
 	private boolean isLanguageSwitched = false;
 
 	// More logical instance variables
-	public int totalNumberOfCards;
+	private int totalNumberOfCards;
 	private int numberOfIncorrectCards;
 	private int totalTimesGuessed;
 	private double successRate;
@@ -57,13 +57,11 @@ public class TestFile implements Serializable {
 	public static final int COMPLETELY_CORRECT = 2;
 	public static final int PROMPT_USER = 3;
 
-	private File importedFile;
+	private File[] importedFiles;
 
 	@SuppressWarnings("unchecked")
 	public TestFile(File[] files) throws IOException {
-		if (files.length == 1) {
-			setImportedFile(files[0]);
-		}
+		setImportedFiles(files);
 
 		for (File f : files) {
 			getVocabFromFile(f);
@@ -324,6 +322,10 @@ public class TestFile implements Serializable {
 		return this.totalNumberOfCards;
 	}
 
+	public void setTotalNumberOfCards(int totalNumberOfCards) {
+		this.totalNumberOfCards = totalNumberOfCards;
+	}
+
 	public int getTotalTimesGuessed() {
 		return this.totalTimesGuessed;
 	}
@@ -332,11 +334,11 @@ public class TestFile implements Serializable {
 		return this.successRate;
 	}
 
-	public File getImportedFile() {
-		return importedFile;
+	public File[] getImportedFiles() {
+		return importedFiles;
 	}
 
-	public void setImportedFile(File importedFile) {
-		this.importedFile = importedFile;
+	public void setImportedFiles(File[] importedFile) {
+		this.importedFiles = importedFile;
 	}
 }

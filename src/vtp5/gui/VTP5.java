@@ -1146,7 +1146,7 @@ public class VTP5 extends JFrame {
 				// test.getOrigCards().remove(0);
 			}
 
-			test.totalNumberOfCards = test.getCards().size();
+			test.setTotalNumberOfCards(test.getCards().size());
 		}
 
 		test.setLanguageSwitched(false);
@@ -1195,11 +1195,8 @@ public class VTP5 extends JFrame {
 
 	void restartTest() {
 		try {
-			if (test.getImportedFile() != null) {
-				test = new TestFile(new File[] { test.getImportedFile() });
-			} else if (test.getOrigCards() != null) {
-				test.resetTest();
-			}
+			test = new TestFile(test.getImportedFiles());
+
 		} catch (IOException e1) {
 			e1.printStackTrace();
 			JOptionPane
