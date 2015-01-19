@@ -40,9 +40,9 @@ public class AboutDialog extends JDialog {
 			"Developed by Abdel Abdalla, Minghua Yin,");
 	private JLabel dev2Label = new JLabel("Yousuf Ahmed and Nikunj Paliwal.");
 	private JLabel wikiLabel = new HyperlinkLabel("Wiki",
-			"https://github.com/duckifyz/VTP5/wiki");
+			"https://github.com/vtp5/vtp5/wiki");
 	private JLabel srccodeLabel = new HyperlinkLabel("Source Code",
-			"https://github.com/duckifyz/VTP5");
+			"https://github.com/vtp5/vtp5");
 	private JLabel separatorLabel = new JLabel(
 			"------------------------------------------------------------------");
 	private JLabel license1aLabel = new JLabel(
@@ -53,7 +53,7 @@ public class AboutDialog extends JDialog {
 			"VTP5 is licensed under the GNU General Public License (Version 3).");
 	private JLabel license3Label = new HyperlinkLabel(
 			"Click here for more information",
-			"https://github.com/duckifyz/VTP5/wiki/Licensing");
+			"https://github.com/vtp5/vtp5/wiki/Licensing");
 	private JLabel separatorLabel2 = new JLabel(
 			"------------------------------------------------------------------");
 	private JLabel license4Label = new JLabel(
