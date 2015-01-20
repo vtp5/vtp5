@@ -1,8 +1,6 @@
 package vtp5;
 
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
 
 import vtp5.gui.VTP5;
 
@@ -36,16 +34,6 @@ public class Main {
 			@Override
 			public void run() {
 				long startTime = System.currentTimeMillis();
-				try {
-				    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-				        if ("Nimbus".equals(info.getName())) {
-				            UIManager.setLookAndFeel(info.getClassName());
-				            break;
-				        }
-				    }
-				} catch (Exception e) {
-				    // If Nimbus is not available, you can set the GUI to another look and feel.
-				}
 				new VTP5();
 				System.out.println("Boot completed in "
 						+ (System.currentTimeMillis() - startTime)
