@@ -31,8 +31,9 @@ public class QuestionsDialog extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public JSlider slider;
-	public JSpinner spinner;
+	private JSlider slider;
+	private JSpinner spinner;
+
 	private JLabel questionsDialog = new JLabel(
 			"How many questions do you want?");
 	CustomFont cf = new CustomFont();
@@ -41,13 +42,13 @@ public class QuestionsDialog extends JPanel {
 		setLayout(new MigLayout("fillx"));
 		slider = new JSlider();
 		spinner = new JSpinner(new SpinnerNumberModel(obj.getTest().getCards()
-				.size(), 0, obj.getTest().getCards().size(), 1));
-		spinner = new JSpinner();
+				.size(), 1, obj.getTest().getCards().size(), 1));
 
 		cf.setFont(spinner, 25);
 		cf.setFont(slider, 25);
 		cf.setFont(questionsDialog, 25);
 
+		slider.setMinimum(1);
 		slider.setMaximum(obj.getTest().getCards().size());
 		slider.setValue(obj.getTest().getCards().size());
 		slider.setMajorTickSpacing(Math
@@ -77,6 +78,14 @@ public class QuestionsDialog extends JPanel {
 		add(slider, "alignx center");
 		add(spinner, "alignx center");
 
+	}
+
+	public JSlider getSlider() {
+		return slider;
+	}
+
+	public JSpinner getSpinner() {
+		return spinner;
 	}
 
 }

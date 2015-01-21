@@ -57,10 +57,17 @@ public class TestFile implements Serializable {
 	public static final int COMPLETELY_CORRECT = 2;
 	public static final int PROMPT_USER = 3;
 
+	// Do NOT delete this instance variable (it's for backwards-compatibility)!
+	private File importedFile;
+
 	private File[] importedFiles;
 
 	@SuppressWarnings("unchecked")
 	public TestFile(File[] files) throws IOException {
+		if (files.length == 1) {
+			setImportedFile(files[0]);
+		}
+
 		setImportedFiles(files);
 
 		for (File f : files) {
@@ -332,6 +339,14 @@ public class TestFile implements Serializable {
 
 	public double getSuccessRate() {
 		return this.successRate;
+	}
+
+	public File getImportedFile() {
+		return importedFile;
+	}
+
+	public void setImportedFile(File importedFile) {
+		this.importedFile = importedFile;
 	}
 
 	public File[] getImportedFiles() {

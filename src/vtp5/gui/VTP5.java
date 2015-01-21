@@ -34,9 +34,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Properties;
 
+import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
@@ -491,7 +495,7 @@ public class VTP5 extends JFrame {
 		System.out.println(screenSize);
 		setSize(screenSize.width < 1000 ? screenSize.width : 1000,
 				screenSize.height < 650 ? screenSize.height : 650);
-		setTitle("VTP5 - " + Main.appVersion);
+		setTitle("VTP5 " + Main.appVersion);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -527,27 +531,42 @@ public class VTP5 extends JFrame {
 
 	}
 
-	public void playSound(String path) {
-		if (soundCheck.isSelected()) {
-			try {
-				BufferedInputStream bIS = new BufferedInputStream(getClass()
-						.getResourceAsStream(path));
-				AudioInputStream aIS = AudioSystem.getAudioInputStream(bIS);
-				Clip clip = AudioSystem.getClip();
-				clip.open(aIS);
-				clip.start();
-			} catch (Exception e) {
-				e.printStackTrace();
-				JOptionPane
-						.showMessageDialog(
-								null,
-								"The following error occurred:\n\n"
-										+ e.toString()
-										+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
-								"VTP5", JOptionPane.ERROR_MESSAGE);
-			}
+	public void playSound(String file) throws LineUnavailableException,
+			UnsupportedAudioFileException, IOException {
+		AudioInputStream inputStream = AudioSystem
+				.getAudioInputStream(getClass().getResource(file));
+		AudioFormat format = inputStream.getFormat();
+		DataLine.Info info = new DataLine.Info(Clip.class, format);
+		try {
+			Clip clip = (Clip) AudioSystem.getLine(info);
+			clip.open(inputStream);
+			clip.start();
+		} catch (Exception e) {
 		}
 	}
+
+	// public void playSound(String path) {
+	// if (soundCheck.isSelected()) {
+	// try {
+	// BufferedInputStream bIS = new BufferedInputStream(getClass()
+	// .getResourceAsStream(path));
+	// AudioInputStream aIS = AudioSystem.getAudioInputStream(bIS);
+	// Clip clip = AudioSystem.getClip();
+	// clip.open(aIS);
+	// clip.start();
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// JOptionPane
+	// .showMessageDialog(
+	// null,
+	// "The following error occurred:\n\n"
+	// + e.toString()
+	// +
+	// "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
+	// "VTP5", JOptionPane.ERROR_MESSAGE);
+	// }
+	// }
+	// }
 
 	// public Clip loadClip(String filepath) {
 	// Clip clip = null;
@@ -582,7 +601,7 @@ public class VTP5 extends JFrame {
 		cf.setFont(c, fontSize);
 	}
 
-	private void showChooserDialog(int fileType) {
+	private int showChooserDialog(int fileType) {
 		try {
 			if (fileType == 0) {
 				int selected = txtChooser.showOpenDialog(getParent());
@@ -590,6 +609,7 @@ public class VTP5 extends JFrame {
 					File[] files = txtChooser.getSelectedFiles();
 					test = new TestFile(files);
 				}
+				return selected;
 			} else if (fileType == 1) {
 				JOptionPane
 						.showMessageDialog(
@@ -600,6 +620,7 @@ public class VTP5 extends JFrame {
 				// if (selected == JFileChooser.APPROVE_OPTION) {
 				// test = new TestFile(csvChooser.getSelectedFile());
 				// }
+				return JFileChooser.CANCEL_OPTION;
 			} else if (fileType == 2) {
 				int selected = progressOpenChooser.showOpenDialog(getParent());
 				if (selected == JFileChooser.APPROVE_OPTION) {
@@ -618,6 +639,7 @@ public class VTP5 extends JFrame {
 										"VTP5", JOptionPane.ERROR_MESSAGE);
 					}
 				}
+				return selected;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -638,6 +660,7 @@ public class VTP5 extends JFrame {
 									+ "\n\nIt's likely that the file you're trying to import isn't formatted correctly.\nPlease check the file and try again.\nIf the problem persists, please report it.",
 							"VTP5", JOptionPane.ERROR_MESSAGE);
 		}
+		return JFileChooser.CANCEL_OPTION;
 	}
 
 	private void displayColorChooser(int index) {
@@ -701,11 +724,15 @@ public class VTP5 extends JFrame {
 
 			if (result == TestFile.PARTIALLY_CORRECT
 					|| result == TestFile.COMPLETELY_CORRECT) {
+
 				try {
 					playSound("/sounds/qcorrect.wav");
-				} catch (Exception exc) {
-					exc.printStackTrace(System.out);
+				} catch (LineUnavailableException
+						| UnsupportedAudioFileException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+
 				// Set progress bar colour
 				progressBar.setForeground(Color.GREEN);
 
@@ -733,7 +760,13 @@ public class VTP5 extends JFrame {
 				answerField.setText(""); // field is cleared
 			} else if (result == TestFile.INCORRECT) {
 
-				playSound("/sounds/qincorrect.wav");
+				try {
+					playSound("/sounds/qincorrect.wav");
+				} catch (LineUnavailableException
+						| UnsupportedAudioFileException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 				progressBar.setForeground(Color.RED);
 
@@ -1143,7 +1176,7 @@ public class VTP5 extends JFrame {
 			JOptionPane.showMessageDialog(this, questionsDialog, "VTP5",
 					JOptionPane.PLAIN_MESSAGE);
 			int limit = test.getCards().size();
-			for (int x = 0; x < limit - questionsDialog.slider.getValue(); x++) {
+			for (int x = 0; x < limit - questionsDialog.getSlider().getValue(); x++) {
 				Collections.shuffle(test.getCards());
 				test.getCards().remove(0);
 				// test.getOrigCards().remove(0);
@@ -1198,8 +1231,13 @@ public class VTP5 extends JFrame {
 
 	void restartTest() {
 		try {
-			test = new TestFile(test.getImportedFiles());
-
+			if (test.getImportedFiles() != null) {
+				test = new TestFile(test.getImportedFiles());
+			} else if (test.getImportedFile() != null) {
+				test = new TestFile(new File[] { test.getImportedFile() });
+			} else if (test.getOrigCards() != null) {
+				test.resetTest();
+			}
 		} catch (IOException e1) {
 			e1.printStackTrace();
 			JOptionPane
@@ -1362,11 +1400,15 @@ public class VTP5 extends JFrame {
 
 				// Open JFileChooser and then creates test file
 				if (option == 0 || option == 1 || option == 2) {
-					showChooserDialog(option);
-					try {
-						setUpTest(option);
-					} catch (NullPointerException | IndexOutOfBoundsException npe) {
-						npe.printStackTrace();
+					int selected = showChooserDialog(option);
+					System.out.println(selected);
+					if (selected == JFileChooser.APPROVE_OPTION) {
+						try {
+							setUpTest(option);
+						} catch (NullPointerException
+								| IndexOutOfBoundsException npe) {
+							npe.printStackTrace();
+						}
 					}
 				}
 
