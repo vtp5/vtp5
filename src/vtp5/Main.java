@@ -35,17 +35,18 @@ public class Main {
 			@Override
 			public void run() {
 				long startTime = System.currentTimeMillis();
-				  try {
-					  UIManager.setLookAndFeel ( "com.alee.laf.WebLookAndFeel" );
-			        } catch (Exception e) {
-			            e.printStackTrace();
-			        }
+				try {
+					UIManager.setLookAndFeel("com.alee.laf.WebLookAndFeel");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				new VTP5();
-//				JFrame frame = new JFrame();
-//				VTP5Button cb = new VTP5Button("Cares", Color.RED, Color.CYAN);
-//				frame.add(cb);
-//				frame.setVisible(true);
-//				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				// JFrame frame = new JFrame();
+				// VTP5Button cb = new VTP5Button("Cares", Color.RED,
+				// Color.CYAN);
+				// frame.add(cb);
+				// frame.setVisible(true);
+				// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				System.out.println("Boot completed in "
 						+ (System.currentTimeMillis() - startTime)
 						+ " milliseconds.");

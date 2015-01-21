@@ -413,7 +413,8 @@ public class VTP5 extends JFrame {
 		componentList.add(new ComponentWithFontData(enterButton, 32));// adds to
 																		// list
 
-		passButton = new VTP5Button("Skip", buttonColour, textColour);// creates buttons
+		passButton = new VTP5Button("Skip", buttonColour, textColour);// creates
+																		// buttons
 		passButton.setBackground(buttonColour);// changes background colour
 		passButton.setForeground(buttonTextColour);// changes foreground colour
 		buttonList.add(passButton);

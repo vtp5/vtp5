@@ -113,6 +113,10 @@ public class TestFile implements Serializable {
 			br.close();
 		}
 
+		if (origCards.size() == 0) {
+			throw new NullPointerException();
+		}
+
 		// Printlns for debugging/helpful console messages
 		for (Card c : cards) {
 			System.out.println("--langFrom:--");
