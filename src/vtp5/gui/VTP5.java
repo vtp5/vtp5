@@ -1278,12 +1278,14 @@ public class VTP5 extends JFrame {
 
 		@Override
 		public void focusGained(FocusEvent e) {
-			System.out.println("Focus gained!");
+			if (characterDialog.isVisible()) {
+				characterDialog.setVisible(false);
+			}
 		}
 
 		@Override
 		public void focusLost(FocusEvent e) {
-			System.out.println("Focus lost!");
+			// Do nothing
 		}
 
 	}
