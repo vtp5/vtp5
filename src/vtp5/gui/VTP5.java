@@ -221,14 +221,10 @@ public class VTP5 extends JFrame {
 		buttonList.add(importFileButton);
 
 		saveButton = new VTP5Button("Complete Later", buttonColour, textColour);
-		saveButton.setBackground(buttonColour);
-		saveButton.setForeground(buttonTextColour);
 		saveButton.setEnabled(false);
 		buttonList.add(saveButton);
 
 		startAgainButton = new VTP5Button("Start Again", buttonColour, textColour);
-		startAgainButton.setBackground(buttonColour);
-		startAgainButton.setForeground(buttonTextColour);
 		startAgainButton.setEnabled(false);
 		buttonList.add(startAgainButton);
 
@@ -240,20 +236,13 @@ public class VTP5 extends JFrame {
 		// buttonList.add(leaderboardButton);
 
 		settingsButton = new VTP5Button("Settings", buttonColour, textColour);// creates
-		settingsButton.setBackground(buttonColour);// changes background colour
-		settingsButton.setForeground(buttonTextColour);// changes foreground
-														// colour
 		buttonList.add(settingsButton);
 
 		helpButton = new VTP5Button("Help", buttonColour, textColour);// ads button
-		helpButton.setBackground(buttonColour);// changes background colour
-		helpButton.setForeground(buttonTextColour);// changes foreground colour
 		buttonList.add(helpButton);
 
 		aboutButton = new VTP5Button("About", buttonColour, textColour);
 		// creates buttons
-		aboutButton.setBackground(buttonColour);// changes background colour
-		aboutButton.setForeground(buttonTextColour);// changes foreground colour
 		buttonList.add(aboutButton);
 
 		// Sets up about dialog
