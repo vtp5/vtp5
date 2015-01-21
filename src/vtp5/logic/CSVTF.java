@@ -96,13 +96,21 @@ public class CSVTF implements Serializable {
 			// ArrayList
 			if (loop == 0) {
 				
+				String[] settings = langFromLine.split(",");
+
+				timeAllowed = Integer.parseInt(settings[0]);
+				
+				loop = 1;
 			} else {
+				
+				String[] question = langFromLine.split(",||,");
+				
 				ArrayList<String> langFrom = new ArrayList<>(
-						Arrays.asList(langFromLine));
+						Arrays.asList(question[0].split(",|,")));
 
 				langToLine = br.readLine();
 				ArrayList<String> langTo = new ArrayList<>(
-						Arrays.asList(langToLine.split("/")));
+						Arrays.asList(question[1].split(",|,")));
 
 				Card card = new Card(langFromLine, langToLine, langFrom, langTo);
 				origCards.add(card);
