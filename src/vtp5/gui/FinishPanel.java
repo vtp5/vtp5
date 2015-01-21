@@ -12,7 +12,6 @@ import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -61,8 +60,8 @@ public class FinishPanel extends JPanel {
 	private JList<Object> statsList = new JList<>(statsListModel);
 	private JScrollPane statsScrollPane = new JScrollPane(statsList);
 	private WrongAnswersTableModel watm;
-	private JButton saveTest = new JButton();
-	private JButton restartTest = new JButton();
+	private VTP5Button saveTest;
+	private VTP5Button restartTest;
 	private JFileChooser wrongAnswersTest = new JFileChooser();
 	private TableRowSorter<AbstractTableModel> sorter;
 
@@ -77,18 +76,12 @@ public class FinishPanel extends JPanel {
 
 		setLayout(new MigLayout("fillx"));
 
-		saveTest.setBackground(parent.getButtonColour());// changes background
-															// colour
-		saveTest.setForeground(parent.getButtonTextColour());// changes
-																// foreground
-																// colour
+		saveTest = new VTP5Button("Save Wrong Answers to Test File",
+				parent.getButtonColour(), parent.getButtonTextColour());
+		restartTest = new VTP5Button("Start Again", parent.getButtonColour(),
+				parent.getButtonTextColour());
 		parent.getButtonList().add(saveTest);
 
-		restartTest.setBackground(parent.getButtonColour());// changes
-															// background
-		// colour
-		restartTest.setForeground(parent.getButtonTextColour());// changes
-																// foreground
 		// colour
 		parent.getButtonList().add(restartTest);
 

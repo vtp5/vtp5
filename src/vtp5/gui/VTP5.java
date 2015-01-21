@@ -18,7 +18,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -45,7 +44,6 @@ import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComponent;
@@ -105,8 +103,8 @@ public class VTP5 extends JFrame {
 
 	// Components for button panel at top of frame
 	private JPanel buttonPanel;
-	private JButton importFileButton, settingsButton, helpButton, aboutButton,
-			saveButton, startAgainButton;
+	private VTP5Button importFileButton, settingsButton, helpButton,
+			aboutButton, saveButton, startAgainButton;
 	private int questionIndex = 0;
 
 	// Components in the main area of the frame
@@ -114,9 +112,9 @@ public class VTP5 extends JFrame {
 	private JCheckBox switchLanguageCheck;
 	private JLabel promptLabel;
 	private JTextField answerField;
-	private JButton characterButton;
-	private JButton enterButton;
-	private JButton passButton;
+	private VTP5Button characterButton;
+	private VTP5Button enterButton;
+	private VTP5Button passButton;
 
 	private JList<String> statsList;
 	private JScrollPane statsScrollPane;
@@ -150,7 +148,7 @@ public class VTP5 extends JFrame {
 
 	// Components for Settings Dialog
 	private JDialog settingsDialog;
-	private JButton changeButtonColour, changeTextColour,
+	private VTP5Button changeButtonColour, changeTextColour,
 			changeButtonTextColour, checkForUpdateButton,
 			changeBackgroundColour, resetToDefaults;
 	private JCheckBox experimentalCheck, changingFrameColourCheck,
@@ -162,7 +160,7 @@ public class VTP5 extends JFrame {
 
 	private ImageIcon logo = new ImageIcon(getClass().getResource(
 			"/images/vtpsmall.png"));
-	private ArrayList<JButton> buttonList = new ArrayList<>();
+	private ArrayList<VTP5Button> buttonList = new ArrayList<>();
 
 	// finishPanel instance variable - must create the object HERE (i.e. as soon
 	// as program begins), otherwise text-rescaling won't work properly
@@ -181,8 +179,8 @@ public class VTP5 extends JFrame {
 	});
 
 	private JColorChooser colourChooser = new JColorChooser();
-	private Color buttonColour = Color.BLACK;
-	private Color buttonTextColour = Color.WHITE;
+	private Color buttonColour = Color.RED;
+	private Color buttonTextColour = Color.BLACK;
 	private Color textColour = Color.BLACK;
 	private Color panelColour = null;
 
@@ -192,6 +190,7 @@ public class VTP5 extends JFrame {
 	private int minColour = 70;
 
 	public VTP5() {
+
 		// Load spell-checker
 		SpellCheck.loadSpellChecker();
 
@@ -213,44 +212,46 @@ public class VTP5 extends JFrame {
 		buttonPanel = new JPanel();// make panel for buttons
 		buttonPanel.setLayout(new MigLayout());// set layout
 
-		importFileButton = new JButton("Import Test File");// creates buttons
+		importFileButton = new VTP5Button("Import Test File", buttonColour,
+				textColour);// creates buttons
 		importFileButton.setBackground(buttonColour);// changes background
 														// colour
 		importFileButton.setForeground(buttonTextColour);// changes foreground
 															// colour
 		buttonList.add(importFileButton);
 
-		saveButton = new JButton("Complete Later");
+		saveButton = new VTP5Button("Complete Later", buttonColour, textColour);
 		saveButton.setBackground(buttonColour);
 		saveButton.setForeground(buttonTextColour);
 		saveButton.setEnabled(false);
 		buttonList.add(saveButton);
 
-		startAgainButton = new JButton("Start Again");
+		startAgainButton = new VTP5Button("Start Again", buttonColour, textColour);
 		startAgainButton.setBackground(buttonColour);
 		startAgainButton.setForeground(buttonTextColour);
 		startAgainButton.setEnabled(false);
 		buttonList.add(startAgainButton);
 
-		// leaderboardButton = new JButton("View Leaderboards");// creates
+		// leaderboardButton = new CustomButton("View Leaderboards");// creates
 		// buttons
 		// leaderboardButton.setBackground(bcolour);// changes background colour
 		// leaderboardButton.setForeground(fcolour);// changes foreground colour
 		// leaderboardButton.setEnabled(false);
 		// buttonList.add(leaderboardButton);
 
-		settingsButton = new JButton("Settings");// creates buttons
+		settingsButton = new VTP5Button("Settings", buttonColour, textColour);// creates
 		settingsButton.setBackground(buttonColour);// changes background colour
 		settingsButton.setForeground(buttonTextColour);// changes foreground
 														// colour
 		buttonList.add(settingsButton);
 
-		helpButton = new JButton("Help");// ads button
+		helpButton = new VTP5Button("Help", buttonColour, textColour);// ads button
 		helpButton.setBackground(buttonColour);// changes background colour
 		helpButton.setForeground(buttonTextColour);// changes foreground colour
 		buttonList.add(helpButton);
 
-		aboutButton = new JButton("About");// creates buttons
+		aboutButton = new VTP5Button("About", buttonColour, textColour);
+		// creates buttons
 		aboutButton.setBackground(buttonColour);// changes background colour
 		aboutButton.setForeground(buttonTextColour);// changes foreground colour
 		buttonList.add(aboutButton);
@@ -258,13 +259,13 @@ public class VTP5 extends JFrame {
 		// Sets up about dialog
 		abtDialog = new AboutDialog();
 
-		resetToDefaults = new JButton("Reset to Defaults");
-		changeButtonColour = new JButton("Change Button Colour");
-		changeTextColour = new JButton("Change Text Colour");
-		changeButtonTextColour = new JButton("Change Button Text Colour");
-		changeBackgroundColour = new JButton("Change Background Colour");
+		resetToDefaults = new VTP5Button("Reset to Defaults", buttonColour, textColour);
+		changeButtonColour = new VTP5Button("Change Button Colour", buttonColour, textColour);
+		changeTextColour = new VTP5Button("Change Text Colour", buttonColour, textColour);
+		changeButtonTextColour = new VTP5Button("Change Button Text Colour", buttonColour, textColour);
+		changeBackgroundColour = new VTP5Button("Change Background Colour", buttonColour, textColour);
 		changeBackgroundColour.setEnabled(false);
-		checkForUpdateButton = new JButton("Check For Updates");
+		checkForUpdateButton = new VTP5Button("Check For Updates", buttonColour, textColour);
 		experimentalCheck = new JCheckBox("Enable Experimental Features", true);
 		changingFrameColourCheck = new JCheckBox(
 				"Enable Dynamic Background Colour", true);
@@ -391,7 +392,7 @@ public class VTP5 extends JFrame {
 		// Set up character dialog
 		characterDialog = new SpecialCharacterDialog(answerField);
 
-		characterButton = new JButton("é");
+		characterButton = new VTP5Button("é", buttonColour, textColour);
 		characterButton.addActionListener(new EventListener());
 		buttonList.add(characterButton);
 
@@ -401,7 +402,7 @@ public class VTP5 extends JFrame {
 		characterButton.setEnabled(false);
 		componentList.add(new ComponentWithFontData(characterButton, 32));
 
-		enterButton = new JButton("Enter");// creates buttons
+		enterButton = new VTP5Button("Enter", buttonColour, textColour);// creates
 		enterButton.addActionListener(new EventListener());
 		buttonList.add(enterButton);
 
@@ -412,7 +413,7 @@ public class VTP5 extends JFrame {
 		componentList.add(new ComponentWithFontData(enterButton, 32));// adds to
 																		// list
 
-		passButton = new JButton("Skip");// creates buttons
+		passButton = new VTP5Button("Skip", buttonColour, textColour);// creates buttons
 		passButton.setBackground(buttonColour);// changes background colour
 		passButton.setForeground(buttonTextColour);// changes foreground colour
 		buttonList.add(passButton);
@@ -464,7 +465,7 @@ public class VTP5 extends JFrame {
 
 		// Try and make the colours of the buttons and "Switch Language" check
 		// box show on Mac OS...
-		for (JButton button : buttonList) {
+		for (VTP5Button button : buttonList) {
 			button.setOpaque(true);
 		}
 
@@ -519,7 +520,7 @@ public class VTP5 extends JFrame {
 	}
 
 	private void setColour(Color background, Color foreground, Color text) {
-		for (JButton b : buttonList) {
+		for (VTP5Button b : buttonList) {
 			b.setForeground(foreground);
 			b.setBackground(background);
 		}
@@ -1266,7 +1267,7 @@ public class VTP5 extends JFrame {
 		return this.test;
 	}
 
-	ArrayList<JButton> getButtonList() {
+	ArrayList<VTP5Button> getButtonList() {
 		return buttonList;
 	}
 
