@@ -16,7 +16,6 @@
 	<classpathentry kind="lib" path="res/lib/github/jackson-databind-2.2.3.jar"/>
 	<classpathentry kind="lib" path="res/lib/commonsio/commons-io-2.4.jar"/>
 	<classpathentry kind="lib" path="res/lib/github/jackson-annotations-2.2.3.jar"/>
-	<classpathentry kind="lib" path="res/lib/seaglasslookandfeel-0.2.jar"/>
 	<classpathentry kind="lib" path="res/lib/weblaf-complete-1.28.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
