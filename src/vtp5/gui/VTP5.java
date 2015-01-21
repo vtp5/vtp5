@@ -12,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
@@ -371,6 +373,7 @@ public class VTP5 extends JFrame {
 
 		answerField = new JTextField();// creates text field
 		answerField.addActionListener(new EventListener());
+		answerField.addFocusListener(new AnswerFieldFocusListener());
 		answerField.getInputMap(JComponent.WHEN_FOCUSED).put(
 				KeyStroke.getKeyStroke("released ENTER"), "Enter");
 		answerField.getActionMap().put("Enter", new ActionEnter());
@@ -1231,6 +1234,20 @@ public class VTP5 extends JFrame {
 
 	ArrayList<ComponentWithFontData> getComponentList() {
 		return componentList;
+	}
+
+	private class AnswerFieldFocusListener implements FocusListener {
+
+		@Override
+		public void focusGained(FocusEvent e) {
+			System.out.println("Focus gained!");
+		}
+
+		@Override
+		public void focusLost(FocusEvent e) {
+			System.out.println("Focus lost!");
+		}
+
 	}
 
 	private class DisabledItemSelectionModel extends DefaultListSelectionModel {
