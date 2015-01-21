@@ -30,6 +30,9 @@ public class CSVTF implements Serializable {
 	private static final long serialVersionUID = 1L;
 	// TODO CHANGE serialVersionUID ONCE CLASS IS FINISHED!!!
 
+	//TODO Settings variables
+	public int timeAllowed = 0;
+	
 	// ArrayList storing all the original "cards" for the test
 	private final ArrayList<Card> origCards = new ArrayList<>();
 	// ArrayList of "cards" for a particular test
@@ -87,21 +90,23 @@ public class CSVTF implements Serializable {
 		String langFromLine;
 		String langToLine;
 		br = new BufferedReader(new FileReader(file));
+		int loop = 0;
 		while ((langFromLine = br.readLine()) != null) {
 			// Create new card containing relevant data and add it to the
 			// ArrayList
-			// TODO Merge this code with Converter
-			// TODO Polish this code (for example, what about the "+ abl."
-			// bit after some verbs and prepositions?)
-			ArrayList<String> langFrom = new ArrayList<>(
-					Arrays.asList(langFromLine));
+			if (loop == 0) {
+				
+			} else {
+				ArrayList<String> langFrom = new ArrayList<>(
+						Arrays.asList(langFromLine));
 
-			langToLine = br.readLine();
-			ArrayList<String> langTo = new ArrayList<>(Arrays.asList(langToLine
-					.split("/")));
+				langToLine = br.readLine();
+				ArrayList<String> langTo = new ArrayList<>(
+						Arrays.asList(langToLine.split("/")));
 
-			Card card = new Card(langFromLine, langToLine, langFrom, langTo);
-			origCards.add(card);
+				Card card = new Card(langFromLine, langToLine, langFrom, langTo);
+				origCards.add(card);
+			}
 		}
 
 		if (br != null) {
