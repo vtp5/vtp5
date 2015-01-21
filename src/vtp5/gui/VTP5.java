@@ -224,7 +224,8 @@ public class VTP5 extends JFrame {
 		saveButton.setEnabled(false);
 		buttonList.add(saveButton);
 
-		startAgainButton = new VTP5Button("Start Again", buttonColour, textColour);
+		startAgainButton = new VTP5Button("Start Again", buttonColour,
+				textColour);
 		startAgainButton.setEnabled(false);
 		buttonList.add(startAgainButton);
 
@@ -238,7 +239,8 @@ public class VTP5 extends JFrame {
 		settingsButton = new VTP5Button("Settings", buttonColour, textColour);// creates
 		buttonList.add(settingsButton);
 
-		helpButton = new VTP5Button("Help", buttonColour, textColour);// ads button
+		helpButton = new VTP5Button("Help", buttonColour, textColour);// ads
+																		// button
 		buttonList.add(helpButton);
 
 		aboutButton = new VTP5Button("About", buttonColour, textColour);
@@ -248,13 +250,19 @@ public class VTP5 extends JFrame {
 		// Sets up about dialog
 		abtDialog = new AboutDialog();
 
-		resetToDefaults = new VTP5Button("Reset to Defaults", buttonColour, textColour);
-		changeButtonColour = new VTP5Button("Change Button Colour", buttonColour, textColour);
-		changeTextColour = new VTP5Button("Change Text Colour", buttonColour, textColour);
-		changeButtonTextColour = new VTP5Button("Change Button Text Colour", buttonColour, textColour);
-		changeBackgroundColour = new VTP5Button("Change Background Colour", buttonColour, textColour);
+		resetToDefaults = new VTP5Button("Reset to Defaults", buttonColour,
+				textColour);
+		changeButtonColour = new VTP5Button("Change Button Colour",
+				buttonColour, textColour);
+		changeTextColour = new VTP5Button("Change Text Colour", buttonColour,
+				textColour);
+		changeButtonTextColour = new VTP5Button("Change Button Text Colour",
+				buttonColour, textColour);
+		changeBackgroundColour = new VTP5Button("Change Background Colour",
+				buttonColour, textColour);
 		changeBackgroundColour.setEnabled(false);
-		checkForUpdateButton = new VTP5Button("Check For Updates", buttonColour, textColour);
+		checkForUpdateButton = new VTP5Button("Check For Updates",
+				buttonColour, textColour);
 		experimentalCheck = new JCheckBox("Enable Experimental Features", true);
 		changingFrameColourCheck = new JCheckBox(
 				"Enable Dynamic Background Colour", true);
@@ -524,15 +532,17 @@ public class VTP5 extends JFrame {
 
 	public void playSound(String file) throws LineUnavailableException,
 			UnsupportedAudioFileException, IOException {
-		AudioInputStream inputStream = AudioSystem
-				.getAudioInputStream(getClass().getResource(file));
-		AudioFormat format = inputStream.getFormat();
-		DataLine.Info info = new DataLine.Info(Clip.class, format);
-		try {
-			Clip clip = (Clip) AudioSystem.getLine(info);
-			clip.open(inputStream);
-			clip.start();
-		} catch (Exception e) {
+		if (soundCheck.isSelected()) {
+			AudioInputStream inputStream = AudioSystem
+					.getAudioInputStream(getClass().getResource(file));
+			AudioFormat format = inputStream.getFormat();
+			DataLine.Info info = new DataLine.Info(Clip.class, format);
+			try {
+				Clip clip = (Clip) AudioSystem.getLine(info);
+				clip.open(inputStream);
+				clip.start();
+			} catch (Exception e) {
+			}
 		}
 	}
 
