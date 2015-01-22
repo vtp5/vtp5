@@ -706,7 +706,7 @@ public class VTP5 extends JFrame {
 
 				// Set progress bar colour
 				progressBar.setProgressTopColor(Color.GREEN.brighter());
-				progressBar.setProgressBottomColor(Color.GREEN.darker());
+				progressBar.setProgressBottomColor(Color.YELLOW.darker());
 
 				if (result == TestFile.COMPLETELY_CORRECT) {
 					if (test.getCards().isEmpty()) {
@@ -740,7 +740,7 @@ public class VTP5 extends JFrame {
 					e.printStackTrace();
 				}
 
-				progressBar.setProgressTopColor(Color.RED.brighter());
+				progressBar.setProgressTopColor(Color.ORANGE);
 				progressBar.setProgressBottomColor(Color.RED.darker());
 				test.getCards()
 						.get(questionIndex)
