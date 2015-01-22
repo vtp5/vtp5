@@ -38,7 +38,7 @@ public class Card implements Serializable {
 	// correctly
 	private ArrayList<String> correctLangFrom;
 	private ArrayList<String> correctLangTo;
-	
+
 	private int guessedWrong = 0;
 
 	public Card() {

@@ -256,23 +256,13 @@ public class TestFile implements Serializable {
 			if (isExperimental) {
 				// Work out if user has only typed part of the answer, or if the
 				// answer is part of the user's input
-				for (String s : correctAnswers) {
-					s = s.replaceAll("[^a-zA-Z0-9יטאשגךמפûכןחזהצüßביםףתüס¿¡]",
-							"").toLowerCase();
-					answer = answer.toLowerCase();
-
-					if (answer.contains(s) || s.contains(answer)) {
-						// Tell the program to prompt the user
-						return PROMPT_USER;
-					}
-				}
-
 				for (String s : possibleAnswers) {
 					s = s.replaceAll("[^a-zA-Z0-9יטאשגךמפûכןחזהצüßביםףתüס¿¡]",
 							"").toLowerCase();
 					answer = answer.toLowerCase();
 
 					if (answer.contains(s) || s.contains(answer)) {
+						System.out.println("Contains!");
 						// Tell the program to prompt the user
 						return PROMPT_USER;
 					}
@@ -282,6 +272,7 @@ public class TestFile implements Serializable {
 					// Use the spell-checker to see if the user has made any
 					// potential typos
 					if (SpellCheck.containsSpellingErrors(origAnswer)) {
+						System.out.println("Spelling error!");
 						return PROMPT_USER;
 					}
 				}

@@ -1358,9 +1358,9 @@ public class VTP5 extends JFrame {
 						.showOptionDialog(
 								getParent(),
 								"Do you want to import a text file (for simple tests), a CSV file (for more complex tests),"
-										+ "\n                                 or a VTP5 progress file (for partly completed tests)?"
+										+ "\n                           or a VTP5 progress file (for partly completed tests)?"
 										+ "\n\nTIP: You can combine text files by holding CTRL (or Command on Mac OS) and selecting"
-										+ "\n                                                                  multiple text files.",
+										+ "\n                                                 multiple text files.",
 								"What test type do you want to import?",
 								JOptionPane.YES_NO_CANCEL_OPTION,
 								JOptionPane.PLAIN_MESSAGE, null, new String[] {
