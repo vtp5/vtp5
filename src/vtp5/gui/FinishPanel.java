@@ -76,10 +76,8 @@ public class FinishPanel extends JPanel {
 
 		setLayout(new MigLayout("fillx"));
 
-		saveTest = new VTP5Button("Save Wrong Answers to Test File",
-				parent.getButtonColour(), parent.getButtonTextColour());
-		restartTest = new VTP5Button("Start Again", parent.getButtonColour(),
-				parent.getButtonTextColour());
+		saveTest = new VTP5Button("Save Wrong Answers to Test File");
+		restartTest = new VTP5Button("Start Again");
 		parent.getButtonList().add(saveTest);
 
 		// colour
