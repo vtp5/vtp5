@@ -55,7 +55,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
@@ -75,6 +74,8 @@ import vtp5.Main;
 import vtp5.logic.Card;
 import vtp5.logic.SpellCheck;
 import vtp5.logic.TestFile;
+
+import com.alee.laf.progressbar.WebProgressBar;
 
 /*VTP5 Copyright (C) 2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
 
@@ -123,7 +124,7 @@ public class VTP5 extends JFrame {
 	private JScrollPane guessedAnswersScrollPane;
 	private DefaultListModel<String> guessedAnswersListModel;
 
-	private JProgressBar progressBar;
+	private WebProgressBar progressBar;
 	private JSeparator separator;
 
 	ArrayList<ComponentWithFontData> componentList = new ArrayList<>();
@@ -281,10 +282,13 @@ public class VTP5 extends JFrame {
 		separator = new JSeparator();
 		separator.setBackground(buttonColour);
 
-		// JProgressBar setup
-		progressBar = new JProgressBar(JProgressBar.VERTICAL, 0, 1000);
+		// WebProgressBar setup
+		progressBar = new WebProgressBar(WebProgressBar.VERTICAL, 0, 1000);
 		progressBar.setValue(0);
-		progressBar.setForeground(Color.GREEN);
+		progressBar.setBgTop(Color.PINK.brighter());
+		progressBar.setBgBottom(Color.PINK.darker());
+		progressBar.setProgressTopColor(Color.GREEN.brighter());
+		progressBar.setProgressBottomColor(Color.GREEN.darker());
 		progressBar.setStringPainted(true);
 		progressBar.setString("");
 
@@ -701,7 +705,8 @@ public class VTP5 extends JFrame {
 				}
 
 				// Set progress bar colour
-				progressBar.setForeground(Color.GREEN);
+				progressBar.setProgressTopColor(Color.GREEN.brighter());
+				progressBar.setProgressBottomColor(Color.GREEN.darker());
 
 				if (result == TestFile.COMPLETELY_CORRECT) {
 					if (test.getCards().isEmpty()) {
@@ -735,8 +740,8 @@ public class VTP5 extends JFrame {
 					e.printStackTrace();
 				}
 
-				progressBar.setForeground(Color.RED);
-
+				progressBar.setProgressTopColor(Color.RED.brighter());
+				progressBar.setProgressBottomColor(Color.RED.darker());
 				test.getCards()
 						.get(questionIndex)
 						.setGuessedWrong(
@@ -901,7 +906,8 @@ public class VTP5 extends JFrame {
 			// }
 			updatePanelColour(panelColour);
 		} else {
-			progressBar.setForeground(panelColour);
+			progressBar.setProgressTopColor(panelColour.brighter());
+			progressBar.setProgressBottomColor(panelColour.darker());
 		}
 	}
 
@@ -1162,7 +1168,8 @@ public class VTP5 extends JFrame {
 		updateStatsList();
 		progressBar.setMaximum(test.getCards().size() + test.getScore());
 		progressBar.setValue(test.getScore());
-		progressBar.setForeground(Color.GREEN);
+		progressBar.setProgressTopColor(Color.GREEN.brighter());
+		progressBar.setProgressBottomColor(Color.GREEN.darker());
 		switchLanguageCheck.setEnabled(true);
 		switchLanguageCheck.setSelected(false);
 		guessedAnswersList.setForeground(textColour);
