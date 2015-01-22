@@ -10,8 +10,9 @@ public class VTP5Button extends WebButton {
 	private Color lightColour = null;
 	private Color darkColour = null;
 
-	public VTP5Button(String text) {
+	public VTP5Button(String text, VTP5 parent) {
 		setText(text);
+		parent.buttonList.add(this);
 	}
 
 	@Override
@@ -25,10 +26,11 @@ public class VTP5Button extends WebButton {
 			setBottomBgColor(lightColour);
 			setBottomSelectedBgColor(darkColour);
 		} else {
-			setTopBgColor(Color.LIGHT_GRAY);
-			setTopSelectedBgColor(Color.LIGHT_GRAY);
-			setBottomBgColor(Color.LIGHT_GRAY.brighter());
-			setBottomSelectedBgColor(Color.LIGHT_GRAY.darker());
+			Color disabled = new Color(col.getRed(), col.getGreen(), col.getBlue(), 100);
+			setTopBgColor(disabled);
+			setTopSelectedBgColor(disabled);
+			setBottomBgColor(disabled.brighter());
+			setBottomSelectedBgColor(disabled.darker());
 		}
 	}
 }

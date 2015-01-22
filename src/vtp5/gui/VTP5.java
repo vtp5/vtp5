@@ -126,7 +126,7 @@ public class VTP5 extends JFrame {
 	private JProgressBar progressBar;
 	private JSeparator separator;
 
-	private ArrayList<ComponentWithFontData> componentList = new ArrayList<>();
+	ArrayList<ComponentWithFontData> componentList = new ArrayList<>();
 
 	private JFileChooser txtChooser = new JFileChooser();
 	private JFileChooser csvChooser = new JFileChooser();
@@ -160,7 +160,7 @@ public class VTP5 extends JFrame {
 
 	private ImageIcon logo = new ImageIcon(getClass().getResource(
 			"/images/vtpsmall.png"));
-	private ArrayList<VTP5Button> buttonList = new ArrayList<>();
+	ArrayList<VTP5Button> buttonList = new ArrayList<>();
 
 	// finishPanel instance variable - must create the object HERE (i.e. as soon
 	// as program begins), otherwise text-rescaling won't work properly
@@ -212,47 +212,39 @@ public class VTP5 extends JFrame {
 		buttonPanel = new JPanel();// make panel for buttons
 		buttonPanel.setLayout(new MigLayout());// set layout
 
-		importFileButton = new VTP5Button("Import Test File");// creates buttons
-		buttonList.add(importFileButton);
+		importFileButton = new VTP5Button("Import Test File", this);// creates
+																	// buttons
 
-		saveButton = new VTP5Button("Complete Later");
-		buttonList.add(saveButton);
+		saveButton = new VTP5Button("Complete Later", this);
+
 		saveButton.setEnabled(false);
 
-		startAgainButton = new VTP5Button("Start Again");
+		startAgainButton = new VTP5Button("Start Again", this);
 		startAgainButton.setEnabled(false);
-		buttonList.add(startAgainButton);
 
-		settingsButton = new VTP5Button("Settings");// creates
-		buttonList.add(settingsButton);
+		settingsButton = new VTP5Button("Settings", this);// creates
 
-		helpButton = new VTP5Button("Help");
-		buttonList.add(helpButton);
+		helpButton = new VTP5Button("Help", this);
 
-		aboutButton = new VTP5Button("About");
-		buttonList.add(aboutButton);
+		aboutButton = new VTP5Button("About", this);
 
 		// Sets up about dialog
 		abtDialog = new AboutDialog();
 
-		resetToDefaults = new VTP5Button("Reset to Defaults");
-		buttonList.add(resetToDefaults);
+		resetToDefaults = new VTP5Button("Reset to Defaults", this);
 
-		changeButtonColour = new VTP5Button("Change Button Colour");
-		buttonList.add(changeButtonColour);
+		changeButtonColour = new VTP5Button("Change Button Colour", this);
 
-		changeTextColour = new VTP5Button("Change Text Colour");
-		buttonList.add(changeTextColour);
+		changeTextColour = new VTP5Button("Change Text Colour", this);
 
-		changeButtonTextColour = new VTP5Button("Change Button Text Colour");
-		buttonList.add(changeButtonTextColour);
+		changeButtonTextColour = new VTP5Button("Change Button Text Colour",
+				this);
 
-		changeBackgroundColour = new VTP5Button("Change Background Colour");
-		buttonList.add(changeBackgroundColour);
+		changeBackgroundColour = new VTP5Button("Change Background Colour",
+				this);
 		changeBackgroundColour.setEnabled(false);
 
-		checkForUpdateButton = new VTP5Button("Check For Updates");
-		buttonList.add(checkForUpdateButton);
+		checkForUpdateButton = new VTP5Button("Check For Updates", this);
 
 		experimentalCheck = new JCheckBox("Enable Experimental Features", true);
 		changingFrameColourCheck = new JCheckBox(
@@ -371,9 +363,8 @@ public class VTP5 extends JFrame {
 		// Set up character dialog
 		characterDialog = new SpecialCharacterDialog(answerField);
 
-		characterButton = new VTP5Button("é");
+		characterButton = new VTP5Button("é", this);
 		characterButton.addActionListener(new EventListener());
-		buttonList.add(characterButton);
 
 		characterButton.setBackground(buttonColour);// changes background colour
 		characterButton.setForeground(buttonTextColour);// changes foreground
@@ -381,16 +372,14 @@ public class VTP5 extends JFrame {
 		characterButton.setEnabled(false);
 		componentList.add(new ComponentWithFontData(characterButton, 32));
 
-		enterButton = new VTP5Button("Enter");// creates
+		enterButton = new VTP5Button("Enter", this);// creates
 		enterButton.addActionListener(new EventListener());
-		buttonList.add(enterButton);
 		enterButton.setEnabled(false);
 
 		componentList.add(new ComponentWithFontData(enterButton, 32));// adds to
 																		// list
 
-		passButton = new VTP5Button("Skip");// creates
-		buttonList.add(passButton);
+		passButton = new VTP5Button("Skip", this);// creates
 		passButton.addActionListener(new EventListener());
 		passButton.setEnabled(false);
 
@@ -494,6 +483,7 @@ public class VTP5 extends JFrame {
 	}
 
 	private void setColour(Color background, Color foreground, Color text) {
+
 		for (VTP5Button b : buttonList) {
 			b.setForeground(foreground);
 			b.setBackground(background);
@@ -503,7 +493,6 @@ public class VTP5 extends JFrame {
 		promptLabel.setForeground(text);
 		statsList.setForeground(text);
 		guessedAnswersList.setForeground(text);
-
 		finishPanel.setTextColour(text);
 
 	}
@@ -654,7 +643,6 @@ public class VTP5 extends JFrame {
 			if (c != null) {
 				setColour(c, buttonTextColour, textColour);
 				buttonColour = c;
-				System.out.println(String.valueOf(buttonColour));
 				c = null;
 			}
 			break;
