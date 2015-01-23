@@ -180,7 +180,7 @@ public class VTP5 extends JFrame {
 	});
 
 	private JColorChooser colourChooser = new JColorChooser();
-	private Color buttonColour = Color.RED;
+	private Color buttonColour = new Color(255,215,7);
 	private Color buttonTextColour = Color.BLACK;
 	private Color textColour = Color.BLACK;
 	private Color panelColour = null;
@@ -285,8 +285,9 @@ public class VTP5 extends JFrame {
 		// WebProgressBar setup
 		progressBar = new WebProgressBar(WebProgressBar.VERTICAL, 0, 1000);
 		progressBar.setValue(0);
-		progressBar.setBgTop(Color.PINK.brighter());
-		progressBar.setBgBottom(Color.PINK.darker());
+		System.out.println(buttonColour);
+		progressBar.setBgTop(buttonColour.brighter());
+		progressBar.setBgBottom(buttonColour.darker());
 		progressBar.setProgressTopColor(Color.GREEN.brighter());
 		progressBar.setProgressBottomColor(Color.GREEN.darker());
 		progressBar.setStringPainted(true);
@@ -498,6 +499,9 @@ public class VTP5 extends JFrame {
 		statsList.setForeground(text);
 		guessedAnswersList.setForeground(text);
 		finishPanel.setTextColour(text);
+		progressBar.setBgTop(background.brighter());
+		progressBar.setBgBottom(background.darker());
+		
 
 	}
 
