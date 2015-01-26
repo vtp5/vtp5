@@ -726,6 +726,7 @@ public class VTP5 extends JFrame {
 
 				if (result == TestFile.COMPLETELY_CORRECT) {
 					if (test.getCards().isEmpty()) {
+						calculatePanelColour(test.getStats());
 						finishTest();
 						// Stop the logic - the test is over!
 						return;
@@ -1522,8 +1523,13 @@ public class VTP5 extends JFrame {
 				// e1.printStackTrace();
 				// }
 			} else if (e.getSource() == startAgainButton) {
-				restartTest();
-				setUpTest(0);
+				int result = JOptionPane.showConfirmDialog(null,
+						"Are you sure you want to start again?", "VTP5",
+						JOptionPane.YES_NO_OPTION);
+				if (result == JOptionPane.YES_OPTION) {
+					restartTest();
+					setUpTest(0);
+				}
 			} else if (e.getSource() == checkForUpdateButton) {
 				checkForUpdate();
 			} else if (e.getSource() == characterButton) {
