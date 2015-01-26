@@ -180,7 +180,7 @@ public class VTP5 extends JFrame {
 	});
 
 	private JColorChooser colourChooser = new JColorChooser();
-	Color buttonColour = Color.CYAN;
+	Color buttonColour = new Color(0x663399);
 	private Color buttonTextColour = Color.WHITE;
 	private Color textColour = Color.BLACK;
 	private Color panelColour = null;
@@ -479,7 +479,7 @@ public class VTP5 extends JFrame {
 		resetToDefaults();
 		// Get user's preferences for settings from the config.properties file
 		createHiddenDirectory();
-		//loadSettingsFile();
+		loadSettingsFile();
 		
 
 	}
@@ -500,8 +500,7 @@ public class VTP5 extends JFrame {
 		statsList.setForeground(text);
 		guessedAnswersList.setForeground(text);
 		finishPanel.setTextColour(text);
-		progressBar.setBgTop(background.brighter());
-		progressBar.setBgBottom(background.darker());
+		
 		
 
 	}

@@ -28,27 +28,26 @@ public class VTP5Button extends WebButton {
 	public VTP5Button(String text, VTP5 parent) {
 		setText(text);
 		parent.buttonList.add(this);
+		if(this.isEnabled()){
 		this.colour = parent.buttonColour;
 		this.lightColour = parent.buttonColour.brighter();
-		this.darkColour = parent.buttonColour.darker();
+		this.darkColour = parent.buttonColour.darker();		
+		}else{
+			Color disabled = new Color(parent.buttonColour.getRed(), parent.buttonColour.getGreen(),
+					parent.buttonColour.getBlue(), 100);
+		this.colour = disabled;
+		this.lightColour = disabled.brighter();
+		this.darkColour = disabled.darker();
+		}
 	}
 
 	@Override
 	public void setBackground(Color col) {
-		if (this.isEnabled()) {
-			
 			System.out.println(col);
 			setTopBgColor(lightColour);
 			setTopSelectedBgColor(colour);
 			setBottomBgColor(darkColour);
 			setBottomSelectedBgColor(darkColour);
-		} else {
-			Color disabled = new Color(col.getRed(), col.getGreen(),
-					col.getBlue(), 100);
-			setTopBgColor(disabled);
-			setTopSelectedBgColor(disabled);
-			setBottomBgColor(disabled.brighter());
-			setBottomSelectedBgColor(disabled.darker());
-		}
 	}
+	
 }
