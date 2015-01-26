@@ -1,7 +1,10 @@
 package vtp5;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+
+import com.swabunga.spell.engine.EditDistance;
 
 import vtp5.gui.VTP5;
 
@@ -38,9 +41,18 @@ public class Main {
 				try {
 					UIManager.setLookAndFeel("com.alee.laf.WebLookAndFeel");
 				} catch (Exception e) {
-					e.printStackTrace();
+					JOptionPane
+							.showMessageDialog(
+									null,
+									"The following error occurred:\n\n"
+											+ e.toString()
+											+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
+									"VTP5", JOptionPane.ERROR_MESSAGE);
 				}
 				new VTP5();
+
+				System.out.println(EditDistance.getDistance("vivoviverevixi",
+						"vivoverevixi"));
 
 				System.out.println("Boot completed in "
 						+ (System.currentTimeMillis() - startTime)

@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.swabunga.spell.engine.EditDistance;
+
 /*VTP5 Copyright (C) 2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
 
  This program is free software: you can redistribute it and/or modify
@@ -288,6 +290,23 @@ public class TestFile implements Serializable {
 				if (SpellCheck.containsSpellingErrors(origAnswer)) {
 					System.out.println("Spelling error!");
 					return PROMPT_USER;
+				}
+			}
+
+			if (typoDetectorEnabled) {
+				// Use Jazzy to get the Levenshtein distance between user's
+				// answer and correct answer; if it's below a certain threshold,
+				// assume an accidental typo and prompt the user
+
+				for (String s : possibleAnswers) {
+					s = s.replaceAll("[^a-zA-Z0-9יטאשגךמפûכןחזהצüßביםףתüס¿¡]",
+							"").toLowerCase();
+					answer = answer.toLowerCase();
+
+					System.out.println(EditDistance.getDistance(answer, s));
+					if (EditDistance.getDistance(answer, s) <= 200) {
+						return PROMPT_USER;
+					}
 				}
 			}
 
