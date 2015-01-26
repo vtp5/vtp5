@@ -21,6 +21,11 @@ import com.alee.laf.button.WebButton;
  */
 public class VTP5Button extends WebButton {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private Color colour = null;
 	private Color lightColour = null;
 	private Color darkColour = null;
@@ -28,27 +33,27 @@ public class VTP5Button extends WebButton {
 	public VTP5Button(String text, VTP5 parent) {
 		setText(text);
 		parent.buttonList.add(this);
-		if(this.isEnabled()){
-		this.colour = parent.buttonColour;
-		this.lightColour = parent.buttonColour.brighter().brighter();
-		this.darkColour = parent.buttonColour.darker().darker().darker().darker();		
-		}/*else{
-			Color disabled = new Color(parent.buttonColour.getRed(), parent.buttonColour.getGreen(),
-					parent.buttonColour.getBlue(), 100);
-		this.colour = disabled;
-		this.lightColour = disabled.brighter();
-		this.darkColour = disabled.darker();
-		}*/
+		if (this.isEnabled()) {
+			this.colour = parent.buttonColour;
+			this.lightColour = parent.buttonColour.brighter().brighter();
+			this.darkColour = parent.buttonColour.darker().darker().darker()
+					.darker();
+		}/*
+		 * else{ Color disabled = new Color(parent.buttonColour.getRed(),
+		 * parent.buttonColour.getGreen(), parent.buttonColour.getBlue(), 100);
+		 * this.colour = disabled; this.lightColour = disabled.brighter();
+		 * this.darkColour = disabled.darker(); }
+		 */
 	}
 
 	@Override
 	public void setBackground(Color col) {
-			setTopBgColor(lightColour);
-			setTopSelectedBgColor(lightColour);
-			setBottomBgColor(darkColour);
-			setBottomSelectedBgColor(darkColour);
-			setRolloverShine(true);
-			
+		setTopBgColor(lightColour);
+		setTopSelectedBgColor(lightColour);
+		setBottomBgColor(darkColour);
+		setBottomSelectedBgColor(darkColour);
+		setRolloverShine(true);
+
 	}
-	
+
 }
