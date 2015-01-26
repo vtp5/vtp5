@@ -30,24 +30,25 @@ public class VTP5Button extends WebButton {
 		parent.buttonList.add(this);
 		if(this.isEnabled()){
 		this.colour = parent.buttonColour;
-		this.lightColour = parent.buttonColour.brighter();
-		this.darkColour = parent.buttonColour.darker();		
-		}else{
+		this.lightColour = parent.buttonColour.brighter().brighter();
+		this.darkColour = parent.buttonColour.darker().darker().darker().darker();		
+		}/*else{
 			Color disabled = new Color(parent.buttonColour.getRed(), parent.buttonColour.getGreen(),
 					parent.buttonColour.getBlue(), 100);
 		this.colour = disabled;
 		this.lightColour = disabled.brighter();
 		this.darkColour = disabled.darker();
-		}
+		}*/
 	}
 
 	@Override
 	public void setBackground(Color col) {
-			System.out.println(col);
 			setTopBgColor(lightColour);
-			setTopSelectedBgColor(colour);
+			setTopSelectedBgColor(lightColour);
 			setBottomBgColor(darkColour);
 			setBottomSelectedBgColor(darkColour);
+			setRolloverShine(true);
+			
 	}
 	
 }
