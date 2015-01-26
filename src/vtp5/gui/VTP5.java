@@ -180,8 +180,8 @@ public class VTP5 extends JFrame {
 	});
 
 	private JColorChooser colourChooser = new JColorChooser();
-	private Color buttonColour = new Color(255,215,7);
-	private Color buttonTextColour = Color.BLACK;
+	Color buttonColour = Color.CYAN;
+	private Color buttonTextColour = Color.WHITE;
 	private Color textColour = Color.BLACK;
 	private Color panelColour = null;
 
@@ -214,7 +214,7 @@ public class VTP5 extends JFrame {
 		buttonPanel.setLayout(new MigLayout());// set layout
 
 		importFileButton = new VTP5Button("Import Test File", this);// creates
-																	// buttons
+		importFileButton.setBackground(buttonColour);// buttons
 
 		saveButton = new VTP5Button("Complete Later", this);
 
@@ -233,7 +233,7 @@ public class VTP5 extends JFrame {
 		abtDialog = new AboutDialog();
 
 		resetToDefaults = new VTP5Button("Reset to Defaults", this);
-
+		
 		changeButtonColour = new VTP5Button("Change Button Colour", this);
 
 		changeTextColour = new VTP5Button("Change Text Colour", this);
@@ -380,7 +380,7 @@ public class VTP5 extends JFrame {
 		enterButton = new VTP5Button("Enter", this);// creates
 		enterButton.addActionListener(new EventListener());
 		enterButton.setEnabled(false);
-
+		
 		componentList.add(new ComponentWithFontData(enterButton, 32));// adds to
 																		// list
 
@@ -475,11 +475,12 @@ public class VTP5 extends JFrame {
 		addWindowListener(new FrameClosingListener());
 
 		finishPanel = new FinishPanel(this);
-
+		//setColour(buttonColour, buttonTextColour, textColour);
 		resetToDefaults();
 		// Get user's preferences for settings from the config.properties file
 		createHiddenDirectory();
-		loadSettingsFile();
+		//loadSettingsFile();
+		
 
 	}
 
@@ -1115,10 +1116,10 @@ public class VTP5 extends JFrame {
 			changeBackgroundColour.setEnabled(true);
 		}
 
-		buttonColour = Color.decode(background);
+		/*buttonColour = Color.decode(background);
 		buttonTextColour = Color.decode(foreground);
 		textColour = Color.decode(text);
-		setColour(buttonColour, buttonTextColour, textColour);
+		setColour(buttonColour, buttonTextColour, textColour);*/
 		if (!changingFrameColourCheck.isSelected()) {
 			updatePanelColour(Color.decode(panel));
 		}
