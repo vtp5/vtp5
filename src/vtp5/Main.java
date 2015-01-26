@@ -41,12 +41,7 @@ public class Main {
 					e.printStackTrace();
 				}
 				new VTP5();
-				// JFrame frame = new JFrame();
-				// VTP5Button cb = new VTP5Button("Cares", Color.RED,
-				// Color.CYAN);
-				// frame.add(cb);
-				// frame.setVisible(true);
-				// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 				System.out.println("Boot completed in "
 						+ (System.currentTimeMillis() - startTime)
 						+ " milliseconds.");

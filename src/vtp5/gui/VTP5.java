@@ -152,8 +152,9 @@ public class VTP5 extends JFrame {
 	private VTP5Button changeButtonColour, changeTextColour,
 			changeButtonTextColour, checkForUpdateButton,
 			changeBackgroundColour, resetToDefaults;
-	private JCheckBox experimentalCheck, changingFrameColourCheck,
-			questionNumberCheck, soundCheck;
+	private JCheckBox changingFrameColourCheck, questionNumberCheck,
+			soundCheck, spellCheckCheck, iffyAnswerCheck, typoDetectorCheck;
+	private JLabel experimentalLabel;
 	private HyperlinkLabel exInfoLabel;
 
 	// Components for About Dialog
@@ -233,7 +234,7 @@ public class VTP5 extends JFrame {
 		abtDialog = new AboutDialog();
 
 		resetToDefaults = new VTP5Button("Reset to Defaults", this);
-		
+
 		changeButtonColour = new VTP5Button("Change Button Colour", this);
 
 		changeTextColour = new VTP5Button("Change Text Colour", this);
@@ -247,12 +248,15 @@ public class VTP5 extends JFrame {
 
 		checkForUpdateButton = new VTP5Button("Check For Updates", this);
 
-		experimentalCheck = new JCheckBox("Enable Experimental Features", true);
+		experimentalLabel = new JLabel("Enable Experimental Features:");
 		changingFrameColourCheck = new JCheckBox(
 				"Enable Dynamic Background Colour", true);
 		questionNumberCheck = new JCheckBox("Enable Question Number Selection",
 				true);
 		soundCheck = new JCheckBox("Enable Sound");
+		spellCheckCheck = new JCheckBox("Spell Checker");
+		iffyAnswerCheck = new JCheckBox("Iffy Answer Detector");
+		typoDetectorCheck = new JCheckBox("Typo Detector");
 
 		exInfoLabel = new HyperlinkLabel(
 				"<html>Click here for more information<br />on experimental features</html>",
@@ -271,7 +275,10 @@ public class VTP5 extends JFrame {
 		settingsDialog.add(questionNumberCheck, "alignx center, wrap");
 		settingsDialog.add(soundCheck, "alignx center, wrap");
 		settingsDialog.add(new JSeparator(), "grow, wrap");
-		settingsDialog.add(experimentalCheck, "alignx center, wrap");
+		settingsDialog.add(experimentalLabel, "alignx center, wrap");
+		settingsDialog.add(spellCheckCheck, "alignx center, wrap");
+		settingsDialog.add(iffyAnswerCheck, "alignx center, wrap");
+		settingsDialog.add(typoDetectorCheck, "alignx center, wrap");
 		settingsDialog.add(exInfoLabel, "alignx center, wrap");
 		settingsDialog.add(new JSeparator(), "grow, wrap");
 		settingsDialog.add(resetToDefaults, "alignx center");
@@ -380,7 +387,7 @@ public class VTP5 extends JFrame {
 		enterButton = new VTP5Button("Enter", this);// creates
 		enterButton.addActionListener(new EventListener());
 		enterButton.setEnabled(false);
-		
+
 		componentList.add(new ComponentWithFontData(enterButton, 32));// adds to
 																		// list
 
@@ -475,12 +482,11 @@ public class VTP5 extends JFrame {
 		addWindowListener(new FrameClosingListener());
 
 		finishPanel = new FinishPanel(this);
-		//setColour(buttonColour, buttonTextColour, textColour);
+		// setColour(buttonColour, buttonTextColour, textColour);
 		resetToDefaults();
 		// Get user's preferences for settings from the config.properties file
 		createHiddenDirectory();
 		loadSettingsFile();
-		
 
 	}
 
@@ -500,8 +506,6 @@ public class VTP5 extends JFrame {
 		statsList.setForeground(text);
 		guessedAnswersList.setForeground(text);
 		finishPanel.setTextColour(text);
-		
-		
 
 	}
 
@@ -691,9 +695,17 @@ public class VTP5 extends JFrame {
 			String userAnswer = answerField.getText();
 
 			// Checks if answer is correct
-			int result = test.isCorrect(userAnswer, questionIndex, enterButton
-					.getText().equals("Enter") ? experimentalCheck.isSelected()
-					: false);
+			int result;
+			if (enterButton.getText().equals("Enter")) {
+				result = test.isCorrect(userAnswer, questionIndex,
+						spellCheckCheck.isSelected(),
+						iffyAnswerCheck.isSelected(),
+						typoDetectorCheck.isSelected());
+			} else {
+				result = test.isCorrect(userAnswer, questionIndex, false,
+						false, false);
+			}
+
 			// Gets the score
 			int score = test.getScore();
 
@@ -1007,8 +1019,12 @@ public class VTP5 extends JFrame {
 					+ System.getProperty("file.separator") + CONFIG_FILE);
 
 			// sets the user preferences
-			properties.setProperty("experimental-features",
-					String.valueOf(experimentalCheck.isSelected()));
+			properties.setProperty("spell-checker",
+					String.valueOf(spellCheckCheck.isSelected()));
+			properties.setProperty("iffy-answer-detector",
+					String.valueOf(iffyAnswerCheck.isSelected()));
+			properties.setProperty("typo-detector",
+					String.valueOf(typoDetectorCheck.isSelected()));
 			properties.setProperty("sound",
 					String.valueOf(soundCheck.isSelected()));
 			properties.setProperty("question-number-prompt",
@@ -1063,7 +1079,9 @@ public class VTP5 extends JFrame {
 			inputStream = new FileInputStream(APPDATA_PATH
 					+ System.getProperty("file.separator") + CONFIG_FILE);
 			properties.load(inputStream);
-			updateSettings(properties.getProperty("experimental-features"),
+			updateSettings(properties.getProperty("spell-checker"),
+					properties.getProperty("iffy-answer-detector"),
+					properties.getProperty("typo-detector"),
 					properties.getProperty("sound"),
 					properties.getProperty("question-number-prompt"),
 					properties.getProperty("button-colour"),
@@ -1086,14 +1104,27 @@ public class VTP5 extends JFrame {
 		}
 	}
 
-	private void updateSettings(String experimental, String sound,
-			String qnumber, String background, String foreground, String text,
-			String dynamic, String panel) {
+	private void updateSettings(String spellChecker, String iffyAnswer,
+			String typoDetector, String sound, String qnumber,
+			String background, String foreground, String text, String dynamic,
+			String panel) {
 
-		if (experimental.equals("true")) {
-			experimentalCheck.setSelected(true);
+		if (spellChecker.equals("true")) {
+			spellCheckCheck.setSelected(true);
 		} else {
-			experimentalCheck.setSelected(false);
+			spellCheckCheck.setSelected(false);
+		}
+
+		if (iffyAnswer.equals("true")) {
+			iffyAnswerCheck.setSelected(true);
+		} else {
+			iffyAnswerCheck.setSelected(false);
+		}
+
+		if (typoDetector.equals("true")) {
+			typoDetectorCheck.setSelected(true);
+		} else {
+			typoDetectorCheck.setSelected(false);
 		}
 
 		if (sound.equals("true")) {
@@ -1115,10 +1146,11 @@ public class VTP5 extends JFrame {
 			changeBackgroundColour.setEnabled(true);
 		}
 
-		/*buttonColour = Color.decode(background);
-		buttonTextColour = Color.decode(foreground);
-		textColour = Color.decode(text);
-		setColour(buttonColour, buttonTextColour, textColour);*/
+		/*
+		 * buttonColour = Color.decode(background); buttonTextColour =
+		 * Color.decode(foreground); textColour = Color.decode(text);
+		 * setColour(buttonColour, buttonTextColour, textColour);
+		 */
 		if (!changingFrameColourCheck.isSelected()) {
 			updatePanelColour(Color.decode(panel));
 		}
@@ -1202,7 +1234,9 @@ public class VTP5 extends JFrame {
 		changeBackgroundColour.setEnabled(false);
 		questionNumberCheck.setSelected(true);
 		soundCheck.setSelected(true);
-		experimentalCheck.setSelected(true);
+		spellCheckCheck.setSelected(true);
+		iffyAnswerCheck.setSelected(true);
+		typoDetectorCheck.setSelected(true);
 		setColour(buttonColour, buttonTextColour, textColour);
 		updatePanelColour(panelColour);
 	}

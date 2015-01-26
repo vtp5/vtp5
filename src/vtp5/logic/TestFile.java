@@ -168,7 +168,8 @@ public class TestFile implements Serializable {
 		}
 	}
 
-	public int isCorrect(String answer, int index, boolean isExperimental) {
+	public int isCorrect(String answer, int index, boolean spellCheckerEnabled,
+			boolean iffyAnswerEnabled, boolean typoDetectorEnabled) {
 		// Original answer saved for spell-checker
 		String origAnswer = answer;
 
@@ -253,7 +254,7 @@ public class TestFile implements Serializable {
 
 			// If "experimental features" is enabled, work out if the program
 			// should prompt the user
-			if (isExperimental) {
+			if (iffyAnswerEnabled) {
 				// Work out if user has only typed part of the answer, or if the
 				// answer is part of the user's input
 				for (String s : possibleAnswers) {
@@ -261,20 +262,32 @@ public class TestFile implements Serializable {
 							"").toLowerCase();
 					answer = answer.toLowerCase();
 
-					if (answer.contains(s) || s.contains(answer)) {
+					if (answer.contains(s)) {
 						System.out.println("Contains!");
-						// Tell the program to prompt the user
-						return PROMPT_USER;
+						// Only prompt if user hasn't typed too much wrong stuff
+						if (((double) s.length()) >= 0.3 * ((double) answer
+								.length())) {
+							// Tell the program to prompt the user
+							return PROMPT_USER;
+						}
+					} else if (s.contains(answer)) {
+						System.out.println("Contains!");
+						// Only prompt if user has typed enough stuff
+						if (((double) answer.length()) >= 0.3 * ((double) s
+								.length())) {
+							// Tell the program to prompt the user
+							return PROMPT_USER;
+						}
 					}
 				}
+			}
 
-				if (!isLanguageSwitched) {
-					// Use the spell-checker to see if the user has made any
-					// potential typos
-					if (SpellCheck.containsSpellingErrors(origAnswer)) {
-						System.out.println("Spelling error!");
-						return PROMPT_USER;
-					}
+			if (spellCheckerEnabled && !isLanguageSwitched) {
+				// Use the spell-checker to see if the user has made any
+				// potential typos
+				if (SpellCheck.containsSpellingErrors(origAnswer)) {
+					System.out.println("Spelling error!");
+					return PROMPT_USER;
 				}
 			}
 
