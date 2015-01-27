@@ -1,7 +1,6 @@
 package vtp5;
 
 import java.awt.Desktop;
-import java.awt.Font;
 import java.io.IOException;
 
 import javax.swing.JEditorPane;
@@ -15,9 +14,9 @@ import org.kohsuke.github.GHRelease;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 
-import com.swabunga.spell.engine.EditDistance;
-
 import vtp5.gui.VTP5;
+
+import com.swabunga.spell.engine.EditDistance;
 
 /*VTP5 Copyright (C) 2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
 
@@ -45,11 +44,7 @@ public class Main {
 	public static final boolean exportingToJar = true;
 
 	public static void main(String[] args) {
-		
-		Runnable r = new Update();
-        Thread t = new Thread(r);
-        t.start();
-        
+
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -76,63 +71,4 @@ public class Main {
 			}
 		});
 	}
-}
-
-
-class Update implements Runnable{
-    public void run(){
-        //TODO search for latest update
-    	System.out.println("Searching for new update");
-    	
-    	try {
-			GHRepository repo = GitHub.connectAnonymously().getRepository(
-					"vtp5/vtp5");
-			GHRelease release = repo.listReleases().asList().get(0);
-
-			if (release.getTagName().contains(Main.build)
-					|| release.getName().contains(Main.build)) {
-			//why do anything
-			} else {
-				JEditorPane editorPane = new JEditorPane();
-				editorPane.setContentType("text/html");
-				//editorPane.setFontSize(20);
-				//editorPane.setFont(new Font("Segoe Script", 0, 20));
-				editorPane
-						.setText("You are not running the latest release of VTP5. \n\nThe latest version, "
-								+ release.getName()
-								+ ", can be found "
-								+ "<a href='https://github.com/vtp5/vtp5/releases'>here</a>.");
-
-				editorPane.setEditable(false);
-				editorPane.setOpaque(false);
-
-				editorPane.addHyperlinkListener(new HyperlinkListener() {
-					@Override
-					public void hyperlinkUpdate(HyperlinkEvent hle) {
-						if (HyperlinkEvent.EventType.ACTIVATED.equals(hle
-								.getEventType())) {
-							System.out.println(hle.getURL());
-							Desktop desktop = Desktop.getDesktop();
-							try {
-								desktop.browse(hle.getURL().toURI());
-							} catch (Exception ex) {
-								ex.printStackTrace();
-							}
-						}
-					}
-				});
-
-				JOptionPane.showMessageDialog(editorPane, "VTP5");
-			}
-		} catch (IOException e) {
-			JOptionPane
-					.showMessageDialog(
-							null,
-							"The following error occurred:\n\n"
-									+ e.toString()
-									+ "\n\nYour computer probably isn't connected to the Internet.",
-							"VTP5", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
-		}
-    }
 }

@@ -192,6 +192,9 @@ public class VTP5 extends JFrame {
 	private int minColour = 70;
 
 	public VTP5() {
+		// Create new Thread that checks for updates
+		Thread updateCheckThread = new Thread(new UpdateChecker());
+		updateCheckThread.start();
 
 		// Load spell-checker
 		SpellCheck.loadSpellChecker();
