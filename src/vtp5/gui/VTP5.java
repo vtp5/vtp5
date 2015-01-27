@@ -181,7 +181,7 @@ public class VTP5 extends JFrame {
 	});
 
 	private JColorChooser colourChooser = new JColorChooser();
-	Color buttonColour = new Color(0xE91E63);
+	Color buttonColour = new Color(0x663399);
 	private Color buttonTextColour = Color.WHITE;
 	private Color textColour = Color.BLACK;
 	private Color panelColour = null;
@@ -293,8 +293,8 @@ public class VTP5 extends JFrame {
 		progressBar = new WebProgressBar(WebProgressBar.VERTICAL, 0, 1000);
 		progressBar.setValue(0);
 		System.out.println(buttonColour);
-		progressBar.setBgTop(buttonColour.brighter());
-		progressBar.setBgBottom(buttonColour.darker());
+		progressBar.setBgTop(buttonColour.brighter().brighter().brighter().brighter().brighter().brighter().brighter().brighter().brighter());
+		progressBar.setBgBottom(buttonColour.brighter());
 		progressBar.setProgressTopColor(Color.GREEN.brighter());
 		progressBar.setProgressBottomColor(Color.GREEN.darker());
 		progressBar.setStringPainted(true);
