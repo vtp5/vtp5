@@ -293,7 +293,9 @@ public class VTP5 extends JFrame {
 		progressBar = new WebProgressBar(WebProgressBar.VERTICAL, 0, 1000);
 		progressBar.setValue(0);
 		System.out.println(buttonColour);
-		progressBar.setBgTop(buttonColour.brighter().brighter().brighter().brighter().brighter().brighter().brighter().brighter().brighter());
+		progressBar.setBgTop(buttonColour.brighter().brighter().brighter()
+				.brighter().brighter().brighter().brighter().brighter()
+				.brighter());
 		progressBar.setBgBottom(buttonColour.brighter());
 		progressBar.setProgressTopColor(Color.GREEN.brighter());
 		progressBar.setProgressBottomColor(Color.GREEN.darker());
@@ -929,6 +931,8 @@ public class VTP5 extends JFrame {
 	}
 
 	private void updatePanelColour(Color col) {
+		if (!(col == null))
+			col = new Color(col.getRed(), col.getGreen(), col.getBlue(), 25);
 		buttonPanel.setBackground(col);
 		mainPanel.setBackground(col);
 		finishPanel.setBackground(col);
