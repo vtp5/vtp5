@@ -181,7 +181,7 @@ public class VTP5 extends JFrame {
 	});
 
 	private JColorChooser colourChooser = new JColorChooser();
-	Color buttonColour = new Color(0x663399);
+	Color buttonColour = new Color(0xE91E63);
 	private Color buttonTextColour = Color.WHITE;
 	private Color textColour = Color.BLACK;
 	private Color panelColour = null;
@@ -972,7 +972,7 @@ public class VTP5 extends JFrame {
 				editorPane.setContentType("text/html");
 				setFontSize(editorPane, 20);
 				editorPane
-						.setText("You are not running the latest release of VTP5. \n\nThe latest version, titled "
+						.setText("You are not running the latest release of VTP5. \n\nThe latest version, "
 								+ release.getName()
 								+ ", can be found "
 								+ "<a href='https://github.com/vtp5/vtp5/releases'>here</a>.");
