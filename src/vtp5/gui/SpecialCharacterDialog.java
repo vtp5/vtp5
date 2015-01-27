@@ -90,10 +90,16 @@ public class SpecialCharacterDialog extends JDialog {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			answerField.setText(answerField.getText()
-					+ ((JButton) arg0.getSource()).getText());
+			System.out.println("Caret position: "
+					+ answerField.getCaretPosition());
+			int caretPosition = answerField.getCaretPosition();
+			String sub1 = answerField.getText().substring(0, caretPosition);
+			String sub2 = answerField.getText().substring(caretPosition);
+			String newString = sub1 + ((JButton) arg0.getSource()).getText()
+					+ sub2;
+			answerField.setText(newString);
+			answerField.setCaretPosition(caretPosition + 1);
 		}
-
 	}
 
 }

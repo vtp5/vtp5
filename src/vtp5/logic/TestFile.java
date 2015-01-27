@@ -303,8 +303,19 @@ public class TestFile implements Serializable {
 							"").toLowerCase();
 					answer = answer.toLowerCase();
 
-					System.out.println(EditDistance.getDistance(answer, s));
-					if (EditDistance.getDistance(answer, s) <= 200) {
+					System.out.println("Levenshtein Distance: "
+							+ EditDistance.getDistance(answer, s));
+					int threshold;
+					if (Math.min((double) answer.length(), (double) s.length()) <= 7.0) {
+						threshold = 60;
+					} else if (Math.min((double) answer.length(),
+							(double) s.length()) <= 15.0) {
+						threshold = 150;
+					} else {
+						threshold = 200;
+					}
+
+					if (EditDistance.getDistance(answer, s) <= threshold) {
 						return PROMPT_USER;
 					}
 				}

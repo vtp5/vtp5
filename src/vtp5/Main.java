@@ -1,18 +1,8 @@
 package vtp5;
 
-import java.awt.Desktop;
-import java.io.IOException;
-
-import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
-
-import org.kohsuke.github.GHRelease;
-import org.kohsuke.github.GHRepository;
-import org.kohsuke.github.GitHub;
 
 import vtp5.gui.VTP5;
 

@@ -475,7 +475,7 @@ public class VTP5 extends JFrame {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		System.out.println(screenSize);
 		setSize(screenSize.width < 1000 ? screenSize.width : 1000,
-				screenSize.height < 650 ? screenSize.height : 650);
+				screenSize.height < 600 ? screenSize.height : 600);
 		setTitle("VTP5 " + Main.appVersion);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
