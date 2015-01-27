@@ -578,6 +578,8 @@ public class VTP5 extends JFrame {
 	private void updatePrompt(int index) {
 		promptLabel.setText("<html>" + test.getPrompt(index) + "</html>");
 		updateGuessedAnswersList(true, null);
+		revalidate();
+		repaint();
 	}
 
 	// Method that returns a font object with the "default" font family
@@ -1459,8 +1461,6 @@ public class VTP5 extends JFrame {
 				abtDialog.setVisible(true);
 			} else if (e.getSource() == enterButton) {
 				doLogic();
-				revalidate();
-				repaint();
 			} else if (e.getSource() == passButton) {
 				// Reorder cards
 				Card c = test.getCards().get(questionIndex);
@@ -1544,6 +1544,9 @@ public class VTP5 extends JFrame {
 			} else if (e.getSource() == resetToDefaults) {
 				resetToDefaults();
 			}
+
+			revalidate();
+			repaint();
 		}
 	}
 
