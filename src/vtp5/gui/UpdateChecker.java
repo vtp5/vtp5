@@ -77,13 +77,14 @@ class UpdateChecker implements Runnable {
 						JOptionPane.WARNING_MESSAGE);
 			}
 		} catch (IOException e) {
-			JOptionPane
-					.showMessageDialog(
-							null,
-							"The following error occurred while trying to check for updates:\n\n"
-									+ e.toString()
-									+ "\n\nYour computer probably isn't connected to the Internet.\nDon't worry, everything's fine! :)",
-							"VTP5", JOptionPane.ERROR_MESSAGE);
+			// JOptionPane
+			// .showMessageDialog(
+			// null,
+			// "The following error occurred while trying to check for updates:\n\n"
+			// + e.toString()
+			// +
+			// "\n\nYour computer probably isn't connected to the Internet.\nDon't worry, everything's fine! :)",
+			// "VTP5", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 	}

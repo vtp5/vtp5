@@ -266,6 +266,9 @@ public class FinishPanel extends JPanel {
 		add(new JScrollPane(leaderboards), "grow, wrap, push");
 		add(saveTest, "grow, span, split 2");
 		add(restartTest, "grow");
+
+		revalidate();
+		repaint();
 	}
 
 	void setTextColour(Color text) {
