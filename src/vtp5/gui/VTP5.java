@@ -1229,6 +1229,7 @@ public class VTP5 extends JFrame {
 		passButton.setEnabled(true);
 		startAgainButton.setEnabled(true);
 		showMainPanel();
+		updatePanelColour(null);
 	}
 
 	void resetToDefaults() {
