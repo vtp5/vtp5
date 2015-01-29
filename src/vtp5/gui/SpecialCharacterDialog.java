@@ -3,13 +3,14 @@ package vtp5.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
+
+import com.alee.laf.button.WebButton;
+import com.alee.laf.panel.WebPanel;
 
 /*VTP5 Copyright (C) 2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
 
@@ -32,22 +33,22 @@ public class SpecialCharacterDialog extends JDialog {
 
 	private JTabbedPane tabbedPane;
 
-	private JPanel frenchPanel;
-	private JButton[] frenchCharacters = { new JButton("é"), new JButton("è"),
-			new JButton("à"), new JButton("ù"), new JButton("â"),
-			new JButton("ê"), new JButton("î"), new JButton("ô"),
-			new JButton("û"), new JButton("ë"), new JButton("ï"),
-			new JButton("ç"), new JButton("æ"), new JButton("œ") };
+	private WebPanel frenchPanel;
+	private WebButton[] frenchCharacters = { new WebButton("é"), new WebButton("è"),
+			new WebButton("à"), new WebButton("ù"), new WebButton("â"),
+			new WebButton("ê"), new WebButton("î"), new WebButton("ô"),
+			new WebButton("û"), new WebButton("ë"), new WebButton("ï"),
+			new WebButton("ç"), new WebButton("æ"), new WebButton("œ") };
 
-	private JPanel germanPanel;
-	private JButton[] germanCharacters = { new JButton("ä"), new JButton("ö"),
-			new JButton("ü"), new JButton("ß") };
+	private WebPanel germanPanel;
+	private WebButton[] germanCharacters = { new WebButton("ä"), new WebButton("ö"),
+			new WebButton("ü"), new WebButton("ß") };
 
-	private JPanel spanishPanel;
-	private JButton[] spanishCharacters = { new JButton("á"), new JButton("é"),
-			new JButton("í"), new JButton("ó"), new JButton("ú"),
-			new JButton("ü"), new JButton("ñ"), new JButton("¿"),
-			new JButton("¡") };
+	private WebPanel spanishPanel;
+	private WebButton[] spanishCharacters = { new WebButton("á"), new WebButton("é"),
+			new WebButton("í"), new WebButton("ó"), new WebButton("ú"),
+			new WebButton("ü"), new WebButton("ñ"), new WebButton("¿"),
+			new WebButton("¡") };
 
 	private JTextField answerField;
 
@@ -56,20 +57,20 @@ public class SpecialCharacterDialog extends JDialog {
 
 		tabbedPane = new JTabbedPane();
 
-		frenchPanel = new JPanel(new MigLayout());
-		for (JButton button : frenchCharacters) {
+		frenchPanel = new WebPanel(new MigLayout());
+		for (WebButton button : frenchCharacters) {
 			frenchPanel.add(button);
 			button.addActionListener(new EventListener());
 		}
 
-		germanPanel = new JPanel(new MigLayout());
-		for (JButton button : germanCharacters) {
+		germanPanel = new WebPanel(new MigLayout());
+		for (WebButton button : germanCharacters) {
 			germanPanel.add(button);
 			button.addActionListener(new EventListener());
 		}
 
-		spanishPanel = new JPanel(new MigLayout());
-		for (JButton button : spanishCharacters) {
+		spanishPanel = new WebPanel(new MigLayout());
+		for (WebButton button : spanishCharacters) {
 			spanishPanel.add(button);
 			button.addActionListener(new EventListener());
 		}
@@ -95,7 +96,7 @@ public class SpecialCharacterDialog extends JDialog {
 			int caretPosition = answerField.getCaretPosition();
 			String sub1 = answerField.getText().substring(0, caretPosition);
 			String sub2 = answerField.getText().substring(caretPosition);
-			String newString = sub1 + ((JButton) arg0.getSource()).getText()
+			String newString = sub1 + ((WebButton) arg0.getSource()).getText()
 					+ sub2;
 			answerField.setText(newString);
 			answerField.setCaretPosition(caretPosition + 1);

@@ -13,12 +13,8 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.RowSorter.SortKey;
 import javax.swing.SortOrder;
 import javax.swing.table.AbstractTableModel;
@@ -27,6 +23,11 @@ import javax.swing.table.TableRowSorter;
 import net.miginfocom.swing.MigLayout;
 import vtp5.logic.Card;
 import vtp5.logic.TestFile;
+
+import com.alee.laf.label.WebLabel;
+import com.alee.laf.panel.WebPanel;
+import com.alee.laf.scroll.WebScrollPane;
+import com.alee.laf.table.WebTable;
 
 /*VTP5 Copyright (C) 2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
 
@@ -43,22 +44,22 @@ import vtp5.logic.TestFile;
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class FinishPanel extends JPanel {
+public class FinishPanel extends WebPanel {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private JLabel completedLabel = new JLabel();
-	private JLabel showListLabel = new JLabel();
+	private WebLabel completedLabel = new WebLabel();
+	private WebLabel showListLabel = new WebLabel();
 	private CustomFont cf;
-	private JTable table = new JTable();
+	private WebTable table = new WebTable();
 	private TestFile test;
 	private String completedMessage;
 	private DefaultListModel<Object> statsListModel = new DefaultListModel<>();
 	private JList<Object> statsList = new JList<>(statsListModel);
-	private JScrollPane statsScrollPane = new JScrollPane(statsList);
+	private WebScrollPane statsScrollPane = new WebScrollPane(statsList);
 	private WrongAnswersTableModel watm;
 	private VTP5Button saveTest;
 	private VTP5Button restartTest;
@@ -204,6 +205,8 @@ public class FinishPanel extends JPanel {
 				}
 			}
 		});
+		revalidate();
+		repaint();
 	}
 
 	// DO NOT DELETE THIS METHOD - it makes text-rescaling work!
@@ -247,7 +250,7 @@ public class FinishPanel extends JPanel {
 		List<SortKey> sortKeys = new ArrayList<SortKey>();
 		sortKeys.add(new SortKey(2, SortOrder.DESCENDING));
 		watm = new WrongAnswersTableModel(parent.getTest().getIncorrectCards());
-		table = new JTable(watm);
+		table = new WebTable(watm);
 		table.setEnabled(false);
 		table.setRowHeight(table.getFont().getSize() + 10);
 		sorter = new TableRowSorter<AbstractTableModel>(watm);
@@ -262,8 +265,8 @@ public class FinishPanel extends JPanel {
 		add(completedLabel, "grow");
 		add(statsScrollPane, "grow, spany 2, width 35%!, wrap");
 		add(showListLabel, "grow, wrap");
-		add(new JScrollPane(table), "grow");
-		add(new JScrollPane(leaderboards), "grow, wrap, push");
+		add(new WebScrollPane(table), "grow");
+		add(new WebScrollPane(leaderboards), "grow, wrap, push");
 		add(saveTest, "grow, span, split 2");
 		add(restartTest, "grow");
 

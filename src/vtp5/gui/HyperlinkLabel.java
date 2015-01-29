@@ -7,8 +7,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+
+import com.alee.laf.label.WebLabel;
 
 /*VTP5 Copyright (C) 2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
 
@@ -25,7 +26,7 @@ import javax.swing.JOptionPane;
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class HyperlinkLabel extends JLabel {
+public class HyperlinkLabel extends WebLabel {
 	private static final long serialVersionUID = 1L;
 
 	public HyperlinkLabel(String text, final String link) {

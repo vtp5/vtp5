@@ -1,14 +1,15 @@
 package vtp5.gui;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
-import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import net.miginfocom.swing.MigLayout;
+
+import com.alee.laf.label.WebLabel;
+import com.alee.laf.panel.WebPanel;
+import com.alee.laf.slider.WebSlider;
+import com.alee.laf.spinner.WebSpinner;
 
 /*VTP5 Copyright (C) 2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
 
@@ -25,23 +26,23 @@ import net.miginfocom.swing.MigLayout;
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class QuestionsDialog extends JPanel {
+public class QuestionsDialog extends WebPanel {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private JSlider slider;
-	private JSpinner spinner;
+	private WebSlider slider;
+	private WebSpinner spinner;
 
-	private JLabel questionsDialog = new JLabel(
+	private WebLabel questionsDialog = new WebLabel(
 			"How many questions do you want?");
 	CustomFont cf = new CustomFont();
 
 	public QuestionsDialog(VTP5 obj) {
 		setLayout(new MigLayout("fillx"));
-		slider = new JSlider();
-		spinner = new JSpinner(new SpinnerNumberModel(obj.getTest().getCards()
+		slider = new WebSlider();
+		spinner = new WebSpinner(new SpinnerNumberModel(obj.getTest().getCards()
 				.size(), 1, obj.getTest().getCards().size(), 1));
 
 		cf.setFont(spinner, 25);
@@ -80,11 +81,11 @@ public class QuestionsDialog extends JPanel {
 
 	}
 
-	public JSlider getSlider() {
+	public WebSlider getSlider() {
 		return slider;
 	}
 
-	public JSpinner getSpinner() {
+	public WebSpinner getSpinner() {
 		return spinner;
 	}
 

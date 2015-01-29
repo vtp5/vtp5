@@ -44,20 +44,15 @@ import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
-import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
-import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.Timer;
 import javax.swing.event.HyperlinkEvent;
@@ -75,7 +70,12 @@ import vtp5.logic.Card;
 import vtp5.logic.SpellCheck;
 import vtp5.logic.TestFile;
 
+import com.alee.laf.checkbox.WebCheckBox;
+import com.alee.laf.label.WebLabel;
+import com.alee.laf.panel.WebPanel;
 import com.alee.laf.progressbar.WebProgressBar;
+import com.alee.laf.scroll.WebScrollPane;
+import com.alee.laf.text.WebTextField;
 
 /*VTP5 Copyright (C) 2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
 
@@ -103,25 +103,25 @@ public class VTP5 extends JFrame {
 	private FramePanel framePanel;
 
 	// Components for button panel at top of frame
-	private JPanel buttonPanel;
+	private WebPanel buttonPanel;
 	private VTP5Button importFileButton, settingsButton, helpButton,
 			aboutButton, saveButton, startAgainButton;
 	private int questionIndex = 0;
 
 	// Components in the main area of the frame
-	private JPanel mainPanel;
-	private JCheckBox switchLanguageCheck;
-	private JLabel promptLabel;
-	private JTextField answerField;
+	private WebPanel mainPanel;
+	private WebCheckBox switchLanguageCheck;
+	private WebLabel promptLabel;
+	private WebTextField answerField;
 	private VTP5Button characterButton;
 	private VTP5Button enterButton;
 	private VTP5Button passButton;
 
 	private JList<String> statsList;
-	private JScrollPane statsScrollPane;
+	private WebScrollPane statsScrollPane;
 	private DefaultListModel<String> statsListModel;
 	private JList<String> guessedAnswersList;
-	private JScrollPane guessedAnswersScrollPane;
+	private WebScrollPane guessedAnswersScrollPane;
 	private DefaultListModel<String> guessedAnswersListModel;
 
 	private WebProgressBar progressBar;
@@ -152,9 +152,9 @@ public class VTP5 extends JFrame {
 	private VTP5Button changeButtonColour, changeTextColour,
 			changeButtonTextColour, checkForUpdateButton,
 			changeBackgroundColour, resetToDefaults;
-	private JCheckBox changingFrameColourCheck, questionNumberCheck,
+	private WebCheckBox changingFrameColourCheck, questionNumberCheck,
 			soundCheck, spellCheckCheck, iffyAnswerCheck, typoDetectorCheck;
-	private JLabel experimentalLabel;
+	private WebLabel experimentalLabel;
 	private HyperlinkLabel exInfoLabel;
 
 	// Components for About Dialog
@@ -214,7 +214,7 @@ public class VTP5 extends JFrame {
 		framePanel.setLayout(new BorderLayout());// set layout
 
 		// Set up button panel
-		buttonPanel = new JPanel();// make panel for buttons
+		buttonPanel = new WebPanel();// make panel for buttons
 		buttonPanel.setLayout(new MigLayout());// set layout
 
 		importFileButton = new VTP5Button("Import Test File", this);// creates
@@ -251,15 +251,15 @@ public class VTP5 extends JFrame {
 
 		checkForUpdateButton = new VTP5Button("Check For Updates", this);
 
-		experimentalLabel = new JLabel("Enable Experimental Features:");
-		changingFrameColourCheck = new JCheckBox(
+		experimentalLabel = new WebLabel("Enable Experimental Features:");
+		changingFrameColourCheck = new WebCheckBox(
 				"Enable Dynamic Background Colour", true);
-		questionNumberCheck = new JCheckBox("Enable Question Number Selection",
+		questionNumberCheck = new WebCheckBox("Enable Question Number Selection",
 				true);
-		soundCheck = new JCheckBox("Enable Sound");
-		spellCheckCheck = new JCheckBox("Spell Checker");
-		iffyAnswerCheck = new JCheckBox("Iffy Answer Detector");
-		typoDetectorCheck = new JCheckBox("Typo Detector");
+		soundCheck = new WebCheckBox("Enable Sound");
+		spellCheckCheck = new WebCheckBox("Spell Checker");
+		iffyAnswerCheck = new WebCheckBox("Iffy Answer Detector");
+		typoDetectorCheck = new WebCheckBox("Typo Detector");
 
 		exInfoLabel = new HyperlinkLabel(
 				"<html>Click here for more information<br />on experimental features</html>",
@@ -348,10 +348,10 @@ public class VTP5 extends JFrame {
 		buttonPanel.add(separator, "span, grow, push");
 
 		// Set up main panel
-		mainPanel = new JPanel();
+		mainPanel = new WebPanel();
 		mainPanel.setLayout(new MigLayout("insets 5", "", "[][][][]5%[]"));
 
-		switchLanguageCheck = new JCheckBox("Switch Language");
+		switchLanguageCheck = new WebCheckBox("Switch Language");
 		switchLanguageCheck.setFocusable(false);
 		switchLanguageCheck.setForeground(textColour);
 		switchLanguageCheck.setBackground(Color.GRAY);
@@ -359,12 +359,12 @@ public class VTP5 extends JFrame {
 		switchLanguageCheck.addItemListener(new SwitchLanguageListener());
 		componentList.add(new ComponentWithFontData(switchLanguageCheck, 30));
 
-		promptLabel = new JLabel(
+		promptLabel = new WebLabel(
 				"<html>Click 'Import Test File' to begin.</html>");// creates
 		// label
 		promptLabel.setForeground(textColour);// changes text colour
 
-		answerField = new JTextField();// creates text field
+		answerField = new WebTextField();// creates text field
 		answerField.addActionListener(new EventListener());
 		answerField.addFocusListener(new AnswerFieldFocusListener());
 		answerField.getInputMap(JComponent.WHEN_FOCUSED).put(
@@ -422,7 +422,7 @@ public class VTP5 extends JFrame {
 		statsList.setForeground(textColour);// changes text colour
 		statsList.setSelectionModel(selectionModel);
 		statsList.setFocusable(false);
-		statsScrollPane = new JScrollPane(statsList);
+		statsScrollPane = new WebScrollPane(statsList);
 
 		guessedAnswersListModel = new DefaultListModel<>();
 		guessedAnswersListModel
@@ -432,7 +432,7 @@ public class VTP5 extends JFrame {
 		guessedAnswersList.setForeground(textColour);// changes text colour
 		guessedAnswersList.setSelectionModel(selectionModel);
 		guessedAnswersList.setFocusable(false);
-		guessedAnswersScrollPane = new JScrollPane(guessedAnswersList);
+		guessedAnswersScrollPane = new WebScrollPane(guessedAnswersList);
 
 		componentList.add(new ComponentWithFontData(statsList, 32));
 		componentList.add(new ComponentWithFontData(guessedAnswersList, 32));
@@ -651,7 +651,7 @@ public class VTP5 extends JFrame {
 	}
 
 	private void displayColorChooser(int index) {
-		colourChooser.setPreviewPanel(new JPanel());
+		colourChooser.setPreviewPanel(new WebPanel());
 		JDialog d = JColorChooser.createDialog(null, "", true, colourChooser,
 				null, null);
 		Color c;
@@ -941,6 +941,8 @@ public class VTP5 extends JFrame {
 		buttonPanel.setBackground(col);
 		mainPanel.setBackground(col);
 		finishPanel.setBackground(col);
+		finishPanel.revalidate();
+		finishPanel.repaint();
 	}
 
 	private void updateStatsList() {
@@ -1328,7 +1330,7 @@ public class VTP5 extends JFrame {
 
 	// Inner class for the frame's content pane so that the background image can
 	// be drawn
-	private class FramePanel extends JPanel {
+	private class FramePanel extends WebPanel {
 		private static final long serialVersionUID = 1L;
 
 		@Override

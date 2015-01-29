@@ -7,13 +7,14 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 import net.miginfocom.swing.MigLayout;
 import vtp5.Main;
+
+import com.alee.laf.button.WebButton;
+import com.alee.laf.label.WebLabel;
+import com.alee.laf.optionpane.WebOptionPane;
+import com.alee.laf.rootpane.WebDialog;
 
 /*VTP5 Copyright (C) 2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
 
@@ -30,36 +31,36 @@ import vtp5.Main;
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class AboutDialog extends JDialog {
+public class AboutDialog extends WebDialog {
 
 	private static final long serialVersionUID = 8305515388027804491L;
 
-	private JLabel vtp5Label = new JLabel("Vocabulary Testing Program 5, "
+	private WebLabel vtp5Label = new WebLabel("Vocabulary Testing Program 5, "
 			+ Main.appVersion);
-	private JLabel devLabel = new JLabel(
+	private WebLabel devLabel = new WebLabel(
 			"Developed by Abdel Abdalla, Minghua Yin,");
-	private JLabel dev2Label = new JLabel("Yousuf Ahmed and Nikunj Paliwal.");
-	private JLabel wikiLabel = new HyperlinkLabel("Wiki",
+	private WebLabel dev2Label = new WebLabel("Yousuf Ahmed and Nikunj Paliwal.");
+	private WebLabel wikiLabel = new HyperlinkLabel("Wiki",
 			"https://github.com/vtp5/vtp5/wiki");
-	private JLabel srccodeLabel = new HyperlinkLabel("Source Code",
+	private WebLabel srccodeLabel = new HyperlinkLabel("Source Code",
 			"https://github.com/vtp5/vtp5");
-	private JLabel separatorLabel = new JLabel(
+	private WebLabel separatorLabel = new WebLabel(
 			"------------------------------------------------------------------");
-	private JLabel license1aLabel = new JLabel(
+	private WebLabel license1aLabel = new WebLabel(
 			"VTP5 Copyright (C) 2015 Abdel-Rahim Abdalla, Minghua Yin,");
-	private JLabel license1bLabel = new JLabel(
+	private WebLabel license1bLabel = new WebLabel(
 			"Yousuf Mohamed-Ahmed and Nikunj Paliwal");
-	private JLabel license2Label = new JLabel(
+	private WebLabel license2Label = new WebLabel(
 			"VTP5 is licensed under the GNU General Public License (Version 3).");
-	private JLabel license3Label = new HyperlinkLabel(
+	private WebLabel license3Label = new HyperlinkLabel(
 			"Click here for more information",
 			"https://github.com/vtp5/vtp5/wiki/Licensing");
-	private JLabel separatorLabel2 = new JLabel(
+	private WebLabel separatorLabel2 = new WebLabel(
 			"------------------------------------------------------------------");
-	private JLabel license4Label = new JLabel(
+	private WebLabel license4Label = new WebLabel(
 			"Jazzy, the spell-checking library used in VTP5,");
-	private JLabel license5Label = new JLabel("is licensed under the LGPL.");
-	private JButton giveFeedback = new JButton("Give Feedback");
+	private WebLabel license5Label = new WebLabel("is licensed under the LGPL.");
+	private WebButton giveFeedback = new WebButton("Give Feedback");
 
 	public AboutDialog() {
 		setTitle("About VTP5");
@@ -72,21 +73,21 @@ public class AboutDialog extends JDialog {
 					java.awt.Desktop
 							.getDesktop()
 							.browse(new URI(
-									"https://docs.google.com/forms/d/1TK5I8IXvcCES6Xk1yRAZPRAreRLo9Sjm2o_vx6MA4hY/viewform?usp=send_form"));
+									"https://docs.google.com/forms/d/1TK5I8IXvcCES6Xk1yRAZPRAreRLo9SWebm2o_vx6MA4hY/viewform?usp=send_form"));
 				} catch (URISyntaxException | IOException e1) {
 					e1.printStackTrace();
-					JOptionPane
+					WebOptionPane
 							.showMessageDialog(
 									null,
 									"The following error occurred:\n\n"
 											+ e1.toString()
 											+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
-									"VTP5", JOptionPane.ERROR_MESSAGE);
+									"VTP5", WebOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 
-		add(new JLabel(new ImageIcon(getClass().getResource(
+		add(new WebLabel(new ImageIcon(getClass().getResource(
 				"/images/vtpsmall.png"))), "alignx center, aligny top, wrap");
 		add(vtp5Label, "alignx center, wrap");
 		add(devLabel, "alignx center, wrap");
