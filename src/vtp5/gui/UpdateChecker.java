@@ -4,6 +4,7 @@ import java.awt.Desktop;
 import java.io.IOException;
 
 import javax.swing.JEditorPane;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
@@ -30,6 +31,11 @@ import vtp5.Main;
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 class UpdateChecker implements Runnable {
+	private JFrame parent;
+
+	UpdateChecker(JFrame parent) {
+		this.parent = parent;
+	}
 
 	public void run() {
 		// TODO search for latest update
@@ -73,7 +79,7 @@ class UpdateChecker implements Runnable {
 					}
 				});
 
-				JOptionPane.showMessageDialog(null, editorPane, "VTP5",
+				JOptionPane.showMessageDialog(parent, editorPane, "VTP5",
 						JOptionPane.WARNING_MESSAGE);
 			}
 		} catch (IOException e) {

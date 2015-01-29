@@ -7,6 +7,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 
 import net.miginfocom.swing.MigLayout;
 import vtp5.Main;
@@ -39,7 +40,8 @@ public class AboutDialog extends WebDialog {
 			+ Main.appVersion);
 	private WebLabel devLabel = new WebLabel(
 			"Developed by Abdel Abdalla, Minghua Yin,");
-	private WebLabel dev2Label = new WebLabel("Yousuf Ahmed and Nikunj Paliwal.");
+	private WebLabel dev2Label = new WebLabel(
+			"Yousuf Ahmed and Nikunj Paliwal.");
 	private WebLabel wikiLabel = new HyperlinkLabel("Wiki",
 			"https://github.com/vtp5/vtp5/wiki");
 	private WebLabel srccodeLabel = new HyperlinkLabel("Source Code",
@@ -63,6 +65,7 @@ public class AboutDialog extends WebDialog {
 	private WebButton giveFeedback = new WebButton("Give Feedback");
 
 	public AboutDialog() {
+
 		setTitle("About VTP5");
 		setLayout(new MigLayout("fillx"));
 

@@ -193,7 +193,7 @@ public class VTP5 extends JFrame {
 
 	public VTP5() {
 		// Create new Thread that checks for updates
-		Thread updateCheckThread = new Thread(new UpdateChecker());
+		Thread updateCheckThread = new Thread(new UpdateChecker(this));
 		updateCheckThread.start();
 
 		// Load spell-checker
@@ -254,8 +254,8 @@ public class VTP5 extends JFrame {
 		experimentalLabel = new WebLabel("Enable Experimental Features:");
 		changingFrameColourCheck = new WebCheckBox(
 				"Enable Dynamic Background Colour", true);
-		questionNumberCheck = new WebCheckBox("Enable Question Number Selection",
-				true);
+		questionNumberCheck = new WebCheckBox(
+				"Enable Question Number Selection", true);
 		soundCheck = new WebCheckBox("Enable Sound");
 		spellCheckCheck = new WebCheckBox("Spell Checker");
 		iffyAnswerCheck = new WebCheckBox("Iffy Answer Detector");
@@ -324,6 +324,8 @@ public class VTP5 extends JFrame {
 		startAgainButton.setFocusable(false);
 
 		EventListener eventListener = new EventListener();
+		eventListener.parent = this;
+
 		importFileButton.addActionListener(eventListener);
 		saveButton.addActionListener(eventListener);
 		aboutButton.addActionListener(eventListener);
@@ -365,7 +367,7 @@ public class VTP5 extends JFrame {
 		promptLabel.setForeground(textColour);// changes text colour
 
 		answerField = new WebTextField();// creates text field
-		answerField.addActionListener(new EventListener());
+		answerField.addActionListener(eventListener);
 		answerField.addFocusListener(new AnswerFieldFocusListener());
 		answerField.getInputMap(JComponent.WHEN_FOCUSED).put(
 				KeyStroke.getKeyStroke("released ENTER"), "Enter");
@@ -381,7 +383,7 @@ public class VTP5 extends JFrame {
 		characterDialog = new SpecialCharacterDialog(answerField);
 
 		characterButton = new VTP5Button("é", this);
-		characterButton.addActionListener(new EventListener());
+		characterButton.addActionListener(eventListener);
 
 		characterButton.setBackground(buttonColour);// changes background colour
 		characterButton.setForeground(buttonTextColour);// changes foreground
@@ -390,14 +392,14 @@ public class VTP5 extends JFrame {
 		componentList.add(new ComponentWithFontData(characterButton, 32));
 
 		enterButton = new VTP5Button("Enter", this);// creates
-		enterButton.addActionListener(new EventListener());
+		enterButton.addActionListener(eventListener);
 		enterButton.setEnabled(false);
 
 		componentList.add(new ComponentWithFontData(enterButton, 32));// adds to
 																		// list
 
 		passButton = new VTP5Button("Skip", this);// creates
-		passButton.addActionListener(new EventListener());
+		passButton.addActionListener(eventListener);
 		passButton.setEnabled(false);
 
 		componentList.add(new ComponentWithFontData(passButton, 32));// adds to
@@ -600,7 +602,7 @@ public class VTP5 extends JFrame {
 			} else if (fileType == 1) {
 				JOptionPane
 						.showMessageDialog(
-								null,
+								this,
 								"Did you expect every feature to be complete in the first alpha version? :P (We're working on it...)",
 								"VTP5", JOptionPane.INFORMATION_MESSAGE);
 				// int selected = csvChooser.showOpenDialog(getParent());
@@ -619,7 +621,7 @@ public class VTP5 extends JFrame {
 						e.printStackTrace();
 						JOptionPane
 								.showMessageDialog(
-										null,
+										this,
 										"The following error occurred:\n\n"
 												+ e.toString()
 												+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
@@ -632,7 +634,7 @@ public class VTP5 extends JFrame {
 			e.printStackTrace();
 			JOptionPane
 					.showMessageDialog(
-							null,
+							this,
 							"The following error occurred:\n\n"
 									+ e.toString()
 									+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
@@ -641,7 +643,7 @@ public class VTP5 extends JFrame {
 			e.printStackTrace();
 			JOptionPane
 					.showMessageDialog(
-							null,
+							this,
 							"The following error occurred:\n\n"
 									+ e.toString()
 									+ "\n\nIt's likely that the file you're trying to import isn't formatted correctly.\nPlease check the file and try again.\nIf the problem persists, please report it.",
@@ -1013,7 +1015,7 @@ public class VTP5 extends JFrame {
 		} catch (IOException e) {
 			JOptionPane
 					.showMessageDialog(
-							null,
+							this,
 							"The following error occurred:\n\n"
 									+ e.toString()
 									+ "\n\nYour computer probably isn't connected to the Internet.",
@@ -1068,7 +1070,7 @@ public class VTP5 extends JFrame {
 		} catch (IOException io) {
 			JOptionPane
 					.showMessageDialog(
-							null,
+							this,
 							"The following error occurred:\n\n"
 									+ io.toString()
 									+ "\n\nThis means that VTP5 cannot create a file to store its settings. Please report the problem if it keeps happening.",
@@ -1108,7 +1110,7 @@ public class VTP5 extends JFrame {
 			e.printStackTrace();
 			JOptionPane
 					.showMessageDialog(
-							null,
+							this,
 							"The following error occurred:\n\n"
 									+ e.toString()
 									+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
@@ -1182,7 +1184,7 @@ public class VTP5 extends JFrame {
 			e.printStackTrace();
 			JOptionPane
 					.showMessageDialog(
-							null,
+							this,
 							"The following error occurred:\n\n"
 									+ e.toString()
 									+ "\n\nThis means that VTP5 cannot create a folder to store its settings. Please report the problem if it keeps happening.",
@@ -1231,7 +1233,9 @@ public class VTP5 extends JFrame {
 		passButton.setEnabled(true);
 		startAgainButton.setEnabled(true);
 		showMainPanel();
-		updatePanelColour(null);
+		if (!changeBackgroundColour.isEnabled()) {
+			updatePanelColour(null);
+		}
 	}
 
 	void resetToDefaults() {
@@ -1267,7 +1271,7 @@ public class VTP5 extends JFrame {
 			e1.printStackTrace();
 			JOptionPane
 					.showMessageDialog(
-							null,
+							this,
 							"The following error occurred:\n\n"
 									+ e1.toString()
 									+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
@@ -1408,13 +1412,14 @@ public class VTP5 extends JFrame {
 	}
 
 	private class EventListener implements ActionListener {
+		private JFrame parent;
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == importFileButton) {
 				int option = JOptionPane
 						.showOptionDialog(
-								getParent(),
+								parent,
 								"Do you want to import a text file (for simple tests), a CSV file (for more complex tests),"
 										+ "\n                           or a VTP5 progress file (for partly completed tests)?"
 										+ "\n\nTIP: You can combine text files by holding CTRL (or Command on Mac OS) and selecting"
@@ -1485,7 +1490,7 @@ public class VTP5 extends JFrame {
 					e1.printStackTrace();
 					JOptionPane
 							.showMessageDialog(
-									null,
+									parent,
 									"The following error occurred:\n\n"
 											+ e1.toString()
 											+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
@@ -1513,7 +1518,7 @@ public class VTP5 extends JFrame {
 						output.writeObject(test);
 						JOptionPane
 								.showMessageDialog(
-										null,
+										parent,
 										"Success! Your progress has been saved to the following file:\n\n"
 												+ filePath
 												+ "\n\nTo carry on with this test later, click \"Import Test File\"\nand then click the \"Progress File\" button.",
@@ -1522,7 +1527,7 @@ public class VTP5 extends JFrame {
 						e1.printStackTrace();
 						JOptionPane
 								.showMessageDialog(
-										null,
+										parent,
 										"The following error occurred:\n\n"
 												+ e1.toString()
 												+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
@@ -1533,7 +1538,7 @@ public class VTP5 extends JFrame {
 				// e1.printStackTrace();
 				// }
 			} else if (e.getSource() == startAgainButton) {
-				int result = JOptionPane.showConfirmDialog(null,
+				int result = JOptionPane.showConfirmDialog(parent,
 						"Are you sure you want to start again?", "VTP5",
 						JOptionPane.YES_NO_OPTION);
 				if (result == JOptionPane.YES_OPTION) {

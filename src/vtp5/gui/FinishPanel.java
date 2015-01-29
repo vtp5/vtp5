@@ -173,7 +173,7 @@ public class FinishPanel extends WebPanel {
 
 							JOptionPane
 									.showMessageDialog(
-											null,
+											parent,
 											"Success! Your wrong answers have been saved to the following file:\n\n"
 													+ filePath
 													+ "\n\nTo do a test with only these questions, click \"Import Test File\",\nclick the \"Text File\" button and then select the file you've just saved.",
@@ -183,7 +183,7 @@ public class FinishPanel extends WebPanel {
 							e.printStackTrace();
 							JOptionPane
 									.showMessageDialog(
-											null,
+											parent,
 											"The following error occurred:\n\n"
 													+ e.toString()
 													+ "\n\nThat's really sad :(. This could be because VTP5 can't find or access the file you selected.\nPlease report the problem if it keeps happening.",
@@ -192,7 +192,7 @@ public class FinishPanel extends WebPanel {
 							e.printStackTrace();
 							JOptionPane
 									.showMessageDialog(
-											null,
+											parent,
 											"The following error occurred:\n\n"
 													+ e.toString()
 													+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
