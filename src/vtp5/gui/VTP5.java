@@ -1,5 +1,6 @@
 package vtp5.gui;
 
+import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -7,6 +8,8 @@ import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +21,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -33,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Properties;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -104,7 +109,7 @@ public class VTP5 extends JFrame {
 
 	// Components for button panel at top of frame
 	private WebPanel buttonPanel;
-	private VTP5Button importFileButton, settingsButton, helpButton,
+	private VTP5Button importFileButton, screenshotButton, settingsButton, helpButton,
 			aboutButton, saveButton, startAgainButton;
 	private int questionIndex = 0;
 
@@ -220,8 +225,10 @@ public class VTP5 extends JFrame {
 		importFileButton = new VTP5Button("Import Test File", this);// creates
 		importFileButton.setBackground(buttonColour);// buttons
 
+		//ImageIcon s = new ImageIcon(getClass().getResource("res/images/screenshot.png"));
+		screenshotButton = new VTP5Button("Screenshot",this);
+		
 		saveButton = new VTP5Button("Complete Later", this);
-
 		saveButton.setEnabled(false);
 
 		startAgainButton = new VTP5Button("Start Again", this);
@@ -306,6 +313,7 @@ public class VTP5 extends JFrame {
 		progressBar.setString("");
 
 		componentList.add(new ComponentWithFontData(importFileButton, 34));// adds
+		componentList.add(new ComponentWithFontData(screenshotButton, 34));
 		componentList.add(new ComponentWithFontData(saveButton, 34)); // to
 		componentList.add(new ComponentWithFontData(settingsButton, 34));// adds
 		componentList.add(new ComponentWithFontData(helpButton, 34));// adds to
@@ -316,6 +324,7 @@ public class VTP5 extends JFrame {
 		// Prevent the buttons from being focusable so there is no ugly
 		// rectangle when you click it - this is purely for aesthetic reasons
 		importFileButton.setFocusable(false);
+		screenshotButton.setFocusable(false);
 		saveButton.setFocusable(false);
 		// leaderboardButton.setFocusable(false);
 		settingsButton.setFocusable(false);
@@ -327,6 +336,7 @@ public class VTP5 extends JFrame {
 		eventListener.parent = this;
 
 		importFileButton.addActionListener(eventListener);
+		screenshotButton.addActionListener(eventListener);
 		saveButton.addActionListener(eventListener);
 		aboutButton.addActionListener(eventListener);
 		settingsButton.addActionListener(eventListener);
@@ -341,6 +351,7 @@ public class VTP5 extends JFrame {
 		resetToDefaults.addActionListener(eventListener);
 
 		buttonPanel.add(importFileButton, "align left");// adds to panel
+		buttonPanel.add(screenshotButton, "align left");// adds to panel
 		buttonPanel.add(startAgainButton, "align left");
 		buttonPanel.add(saveButton, "align right");
 		// buttonPanel.add(leaderboardButton, "align right");// adds to panel
@@ -725,7 +736,7 @@ public class VTP5 extends JFrame {
 					playSound("/sounds/qcorrect.wav");
 				} catch (LineUnavailableException
 						| UnsupportedAudioFileException | IOException e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				}
 
@@ -762,7 +773,7 @@ public class VTP5 extends JFrame {
 					playSound("/sounds/qincorrect.wav");
 				} catch (LineUnavailableException
 						| UnsupportedAudioFileException | IOException e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				}
 
@@ -1444,7 +1455,18 @@ public class VTP5 extends JFrame {
 					}
 				}
 
-			} else if (e.getSource() == changingFrameColourCheck) {
+			}else if (e.getSource() == screenshotButton){
+				//TODO screenshot
+				Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+				try {
+					BufferedImage capture = new Robot().createScreenCapture(screenRect);
+					ImageIO.write(capture, "png", new File("D:/screenshot.png"));
+				} catch (IOException | AWTException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				System.out.println("screenshot");
+			}else if (e.getSource() == changingFrameColourCheck) {
 				if (changingFrameColourCheck.isSelected()) {
 					changeBackgroundColour.setEnabled(false);
 					if (test != null) {
