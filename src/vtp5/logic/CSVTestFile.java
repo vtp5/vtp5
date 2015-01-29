@@ -23,7 +23,7 @@ import java.util.Arrays;
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class CSVTF implements Serializable {
+public class CSVTestFile implements Serializable {
 	/**
 	 * 
 	 */
@@ -63,7 +63,7 @@ public class CSVTF implements Serializable {
 	private File importedFile;
 
 	@SuppressWarnings("unchecked")
-	public CSVTF(File[] files) throws IOException {
+	public CSVTestFile(File[] files) throws IOException {
 		if (files.length == 1) {
 			setImportedFile(files[0]);
 		}
