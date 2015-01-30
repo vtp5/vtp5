@@ -1,15 +1,23 @@
 package vtp5.gui;
 
+import java.awt.AWTException;
 import java.awt.Color;
+import java.awt.Rectangle;
+import java.awt.Robot;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.JFileChooser;
@@ -63,6 +71,7 @@ public class FinishPanel extends WebPanel {
 	private WrongAnswersTableModel watm;
 	private VTP5Button saveTest;
 	private VTP5Button restartTest;
+	private VTP5Button screenshotButton;
 	private JFileChooser wrongAnswersTest = new JFileChooser();
 	private TableRowSorter<AbstractTableModel> sorter;
 
@@ -79,9 +88,11 @@ public class FinishPanel extends WebPanel {
 
 		saveTest = new VTP5Button("Save Wrong Answers to Test File", parent);
 		restartTest = new VTP5Button("Start Again", parent);
+		screenshotButton = new VTP5Button("Take Screenshot", parent);
 
 		saveTest.setFocusable(false);
 		restartTest.setFocusable(false);
+		screenshotButton.setFocusable(false);
 
 		setTextColour(parent.getTextColour());
 
@@ -110,6 +121,7 @@ public class FinishPanel extends WebPanel {
 		componentList.add(new ComponentWithFontData(leaderboards, 40));
 		componentList.add(new ComponentWithFontData(saveTest, 40));
 		componentList.add(new ComponentWithFontData(restartTest, 40));
+		componentList.add(new ComponentWithFontData(screenshotButton, 40));
 
 		// TODO Proper exception handling for the two ActionListeners below
 
@@ -150,24 +162,6 @@ public class FinishPanel extends WebPanel {
 								Card card = parent.getTest()
 										.getIncorrectCards().get(i);
 								writer.println(card.getLangFromPrompt());
-
-								// NOT SURE IF THIS WILL ALWAYS WORK...
-								// for (int j = 0; j < card.getCorrectLangTo()
-								// .size(); j++) {
-								// writer.print(card.getCorrectLangTo().get(j));
-								//
-								// if (!(j == card.getCorrectLangTo().size() -
-								// 1)) {
-								// writer.print("/");
-								// }
-								//
-								// if (j == card.getCorrectLangTo().size() - 1)
-								// {
-								// writer.println();
-								// }
-								// }
-
-								// ... so I (Ming) changed it to this:
 								writer.println(card.getLangToPrompt());
 							}
 
@@ -205,6 +199,23 @@ public class FinishPanel extends WebPanel {
 				}
 			}
 		});
+
+		screenshotButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Rectangle screenRect = new Rectangle(Toolkit
+						.getDefaultToolkit().getScreenSize());
+				try {
+					BufferedImage capture = new Robot()
+							.createScreenCapture(screenRect);
+					ImageIO.write(capture, "png", new File("U:/screenshot.png"));
+				} catch (IOException | AWTException e1) {
+					e1.printStackTrace();
+				}
+				System.out.println("screenshot");
+			}
+		});
+
 		revalidate();
 		repaint();
 	}
@@ -267,8 +278,9 @@ public class FinishPanel extends WebPanel {
 		add(showListLabel, "grow, wrap");
 		add(new WebScrollPane(table), "grow");
 		add(new WebScrollPane(leaderboards), "grow, wrap, push");
-		add(saveTest, "grow, span, split 2");
+		add(saveTest, "grow, span, split 3");
 		add(restartTest, "grow");
+		add(screenshotButton, "grow");
 
 		revalidate();
 		repaint();
