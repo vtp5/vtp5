@@ -25,6 +25,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.RowSorter.SortKey;
 import javax.swing.SortOrder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -82,10 +83,16 @@ public class FinishPanel extends WebPanel {
 
 	// TODO Creating JList for leader boards (WIP)
 	private JList<Object> leaderboards = new JList<>();
+	
+	private JFileChooser imagesave = new JFileChooser();
+	
 
 	public FinishPanel(final VTP5 parent) {
 		this.parent = parent;
 
+		imagesave.setFileFilter(new FileNameExtensionFilter(
+				"PNG Files (*.png)", "png"));
+		
 		setLayout(new MigLayout("fillx"));
 
 		saveTest = new VTP5Button("Save Wrong Answers to Test File", parent);
@@ -205,17 +212,19 @@ public class FinishPanel extends WebPanel {
 		screenshotButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				
+				int answer = imagesave.showSaveDialog(getParent());
+				if (answer == JFileChooser.APPROVE_OPTION) {
+					String filePath = imagesave.getSelectedFile()
+							.getAbsolutePath();
+
 				Rectangle screenRect = new Rectangle(Toolkit
 						.getDefaultToolkit().getScreenSize());
 				try {
 					
-					File f = new File(System.getProperty("java.class.path"));
-					File dir = f.getAbsoluteFile().getParentFile();
-					String path = dir.toString();
-					
 					BufferedImage capture = new Robot()
 							.createScreenCapture(screenRect);
-						screenloc = path+"/screenshot.png";
+						screenloc = filePath+".png";
 					
 					ImageIO.write(capture, "png", new File(screenloc));
 					
@@ -226,6 +235,7 @@ public class FinishPanel extends WebPanel {
 				}
 				System.out.println("screenshot");
 			}
+				}
 		});
 
 		revalidate();

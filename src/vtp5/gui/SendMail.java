@@ -1,5 +1,6 @@
 package vtp5.gui;
 
+import java.io.IOException;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -23,6 +24,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import vtp5.logic.TestFile;
+
 /*VTP5 Copyright (C) 2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
 
 This program is free software: you can redistribute it and/or modify
@@ -41,27 +44,31 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 public class SendMail {
 	
-	static String u1;
-	
-	static String u2;
+	static String u1,u2,u3;
+
 	@SuppressWarnings("deprecation")
-	public static void m() {
-	      JTextField xField = new JTextField(10);
-	      JPasswordField yField = new JPasswordField(10);
+	public static void m() throws IOException {
+	      JTextField uField = new JTextField(10);
+	      JPasswordField pField = new JPasswordField(10);
+	      JTextField tField = new JTextField(10);
 
 	      JPanel myPanel = new JPanel();
-	      myPanel.add(new JLabel("email:"));
-	      myPanel.add(xField);
+	      myPanel.add(new JLabel("Email:"));
+	      myPanel.add(uField);
 	      myPanel.add(Box.createHorizontalStrut(15)); // a spacer
-	      myPanel.add(new JLabel("password:"));
-	      myPanel.add(yField);
+	      myPanel.add(new JLabel("Password:"));
+	      myPanel.add(pField);
+	      myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+	      myPanel.add(new JLabel("Send To:"));
+	      myPanel.add(tField);
 
 	      int result = JOptionPane.showConfirmDialog(null, myPanel, 
 	               "Sign In", JOptionPane.OK_CANCEL_OPTION);
 	      if (result == JOptionPane.OK_OPTION) {
-	    	  u1 = xField.getText();
-	    	  u2 = yField.getText();
-	         System.out.println("x value: " + xField.getText());
+	    	  u1 = uField.getText();
+	    	  u2 = pField.getText();
+	    	  u3 = tField.getText();
+	         System.out.println("u value: " + uField.getText());
 	         //System.out.println("y value: " + yField.getText());
 	         if(u1.contains("@reading-school.co.uk")){
 	         mail();
@@ -72,7 +79,7 @@ public class SendMail {
 	      }
 	}
 	
-	public static void mail() {
+	public static void mail() throws IOException {
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
@@ -88,14 +95,15 @@ public class SendMail {
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(u1));
 			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse("abdelabdalla@gmail.com"));
-			message.setSubject("OMG It works");
+					InternetAddress.parse(u3));
+			message.setSubject("VTP5 Screenshot");
 			//message.setText("Body of the email");
 			 // Create the message part 
 	         BodyPart messageBodyPart = new MimeBodyPart();
 
 	         // Fill the message
-	         messageBodyPart.setText("This is message body");
+	         
+	         messageBodyPart.setText("Score: "+TestFile.score);
 	         
 	         // Create a multipar message
 	         Multipart multipart = new MimeMultipart();
