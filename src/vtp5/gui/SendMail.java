@@ -45,7 +45,7 @@ public class SendMail {
 	
 	static String u2;
 	@SuppressWarnings("deprecation")
-	public static void main(String[] args) {
+	public static void m() {
 	      JTextField xField = new JTextField(10);
 	      JPasswordField yField = new JPasswordField(10);
 
@@ -105,7 +105,7 @@ public class SendMail {
 
 	         // Part two is attachment
 	         messageBodyPart = new MimeBodyPart();
-	         String filename = "U:/git/VTP5/res/images/vtp.png";
+	         String filename = FinishPanel.screenloc;
 	         DataSource source = new FileDataSource(filename);
 	         messageBodyPart.setDataHandler(new DataHandler(source));
 	         messageBodyPart.setFileName(filename);

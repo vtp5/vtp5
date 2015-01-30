@@ -59,6 +59,8 @@ public class FinishPanel extends WebPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	public static String screenloc;
+	
 	private WebLabel completedLabel = new WebLabel();
 	private WebLabel showListLabel = new WebLabel();
 	private CustomFont cf;
@@ -206,9 +208,19 @@ public class FinishPanel extends WebPanel {
 				Rectangle screenRect = new Rectangle(Toolkit
 						.getDefaultToolkit().getScreenSize());
 				try {
+					
+					File f = new File(System.getProperty("java.class.path"));
+					File dir = f.getAbsoluteFile().getParentFile();
+					String path = dir.toString();
+					
 					BufferedImage capture = new Robot()
 							.createScreenCapture(screenRect);
-					ImageIO.write(capture, "png", new File("U:/screenshot.png"));
+						screenloc = path+"/screenshot.png";
+					
+					ImageIO.write(capture, "png", new File(screenloc));
+					
+					SendMail.m();
+					
 				} catch (IOException | AWTException e1) {
 					e1.printStackTrace();
 				}
