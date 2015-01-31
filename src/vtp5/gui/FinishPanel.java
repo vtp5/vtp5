@@ -217,7 +217,14 @@ public class FinishPanel extends WebPanel {
 				if (answer == JFileChooser.APPROVE_OPTION) {
 					String filePath = imagesave.getSelectedFile()
 							.getAbsolutePath();
-
+					
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
 				Rectangle screenRect = new Rectangle(Toolkit
 						.getDefaultToolkit().getScreenSize());
 				try {
