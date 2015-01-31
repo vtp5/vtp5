@@ -39,7 +39,7 @@ public class TestFile implements Serializable {
 	// Stores the cards the user got wrong the first time
 	private ArrayList<Card> incorrectCards = new ArrayList<>();
 	// The user's score
-	public static  int score = 0;
+	public static int score = 0;
 
 	// Boolean storing whether the prompt is langFrom or langTo - default
 	// (false) means prompt is langFrom
@@ -267,8 +267,7 @@ public class TestFile implements Serializable {
 					if (answer.contains(s)) {
 						System.out.println("Contains!");
 						// Only prompt if user hasn't typed too much wrong stuff
-						if (((double) s.length()) >= 0.3 * ((double) answer
-								.length())) {
+						if (s.length() > 3) {
 							// Tell the program to prompt the user
 							return PROMPT_USER;
 						}
