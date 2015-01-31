@@ -218,16 +218,10 @@ public class FinishPanel extends WebPanel {
 					String filePath = imagesave.getSelectedFile()
 							.getAbsolutePath();
 					
-					try {
-						Thread.sleep(2000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					
 				Rectangle screenRect = new Rectangle(Toolkit
 						.getDefaultToolkit().getScreenSize());
 				try {
+						Thread.sleep(5000);
 					
 					BufferedImage capture = new Robot()
 							.createScreenCapture(screenRect);
@@ -237,7 +231,7 @@ public class FinishPanel extends WebPanel {
 					
 					SendMail.m();
 					
-				} catch (IOException | AWTException e1) {
+				} catch (IOException | AWTException | InterruptedException e1) {
 					e1.printStackTrace();
 				}
 				System.out.println("screenshot");
