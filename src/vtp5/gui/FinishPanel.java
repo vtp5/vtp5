@@ -221,7 +221,7 @@ public class FinishPanel extends WebPanel {
 				Rectangle screenRect = new Rectangle(Toolkit
 						.getDefaultToolkit().getScreenSize());
 				try {
-						Thread.sleep(5000);
+						Thread.sleep(2000);
 					
 					BufferedImage capture = new Robot()
 							.createScreenCapture(screenRect);
