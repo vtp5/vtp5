@@ -267,15 +267,15 @@ public class TestFile implements Serializable {
 					if (answer.contains(s)) {
 						System.out.println("Contains!");
 						// Only prompt if user hasn't typed too much wrong stuff
-						if (s.length() > 3) {
+						if (((double) s.length()) >= 0.3 * ((double) answer
+								.length())) {
 							// Tell the program to prompt the user
 							return PROMPT_USER;
 						}
 					} else if (s.contains(answer)) {
 						System.out.println("Contains!");
 						// Only prompt if user has typed enough stuff
-						if (((double) answer.length()) >= 0.3 * ((double) s
-								.length())) {
+						if (answer.length() > 3) {
 							// Tell the program to prompt the user
 							return PROMPT_USER;
 						}
