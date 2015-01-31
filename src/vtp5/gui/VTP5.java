@@ -1235,7 +1235,7 @@ public class VTP5 extends JFrame {
 		passButton.setEnabled(true);
 		startAgainButton.setEnabled(true);
 		showMainPanel();
-		if (!changeBackgroundColour.isEnabled()) {
+		if (option == 0 && !changeBackgroundColour.isEnabled()) {
 			updatePanelColour(null);
 		}
 	}
