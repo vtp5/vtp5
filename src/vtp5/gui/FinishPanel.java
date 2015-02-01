@@ -136,8 +136,13 @@ public class FinishPanel extends WebPanel {
 		restartTest.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				parent.restartTest();
-				parent.setUpTest(0);
+				int result = JOptionPane.showConfirmDialog(parent,
+						"Are you sure you want to start again?", "VTP5",
+						JOptionPane.YES_NO_OPTION);
+				if (result == JOptionPane.YES_OPTION) {
+					parent.restartTest();
+					parent.setUpTest(0);
+				}
 			}
 		});
 
