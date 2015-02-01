@@ -61,7 +61,7 @@ public class FinishPanel extends WebPanel {
 	private static final long serialVersionUID = 1L;
 
 	public static String screenloc;
-	
+
 	private WebLabel completedLabel = new WebLabel();
 	private WebLabel showListLabel = new WebLabel();
 	private CustomFont cf;
@@ -83,16 +83,15 @@ public class FinishPanel extends WebPanel {
 
 	// TODO Creating JList for leader boards (WIP)
 	private JList<Object> leaderboards = new JList<>();
-	
+
 	private JFileChooser imagesave = new JFileChooser();
-	
 
 	public FinishPanel(final VTP5 parent) {
 		this.parent = parent;
 
 		imagesave.setFileFilter(new FileNameExtensionFilter(
 				"PNG Files (*.png)", "png"));
-		
+
 		setLayout(new MigLayout("fillx"));
 
 		saveTest = new VTP5Button("Save Wrong Answers to Test File", parent);
@@ -212,31 +211,35 @@ public class FinishPanel extends WebPanel {
 		screenshotButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				int answer = imagesave.showSaveDialog(getParent());
 				if (answer == JFileChooser.APPROVE_OPTION) {
 					String filePath = imagesave.getSelectedFile()
 							.getAbsolutePath();
-					
-				Rectangle screenRect = new Rectangle(Toolkit
-						.getDefaultToolkit().getScreenSize());
-				try {
+
+					Rectangle screenRect = new Rectangle(Toolkit
+							.getDefaultToolkit().getScreenSize());
+					try {
 						Thread.sleep(2000);
-					
-					BufferedImage capture = new Robot()
-							.createScreenCapture(screenRect);
-						screenloc = filePath+".png";
-					
-					ImageIO.write(capture, "png", new File(screenloc));
-					
-					SendMail.m();
-					
-				} catch (IOException | AWTException | InterruptedException e1) {
-					e1.printStackTrace();
+
+						BufferedImage capture = new Robot()
+								.createScreenCapture(screenRect);
+						if (!filePath.endsWith(".png")) {
+							screenloc = filePath + ".png";
+						} else {
+							screenloc = filePath;
+						}
+						ImageIO.write(capture, "png", new File(screenloc));
+
+						SendMail sendMail = new SendMail(test);
+						sendMail.m();
+
+					} catch (IOException | AWTException | InterruptedException e1) {
+						e1.printStackTrace();
+					}
+					System.out.println("screenshot");
 				}
-				System.out.println("screenshot");
 			}
-				}
 		});
 
 		revalidate();
