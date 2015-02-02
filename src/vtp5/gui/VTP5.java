@@ -1262,12 +1262,12 @@ public class VTP5 extends JFrame {
 
 	void restartTest() {
 		try {
-			if (test.getImportedFiles() != null) {
+			if (test.getOrigCards() != null) {
+				test.resetTest();
+			} else if (test.getImportedFiles() != null) {
 				test = new TestFile(test.getImportedFiles());
 			} else if (test.getImportedFile() != null) {
 				test = new TestFile(new File[] { test.getImportedFile() });
-			} else if (test.getOrigCards() != null) {
-				test.resetTest();
 			}
 		} catch (IOException e1) {
 			e1.printStackTrace();
