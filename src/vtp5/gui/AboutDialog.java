@@ -76,7 +76,7 @@ public class AboutDialog extends WebDialog {
 					java.awt.Desktop
 							.getDesktop()
 							.browse(new URI(
-									"https://docs.google.com/forms/d/1TK5I8IXvcCES6Xk1yRAZPRAreRLo9SWebm2o_vx6MA4hY/viewform?usp=send_form"));
+									"https://docs.google.com/forms/d/1TK5I8IXvcCES6Xk1yRAZPRAreRLo9Sjm2o_vx6MA4hY/viewform?usp=send_form"));
 				} catch (URISyntaxException | IOException e1) {
 					e1.printStackTrace();
 					WebOptionPane
