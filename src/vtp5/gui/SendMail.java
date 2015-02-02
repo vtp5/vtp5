@@ -44,10 +44,14 @@ import vtp5.logic.TestFile;
 
 public class SendMail {
 
-	static String u1, u2, u3;
+	private TestFile test;
+	private String u1, u2, u3;
 
-	@SuppressWarnings("deprecation")
-	public static void m() throws IOException {
+	public SendMail(TestFile test) {
+		this.test = test;
+	}
+
+	public void m() throws IOException {
 		JTextField uField = new JTextField(10);
 		JPasswordField pField = new JPasswordField(10);
 		JTextField tField = new JTextField(10);
@@ -79,7 +83,7 @@ public class SendMail {
 		}
 	}
 
-	public static void mail() throws IOException {
+	public void mail() throws IOException {
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
@@ -103,7 +107,7 @@ public class SendMail {
 
 			// Fill the message
 
-			messageBodyPart.setText("Score: " + TestFile.score);
+			messageBodyPart.setText("Score: " + test.getScore());
 
 			// Create a multipar message
 			Multipart multipart = new MimeMultipart();

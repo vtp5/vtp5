@@ -39,7 +39,7 @@ public class TestFile implements Serializable {
 	// Stores the cards the user got wrong the first time
 	private ArrayList<Card> incorrectCards = new ArrayList<>();
 	// The user's score
-	public static int score = 0;
+	private int score = 0;
 
 	// Boolean storing whether the prompt is langFrom or langTo - default
 	// (false) means prompt is langFrom
