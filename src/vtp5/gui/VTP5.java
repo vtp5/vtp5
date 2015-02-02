@@ -149,6 +149,7 @@ public class VTP5 extends JFrame {
 
 	// Components for Settings Dialog
 	private JDialog settingsDialog;
+	private WebPanel settingsPanel;
 	private VTP5Button changeButtonColour, changeTextColour,
 			changeButtonTextColour, checkForUpdateButton,
 			changeBackgroundColour, resetToDefaults;
@@ -268,6 +269,8 @@ public class VTP5 extends JFrame {
 				"https://github.com/vtp5/vtp5/wiki/Help#experimental-features");
 
 		settingsDialog = new JDialog(this, "Settings");
+		settingsPanel = new WebPanel(new MigLayout("fillx", "",
+				"[][][]10[]10[]"));
 		settingsDialog.setLayout(new MigLayout("fillx", "", "[][][]10[]10[]"));
 		settingsDialog.add(checkForUpdateButton, "alignx center, wrap");
 		settingsDialog.add(new JSeparator(), "grow, wrap");

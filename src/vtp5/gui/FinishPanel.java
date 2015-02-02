@@ -227,7 +227,7 @@ public class FinishPanel extends WebPanel {
 					Rectangle screenRect = new Rectangle(Toolkit
 							.getDefaultToolkit().getScreenSize());
 					try {
-						Thread.sleep(2000);
+						Thread.sleep(1000);
 
 						BufferedImage capture = new Robot()
 								.createScreenCapture(screenRect);
@@ -274,7 +274,7 @@ public class FinishPanel extends WebPanel {
 			completedMessage = completedMessage + " Ouch!";
 		}
 
-		//completedMessage += "</html>";
+		// completedMessage += "</html>";
 
 		statsList.setVisibleRowCount(4);
 		statsList.setForeground(parent.getTextColour());// changes text colour
@@ -289,7 +289,7 @@ public class FinishPanel extends WebPanel {
 
 		showListLabel.setLineWrap(true);
 		completedLabel.setLineWrap(true);
-		
+
 		showListLabel
 				.setText("<html>Here's a list of the words you got wrong the first time:</html>");
 		completedLabel.setText(completedMessage);
