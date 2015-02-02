@@ -29,6 +29,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
 
+import org.jdesktop.swingx.JXLabel;
+
 import net.miginfocom.swing.MigLayout;
 import vtp5.logic.Card;
 import vtp5.logic.TestFile;
@@ -62,8 +64,8 @@ public class FinishPanel extends WebPanel {
 
 	public static String screenloc;
 
-	private WebLabel completedLabel = new WebLabel();
-	private WebLabel showListLabel = new WebLabel();
+	private JXLabel completedLabel = new JXLabel();
+	private JXLabel showListLabel = new JXLabel();
 	private CustomFont cf;
 	private WebTable table = new WebTable();
 	private TestFile test;
@@ -255,7 +257,7 @@ public class FinishPanel extends WebPanel {
 	public void updatePanel() {
 		removeAll();
 		test = parent.getTest();
-		completedMessage = "<html>You made it! You got "
+		completedMessage = "You made it! You got "
 				+ new BigDecimal(String.valueOf(test.getSuccessRate()))
 						.setScale(1, BigDecimal.ROUND_HALF_UP).toString()
 				+ "%.";
@@ -272,7 +274,7 @@ public class FinishPanel extends WebPanel {
 			completedMessage = completedMessage + " Ouch!";
 		}
 
-		completedMessage += "</html>";
+		//completedMessage += "</html>";
 
 		statsList.setVisibleRowCount(4);
 		statsList.setForeground(parent.getTextColour());// changes text colour
@@ -285,6 +287,9 @@ public class FinishPanel extends WebPanel {
 				+ parent.getTest().getIncorrectCards().size());
 		statsListModel.addElement("Total number of guesses: " + stats[2]);
 
+		showListLabel.setLineWrap(true);
+		completedLabel.setLineWrap(true);
+		
 		showListLabel
 				.setText("<html>Here's a list of the words you got wrong the first time:</html>");
 		completedLabel.setText(completedMessage);
