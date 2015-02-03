@@ -66,7 +66,7 @@ public class SendMail {
 		myPanel.add(new JLabel("Send To:"));
 		myPanel.add(tField);
 
-		int result = JOptionPane.showConfirmDialog(null, myPanel, "Sign In",
+		int result = JOptionPane.showConfirmDialog(null, myPanel, "Send screenshot",
 				JOptionPane.OK_CANCEL_OPTION);
 		if (result == JOptionPane.OK_OPTION) {
 			u1 = uField.getText();
