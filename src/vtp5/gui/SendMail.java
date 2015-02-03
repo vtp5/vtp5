@@ -90,7 +90,7 @@ public class SendMail extends Thread {
 				"Send screenshot", JOptionPane.OK_CANCEL_OPTION);
 		if (result == JOptionPane.OK_OPTION) {
 			u1 = uField.getText();
-			u2 = pField.getText();
+			u2 = new String(pField.getPassword());
 			u3 = tField.getText();
 			System.out.println("u value: " + uField.getText());
 			// System.out.println("y value: " + yField.getText());
