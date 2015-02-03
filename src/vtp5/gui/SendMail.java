@@ -1,5 +1,7 @@
 package vtp5.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -26,6 +28,8 @@ import javax.swing.JTextField;
 
 import vtp5.logic.TestFile;
 
+import com.alee.laf.button.WebButton;
+
 /*VTP5 Copyright (C) 2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
 
  This program is free software: you can redistribute it and/or modify
@@ -42,7 +46,7 @@ import vtp5.logic.TestFile;
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class SendMail extends Thread{
+public class SendMail extends Thread {
 
 	private TestFile test;
 	private String u1, u2, u3;
@@ -55,6 +59,7 @@ public class SendMail extends Thread{
 		JTextField uField = new JTextField(10);
 		JPasswordField pField = new JPasswordField(10);
 		JTextField tField = new JTextField(10);
+		WebButton disclaimerButton = new WebButton("Disclaimer");
 
 		JPanel myPanel = new JPanel();
 		myPanel.add(new JLabel("Email:"));
@@ -65,9 +70,24 @@ public class SendMail extends Thread{
 		myPanel.add(Box.createHorizontalStrut(15)); // a spacer
 		myPanel.add(new JLabel("Send To:"));
 		myPanel.add(tField);
+		myPanel.add(disclaimerButton);
 
-		int result = JOptionPane.showConfirmDialog(null, myPanel, "Send screenshot",
-				JOptionPane.OK_CANCEL_OPTION);
+		disclaimerButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane
+						.showMessageDialog(
+								myPanel,
+								"This program does not store your password to keep it safe.\n"
+							  + "Make sure that you only type your details into programs and websites that you trust",
+								"Warning", JOptionPane.WARNING_MESSAGE);
+
+			}
+		});
+
+		int result = JOptionPane.showConfirmDialog(null, myPanel,
+				"Send screenshot", JOptionPane.OK_CANCEL_OPTION);
 		if (result == JOptionPane.OK_OPTION) {
 			u1 = uField.getText();
 			u2 = pField.getText();
@@ -78,7 +98,6 @@ public class SendMail extends Thread{
 				try {
 					mail();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} else {
