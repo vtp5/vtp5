@@ -102,6 +102,11 @@ public class SendMail extends Thread {
 				}
 			} else {
 				System.out.println("not reading school");
+				JOptionPane.showMessageDialog(myPanel,
+					    "Unfortunately, your email provider is not supported yet.\n"
+					  + "Please try another email address.",
+					    "Email error",
+					    JOptionPane.ERROR_MESSAGE);
 			}
 
 		}
