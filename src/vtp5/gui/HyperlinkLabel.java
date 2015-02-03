@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import com.alee.laf.label.WebLabel;
