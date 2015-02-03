@@ -310,10 +310,10 @@ public class FinishPanel extends WebPanel {
 		restartTest.setText("Start Test Again");
 
 		add(completedLabel, "grow");
-		add(statsScrollPane, "grow, spany 2, width 35%!, wrap");
+		add(statsScrollPane, "grow, spany 2, align right, width 35%!, wrap");
 		add(showListLabel, "grow, wrap");
-		add(new WebScrollPane(table), "grow");
-		add(new WebScrollPane(leaderboards), "grow, wrap, push");
+		add(new WebScrollPane(table), "grow, push");
+		add(new WebScrollPane(leaderboards), "grow, wrap");
 		add(saveTest, "grow, span, split 3");
 		add(restartTest, "grow");
 		add(screenshotButton, "grow");
