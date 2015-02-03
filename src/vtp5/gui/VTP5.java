@@ -269,28 +269,29 @@ public class VTP5 extends JFrame {
 				"https://github.com/vtp5/vtp5/wiki/Help#experimental-features");
 
 		settingsDialog = new JDialog(this, "Settings");
-		settingsPanel = new WebPanel(new MigLayout("fillx", "",
-				"[][][]10[]10[]"));
-		settingsDialog.setLayout(new MigLayout("fillx", "", "[][][]10[]10[]"));
-		settingsDialog.add(checkForUpdateButton, "alignx center, wrap");
-		settingsDialog.add(new JSeparator(), "grow, wrap");
-		settingsDialog.add(changingFrameColourCheck, "alignx center, wrap");
-		settingsDialog.add(changeButtonColour, "alignx center, wrap");
-		settingsDialog.add(changeTextColour, "alignx center, wrap");
-		settingsDialog.add(changeButtonTextColour, "alignx center, wrap");
-		settingsDialog.add(changeBackgroundColour, "alignx center, wrap");
-		settingsDialog.add(new JSeparator(), "grow, wrap");
-		settingsDialog.add(questionNumberCheck, "alignx center, wrap");
-		settingsDialog.add(soundCheck, "alignx center, wrap");
-		settingsDialog.add(new JSeparator(), "grow, wrap");
-		settingsDialog.add(experimentalLabel, "alignx center, wrap");
-		settingsDialog.add(spellCheckCheck, "alignx center, wrap");
-		settingsDialog.add(iffyAnswerCheck, "alignx center, wrap");
-		settingsDialog.add(typoDetectorCheck, "alignx center, wrap");
-		settingsDialog.add(exInfoLabel, "alignx center, wrap");
-		settingsDialog.add(new JSeparator(), "grow, wrap");
-		settingsDialog.add(resetToDefaults, "alignx center");
-		settingsDialog.pack();
+		settingsPanel = new WebPanel();
+		settingsPanel.setLayout(new MigLayout("fillx", "", "[][][]10[]10[]"));
+		settingsPanel.add(checkForUpdateButton, "alignx center, wrap");
+		settingsPanel.add(new JSeparator(), "grow, wrap");
+		settingsPanel.add(changingFrameColourCheck, "alignx center, wrap");
+		settingsPanel.add(changeButtonColour, "alignx center, wrap");
+		settingsPanel.add(changeTextColour, "alignx center, wrap");
+		settingsPanel.add(changeButtonTextColour, "alignx center, wrap");
+		settingsPanel.add(changeBackgroundColour, "alignx center, wrap");
+		settingsPanel.add(new JSeparator(), "grow, wrap");
+		settingsPanel.add(questionNumberCheck, "alignx center, wrap");
+		settingsPanel.add(soundCheck, "alignx center, wrap");
+		settingsPanel.add(new JSeparator(), "grow, wrap");
+		settingsPanel.add(experimentalLabel, "alignx center, wrap");
+		settingsPanel.add(spellCheckCheck, "alignx center, wrap");
+		settingsPanel.add(iffyAnswerCheck, "alignx center, wrap");
+		settingsPanel.add(typoDetectorCheck, "alignx center, wrap");
+		settingsPanel.add(exInfoLabel, "alignx center, wrap");
+		settingsPanel.add(new JSeparator(), "grow, wrap");
+		settingsPanel.add(resetToDefaults, "alignx center");
+		// Don't make the size too big, or it might not fit on smaller screens
+		settingsDialog.setSize(250, 520);
+		settingsDialog.add(new WebScrollPane(settingsPanel));
 		settingsDialog.setResizable(false);
 		settingsDialog.setLocationRelativeTo(this);
 

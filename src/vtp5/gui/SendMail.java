@@ -61,7 +61,7 @@ public class SendMail extends Thread {
 		JTextField tField = new JTextField(10);
 		WebButton disclaimerButton = new WebButton("Disclaimer");
 
-		JPanel myPanel = new JPanel();
+		final JPanel myPanel = new JPanel();
 		myPanel.add(new JLabel("Email:"));
 		myPanel.add(uField);
 		myPanel.add(Box.createHorizontalStrut(15)); // a spacer
@@ -80,7 +80,7 @@ public class SendMail extends Thread {
 						.showMessageDialog(
 								myPanel,
 								"This program does not store your password to keep it safe.\n"
-							  + "Make sure that you only type your details into programs and websites that you trust",
+										+ "Make sure that you only type your details into programs and websites that you trust.",
 								"Warning", JOptionPane.WARNING_MESSAGE);
 
 			}

@@ -29,13 +29,13 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
 
+import net.miginfocom.swing.MigLayout;
+
 import org.jdesktop.swingx.JXLabel;
 
-import net.miginfocom.swing.MigLayout;
 import vtp5.logic.Card;
 import vtp5.logic.TestFile;
 
-import com.alee.laf.label.WebLabel;
 import com.alee.laf.panel.WebPanel;
 import com.alee.laf.scroll.WebScrollPane;
 import com.alee.laf.table.WebTable;

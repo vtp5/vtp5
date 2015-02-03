@@ -7,7 +7,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 
 import net.miginfocom.swing.MigLayout;
 import vtp5.Main;
