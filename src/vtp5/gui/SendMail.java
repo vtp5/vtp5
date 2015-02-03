@@ -42,7 +42,7 @@ import vtp5.logic.TestFile;
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class SendMail {
+public class SendMail extends Thread{
 
 	private TestFile test;
 	private String u1, u2, u3;
@@ -51,7 +51,7 @@ public class SendMail {
 		this.test = test;
 	}
 
-	public void m() throws IOException {
+	public void run() {
 		JTextField uField = new JTextField(10);
 		JPasswordField pField = new JPasswordField(10);
 		JTextField tField = new JTextField(10);
@@ -75,7 +75,12 @@ public class SendMail {
 			System.out.println("u value: " + uField.getText());
 			// System.out.println("y value: " + yField.getText());
 			if (u1.contains("@reading-school.co.uk")) {
-				mail();
+				try {
+					mail();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			} else {
 				System.out.println("not reading school");
 			}

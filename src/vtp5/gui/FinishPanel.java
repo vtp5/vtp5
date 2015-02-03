@@ -239,7 +239,7 @@ public class FinishPanel extends WebPanel {
 						ImageIO.write(capture, "png", new File(screenloc));
 
 						SendMail sendMail = new SendMail(test);
-						sendMail.m();
+						sendMail.start();
 
 					} catch (IOException | AWTException | InterruptedException e1) {
 						e1.printStackTrace();
