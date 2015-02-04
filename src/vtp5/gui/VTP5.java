@@ -32,6 +32,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Properties;
+import java.util.Random;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -178,7 +179,12 @@ public class VTP5 extends JFrame {
 		}
 	});
 
-	Color buttonColour = new Color(0x663399);
+	ArrayList<Color> themes = new ArrayList<Color>();
+	Color purpleTheme = new Color(0x663399);
+	Color redTheme = new Color(0x8A0707);
+	Color goldTheme = new Color(0xDDAE21);
+	
+	Color buttonColour = purpleTheme;
 	private Color buttonTextColour = Color.WHITE;
 	private Color textColour = Color.BLACK;
 	private Color panelColour = null;
@@ -186,6 +192,13 @@ public class VTP5 extends JFrame {
 	public Font font;
 
 	public VTP5() {
+		themes.add(purpleTheme);
+		themes.add(redTheme);
+		themes.add(goldTheme);
+		
+		Random rand = new Random();
+		buttonColour = themes.get(rand.nextInt((2 - 0) + 1) + 0);
+		
 		// Create new Thread that checks for updates
 		Thread updateCheckThread = new Thread(new UpdateChecker(this));
 		updateCheckThread.start();
