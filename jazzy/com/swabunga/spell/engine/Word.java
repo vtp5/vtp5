@@ -29,6 +29,7 @@ import java.util.Comparator;
  * This class is now immutable.
  * </p>
  */
+@SuppressWarnings("rawtypes")
 public class Word implements Comparator {
 	private String word;
 	private int score;

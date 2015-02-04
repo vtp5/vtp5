@@ -47,6 +47,7 @@ import com.swabunga.util.StringUtility;
  * 
  * @author Robert Gustavsson (robert@lindesign.se)
  */
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class GenericTransformator implements Transformator {
 
 	/**
@@ -165,6 +166,7 @@ public class GenericTransformator implements Transformator {
 	 *            The complete alphabet to wash.
 	 * @return The washed alphabet to be used as replace list.
 	 */
+
 	private char[] washAlphabetIntoReplaceList(char[] alphabet) {
 
 		HashMap letters = new HashMap(alphabet.length);

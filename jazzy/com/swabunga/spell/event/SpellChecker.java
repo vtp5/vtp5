@@ -49,6 +49,7 @@ import com.swabunga.util.VectorUtility;
  * 
  * @author Jason Height (jheight@chariot.net.au) 19 June 2002
  */
+@SuppressWarnings("rawtypes")
 public class SpellChecker {
 	/**
 	 * Flag indicating that the Spell Check completed without any errors present
@@ -56,6 +57,7 @@ public class SpellChecker {
 	public static final int SPELLCHECK_OK = -1;
 	/** Flag indicating that the Spell Check completed due to user cancellation */
 	public static final int SPELLCHECK_CANCEL = -2;
+
 
 	private Vector eventListeners = new Vector();
 	private Vector dictionaries = new Vector();
@@ -117,6 +119,7 @@ public class SpellChecker {
 	 * @param dictionary
 	 *            the dictionary to add at the end of the dictionary list.
 	 */
+	@SuppressWarnings("unchecked")
 	public void addDictionary(SpellDictionary dictionary) {
 		if (dictionary == null) {
 			throw new IllegalArgumentException("dictionary must be non-null");
@@ -150,6 +153,7 @@ public class SpellChecker {
 	 * @param listener
 	 *            The feature to be added to the SpellCheckListener attribute
 	 */
+	@SuppressWarnings("unchecked")
 	public void addSpellCheckListener(SpellCheckListener listener) {
 		eventListeners.addElement(listener);
 	}
@@ -314,6 +318,7 @@ public class SpellChecker {
 	 * @return Returns true if the event action is to cancel the current spell
 	 *         checking, false if the spell checking should continue
 	 */
+	@SuppressWarnings("unchecked")
 	protected boolean fireAndHandleEvent(WordTokenizer tokenizer,
 			SpellCheckEvent event) {
 		fireSpellCheckEvent(event);
@@ -357,6 +362,7 @@ public class SpellChecker {
 	 * @param word
 	 *            The text of the word to ignore
 	 */
+	@SuppressWarnings("unchecked")
 	public void ignoreAll(String word) {
 		if (!ignoredWords.contains(word)) {
 			ignoredWords.addElement(word);
@@ -427,6 +433,7 @@ public class SpellChecker {
 	 *            the cost value above which any suggestions are thrown away
 	 * @return the list of words suggested
 	 */
+	@SuppressWarnings("unchecked")
 	public List getSuggestions(String word, int threshold) {
 		if (this.threshold != threshold && cache != null) {
 			this.threshold = threshold;
@@ -495,6 +502,7 @@ public class SpellChecker {
 	 *         found. The number of errors are those that are found BEFORE any
 	 *         corrections are made.
 	 */
+	@SuppressWarnings("unchecked")
 	public final int checkSpelling(WordTokenizer tokenizer) {
 		int errors = 0;
 		boolean terminated = false;

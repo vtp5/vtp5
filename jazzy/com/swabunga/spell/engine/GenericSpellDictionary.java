@@ -44,6 +44,7 @@ import java.util.Vector;
  * is formatted in this way (most are).
  * </p>
  */
+@SuppressWarnings("rawtypes")
 public class GenericSpellDictionary extends SpellDictionaryASpell {
 
 	// tech_monkey: the alphabet / replace list stuff has been moved into the
@@ -68,6 +69,7 @@ public class GenericSpellDictionary extends SpellDictionaryASpell {
 	 * doublemeta code. The map entry contains a LinkedList of words that have
 	 * the same double meta code.
 	 */
+
 	protected HashMap mainDictionary = new HashMap(INITIAL_CAPACITY);
 
 	/** Holds the dictionary file for appending */
@@ -159,6 +161,7 @@ public class GenericSpellDictionary extends SpellDictionaryASpell {
 	/**
 	 * Allocates a word in the dictionary
 	 */
+	@SuppressWarnings("unchecked")
 	protected void putWord(String word) {
 		String code = getCode(word);
 		LinkedList list = (LinkedList) mainDictionary.get(code);

@@ -63,6 +63,7 @@ import java.util.Vector;
  * @see GenericTransformator GenericTransformator for information on phonetic
  *      files.
  */
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public abstract class SpellDictionaryASpell implements SpellDictionary {
 
 	/**
@@ -277,6 +278,7 @@ public abstract class SpellDictionaryASpell implements SpellDictionary {
 	 * @param wordList
 	 *            - the linked list that will get the best guess
 	 */
+	@SuppressWarnings("unused")
 	private void addBestGuess(String word, Vector wordList) {
 		addBestGuess(word, wordList, null);
 	}
