@@ -867,17 +867,19 @@ public class VTP5 extends JFrame {
 		} else if ((double) stats[3] >= 0) {
 			panelColour = new Color(239,193,193);//done
 		}
+		updatePanelColour(panelColour);
 
 	}
 
 	private void updatePanelColour(Color col) {
-		if (!(col == null))
+		if (!(col == null)){
 			col = new Color(col.getRed(), col.getGreen(), col.getBlue());
 		buttonPanel.setBackground(col);
 		mainPanel.setBackground(col);
 		finishPanel.setBackground(col);
 		finishPanel.revalidate();
 		finishPanel.repaint();
+	}
 	}
 
 	private void updateStatsList() {
