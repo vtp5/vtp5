@@ -906,25 +906,25 @@ public class VTP5 extends JFrame {
 
 	private void calculatePanelColour(Object[] stats) {
 		if ((double) stats[3] >= 95) {
-			panelColour = new Color(5, 255, 0);
+			panelColour = new Color(193,239,193);//done
 		} else if ((double) stats[3] >= 90) {
-			panelColour = new Color(20, 225, 0);
+			panelColour = new Color(195,233,193);//done
 		} else if ((double) stats[3] >= 80) {
-			panelColour = new Color(60, 200, 0);
+			panelColour = new Color(203,229,193);//done
 		} else if ((double) stats[3] >= 70) {
-			panelColour = new Color(100, 180, 0);
+			panelColour = new Color(210,225,193);//done
 		} else if ((double) stats[3] >= 60) {
-			panelColour = new Color(140, 140, 0);
+			panelColour = new Color(218,218,193);//done
 		} else if ((double) stats[3] >= 50) {
-			panelColour = new Color(180, 100, 0);
+			panelColour = new Color(225,210,193);//done
 		} else if ((double) stats[3] >= 40) {
-			panelColour = new Color(220, 60, 0);
+			panelColour = new Color(233,203,193);//done
 		} else if ((double) stats[3] >= 30) {
-			panelColour = new Color(255, 30, 0);
+			panelColour = new Color(239,197,193);//done
 		} else if ((double) stats[3] >= 20) {
-			panelColour = new Color(255, 20, 0);
+			panelColour = new Color(239,195,193);//done
 		} else if ((double) stats[3] >= 0) {
-			panelColour = new Color(255, 0, 0);
+			panelColour = new Color(239,193,193);//done
 		}
 
 		int rate = (int) ((double) stats[3]);
@@ -945,7 +945,7 @@ public class VTP5 extends JFrame {
 
 	private void updatePanelColour(Color col) {
 		if (!(col == null))
-			col = new Color(col.getRed(), col.getGreen(), col.getBlue(), 25);
+			col = new Color(col.getRed(), col.getGreen(), col.getBlue());
 		buttonPanel.setBackground(col);
 		mainPanel.setBackground(col);
 		finishPanel.setBackground(col);
