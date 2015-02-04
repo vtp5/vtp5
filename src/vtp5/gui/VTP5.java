@@ -189,9 +189,6 @@ public class VTP5 extends JFrame {
 
 	public Font font;
 
-	private int alpha = 191;
-	private int minColour = 70;
-
 	public VTP5() {
 		// Create new Thread that checks for updates
 		Thread updateCheckThread = new Thread(new UpdateChecker(this));
@@ -926,8 +923,6 @@ public class VTP5 extends JFrame {
 		} else if ((double) stats[3] >= 0) {
 			panelColour = new Color(239,193,193);//done
 		}
-
-		int rate = (int) ((double) stats[3]);
 
 		if (!changeBackgroundColour.isEnabled()) {
 			// if (rate <= minColour) {

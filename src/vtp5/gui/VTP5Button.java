@@ -26,7 +26,6 @@ public class VTP5Button extends WebButton {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Color colour = null;
 	private Color lightColour = null;
 	private Color darkColour = null;
 
@@ -34,7 +33,6 @@ public class VTP5Button extends WebButton {
 		setText(text);
 		parent.buttonList.add(this);
 		if (this.isEnabled()) {
-			this.colour = parent.buttonColour;
 			this.lightColour = parent.buttonColour.brighter().brighter();
 			this.darkColour = parent.buttonColour.darker().darker();
 		}/*
