@@ -140,6 +140,7 @@ public class VTP5 extends JFrame {
 	private String CONFIG_FILE = "config.properties";
 	private InputStream inputStream;
 	private File APPDATA_PATH;
+	public String USUAL_PATH;
 
 	// Special character dialog
 	SpecialCharacterDialog characterDialog;
@@ -600,9 +601,15 @@ public class VTP5 extends JFrame {
 		try {
 			if (fileType == 0) {
 				int selected = txtChooser.showOpenDialog(getParent());
+				File temp = new File(USUAL_PATH);
+				txtChooser.setCurrentDirectory(temp);
 				if (selected == JFileChooser.APPROVE_OPTION) {
 					File[] files = txtChooser.getSelectedFiles();
-					test = new TestFile(files);
+					test = new TestFile(files, this);
+					properties.setProperty("file-path",
+							String.valueOf(test));
+					
+					
 				}
 				return selected;
 			} else if (fileType == 1) {
@@ -1069,6 +1076,8 @@ public class VTP5 extends JFrame {
 			properties.setProperty("background-colour", "#"
 					+ Integer.toHexString(mainPanel.getBackground().getRGB())
 							.substring(2));
+		
+			properties.setProperty("file-path", String.valueOf(test));
 
 			// save properties to .vtp5 folder
 			properties.store(output, null);
@@ -1110,6 +1119,7 @@ public class VTP5 extends JFrame {
 					properties.getProperty("dynamic-background"),
 					properties.getProperty("background-colour"));
 			System.out.println(properties.getProperty("background-colour"));
+			USUAL_PATH = properties.getProperty("file-path");
 		} catch (FileNotFoundException gg) {
 			createSettingsFile();
 		} catch (IOException e) {
@@ -1269,9 +1279,9 @@ public class VTP5 extends JFrame {
 			if (test.getOrigCards() != null) {
 				test.resetTest();
 			} else if (test.getImportedFiles() != null) {
-				test = new TestFile(test.getImportedFiles());
+				test = new TestFile(test.getImportedFiles(), this);
 			} else if (test.getImportedFile() != null) {
-				test = new TestFile(new File[] { test.getImportedFile() });
+				test = new TestFile(new File[] { test.getImportedFile() }, this);
 			}
 		} catch (IOException e1) {
 			e1.printStackTrace();

@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import vtp5.gui.VTP5;
+
 import com.swabunga.spell.engine.EditDistance;
 
 /*VTP5 Copyright (C) 2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
@@ -65,7 +67,7 @@ public class TestFile implements Serializable {
 	private File[] importedFiles;
 
 	@SuppressWarnings("unchecked")
-	public TestFile(File[] files) throws IOException {
+	public TestFile(File[] files, VTP5 parent) throws IOException {
 		if (files.length == 1) {
 			setImportedFile(files[0]);
 		}
@@ -74,6 +76,7 @@ public class TestFile implements Serializable {
 
 		for (File f : files) {
 			getVocabFromFile(f);
+			parent.USUAL_PATH = f.getAbsolutePath();
 		}
 
 		for (Card c : origCards) {
@@ -89,6 +92,8 @@ public class TestFile implements Serializable {
 			NullPointerException {
 		System.out.println(file + " is being read.");
 
+	
+		
 		// try {
 		// Reading file.
 		String langFromLine;
