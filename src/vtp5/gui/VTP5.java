@@ -32,7 +32,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Properties;
-import java.util.Random;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -69,8 +68,10 @@ import vtp5.Main;
 import vtp5.logic.Card;
 import vtp5.logic.SpellCheck;
 import vtp5.logic.TestFile;
+import vtp5.logic.Theme;
 
 import com.alee.laf.checkbox.WebCheckBox;
+import com.alee.laf.combobox.WebComboBox;
 import com.alee.laf.label.WebLabel;
 import com.alee.laf.panel.WebPanel;
 import com.alee.laf.progressbar.WebProgressBar;
@@ -154,6 +155,7 @@ public class VTP5 extends JFrame {
 	private VTP5Button checkForUpdateButton, resetToDefaults;
 	private WebCheckBox changingFrameColourCheck, questionNumberCheck,
 			soundCheck, spellCheckCheck, iffyAnswerCheck, typoDetectorCheck;
+	private WebComboBox themeSelector;
 	private WebLabel experimentalLabel;
 	private HyperlinkLabel exInfoLabel;
 
@@ -180,12 +182,13 @@ public class VTP5 extends JFrame {
 		}
 	});
 
-	ArrayList<Color> themes = new ArrayList<Color>();
-	Color purpleTheme = new Color(0x663399);
-	Color redTheme = new Color(0x8A0707);
-	Color goldTheme = new Color(0xDDAE21);
 
-	Color buttonColour = purpleTheme;
+	ArrayList<Theme> themes = new ArrayList<Theme>();
+	Theme purpleTheme = new Theme(0x663399, "Imperial Purple");
+	Theme redTheme = new Theme(0x8A0707, "Blood Red");
+	Theme goldTheme = new Theme(0xDDAE21, "Royal Gold");
+	
+	Color buttonColour;
 	private Color buttonTextColour = Color.WHITE;
 	private Color textColour = Color.BLACK;
 	private Color panelColour = null;
@@ -193,14 +196,13 @@ public class VTP5 extends JFrame {
 	public Font font;
 
 	public VTP5() {
+		
 		themes.add(purpleTheme);
 		themes.add(redTheme);
 		themes.add(goldTheme);
 
-		Random rand = new Random();
-		buttonColour = themes.get(rand.nextInt((2 - 0) + 1) + 0);
-
-		// Create new Thread that checks for updates
+		buttonColour = purpleTheme.getColour();
+		
 		Thread updateCheckThread = new Thread(new UpdateChecker(this));
 		updateCheckThread.start();
 
@@ -264,12 +266,16 @@ public class VTP5 extends JFrame {
 				"<html>Click here for more information<br />on experimental features</html>",
 				"https://github.com/vtp5/vtp5/wiki/Help#experimental-features");
 
+		themeSelector = new WebComboBox(themes.toArray());
+		
 		settingsDialog = new JDialog(this, "Settings");
 		settingsPanel = new WebPanel();
 		settingsPanel.setLayout(new MigLayout("fillx", "", "[][][]10[]10[]"));
 		settingsPanel.add(checkForUpdateButton, "alignx center, wrap");
 		settingsPanel.add(new JSeparator(), "grow, wrap");
 		settingsPanel.add(changingFrameColourCheck, "alignx center, wrap");
+		settingsPanel.add(new JSeparator(), "grow, wrap");
+		settingsPanel.add(themeSelector, "grow, alignx center, wrap");
 		settingsPanel.add(new JSeparator(), "grow, wrap");
 		settingsPanel.add(questionNumberCheck, "alignx center, wrap");
 		settingsPanel.add(soundCheck, "alignx center, wrap");
@@ -282,7 +288,7 @@ public class VTP5 extends JFrame {
 		settingsPanel.add(new JSeparator(), "grow, wrap");
 		settingsPanel.add(resetToDefaults, "alignx center");
 		// Don't make the size too big, or it might not fit on smaller screens
-		settingsDialog.setSize(250, 400);
+		settingsDialog.setSize(250, 425);
 		settingsDialog.add(new WebScrollPane(settingsPanel));
 		settingsDialog.setResizable(false);
 		settingsDialog.setLocationRelativeTo(this);
