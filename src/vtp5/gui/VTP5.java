@@ -31,6 +31,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.sound.sampled.AudioFormat;
@@ -182,12 +184,8 @@ public class VTP5 extends JFrame {
 		}
 	});
 
-
 	ArrayList<Theme> themes = new ArrayList<Theme>();
-	Theme purpleTheme = new Theme(0x663399, "Imperial Purple");
-	Theme redTheme = new Theme(0x8A0707, "Blood Red");
-	Theme goldTheme = new Theme(0xDDAE21, "Royal Gold");
-	
+
 	Color buttonColour;
 	private Color buttonTextColour = Color.WHITE;
 	private Color textColour = Color.BLACK;
@@ -196,13 +194,12 @@ public class VTP5 extends JFrame {
 	public Font font;
 
 	public VTP5() {
-		
-		themes.add(purpleTheme);
-		themes.add(redTheme);
-		themes.add(goldTheme);
+		themes.add(new Theme(0x663399, "Imperial Purple"));
+		themes.add(new Theme(0x8A0707, "Blood Red"));
+		themes.add(new Theme(0xDDAE21, "Royal Gold"));
 
-		buttonColour = purpleTheme.getColour();
-		
+		buttonColour = themes.get(0).getColour();
+
 		Thread updateCheckThread = new Thread(new UpdateChecker(this));
 		updateCheckThread.start();
 
@@ -267,7 +264,7 @@ public class VTP5 extends JFrame {
 				"https://github.com/vtp5/vtp5/wiki/Help#experimental-features");
 
 		themeSelector = new WebComboBox(themes.toArray());
-		
+
 		settingsDialog = new JDialog(this, "Settings");
 		settingsPanel = new WebPanel();
 		settingsPanel.setLayout(new MigLayout("fillx", "", "[][][]10[]10[]"));
@@ -599,10 +596,8 @@ public class VTP5 extends JFrame {
 				if (selected == JFileChooser.APPROVE_OPTION) {
 					File[] files = txtChooser.getSelectedFiles();
 					test = new TestFile(files, this);
-					properties.setProperty("file-path",
-							String.valueOf(test));
-					
-					
+					properties.setProperty("file-path", String.valueOf(test));
+
 				}
 				return selected;
 			} else if (fileType == 1) {
@@ -1017,7 +1012,7 @@ public class VTP5 extends JFrame {
 			properties.setProperty("background-colour", "#"
 					+ Integer.toHexString(mainPanel.getBackground().getRGB())
 							.substring(2));
-		
+
 			properties.setProperty("file-path", String.valueOf(test));
 
 			// save properties to .vtp5 folder
