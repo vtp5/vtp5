@@ -22,6 +22,7 @@ package com.swabunga.spell.event;
 /**
  * An exception to indicate that there not enough words as expected.
  */
+@SuppressWarnings("serial")
 public class WordNotFoundException extends RuntimeException {
 
 	// ~ Constructors

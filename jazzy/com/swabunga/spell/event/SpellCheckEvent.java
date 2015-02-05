@@ -56,6 +56,7 @@ public interface SpellCheckEvent {
 	 * 
 	 * @return A list of words phonetically close to the misspelt word
 	 */
+	@SuppressWarnings("rawtypes")
 	public List getSuggestions();
 
 	/**

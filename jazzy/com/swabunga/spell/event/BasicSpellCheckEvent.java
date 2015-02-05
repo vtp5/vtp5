@@ -30,6 +30,7 @@ import java.util.List;
 class BasicSpellCheckEvent implements SpellCheckEvent {
 
 	/** The list holding the suggested Word objects for the misspelt word */
+	@SuppressWarnings("rawtypes")
 	private List suggestions;
 	/** The misspelt word */
 	private String invalidWord;
@@ -38,6 +39,7 @@ class BasicSpellCheckEvent implements SpellCheckEvent {
 	/** Contains the word to be replaced if the action is REPLACE or REPLACEALL */
 	private String replaceWord = null;
 
+	@SuppressWarnings("unused")
 	private String context;
 	private int startPosition;
 
@@ -52,6 +54,7 @@ class BasicSpellCheckEvent implements SpellCheckEvent {
 	 * @param tokenizer
 	 *            The reference to the tokenizer that caused this event to fire.
 	 */
+	@SuppressWarnings("rawtypes")
 	public BasicSpellCheckEvent(String invalidWord, List suggestions,
 			WordTokenizer tokenizer) {
 		this.invalidWord = invalidWord;
@@ -65,6 +68,7 @@ class BasicSpellCheckEvent implements SpellCheckEvent {
 	 * 
 	 * @return A list of words phonetically close to the misspelt word
 	 */
+	@SuppressWarnings("rawtypes")
 	public List getSuggestions() {
 		return suggestions;
 	}

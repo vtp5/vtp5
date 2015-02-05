@@ -32,6 +32,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Properties;
+import java.util.Random;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -44,7 +45,6 @@ import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
-import javax.swing.JColorChooser;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
@@ -151,9 +151,7 @@ public class VTP5 extends JFrame {
 	// Components for Settings Dialog
 	private JDialog settingsDialog;
 	private WebPanel settingsPanel;
-	private VTP5Button changeButtonColour, changeTextColour,
-			changeButtonTextColour, checkForUpdateButton,
-			changeBackgroundColour, resetToDefaults;
+	private VTP5Button checkForUpdateButton,resetToDefaults;
 	private WebCheckBox changingFrameColourCheck, questionNumberCheck,
 			soundCheck, spellCheckCheck, iffyAnswerCheck, typoDetectorCheck;
 	private WebLabel experimentalLabel;
@@ -182,18 +180,26 @@ public class VTP5 extends JFrame {
 		}
 	});
 
-	private JColorChooser colourChooser = new JColorChooser();
-	Color buttonColour = new Color(0x663399);
+	ArrayList<Color> themes = new ArrayList<Color>();
+	Color purpleTheme = new Color(0x663399);
+	Color redTheme = new Color(0x8A0707);
+	Color goldTheme = new Color(0xDDAE21);
+	
+	Color buttonColour = purpleTheme;
 	private Color buttonTextColour = Color.WHITE;
 	private Color textColour = Color.BLACK;
 	private Color panelColour = null;
 
 	public Font font;
 
-	private int alpha = 191;
-	private int minColour = 70;
-
 	public VTP5() {
+		themes.add(purpleTheme);
+		themes.add(redTheme);
+		themes.add(goldTheme);
+		
+		Random rand = new Random();
+		buttonColour = themes.get(rand.nextInt((2 - 0) + 1) + 0);
+		
 		// Create new Thread that checks for updates
 		Thread updateCheckThread = new Thread(new UpdateChecker(this));
 		updateCheckThread.start();
@@ -242,17 +248,6 @@ public class VTP5 extends JFrame {
 
 		resetToDefaults = new VTP5Button("Reset to Defaults", this);
 
-		changeButtonColour = new VTP5Button("Change Button Colour", this);
-
-		changeTextColour = new VTP5Button("Change Text Colour", this);
-
-		changeButtonTextColour = new VTP5Button("Change Button Text Colour",
-				this);
-
-		changeBackgroundColour = new VTP5Button("Change Background Colour",
-				this);
-		changeBackgroundColour.setEnabled(false);
-
 		checkForUpdateButton = new VTP5Button("Check For Updates", this);
 
 		experimentalLabel = new WebLabel("Enable Experimental Features:");
@@ -275,10 +270,6 @@ public class VTP5 extends JFrame {
 		settingsPanel.add(checkForUpdateButton, "alignx center, wrap");
 		settingsPanel.add(new JSeparator(), "grow, wrap");
 		settingsPanel.add(changingFrameColourCheck, "alignx center, wrap");
-		settingsPanel.add(changeButtonColour, "alignx center, wrap");
-		settingsPanel.add(changeTextColour, "alignx center, wrap");
-		settingsPanel.add(changeButtonTextColour, "alignx center, wrap");
-		settingsPanel.add(changeBackgroundColour, "alignx center, wrap");
 		settingsPanel.add(new JSeparator(), "grow, wrap");
 		settingsPanel.add(questionNumberCheck, "alignx center, wrap");
 		settingsPanel.add(soundCheck, "alignx center, wrap");
@@ -291,7 +282,7 @@ public class VTP5 extends JFrame {
 		settingsPanel.add(new JSeparator(), "grow, wrap");
 		settingsPanel.add(resetToDefaults, "alignx center");
 		// Don't make the size too big, or it might not fit on smaller screens
-		settingsDialog.setSize(250, 520);
+		settingsDialog.setSize(250, 400);
 		settingsDialog.add(new WebScrollPane(settingsPanel));
 		settingsDialog.setResizable(false);
 		settingsDialog.setLocationRelativeTo(this);
@@ -339,10 +330,6 @@ public class VTP5 extends JFrame {
 		settingsButton.addActionListener(eventListener);
 		helpButton.addActionListener(eventListener);
 		startAgainButton.addActionListener(eventListener);
-		changeTextColour.addActionListener(eventListener);
-		changeButtonColour.addActionListener(eventListener);
-		changeButtonTextColour.addActionListener(eventListener);
-		changeBackgroundColour.addActionListener(eventListener);
 		checkForUpdateButton.addActionListener(eventListener);
 		changingFrameColourCheck.addActionListener(eventListener);
 		resetToDefaults.addActionListener(eventListener);
@@ -665,52 +652,6 @@ public class VTP5 extends JFrame {
 		return JFileChooser.CANCEL_OPTION;
 	}
 
-	private void displayColorChooser(int index) {
-		colourChooser.setPreviewPanel(new WebPanel());
-		JDialog d = JColorChooser.createDialog(null, "", true, colourChooser,
-				null, null);
-		Color c;
-		switch (index) {
-		case 1:
-			d.setVisible(true);
-			c = colourChooser.getColor();
-			if (c != null) {
-				setColour(c, buttonTextColour, textColour);
-				buttonColour = c;
-				c = null;
-			}
-			break;
-		case 2:
-			d.setVisible(true);
-			c = colourChooser.getColor();
-			if (c != null) {
-				setColour(buttonColour, buttonTextColour, c);
-				textColour = c;
-				c = null;
-			}
-			break;
-		case 3:
-			d.setVisible(true);
-			c = colourChooser.getColor();
-			if (c != null) {
-				setColour(buttonColour, c, textColour);
-				buttonTextColour = c;
-				c = null;
-			}
-			break;
-
-		case 4:
-			d.setVisible(true);
-			c = colourChooser.getColor();
-			if (c != null) {
-				updatePanelColour(c);
-				c = null;
-			}
-			break;
-
-		}
-	}
-
 	private void doLogic() {
 		if (enterButton.getText().equals("Enter")
 				|| enterButton.getText().equals("I'm sure!")) {
@@ -913,51 +854,39 @@ public class VTP5 extends JFrame {
 
 	private void calculatePanelColour(Object[] stats) {
 		if ((double) stats[3] >= 95) {
-			panelColour = new Color(5, 255, 0);
+			panelColour = new Color(193,239,193);//done
 		} else if ((double) stats[3] >= 90) {
-			panelColour = new Color(20, 225, 0);
+			panelColour = new Color(195,233,193);//done
 		} else if ((double) stats[3] >= 80) {
-			panelColour = new Color(60, 200, 0);
+			panelColour = new Color(203,229,193);//done
 		} else if ((double) stats[3] >= 70) {
-			panelColour = new Color(100, 180, 0);
+			panelColour = new Color(210,225,193);//done
 		} else if ((double) stats[3] >= 60) {
-			panelColour = new Color(140, 140, 0);
+			panelColour = new Color(218,218,193);//done
 		} else if ((double) stats[3] >= 50) {
-			panelColour = new Color(180, 100, 0);
+			panelColour = new Color(225,210,193);//done
 		} else if ((double) stats[3] >= 40) {
-			panelColour = new Color(220, 60, 0);
+			panelColour = new Color(233,203,193);//done
 		} else if ((double) stats[3] >= 30) {
-			panelColour = new Color(255, 30, 0);
+			panelColour = new Color(239,197,193);//done
 		} else if ((double) stats[3] >= 20) {
-			panelColour = new Color(255, 20, 0);
+			panelColour = new Color(239,195,193);//done
 		} else if ((double) stats[3] >= 0) {
-			panelColour = new Color(255, 0, 0);
+			panelColour = new Color(239,193,193);//done
 		}
+		updatePanelColour(panelColour);
 
-		int rate = (int) ((double) stats[3]);
-
-		if (!changeBackgroundColour.isEnabled()) {
-			// if (rate <= minColour) {
-			// updateFrameColour(new Color(255, 0, 0, alpha));
-			// } else {
-			// updateFrameColour(new Color(255 - (rate / 100 * 255), rate / 100
-			// * 255, 0, alpha));
-			// }
-			updatePanelColour(panelColour);
-		} else {
-			progressBar.setProgressTopColor(panelColour.brighter());
-			progressBar.setProgressBottomColor(panelColour.darker());
-		}
 	}
 
 	private void updatePanelColour(Color col) {
-		if (!(col == null))
-			col = new Color(col.getRed(), col.getGreen(), col.getBlue(), 25);
+		if (!(col == null)){
+			col = new Color(col.getRed(), col.getGreen(), col.getBlue());
 		buttonPanel.setBackground(col);
 		mainPanel.setBackground(col);
 		finishPanel.setBackground(col);
 		finishPanel.revalidate();
 		finishPanel.repaint();
+	}
 	}
 
 	private void updateStatsList() {
@@ -1168,13 +1097,7 @@ public class VTP5 extends JFrame {
 		} else {
 			questionNumberCheck.setSelected(false);
 		}
-		if (dynamic.equals("true")) {
-			changingFrameColourCheck.setSelected(true);
-			changeBackgroundColour.setEnabled(false);
-		} else {
-			changingFrameColourCheck.setSelected(false);
-			changeBackgroundColour.setEnabled(true);
-		}
+
 
 		/*
 		 * buttonColour = Color.decode(background); buttonTextColour =
@@ -1249,9 +1172,7 @@ public class VTP5 extends JFrame {
 		passButton.setEnabled(true);
 		startAgainButton.setEnabled(true);
 		showMainPanel();
-		if (option == 0 && !changeBackgroundColour.isEnabled()) {
-			updatePanelColour(null);
-		}
+
 	}
 
 	void resetToDefaults() {
@@ -1264,7 +1185,6 @@ public class VTP5 extends JFrame {
 		} else {
 			panelColour = null;
 		}
-		changeBackgroundColour.setEnabled(false);
 		questionNumberCheck.setSelected(true);
 		soundCheck.setSelected(true);
 		spellCheckCheck.setSelected(true);
@@ -1462,24 +1382,12 @@ public class VTP5 extends JFrame {
 
 			} else if (e.getSource() == changingFrameColourCheck) {
 				if (changingFrameColourCheck.isSelected()) {
-					changeBackgroundColour.setEnabled(false);
 					if (test != null) {
 						updateStatsList();
 					} else {
 						updatePanelColour(new Color(238, 238, 238));
 					}
-				} else {
-					changeBackgroundColour.setEnabled(true);
-					updatePanelColour(null);
 				}
-			} else if (e.getSource() == changeButtonColour) {
-				displayColorChooser(1);
-			} else if (e.getSource() == changeTextColour) {
-				displayColorChooser(2);
-			} else if (e.getSource() == changeButtonTextColour) {
-				displayColorChooser(3);
-			} else if (e.getSource() == changeBackgroundColour) {
-				displayColorChooser(4);
 			} else if (e.getSource() == aboutButton) {
 
 				abtDialog.setVisible(true);

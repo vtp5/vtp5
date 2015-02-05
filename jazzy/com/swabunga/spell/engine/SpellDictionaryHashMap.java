@@ -49,6 +49,7 @@ import java.util.Vector;
  * Note that you must create the dictionary with a word list for the added words
  * to persist.
  */
+@SuppressWarnings("rawtypes")
 public class SpellDictionaryHashMap extends SpellDictionaryASpell {
 	/**
 	 * A field indicating the initial hash map capacity (16KB) for the main
@@ -62,6 +63,7 @@ public class SpellDictionaryHashMap extends SpellDictionaryASpell {
 	 * doublemeta code. The map entry contains a LinkedList of words that have
 	 * the same double meta code.
 	 */
+
 	protected Hashtable mainDictionary = new Hashtable(INITIAL_CAPACITY);
 
 	/** Holds the dictionary file for appending */
@@ -278,6 +280,8 @@ public class SpellDictionaryHashMap extends SpellDictionaryASpell {
 	 * @param word
 	 *            The word to add
 	 */
+
+	@SuppressWarnings("unchecked")
 	protected void putWord(String word) {
 		String code = getCode(word);
 		Vector list = (Vector) mainDictionary.get(code);
@@ -297,6 +301,7 @@ public class SpellDictionaryHashMap extends SpellDictionaryASpell {
 	 * @param word
 	 *            The word to add
 	 */
+	@SuppressWarnings("unchecked")
 	protected void putWordUnique(String word) {
 
 		String code = getCode(word);

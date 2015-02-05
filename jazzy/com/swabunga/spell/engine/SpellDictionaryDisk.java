@@ -55,6 +55,7 @@ import java.util.Vector;
  * @version 0.1
  * @since 0.5
  */
+@SuppressWarnings("rawtypes")
 public class SpellDictionaryDisk extends SpellDictionaryASpell {
 	private final static String DIRECTORY_WORDS = "words";
 	private final static String DIRECTORY_DB = "db";
@@ -68,6 +69,7 @@ public class SpellDictionaryDisk extends SpellDictionaryASpell {
 	private File base;
 	private File words;
 	private File db;
+
 	private Map index;
 	/**
 	 * The flag indicating if the initial preparation or loading of the on disk
@@ -207,6 +209,7 @@ public class SpellDictionaryDisk extends SpellDictionaryASpell {
 	 *            The phonetic code common to the list of words
 	 * @return A list of words having the same phonetic code
 	 */
+	@SuppressWarnings("unchecked")
 	public List getWords(String code) {
 		Vector words = new Vector();
 
@@ -244,6 +247,7 @@ public class SpellDictionaryDisk extends SpellDictionaryASpell {
 		return ready;
 	}
 
+	@SuppressWarnings("unchecked")
 	private boolean newDictionaryFiles() throws FileNotFoundException,
 			IOException {
 		/*
@@ -295,6 +299,7 @@ public class SpellDictionaryDisk extends SpellDictionaryASpell {
 		return changed;
 	}
 
+	@SuppressWarnings("unchecked")
 	private File buildSortedFile() throws FileNotFoundException, IOException {
 		List w = new ArrayList();
 
@@ -334,6 +339,7 @@ public class SpellDictionaryDisk extends SpellDictionaryASpell {
 		return file;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void buildCodeDb(File sortedWords) throws FileNotFoundException,
 			IOException {
 		List codeList = new ArrayList();
@@ -417,6 +423,7 @@ public class SpellDictionaryDisk extends SpellDictionaryASpell {
 	 * Loads the index file from disk. The index file accelerates words lookup
 	 * into the dictionary db file.
 	 */
+	@SuppressWarnings("unchecked")
 	protected void loadIndex() throws IOException {
 		index = new HashMap();
 		File idx = new File(db, FILE_INDEX);
@@ -442,6 +449,7 @@ public class SpellDictionaryDisk extends SpellDictionaryASpell {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	private String getIndexCode(String code, List codes) {
 		if (indexCodeCache == null)
 			indexCodeCache = new ArrayList();
@@ -552,10 +560,12 @@ public class SpellDictionaryDisk extends SpellDictionaryASpell {
 			this.size = size;
 		}
 
+		@SuppressWarnings("unused")
 		public String getFilename() {
 			return filename;
 		}
 
+		@SuppressWarnings("unused")
 		public long getSize() {
 			return size;
 		}

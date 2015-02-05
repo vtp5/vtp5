@@ -41,6 +41,7 @@ import java.util.List;
  * @author Damien Guillaume
  * @version 0.1
  */
+@SuppressWarnings("rawtypes")
 public class SpellDictionaryDichoDisk extends SpellDictionaryASpell {
 
 	/** Holds the dictionary file for reading */
@@ -141,6 +142,7 @@ public class SpellDictionaryDichoDisk extends SpellDictionaryASpell {
 	 * Search the dictionary file for the words corresponding to the code within
 	 * positions p1 - p2
 	 */
+	@SuppressWarnings("unchecked")
 	private LinkedList dichoFind(String code, long p1, long p2)
 			throws IOException {
 		// System.out.println("dichoFind("+code+","+p1+","+p2+")");
@@ -178,6 +180,7 @@ public class SpellDictionaryDichoDisk extends SpellDictionaryASpell {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private LinkedList seqFind(String code, long p1, long p2)
 			throws IOException {
 		// System.out.println("seqFind("+code+","+p1+","+p2+")");

@@ -26,6 +26,7 @@ import com.swabunga.spell.engine.EditDistance;
 
 public class Main {
 
+	
 	// TODO Change each time a release is about to be pushed out.
 	// See http://semver.org/ for more info.
 	public static final String build = "v0.3.0";
@@ -38,6 +39,9 @@ public class Main {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
+				
+				
+				
 				long startTime = System.currentTimeMillis();
 				try {
 					UIManager.setLookAndFeel("com.alee.laf.WebLookAndFeel");

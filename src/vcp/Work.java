@@ -40,8 +40,6 @@ public class Work {
 
 			br = new BufferedReader(new FileReader(loc));
 
-			int i = 0;
-
 			while ((sCurrentLine = br.readLine()) != null) {
 				// System.out.println(sCurrentLine);
 

@@ -80,6 +80,7 @@ public class FileWordTokenizer extends AbstractWordTokenizer {
 	public void replaceWord(String s) {
 	}
 
+	@SuppressWarnings("unused")
 	private static String stringValue(File inFile) {
 		File stringFile = inFile;
 		StringBuffer out = new StringBuffer("");

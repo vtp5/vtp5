@@ -20,5 +20,9 @@
 	<classpathentry kind="lib" path="res/lib/mail/activation.jar"/>
 	<classpathentry kind="lib" path="res/lib/mail/javax.mail.jar"/>
 	<classpathentry kind="lib" path="res/lib/swingx-all-1.6.4.jar"/>
+	<classpathentry kind="lib" path="res/lib/sharepoint/commons-codec-1.10.jar"/>
+	<classpathentry kind="lib" path="res/lib/sharepoint/commons-lang3-3.3.2.jar"/>
+	<classpathentry kind="lib" path="res/lib/sharepoint/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="res/lib/sharepoint/java-sharepoint-2.0-BETA4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -70,6 +70,7 @@ public interface SpellDictionary {
 	 * @see com.swabunga.spell.engine.Word
 	 * 
 	 */
+	@SuppressWarnings("rawtypes")
 	public List getSuggestions(String sourceWord, int scoreThreshold);
 
 	/**
@@ -97,6 +98,7 @@ public interface SpellDictionary {
 	 * @return List a List of suggested words
 	 * @see com.swabunga.spell.engine.Word
 	 */
+	@SuppressWarnings("rawtypes")
 	public List getSuggestions(String sourceWord, int scoreThreshold,
 			int[][] matrix);
 
