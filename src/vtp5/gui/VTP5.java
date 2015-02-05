@@ -150,7 +150,7 @@ public class VTP5 extends JFrame {
 	// Components for Settings Dialog
 	private JDialog settingsDialog;
 	private WebPanel settingsPanel;
-	private VTP5Button checkForUpdateButton,resetToDefaults;
+	private VTP5Button checkForUpdateButton, resetToDefaults;
 	private WebCheckBox changingFrameColourCheck, questionNumberCheck,
 			soundCheck, spellCheckCheck, iffyAnswerCheck, typoDetectorCheck;
 	private WebLabel experimentalLabel;
@@ -183,7 +183,7 @@ public class VTP5 extends JFrame {
 	Color purpleTheme = new Color(0x663399);
 	Color redTheme = new Color(0x8A0707);
 	Color goldTheme = new Color(0xDDAE21);
-	
+
 	Color buttonColour = purpleTheme;
 	private Color buttonTextColour = Color.WHITE;
 	private Color textColour = Color.BLACK;
@@ -195,10 +195,10 @@ public class VTP5 extends JFrame {
 		themes.add(purpleTheme);
 		themes.add(redTheme);
 		themes.add(goldTheme);
-		
+
 		Random rand = new Random();
 		buttonColour = themes.get(rand.nextInt((2 - 0) + 1) + 0);
-		
+
 		// Create new Thread that checks for updates
 		Thread updateCheckThread = new Thread(new UpdateChecker(this));
 		updateCheckThread.start();
@@ -846,40 +846,42 @@ public class VTP5 extends JFrame {
 	}
 
 	private void calculatePanelColour(Object[] stats) {
-		if ((double) stats[3] >= 95) {
-			panelColour = new Color(193,239,193);//done
-		} else if ((double) stats[3] >= 90) {
-			panelColour = new Color(195,233,193);//done
-		} else if ((double) stats[3] >= 80) {
-			panelColour = new Color(203,229,193);//done
-		} else if ((double) stats[3] >= 70) {
-			panelColour = new Color(210,225,193);//done
-		} else if ((double) stats[3] >= 60) {
-			panelColour = new Color(218,218,193);//done
-		} else if ((double) stats[3] >= 50) {
-			panelColour = new Color(225,210,193);//done
-		} else if ((double) stats[3] >= 40) {
-			panelColour = new Color(233,203,193);//done
-		} else if ((double) stats[3] >= 30) {
-			panelColour = new Color(239,197,193);//done
-		} else if ((double) stats[3] >= 20) {
-			panelColour = new Color(239,195,193);//done
-		} else if ((double) stats[3] >= 0) {
-			panelColour = new Color(239,193,193);//done
+		if (rootPaneCheckingEnabled) {
+			if ((double) stats[3] >= 95) {
+				panelColour = new Color(193, 239, 193);// done
+			} else if ((double) stats[3] >= 90) {
+				panelColour = new Color(195, 233, 193);// done
+			} else if ((double) stats[3] >= 80) {
+				panelColour = new Color(203, 229, 193);// done
+			} else if ((double) stats[3] >= 70) {
+				panelColour = new Color(210, 225, 193);// done
+			} else if ((double) stats[3] >= 60) {
+				panelColour = new Color(218, 218, 193);// done
+			} else if ((double) stats[3] >= 50) {
+				panelColour = new Color(225, 210, 193);// done
+			} else if ((double) stats[3] >= 40) {
+				panelColour = new Color(233, 203, 193);// done
+			} else if ((double) stats[3] >= 30) {
+				panelColour = new Color(239, 197, 193);// done
+			} else if ((double) stats[3] >= 20) {
+				panelColour = new Color(239, 195, 193);// done
+			} else if ((double) stats[3] >= 0) {
+				panelColour = new Color(239, 193, 193);// done
+			}
+			updatePanelColour(panelColour);
 		}
-		updatePanelColour(panelColour);
 
 	}
 
 	private void updatePanelColour(Color col) {
-		if (!(col == null)){
+		if (!(col == null)) {
 			col = new Color(col.getRed(), col.getGreen(), col.getBlue());
-		buttonPanel.setBackground(col);
-		mainPanel.setBackground(col);
-		finishPanel.setBackground(col);
-		finishPanel.revalidate();
-		finishPanel.repaint();
-	}
+			buttonPanel.setBackground(col);
+			mainPanel.setBackground(col);
+			finishPanel.setBackground(col);
+			finishPanel.revalidate();
+			finishPanel.repaint();
+		}
 	}
 
 	private void updateStatsList() {
@@ -899,7 +901,11 @@ public class VTP5 extends JFrame {
 		statsListModel.addElement("Success rate: "
 				+ String.format("%.2f", (double) stats[3]) + "%");
 
-		calculatePanelColour(stats);
+		if (changingFrameColourCheck.isSelected()) {
+			calculatePanelColour(stats);
+		} else {
+			updatePanelColour(new Color(238, 238, 238));
+		}
 	}
 
 	private void checkForUpdate() {
@@ -1088,15 +1094,14 @@ public class VTP5 extends JFrame {
 			questionNumberCheck.setSelected(false);
 		}
 
-
 		/*
 		 * buttonColour = Color.decode(background); buttonTextColour =
 		 * Color.decode(foreground); textColour = Color.decode(text);
 		 * setColour(buttonColour, buttonTextColour, textColour);
 		 */
-		if (!changingFrameColourCheck.isSelected()) {
-			updatePanelColour(Color.decode(panel));
-		}
+		// if (!changingFrameColourCheck.isSelected()) {
+		// updatePanelColour(Color.decode(panel));
+		// }
 	}
 
 	private void createHiddenDirectory() {
@@ -1377,6 +1382,8 @@ public class VTP5 extends JFrame {
 					} else {
 						updatePanelColour(new Color(238, 238, 238));
 					}
+				} else {
+					updatePanelColour(new Color(238, 238, 238));
 				}
 			} else if (e.getSource() == aboutButton) {
 
