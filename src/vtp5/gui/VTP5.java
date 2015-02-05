@@ -1440,31 +1440,9 @@ public class VTP5 extends JFrame {
 					String filePath = progressSaveChooser.getSelectedFile()
 							.getAbsolutePath();
 
-					if (!filePath.endsWith(".vtp5")) {
-						filePath = filePath + ".vtp5";
-					}
-
-					File progressFile = new File(filePath);
-					try (ObjectOutputStream output = new ObjectOutputStream(
-							new FileOutputStream(progressFile))) {
-						output.writeObject(test);
-						JOptionPane
-								.showMessageDialog(
-										parent,
-										"Success! Your progress has been saved to the following file:\n\n"
-												+ filePath
-												+ "\n\nTo carry on with this test later, click \"Import Test File\"\nand then click the \"Progress File\" button.",
-										"VTP5", JOptionPane.INFORMATION_MESSAGE);
-					} catch (IOException e1) {
-						e1.printStackTrace();
-						JOptionPane
-								.showMessageDialog(
-										parent,
-										"The following error occurred:\n\n"
-												+ e1.toString()
-												+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
-										"VTP5", JOptionPane.ERROR_MESSAGE);
-					}
+					Thread progressSaver = new Thread(new ProgressSaver(
+							filePath, test, parent));
+					progressSaver.start();
 				}
 				// } catch (IOException e1) {
 				// e1.printStackTrace();
