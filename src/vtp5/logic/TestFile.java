@@ -62,12 +62,15 @@ public class TestFile implements Serializable {
 	public static final int PROMPT_USER = 3;
 
 	// Do NOT delete this instance variable (it's for backwards-compatibility)!
-	private File importedFile;
+	public File importedFile;
 
 	private File[] importedFiles;
+	
+	private VTP5 vtp;
 
 	@SuppressWarnings("unchecked")
 	public TestFile(File[] files, VTP5 parent) throws IOException {
+		vtp = parent;
 		if (files.length == 1) {
 			setImportedFile(files[0]);
 		}
@@ -91,7 +94,10 @@ public class TestFile implements Serializable {
 	public void getVocabFromFile(File file) throws IOException,
 			NullPointerException {
 		System.out.println(file + " is being read.");
-
+		vtp.USUAL_PATH = file.getAbsolutePath();
+		System.out.println(file.getAbsolutePath());
+		
+		
 	
 		
 		// try {
@@ -138,6 +144,7 @@ public class TestFile implements Serializable {
 
 			System.out.println();
 		}
+		
 	}
 
 	@SuppressWarnings("unchecked")

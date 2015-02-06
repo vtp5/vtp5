@@ -129,13 +129,13 @@ public class VTP5 extends JFrame {
 
 	ArrayList<ComponentWithFontData> componentList = new ArrayList<>();
 
-	private JFileChooser txtChooser = new JFileChooser();
+	public JFileChooser txtChooser = new JFileChooser();
 	private JFileChooser csvChooser = new JFileChooser();
 	private JFileChooser progressOpenChooser = new JFileChooser();
 	private JFileChooser progressSaveChooser = new JFileChooser();
 
 	// Settings file
-	private Properties properties;
+	public Properties properties;
 	private OutputStream output;
 	private String CONFIG_FILE = "config.properties";
 	private InputStream inputStream;
@@ -213,7 +213,7 @@ public class VTP5 extends JFrame {
 
 		txtChooser.setMultiSelectionEnabled(true);
 		csvChooser.setMultiSelectionEnabled(true);
-
+	
 		framePanel = new FramePanel();// make primary panel
 		framePanel.setLayout(new BorderLayout());// set layout
 
@@ -588,8 +588,8 @@ public class VTP5 extends JFrame {
 		try {
 			if (fileType == 0) {
 				int selected = txtChooser.showOpenDialog(getParent());
-				File temp = new File(USUAL_PATH);
-				txtChooser.setCurrentDirectory(temp);
+				//File temp = new File(USUAL_PATH);
+				
 				if (selected == JFileChooser.APPROVE_OPTION) {
 					File[] files = txtChooser.getSelectedFiles();
 					test = new TestFile(files, this);
@@ -1009,8 +1009,14 @@ public class VTP5 extends JFrame {
 			properties.setProperty("background-colour", "#"
 					+ Integer.toHexString(mainPanel.getBackground().getRGB())
 							.substring(2));
-
-			properties.setProperty("file-path", String.valueOf(test));
+			try{
+				
+				properties.setProperty("file-path", String.valueOf(test.importedFile.getParent()));
+				
+				}catch(Exception e){
+				System.out.println("Cares");
+			}
+			
 
 			// save properties to .vtp5 folder
 			properties.store(output, null);
@@ -1053,6 +1059,7 @@ public class VTP5 extends JFrame {
 					properties.getProperty("background-colour"));
 			System.out.println(properties.getProperty("background-colour"));
 			USUAL_PATH = properties.getProperty("file-path");
+			txtChooser.setCurrentDirectory(new File(USUAL_PATH));
 		} catch (FileNotFoundException gg) {
 			createSettingsFile();
 		} catch (IOException e) {
