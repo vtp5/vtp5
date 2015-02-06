@@ -224,8 +224,6 @@ public class VTP5 extends JFrame {
 		importFileButton = new VTP5Button("Import Test File", this);// creates
 		importFileButton.setBackground(buttonColour);// buttons
 
-		// ImageIcon s = new
-		// ImageIcon(getClass().getResource("res/images/screenshot.png"));
 
 		saveButton = new VTP5Button("Complete Later", this);
 		saveButton.setEnabled(false);
@@ -439,7 +437,7 @@ public class VTP5 extends JFrame {
 			setFontSize(component, c.getOriginalFontSize());
 		}
 
-		// Try and make the colours of the buttons and "Switch Language" check
+		//TODO Try and make the colours of the buttons and "Switch Language" check
 		// box show on Mac OS...
 		for (VTP5Button button : buttonList) {
 			button.setOpaque(true);
@@ -483,7 +481,6 @@ public class VTP5 extends JFrame {
 		addWindowListener(new FrameClosingListener());
 
 		finishPanel = new FinishPanel(this);
-		// setColour(buttonColour, buttonTextColour, textColour);
 		resetToDefaults();
 		// Get user's preferences for settings from the config.properties file
 		createHiddenDirectory();
@@ -525,51 +522,6 @@ public class VTP5 extends JFrame {
 			}
 		}
 	}
-
-	// public void playSound(String path) {
-	// if (soundCheck.isSelected()) {
-	// try {
-	// BufferedInputStream bIS = new BufferedInputStream(getClass()
-	// .getResourceAsStream(path));
-	// AudioInputStream aIS = AudioSystem.getAudioInputStream(bIS);
-	// Clip clip = AudioSystem.getClip();
-	// clip.open(aIS);
-	// clip.start();
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// JOptionPane
-	// .showMessageDialog(
-	// null,
-	// "The following error occurred:\n\n"
-	// + e.toString()
-	// +
-	// "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
-	// "VTP5", JOptionPane.ERROR_MESSAGE);
-	// }
-	// }
-	// }
-
-	// public Clip loadClip(String filepath) {
-	// Clip clip = null;
-	//
-	// try {
-	// AudioInputStream audioIn = AudioSystem
-	// .getAudioInputStream(getClass().getResource(filepath));
-	// clip = AudioSystem.getClip();
-	// clip.open(audioIn);
-	// } catch (Exception e) {
-	// JOptionPane
-	// .showMessageDialog(
-	// null,
-	// "The following error occurred:\n\n"
-	// + e.toString()
-	// +
-	// "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
-	// "VTP5", JOptionPane.ERROR_MESSAGE);
-	// }
-	//
-	// return clip;
-	// }
 
 	private void updatePrompt(int index) {
 		promptLabel.setText("<html>" + test.getPrompt(index) + "</html>");
@@ -853,25 +805,25 @@ public class VTP5 extends JFrame {
 	private void calculatePanelColour(Object[] stats) {
 		if (rootPaneCheckingEnabled) {
 			if ((double) stats[3] >= 95) {
-				panelColour = new Color(193, 239, 193);// done
+				panelColour = new Color(193, 239, 193);
 			} else if ((double) stats[3] >= 90) {
-				panelColour = new Color(195, 233, 193);// done
+				panelColour = new Color(195, 233, 193);
 			} else if ((double) stats[3] >= 80) {
-				panelColour = new Color(203, 229, 193);// done
+				panelColour = new Color(203, 229, 193);
 			} else if ((double) stats[3] >= 70) {
-				panelColour = new Color(210, 225, 193);// done
+				panelColour = new Color(210, 225, 193);
 			} else if ((double) stats[3] >= 60) {
-				panelColour = new Color(218, 218, 193);// done
+				panelColour = new Color(218, 218, 193);
 			} else if ((double) stats[3] >= 50) {
-				panelColour = new Color(225, 210, 193);// done
+				panelColour = new Color(225, 210, 193);
 			} else if ((double) stats[3] >= 40) {
-				panelColour = new Color(233, 203, 193);// done
+				panelColour = new Color(233, 203, 193);
 			} else if ((double) stats[3] >= 30) {
-				panelColour = new Color(239, 197, 193);// done
+				panelColour = new Color(239, 197, 193);
 			} else if ((double) stats[3] >= 20) {
-				panelColour = new Color(239, 195, 193);// done
+				panelColour = new Color(239, 195, 193);
 			} else if ((double) stats[3] >= 0) {
-				panelColour = new Color(239, 193, 193);// done
+				panelColour = new Color(239, 193, 193);
 			}
 			updatePanelColour(panelColour);
 		}
@@ -890,8 +842,6 @@ public class VTP5 extends JFrame {
 	}
 
 	private void updateStatsList() {
-		// { totalNumberOfCards, numberOfIncorrectCards, totalTimesGuessed,
-		// successRate }
 		Object[] stats = test.getStats();
 
 		// Update statsList
@@ -1108,15 +1058,6 @@ public class VTP5 extends JFrame {
 		} else {
 			questionNumberCheck.setSelected(false);
 		}
-
-		/*
-		 * buttonColour = Color.decode(background); buttonTextColour =
-		 * Color.decode(foreground); textColour = Color.decode(text);
-		 * setColour(buttonColour, buttonTextColour, textColour);
-		 */
-		// if (!changingFrameColourCheck.isSelected()) {
-		// updatePanelColour(Color.decode(panel));
-		// }
 	}
 
 	private void createHiddenDirectory() {
@@ -1283,18 +1224,6 @@ public class VTP5 extends JFrame {
 	private class FramePanel extends WebPanel {
 		private static final long serialVersionUID = 1L;
 
-		@Override
-		public void paintComponent(Graphics g) {
-
-			// Graphics2D g2 = (Graphics2D) g;
-			// Image backgroundImage = new ImageIcon("res/images/backvtp.png")
-			// .getImage();
-
-			// g2.drawImage(backgroundImage, 0, 0, (int) getSize().getWidth(),
-			// (int) getSize().getHeight(), 0, 0,
-			// (int) backgroundImage.getWidth(this),
-			// (int) backgroundImage.getHeight(this), this);
-		}
 	}
 
 	// FrameListener's componentResized() method will be thrown when the JFrame
@@ -1448,9 +1377,6 @@ public class VTP5 extends JFrame {
 							filePath, test, parent));
 					progressSaver.start();
 				}
-				// } catch (IOException e1) {
-				// e1.printStackTrace();
-				// }
 			} else if (e.getSource() == startAgainButton) {
 				int result = JOptionPane.showConfirmDialog(parent,
 						"Are you sure you want to start again?", "VTP5",
