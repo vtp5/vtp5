@@ -34,6 +34,7 @@ import net.miginfocom.swing.MigLayout;
 import org.jdesktop.swingx.JXLabel;
 
 import vtp5.logic.Card;
+import vtp5.logic.SendMail;
 import vtp5.logic.TestFile;
 
 import com.alee.laf.panel.WebPanel;

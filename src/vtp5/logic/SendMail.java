@@ -1,4 +1,4 @@
-package vtp5.gui;
+package vtp5.logic;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,7 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import vtp5.logic.TestFile;
+import vtp5.gui.FinishPanel;
 
 import com.alee.laf.button.WebButton;
 
