@@ -29,7 +29,6 @@ public class Main {
 	public static final String build = "v0.3.0";
 	public static final String version = "Alpha";
 	public static final String appVersion = version + " " + build;
-	public static final boolean exportingToJar = true;
 
 	public static void main(String[] args) {
 

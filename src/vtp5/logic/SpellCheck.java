@@ -9,8 +9,6 @@ import javax.swing.JOptionPane;
 
 import org.apache.commons.io.IOUtils;
 
-import vtp5.Main;
-
 import com.swabunga.spell.engine.SpellDictionary;
 import com.swabunga.spell.engine.SpellDictionaryHashMap;
 import com.swabunga.spell.event.SpellChecker;
@@ -40,12 +38,8 @@ public class SpellCheck {
 		// Set up spell-checker
 		try {
 
-			if (Main.exportingToJar) {
 				dictFile = streamToFile(SpellCheck.class
 						.getResourceAsStream("/dict/english.0"));
-			} else {
-				dictFile = new File("jazzy/dict/english.0");
-			}
 
 			SpellDictionary dictionary = new SpellDictionaryHashMap(dictFile,
 					null);
