@@ -52,8 +52,6 @@ class UpdateChecker implements Runnable {
 			} else {
 				JEditorPane editorPane = new JEditorPane();
 				editorPane.setContentType("text/html");
-				// editorPane.setFontSize(20);
-				// editorPane.setFont(new Font("Segoe Script", 0, 20));
 				editorPane
 						.setText("You are not running the latest release of VTP5. \n\nThe latest version, "
 								+ release.getName()
@@ -83,14 +81,6 @@ class UpdateChecker implements Runnable {
 						JOptionPane.WARNING_MESSAGE);
 			}
 		} catch (IOException e) {
-			// JOptionPane
-			// .showMessageDialog(
-			// null,
-			// "The following error occurred while trying to check for updates:\n\n"
-			// + e.toString()
-			// +
-			// "\n\nYour computer probably isn't connected to the Internet.\nDon't worry, everything's fine! :)",
-			// "VTP5", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 	}

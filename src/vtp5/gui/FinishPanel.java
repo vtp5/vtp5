@@ -275,8 +275,6 @@ public class FinishPanel extends WebPanel {
 			completedMessage = completedMessage + " Ouch!";
 		}
 
-		// completedMessage += "</html>";
-
 		statsList.setVisibleRowCount(4);
 		statsList.setForeground(parent.getTextColour());// changes text colour
 		Object[] stats = test.getStats();

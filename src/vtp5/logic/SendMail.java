@@ -93,7 +93,6 @@ public class SendMail extends Thread {
 			u2 = new String(pField.getPassword());
 			u3 = tField.getText();
 			System.out.println("u value: " + uField.getText());
-			// System.out.println("y value: " + yField.getText());
 			if (u1.contains("@reading-school.co.uk")) {
 				try {
 					mail();
@@ -130,7 +129,6 @@ public class SendMail extends Thread {
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(u3));
 			message.setSubject("VTP5 Screenshot");
-			// message.setText("Body of the email");
 			// Create the message part
 			BodyPart messageBodyPart = new MimeBodyPart();
 

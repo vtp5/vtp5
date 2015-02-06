@@ -29,34 +29,14 @@ public class CustomFont {
 
 	public void setFont(Component c, int fontSize) {
 		try {
-			// Font font = Font.createFont(Font.TRUETYPE_FONT,
-			// new FileInputStream("res/fonts/ubuntu/Ubuntu-C.ttf"));
-
-			// TODO USE THIS WHEN EXPORTING TO JAR! This seems to work even when
-			// not exporting to jar
 			Font font = Font.createFont(Font.TRUETYPE_FONT, getClass()
 					.getResourceAsStream("/fonts/ubuntu/Ubuntu-C.ttf"));
-
-			// font = Font.createFont(Font.TRUETYPE_FONT, Loader
-			// .getInputStream("fonts/didactgothic/DidactGothic.ttf"));
-			/*
-			 * Font font1 = new Font.createFont(Font.TRUETYPE_FONT,
-			 * (FileInputStream)Loader.getInputStream(
-			 * "res/fonts/didactgothic/DidactGothic.ttf"));
-			 */
 			font = font.deriveFont((float) fontSize);
 			GraphicsEnvironment.getLocalGraphicsEnvironment()
 					.registerFont(font);
 			c.setFont(font);
 
 		} catch (FontFormatException | IOException e) {
-			/*
-			 * JOptionPane.showMessageDialog(this,
-			 * "The font file was not found.", "VTP5",
-			 * JOptionPane.ERROR_MESSAGE); e.printStackTrace();
-			 */
-
-			// Use Arial font (because pretty much everyone has it)
 			new Font("Arial", Font.PLAIN, fontSize);
 		}
 	}
