@@ -62,10 +62,10 @@ public class TestFile implements Serializable {
 	public static final int PROMPT_USER = 3;
 
 	// Do NOT delete this instance variable (it's for backwards-compatibility)!
-	public File importedFile;
+	private File importedFile;
 
 	private File[] importedFiles;
-	
+
 	private VTP5 vtp;
 
 	@SuppressWarnings("unchecked")
@@ -79,7 +79,7 @@ public class TestFile implements Serializable {
 
 		for (File f : files) {
 			getVocabFromFile(f);
-			parent.USUAL_PATH = f.getAbsolutePath();
+			parent.setUsualPath(f.getAbsolutePath());
 		}
 
 		for (Card c : origCards) {
@@ -94,12 +94,9 @@ public class TestFile implements Serializable {
 	public void getVocabFromFile(File file) throws IOException,
 			NullPointerException {
 		System.out.println(file + " is being read.");
-		vtp.USUAL_PATH = file.getAbsolutePath();
+		vtp.setUsualPath(file.getAbsolutePath());
 		System.out.println(file.getAbsolutePath());
-		
-		
-	
-		
+
 		// try {
 		// Reading file.
 		String langFromLine;
@@ -144,7 +141,7 @@ public class TestFile implements Serializable {
 
 			System.out.println();
 		}
-		
+
 	}
 
 	@SuppressWarnings("unchecked")

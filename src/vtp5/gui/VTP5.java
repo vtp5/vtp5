@@ -128,18 +128,18 @@ public class VTP5 extends JFrame {
 
 	ArrayList<ComponentWithFontData> componentList = new ArrayList<>();
 
-	public JFileChooser txtChooser = new JFileChooser();
+	private JFileChooser txtChooser = new JFileChooser();
 	private JFileChooser csvChooser = new JFileChooser();
 	private JFileChooser progressOpenChooser = new JFileChooser();
 	private JFileChooser progressSaveChooser = new JFileChooser();
 
 	// Settings file
-	public Properties properties;
+	private Properties properties;
 	private OutputStream output;
 	private String CONFIG_FILE = "config.properties";
 	private InputStream inputStream;
 	private File APPDATA_PATH;
-	public String USUAL_PATH;
+	private String USUAL_PATH;
 
 	// Special character dialog
 	SpecialCharacterDialog characterDialog;
@@ -212,7 +212,7 @@ public class VTP5 extends JFrame {
 
 		txtChooser.setMultiSelectionEnabled(true);
 		csvChooser.setMultiSelectionEnabled(true);
-	
+
 		framePanel = new FramePanel();// make primary panel
 		framePanel.setLayout(new BorderLayout());// set layout
 
@@ -222,7 +222,6 @@ public class VTP5 extends JFrame {
 
 		importFileButton = new VTP5Button("Import Test File", this);// creates
 		importFileButton.setBackground(buttonColour);// buttons
-
 
 		saveButton = new VTP5Button("Complete Later", this);
 		saveButton.setEnabled(false);
@@ -436,7 +435,8 @@ public class VTP5 extends JFrame {
 			setFontSize(component, c.getOriginalFontSize());
 		}
 
-		//TODO Try and make the colours of the buttons and "Switch Language" check
+		// TODO Try and make the colours of the buttons and "Switch Language"
+		// check
 		// box show on Mac OS...
 		for (VTP5Button button : buttonList) {
 			button.setOpaque(true);
@@ -539,8 +539,8 @@ public class VTP5 extends JFrame {
 		try {
 			if (fileType == 0) {
 				int selected = txtChooser.showOpenDialog(getParent());
-				//File temp = new File(USUAL_PATH);
-				
+				// File temp = new File(USUAL_PATH);
+
 				if (selected == JFileChooser.APPROVE_OPTION) {
 					File[] files = txtChooser.getSelectedFiles();
 					test = new TestFile(files, this);
@@ -958,14 +958,14 @@ public class VTP5 extends JFrame {
 			properties.setProperty("background-colour", "#"
 					+ Integer.toHexString(mainPanel.getBackground().getRGB())
 							.substring(2));
-			try{
-				
-				properties.setProperty("file-path", String.valueOf(test.importedFile.getParent()));
-				
-				}catch(Exception e){
+			try {
+
+				properties.setProperty("file-path",
+						String.valueOf(test.getImportedFile().getParent()));
+
+			} catch (Exception e) {
 				System.out.println("Cares");
 			}
-			
 
 			// save properties to .vtp5 folder
 			properties.store(output, null);
@@ -1007,8 +1007,8 @@ public class VTP5 extends JFrame {
 					properties.getProperty("dynamic-background"),
 					properties.getProperty("background-colour"));
 			System.out.println(properties.getProperty("background-colour"));
-			USUAL_PATH = properties.getProperty("file-path");
-			txtChooser.setCurrentDirectory(new File(USUAL_PATH));
+			setUsualPath(properties.getProperty("file-path"));
+			txtChooser.setCurrentDirectory(new File(getUsualPath()));
 		} catch (FileNotFoundException gg) {
 			createSettingsFile();
 		} catch (IOException e) {
@@ -1187,6 +1187,14 @@ public class VTP5 extends JFrame {
 
 	ArrayList<ComponentWithFontData> getComponentList() {
 		return componentList;
+	}
+
+	public String getUsualPath() {
+		return USUAL_PATH;
+	}
+
+	public void setUsualPath(String USUAL_PATH) {
+		this.USUAL_PATH = USUAL_PATH;
 	}
 
 	private class AnswerFieldFocusListener implements FocusListener {
