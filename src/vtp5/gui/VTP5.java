@@ -959,12 +959,12 @@ public class VTP5 extends JFrame {
 					+ Integer.toHexString(mainPanel.getBackground().getRGB())
 							.substring(2));
 			try {
-
 				properties.setProperty("file-path",
 						String.valueOf(test.getImportedFile().getParent()));
-
 			} catch (Exception e) {
-				System.out.println("Cares");
+				properties.setProperty("file-path",getUsualPath());
+				System.out.println(e);
+				System.out.println("Imported file is likely to be null");
 			}
 
 			// save properties to .vtp5 folder
@@ -1009,6 +1009,8 @@ public class VTP5 extends JFrame {
 			System.out.println(properties.getProperty("background-colour"));
 			setUsualPath(properties.getProperty("file-path"));
 			txtChooser.setCurrentDirectory(new File(getUsualPath()));
+			progressSaveChooser.setCurrentDirectory(new File(getUsualPath()));
+			progressOpenChooser.setCurrentDirectory(new File(getUsualPath()));
 		} catch (FileNotFoundException gg) {
 			createSettingsFile();
 		} catch (IOException e) {
