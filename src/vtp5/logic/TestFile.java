@@ -66,7 +66,7 @@ public class TestFile implements Serializable {
 
 	private File[] importedFiles;
 
-	private VTP5 vtp;
+	private transient VTP5 vtp;
 
 	@SuppressWarnings("unchecked")
 	public TestFile(File[] files, VTP5 parent) throws IOException {
