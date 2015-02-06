@@ -322,7 +322,6 @@ public class SpellDictionaryDisk extends SpellDictionaryASpell {
 
 		Collections.sort(w);
 
-		// FIXME - error handling for running out of disk space would be nice.
 		File file = File.createTempFile("jazzy", "sorted");
 		BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 		String prev = null;

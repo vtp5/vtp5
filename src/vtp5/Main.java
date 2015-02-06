@@ -6,8 +6,6 @@ import javax.swing.UIManager;
 
 import vtp5.gui.VTP5;
 
-import com.swabunga.spell.engine.EditDistance;
-
 /*VTP5 Copyright (C) 2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
 
  This program is free software: you can redistribute it and/or modify
