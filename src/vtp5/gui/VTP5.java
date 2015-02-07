@@ -41,7 +41,6 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -161,7 +160,7 @@ public class VTP5 extends JFrame {
 	// Components for About Dialog
 	private AboutDialog abtDialog;
 
-	 ImageIcon logo = new ImageIcon(getClass().getResource(
+	ImageIcon logo = new ImageIcon(getClass().getResource(
 			"/images/vtpsmall.png"));
 	ArrayList<VTP5Button> buttonList = new ArrayList<>();
 
@@ -194,8 +193,7 @@ public class VTP5 extends JFrame {
 		themes.add(new Theme(0x663399, "Imperial Purple"));
 		themes.add(new Theme(0x8A0707, "Blood Red"));
 		themes.add(new Theme(0xDDAE21, "Royal Gold"));
-		
-		
+
 		buttonColour = themes.get(0).getColour();
 
 		Thread updateCheckThread = new Thread(new UpdateChecker(this));
@@ -226,7 +224,6 @@ public class VTP5 extends JFrame {
 		importFileButton.setBackground(buttonColour);// buttons
 
 		saveButton = new VTP5Button("Complete Later", this, false);
-		
 
 		startAgainButton = new VTP5Button("Start Again", this, false);
 		startAgainButton.setButtonEnabled(false);
@@ -391,7 +388,7 @@ public class VTP5 extends JFrame {
 
 		passButton = new VTP5Button("Skip", this, false);// creates
 		passButton.addActionListener(eventListener);
-	
+
 		componentList.add(new ComponentWithFontData(passButton, 32));// adds to
 																		// list
 
@@ -546,7 +543,9 @@ public class VTP5 extends JFrame {
 					test = new TestFile(files, this);
 					properties.setProperty("file-path", String.valueOf(test));
 
+					USUAL_PATH = txtChooser.getSelectedFile().getAbsolutePath();
 				}
+
 				return selected;
 			} else if (fileType == 1) {
 				JOptionPane
@@ -576,7 +575,11 @@ public class VTP5 extends JFrame {
 												+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
 										"VTP5", JOptionPane.ERROR_MESSAGE);
 					}
+
+					USUAL_PATH = progressOpenChooser.getSelectedFile()
+							.getAbsolutePath();
 				}
+
 				return selected;
 			}
 		} catch (IOException e) {
@@ -959,10 +962,8 @@ public class VTP5 extends JFrame {
 					+ Integer.toHexString(mainPanel.getBackground().getRGB())
 							.substring(2));
 			try {
-				properties.setProperty("file-path",
-						String.valueOf(test.getImportedFile().getParent()));
+				properties.setProperty("file-path", USUAL_PATH);
 			} catch (Exception e) {
-				properties.setProperty("file-path",getUsualPath());
 				System.out.println(e);
 				System.out.println("Imported file is likely to be null");
 			}
@@ -1152,8 +1153,6 @@ public class VTP5 extends JFrame {
 				test.resetTest();
 			} else if (test.getImportedFiles() != null) {
 				test = new TestFile(test.getImportedFiles(), this);
-			} else if (test.getImportedFile() != null) {
-				test = new TestFile(new File[] { test.getImportedFile() }, this);
 			}
 		} catch (IOException e1) {
 			e1.printStackTrace();

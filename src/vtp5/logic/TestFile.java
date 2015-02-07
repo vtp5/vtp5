@@ -32,7 +32,6 @@ public class TestFile implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	// TODO CHANGE serialVersionUID ONCE CLASS IS FINISHED!!!
 
 	// ArrayList storing all the original "cards" for the test
 	private final ArrayList<Card> origCards = new ArrayList<>();
@@ -71,6 +70,7 @@ public class TestFile implements Serializable {
 	@SuppressWarnings("unchecked")
 	public TestFile(File[] files, VTP5 parent) throws IOException {
 		vtp = parent;
+		// Only for the sake of backwards-compatibility
 		if (files.length == 1) {
 			setImportedFile(files[0]);
 		}
@@ -387,10 +387,12 @@ public class TestFile implements Serializable {
 		return this.successRate;
 	}
 
+	@Deprecated
 	public File getImportedFile() {
 		return importedFile;
 	}
 
+	@Deprecated
 	public void setImportedFile(File importedFile) {
 		this.importedFile = importedFile;
 	}
