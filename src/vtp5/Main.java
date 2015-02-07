@@ -1,8 +1,12 @@
 package vtp5;
 
+import java.awt.Color;
+
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.UIDefaults;
 import javax.swing.UIManager;
+import javax.swing.plaf.ColorUIResource;
 
 import vtp5.gui.VTP5;
 
@@ -38,7 +42,9 @@ public class Main {
 
 				long startTime = System.currentTimeMillis();
 				try {
+					
 					UIManager.setLookAndFeel("com.alee.laf.WebLookAndFeel");
+
 				} catch (Exception e) {
 					JOptionPane
 							.showMessageDialog(

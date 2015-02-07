@@ -41,6 +41,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -160,7 +161,7 @@ public class VTP5 extends JFrame {
 	// Components for About Dialog
 	private AboutDialog abtDialog;
 
-	private ImageIcon logo = new ImageIcon(getClass().getResource(
+	 ImageIcon logo = new ImageIcon(getClass().getResource(
 			"/images/vtpsmall.png"));
 	ArrayList<VTP5Button> buttonList = new ArrayList<>();
 
@@ -193,7 +194,8 @@ public class VTP5 extends JFrame {
 		themes.add(new Theme(0x663399, "Imperial Purple"));
 		themes.add(new Theme(0x8A0707, "Blood Red"));
 		themes.add(new Theme(0xDDAE21, "Royal Gold"));
-
+		
+		
 		buttonColour = themes.get(0).getColour();
 
 		Thread updateCheckThread = new Thread(new UpdateChecker(this));
@@ -220,27 +222,27 @@ public class VTP5 extends JFrame {
 		buttonPanel = new WebPanel();// make panel for buttons
 		buttonPanel.setLayout(new MigLayout());// set layout
 
-		importFileButton = new VTP5Button("Import Test File", this);// creates
+		importFileButton = new VTP5Button("Import Test File", this, true);// creates
 		importFileButton.setBackground(buttonColour);// buttons
 
-		saveButton = new VTP5Button("Complete Later", this);
-		saveButton.setEnabled(false);
+		saveButton = new VTP5Button("Complete Later", this, false);
+		
 
-		startAgainButton = new VTP5Button("Start Again", this);
-		startAgainButton.setEnabled(false);
+		startAgainButton = new VTP5Button("Start Again", this, false);
+		startAgainButton.setButtonEnabled(false);
 
-		settingsButton = new VTP5Button("Settings", this);// creates
+		settingsButton = new VTP5Button("Settings", this, true);// creates
 
-		helpButton = new VTP5Button("Help", this);
+		helpButton = new VTP5Button("Help", this, true);
 
-		aboutButton = new VTP5Button("About", this);
+		aboutButton = new VTP5Button("About", this, true);
 
 		// Sets up about dialog
 		abtDialog = new AboutDialog();
 
-		resetToDefaults = new VTP5Button("Reset to Defaults", this);
+		resetToDefaults = new VTP5Button("Reset to Defaults", this, true);
 
-		checkForUpdateButton = new VTP5Button("Check For Updates", this);
+		checkForUpdateButton = new VTP5Button("Check For Updates", this, true);
 
 		experimentalLabel = new WebLabel("Enable Experimental Features:");
 		changingFrameColourCheck = new WebCheckBox(
@@ -372,26 +374,24 @@ public class VTP5 extends JFrame {
 		// Set up character dialog
 		characterDialog = new SpecialCharacterDialog(answerField);
 
-		characterButton = new VTP5Button("é", this);
+		characterButton = new VTP5Button("é", this, false);
 		characterButton.addActionListener(eventListener);
 
 		characterButton.setBackground(buttonColour);// changes background colour
 		characterButton.setForeground(buttonTextColour);// changes foreground
 														// colour
-		characterButton.setEnabled(false);
+
 		componentList.add(new ComponentWithFontData(characterButton, 32));
 
-		enterButton = new VTP5Button("Enter", this);// creates
+		enterButton = new VTP5Button("Enter", this, false);// creates
 		enterButton.addActionListener(eventListener);
-		enterButton.setEnabled(false);
 
 		componentList.add(new ComponentWithFontData(enterButton, 32));// adds to
 																		// list
 
-		passButton = new VTP5Button("Skip", this);// creates
+		passButton = new VTP5Button("Skip", this, false);// creates
 		passButton.addActionListener(eventListener);
-		passButton.setEnabled(false);
-
+	
 		componentList.add(new ComponentWithFontData(passButton, 32));// adds to
 																		// list
 
@@ -686,7 +686,7 @@ public class VTP5 extends JFrame {
 				// Disable some components, change text on Enter button
 				switchLanguageCheck.setEnabled(false);
 				answerField.setEditable(false);
-				passButton.setEnabled(false);
+				passButton.setButtonEnabled(false);
 				enterButton.setText("OK");
 
 				// Update statsList
@@ -724,7 +724,7 @@ public class VTP5 extends JFrame {
 			answerField.getCaret().setVisible(true);
 			answerField.setCaretPosition(0);
 			answerField.requestFocusInWindow();
-			passButton.setEnabled(true);
+			passButton.setButtonEnabled(true);
 			enterButton.setText("Enter");
 			// Change guessedAnswersList colour back to normal
 			guessedAnswersList.setForeground(textColour);
@@ -744,7 +744,7 @@ public class VTP5 extends JFrame {
 		framePanel.removeAll();
 		framePanel.add(buttonPanel, BorderLayout.NORTH);
 		framePanel.add(finishPanel, BorderLayout.CENTER);
-		saveButton.setEnabled(false);
+		saveButton.setButtonEnabled(false);
 		repaint();
 		revalidate();
 	}
@@ -1114,15 +1114,15 @@ public class VTP5 extends JFrame {
 		switchLanguageCheck.setEnabled(true);
 		switchLanguageCheck.setSelected(false);
 		guessedAnswersList.setForeground(textColour);
-		saveButton.setEnabled(true);
+		saveButton.setButtonEnabled(true);
 		// leaderboardButton.setEnabled(true);
 		answerField.setEditable(true);
 		answerField.requestFocus();
-		characterButton.setEnabled(true);
-		enterButton.setEnabled(true);
+		characterButton.setButtonEnabled(true);
+		enterButton.setButtonEnabled(true);
 		enterButton.setText("Enter");
-		passButton.setEnabled(true);
-		startAgainButton.setEnabled(true);
+		passButton.setButtonEnabled(true);
+		startAgainButton.setButtonEnabled(true);
 		showMainPanel();
 
 	}

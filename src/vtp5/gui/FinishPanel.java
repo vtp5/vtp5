@@ -97,9 +97,9 @@ public class FinishPanel extends WebPanel {
 
 		setLayout(new MigLayout("fillx"));
 
-		saveTest = new VTP5Button("Save Wrong Answers to Test File", parent);
-		restartTest = new VTP5Button("Start Again", parent);
-		screenshotButton = new VTP5Button("Take Screenshot", parent);
+		saveTest = new VTP5Button("Save Wrong Answers to Test File", parent, true);
+		restartTest = new VTP5Button("Start Again", parent, true);
+		screenshotButton = new VTP5Button("Take Screenshot", parent, true);
 
 		saveTest.setFocusable(false);
 		restartTest.setFocusable(false);

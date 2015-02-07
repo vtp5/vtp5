@@ -2,6 +2,8 @@ package vtp5.gui;
 
 import java.awt.Color;
 
+import javax.swing.Icon;
+
 import com.alee.laf.button.WebButton;
 
 /*VTP5 Copyright (C) 2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
@@ -28,18 +30,33 @@ public class VTP5Button extends WebButton {
 
 	private Color lightColour = null;
 	private Color darkColour = null;
+	private transient VTP5 vtp;
 
-	public VTP5Button(String text, VTP5 parent) {
+	public VTP5Button(String text, VTP5 parent, boolean enabled) {
+		vtp = parent;
 		setText(text);
 		parent.buttonList.add(this);
-		if (this.isEnabled()) {
-			this.lightColour = parent.buttonColour.brighter().brighter();
-			this.darkColour = parent.buttonColour.darker().darker();
+		this.lightColour = vtp.buttonColour.brighter().brighter();
+		this.darkColour = vtp.buttonColour.darker().darker();
+		if(!enabled){
+			setButtonEnabled(false);			
 		}
 	}
-
-	@Override
-	public void setBackground(Color col) {
+	
+	public void setButtonEnabled(boolean enabledness){
+		if(enabledness){
+	//	this.lightColour = vtp.buttonColour.brighter().brighter();
+		//this.darkColour = vtp.buttonColour.darker().darker();
+		System.out.println(vtp.buttonColour);
+		updateColour();
+		setEnabled(true);
+	}else{
+		setEnabled(false);
+		//setForeground(Color.WHITE);
+		updateColour();
+	}
+	}
+	private void updateColour(){
 		setTopBgColor(lightColour);
 		setTopSelectedBgColor(lightColour);
 		setBottomBgColor(darkColour);
@@ -53,6 +70,10 @@ public class VTP5Button extends WebButton {
 		setRound(10);
 		revalidate();
 		repaint();
+	}
+	@Override
+	public void setBackground(Color col) {
+		updateColour();
 	}
 
 }
