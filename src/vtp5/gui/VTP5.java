@@ -503,7 +503,7 @@ public class VTP5 extends JFrame {
 
 	}
 
-	public void playSound(String file) throws LineUnavailableException,
+	private void playSound(String file) throws LineUnavailableException,
 			UnsupportedAudioFileException, IOException {
 		if (soundCheck.isSelected()) {
 			AudioInputStream inputStream = AudioSystem
