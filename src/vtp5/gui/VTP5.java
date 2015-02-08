@@ -221,7 +221,6 @@ public class VTP5 extends JFrame {
 		buttonPanel.setLayout(new MigLayout());// set layout
 
 		importFileButton = new VTP5Button("Import Test File", this, true);// creates
-		importFileButton.setBackground(buttonColour);// buttons
 
 		saveButton = new VTP5Button("Complete Later", this, false);
 
@@ -373,11 +372,6 @@ public class VTP5 extends JFrame {
 
 		characterButton = new VTP5Button("é", this, false);
 		characterButton.addActionListener(eventListener);
-
-		characterButton.setBackground(buttonColour);// changes background colour
-		characterButton.setForeground(buttonTextColour);// changes foreground
-														// colour
-
 		componentList.add(new ComponentWithFontData(characterButton, 32));
 
 		enterButton = new VTP5Button("Enter", this, false);// creates
@@ -440,6 +434,17 @@ public class VTP5 extends JFrame {
 		}
 
 		switchLanguageCheck.setOpaque(true);
+		themeSelector.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				if (arg0.getStateChange() == ItemEvent.SELECTED) {
+					Theme th = (Theme) arg0.getItem();
+					System.out.println("Changing theme to " + th.getName());
+					buttonColour = th.getColour();
+					setColour(buttonColour, buttonTextColour, textColour);
+				}
+			}
+		});
 
 		// Add components to main panel
 		mainPanel.add(promptLabel, "span 4, push, wrap, height 30%!");
@@ -481,7 +486,8 @@ public class VTP5 extends JFrame {
 		// Get user's preferences for settings from the config.properties file
 		createHiddenDirectory();
 		loadSettingsFile();
-
+		buttonColour = themes.get(2).getColour();
+		setColour(buttonColour, buttonTextColour, textColour);
 	}
 
 	public void setTest(TestFile test) {
