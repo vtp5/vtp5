@@ -2,8 +2,6 @@ package vtp5.gui;
 
 import java.awt.Color;
 
-import javax.swing.Icon;
-
 import com.alee.laf.button.WebButton;
 
 /*VTP5 Copyright (C) 2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
