@@ -30,6 +30,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Properties;
+import java.util.Random;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -193,8 +194,14 @@ public class VTP5 extends JFrame {
 		themes.add(new Theme(0x663399, "Imperial Purple"));
 		themes.add(new Theme(0x8A0707, "Blood Red"));
 		themes.add(new Theme(0xDDAE21, "Royal Gold"));
+		// themes.add(new Theme(0x000000, "Stormtrooper")); // TODO finish these
+		// themes.add(new Theme(0x000000, "Sith"));		// when theme engine is ready
 
-		buttonColour = themes.get(0).getColour();
+		
+		Random rand = new Random();
+		//rand.nextInt((max - min) + 1) + min
+		int n = rand.nextInt(((themes.size()-1) - 0) + 1) + 0;
+		buttonColour = themes.get((n)).getColour();
 
 		Thread updateCheckThread = new Thread(new UpdateChecker(this));
 		updateCheckThread.start();
