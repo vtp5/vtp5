@@ -179,27 +179,27 @@ public class VTP5 extends JFrame {
 	});
 
 	private ArrayList<Theme> themes = new ArrayList<Theme>();
+	private Theme selectedTheme;
 
-	private Color buttonColour;
-	private Color buttonTextColour = Color.WHITE;
-	private Color textColour = Color.BLACK;
 	private Color panelColour = null;
 
 	public VTP5() {
-		themes.add(new Theme(0x663399, "Imperial Purple"));
-		themes.add(new Theme(0x8A0707, "Blood Red"));
-		themes.add(new Theme(0xDDAE21, "Royal Gold"));
-		// themes.add(new Theme(0x000000, "Stormtrooper")); // TODO finish these
-		// themes.add(new Theme(0x000000, "Sith")); // when theme engine is
-		// ready
-
-		buttonColour = themes.get(0).getColour();
 
 		Thread updateCheckThread = new Thread(new UpdateChecker(this));
 		updateCheckThread.start();
 
 		// Load spell-checker
 		SpellCheck.loadSpellChecker();
+
+		themes.add(new Theme(new Color(0x663399), new Color(0xFFFFFF),
+				new Color(0x000000), null, "Imperial Purple"));
+		themes.add(new Theme(new Color(0x8A0707), new Color(0xFFFFFF),
+				new Color(0x000000), null, "Blood Red"));
+		themes.add(new Theme(new Color(0xDDAE21), new Color(0xFFFFFF),
+				new Color(0x000000), null, "Royal Gold"));
+
+		// If all else fails, make Imperial Purple the default theme
+		selectedTheme = themes.get(0);
 
 		// Sets up JFileChooser
 		txtChooser.setFileFilter(new FileNameExtensionFilter(
@@ -281,16 +281,16 @@ public class VTP5 extends JFrame {
 		settingsDialog.setLocationRelativeTo(this);
 
 		separator = new JSeparator();
-		separator.setBackground(buttonColour);
+		separator.setBackground(selectedTheme.getButtonColour());
 
 		// WebProgressBar setup
 		progressBar = new WebProgressBar(WebProgressBar.VERTICAL, 0, 1000);
 		progressBar.setValue(0);
-		System.out.println(buttonColour);
-		progressBar.setBgTop(buttonColour.brighter().brighter().brighter()
+		System.out.println(selectedTheme.getButtonColour());
+		progressBar.setBgTop(selectedTheme.getButtonColour().brighter()
 				.brighter().brighter().brighter().brighter().brighter()
-				.brighter());
-		progressBar.setBgBottom(buttonColour.brighter());
+				.brighter().brighter().brighter());
+		progressBar.setBgBottom(selectedTheme.getButtonColour().brighter());
 		progressBar.setProgressTopColor(Color.GREEN.brighter());
 		progressBar.setProgressBottomColor(Color.GREEN.darker());
 		progressBar.setStringPainted(true);
@@ -342,7 +342,7 @@ public class VTP5 extends JFrame {
 
 		switchLanguageCheck = new WebCheckBox("Switch Language");
 		switchLanguageCheck.setFocusable(false);
-		switchLanguageCheck.setForeground(textColour);
+		switchLanguageCheck.setForeground(selectedTheme.getTextColour());
 		switchLanguageCheck.setBackground(Color.GRAY);
 		switchLanguageCheck.setEnabled(false);
 		switchLanguageCheck.addItemListener(new SwitchLanguageListener());
@@ -351,7 +351,8 @@ public class VTP5 extends JFrame {
 		promptLabel = new WebLabel(
 				"<html>Click 'Import Test File' to begin.</html>");// creates
 		// label
-		promptLabel.setForeground(textColour);// changes text colour
+		promptLabel.setForeground(selectedTheme.getTextColour());// changes text
+																	// colour
 
 		answerField = new WebTextField();// creates text field
 		answerField.addActionListener(eventListener);
@@ -359,7 +360,8 @@ public class VTP5 extends JFrame {
 		answerField.getInputMap(JComponent.WHEN_FOCUSED).put(
 				KeyStroke.getKeyStroke("released ENTER"), "Enter");
 		answerField.getActionMap().put("Enter", new ActionEnter());
-		answerField.setForeground(textColour);// changes text colour
+		answerField.setForeground(selectedTheme.getTextColour());// changes text
+																	// colour
 
 		componentList.add(new ComponentWithFontData(promptLabel, 72));// adds to
 																		// list
@@ -401,7 +403,8 @@ public class VTP5 extends JFrame {
 		statsListModel.addElement("Success rate: ");
 		statsList = new JList<>(statsListModel);
 		statsList.setVisibleRowCount(6);
-		statsList.setForeground(textColour);// changes text colour
+		statsList.setForeground(selectedTheme.getTextColour());// changes text
+																// colour
 		statsList.setSelectionModel(selectionModel);
 		statsList.setFocusable(false);
 		statsScrollPane = new WebScrollPane(statsList);
@@ -411,7 +414,9 @@ public class VTP5 extends JFrame {
 				.addElement("<html><u>Already guessed answers:</u></html>");
 		guessedAnswersList = new JList<>(guessedAnswersListModel);
 		guessedAnswersList.setVisibleRowCount(6);
-		guessedAnswersList.setForeground(textColour);// changes text colour
+		guessedAnswersList.setForeground(selectedTheme.getTextColour());// changes
+																		// text
+																		// colour
 		guessedAnswersList.setSelectionModel(selectionModel);
 		guessedAnswersList.setFocusable(false);
 		guessedAnswersScrollPane = new WebScrollPane(guessedAnswersList);
@@ -439,8 +444,8 @@ public class VTP5 extends JFrame {
 				if (arg0.getStateChange() == ItemEvent.SELECTED) {
 					Theme th = (Theme) arg0.getItem();
 					System.out.println("Changing theme to " + th.getName());
-					buttonColour = th.getColour();
-					setColour(buttonColour, buttonTextColour, textColour);
+					selectedTheme = th;
+					updateColours();
 				}
 			}
 		});
@@ -485,25 +490,28 @@ public class VTP5 extends JFrame {
 		// Get user's preferences for settings from the config.properties file
 		createHiddenDirectory();
 		loadSettingsFile();
-		setColour(buttonColour, buttonTextColour, textColour);
+		updateColours();
 	}
 
 	public void setTest(TestFile test) {
 		this.test = test;
 	}
 
-	private void setColour(Color background, Color foreground, Color text) {
+	private void updateColours() {
 		for (VTP5Button b : buttonList) {
-			b.setForeground(foreground);
-			b.setBackground(background);
+			b.setForeground(selectedTheme.getButtonTextColour());
+			b.setBackground(selectedTheme.getButtonColour());
 			b.revalidate();
 			b.repaint();
 		}
-		promptLabel.setForeground(text);
-		statsList.setForeground(text);
-		guessedAnswersList.setForeground(text);
-		finishPanel.setTextColour(text);
-
+		promptLabel.setForeground(selectedTheme.getTextColour());
+		statsList.setForeground(selectedTheme.getTextColour());
+		guessedAnswersList.setForeground(selectedTheme.getTextColour());
+		finishPanel.setTextColour(selectedTheme.getTextColour());
+		progressBar.setBgTop(selectedTheme.getButtonColour().brighter()
+				.brighter().brighter().brighter().brighter().brighter()
+				.brighter().brighter().brighter());
+		progressBar.setBgBottom(selectedTheme.getButtonColour().brighter());
 	}
 
 	private void playSound(String file) throws LineUnavailableException,
@@ -733,7 +741,7 @@ public class VTP5 extends JFrame {
 			passButton.setButtonEnabled(true);
 			enterButton.setText("Enter");
 			// Change guessedAnswersList colour back to normal
-			guessedAnswersList.setForeground(textColour);
+			guessedAnswersList.setForeground(selectedTheme.getTextColour());
 			// Update prompt label, stats list and totalTimesGuessed
 			updatePrompt(questionIndex);
 			answerField.setText(""); // field is cleared
@@ -944,23 +952,9 @@ public class VTP5 extends JFrame {
 					String.valueOf(soundCheck.isSelected()));
 			properties.setProperty("question-number-prompt",
 					String.valueOf(questionNumberCheck.isSelected()));
-			properties.setProperty(
-					"button-colour",
-					"#"
-							+ Integer.toHexString(buttonColour.getRGB())
-									.substring(2));
-			properties.setProperty("button-text-colour",
-					"#"
-							+ Integer.toHexString(buttonTextColour.getRGB())
-									.substring(2));
-			properties
-					.setProperty("text-colour",
-							"#"
-									+ Integer.toHexString(textColour.getRGB())
-											.substring(2));
 			properties.setProperty("dynamic-background",
 					String.valueOf(changingFrameColourCheck.isSelected()));
-
+			properties.setProperty("theme", String.valueOf(selectedTheme));
 			properties.setProperty("background-colour", "#"
 					+ Integer.toHexString(mainPanel.getBackground().getRGB())
 							.substring(2));
@@ -1005,9 +999,7 @@ public class VTP5 extends JFrame {
 					properties.getProperty("typo-detector"),
 					properties.getProperty("sound"),
 					properties.getProperty("question-number-prompt"),
-					properties.getProperty("button-colour"),
-					properties.getProperty("button-text-colour"),
-					properties.getProperty("text-colour"),
+					properties.getProperty("theme"),
 					properties.getProperty("dynamic-background"),
 					properties.getProperty("background-colour"));
 			System.out.println(properties.getProperty("background-colour"));
@@ -1030,9 +1022,8 @@ public class VTP5 extends JFrame {
 	}
 
 	private void updateSettings(String spellChecker, String iffyAnswer,
-			String typoDetector, String sound, String qnumber,
-			String background, String foreground, String text, String dynamic,
-			String panel) {
+			String typoDetector, String sound, String qnumber, String theme,
+			String dynamic, String panel) {
 
 		if (spellChecker.equals("true")) {
 			spellCheckCheck.setSelected(true);
@@ -1062,6 +1053,12 @@ public class VTP5 extends JFrame {
 			questionNumberCheck.setSelected(true);
 		} else {
 			questionNumberCheck.setSelected(false);
+		}
+
+		for (Theme t : themes) {
+			if (t.getName().equals(theme)) {
+				selectedTheme = t;
+			}
 		}
 	}
 
@@ -1117,7 +1114,7 @@ public class VTP5 extends JFrame {
 		progressBar.setProgressBottomColor(Color.GREEN.darker());
 		switchLanguageCheck.setEnabled(true);
 		switchLanguageCheck.setSelected(false);
-		guessedAnswersList.setForeground(textColour);
+		guessedAnswersList.setForeground(selectedTheme.getTextColour());
 		saveButton.setButtonEnabled(true);
 		// leaderboardButton.setEnabled(true);
 		answerField.setEditable(true);
@@ -1133,9 +1130,7 @@ public class VTP5 extends JFrame {
 
 	void resetToDefaults() {
 		changingFrameColourCheck.setSelected(true);
-		buttonColour = Color.BLACK;
-		buttonTextColour = Color.WHITE;
-		textColour = Color.BLACK;
+		selectedTheme = themes.get(0);
 		if ((test != null)) {
 			calculatePanelColour(test.getStats());
 		} else {
@@ -1146,7 +1141,7 @@ public class VTP5 extends JFrame {
 		spellCheckCheck.setSelected(true);
 		iffyAnswerCheck.setSelected(true);
 		typoDetectorCheck.setSelected(true);
-		setColour(buttonColour, buttonTextColour, textColour);
+		updateColours();
 		updatePanelColour(panelColour);
 	}
 
@@ -1170,15 +1165,11 @@ public class VTP5 extends JFrame {
 	}
 
 	public Color getButtonColour() {
-		return this.buttonColour;
-	}
-
-	public Color getButtonTextColour() {
-		return this.buttonTextColour;
+		return this.selectedTheme.getButtonColour();
 	}
 
 	public Color getTextColour() {
-		return this.textColour;
+		return this.selectedTheme.getTextColour();
 	}
 
 	TestFile getTest() {
