@@ -1,4 +1,4 @@
-package vtp5.logic;
+package vtp5.gui;
 
 import java.awt.Color;
 

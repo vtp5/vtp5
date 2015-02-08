@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,7 +29,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Properties;
-import java.util.Random;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -67,7 +65,6 @@ import vtp5.Main;
 import vtp5.logic.Card;
 import vtp5.logic.SpellCheck;
 import vtp5.logic.TestFile;
-import vtp5.logic.Theme;
 
 import com.alee.laf.checkbox.WebCheckBox;
 import com.alee.laf.combobox.WebComboBox;
@@ -143,10 +140,10 @@ public class VTP5 extends JFrame {
 	private String USUAL_PATH;
 
 	// Special character dialog
-	SpecialCharacterDialog characterDialog;
+	private SpecialCharacterDialog characterDialog;
 
 	// Number of questions dialog
-	QuestionsDialog questionsDialog;
+	private QuestionsDialog questionsDialog;
 
 	// Components for Settings Dialog
 	private JDialog settingsDialog;
@@ -161,9 +158,9 @@ public class VTP5 extends JFrame {
 	// Components for About Dialog
 	private AboutDialog abtDialog;
 
-	ImageIcon logo = new ImageIcon(getClass().getResource(
+	private ImageIcon logo = new ImageIcon(getClass().getResource(
 			"/images/vtpsmall.png"));
-	ArrayList<VTP5Button> buttonList = new ArrayList<>();
+	private ArrayList<VTP5Button> buttonList = new ArrayList<>();
 
 	// finishPanel instance variable - must create the object HERE (i.e. as soon
 	// as program begins), otherwise text-rescaling won't work properly
@@ -181,27 +178,22 @@ public class VTP5 extends JFrame {
 		}
 	});
 
-	ArrayList<Theme> themes = new ArrayList<Theme>();
+	private ArrayList<Theme> themes = new ArrayList<Theme>();
 
-	Color buttonColour;
+	private Color buttonColour;
 	private Color buttonTextColour = Color.WHITE;
 	private Color textColour = Color.BLACK;
 	private Color panelColour = null;
-
-	public Font font;
 
 	public VTP5() {
 		themes.add(new Theme(0x663399, "Imperial Purple"));
 		themes.add(new Theme(0x8A0707, "Blood Red"));
 		themes.add(new Theme(0xDDAE21, "Royal Gold"));
 		// themes.add(new Theme(0x000000, "Stormtrooper")); // TODO finish these
-		// themes.add(new Theme(0x000000, "Sith"));		// when theme engine is ready
+		// themes.add(new Theme(0x000000, "Sith")); // when theme engine is
+		// ready
 
-		
-		Random rand = new Random();
-		//rand.nextInt((max - min) + 1) + min
-		int n = rand.nextInt(((themes.size()-1) - 0) + 1) + 0;
-		buttonColour = themes.get((n)).getColour();
+		buttonColour = themes.get(0).getColour();
 
 		Thread updateCheckThread = new Thread(new UpdateChecker(this));
 		updateCheckThread.start();
@@ -493,7 +485,6 @@ public class VTP5 extends JFrame {
 		// Get user's preferences for settings from the config.properties file
 		createHiddenDirectory();
 		loadSettingsFile();
-		buttonColour = themes.get(2).getColour();
 		setColour(buttonColour, buttonTextColour, textColour);
 	}
 
@@ -502,7 +493,6 @@ public class VTP5 extends JFrame {
 	}
 
 	private void setColour(Color background, Color foreground, Color text) {
-
 		for (VTP5Button b : buttonList) {
 			b.setForeground(foreground);
 			b.setBackground(background);

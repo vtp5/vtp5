@@ -33,28 +33,30 @@ public class VTP5Button extends WebButton {
 	public VTP5Button(String text, VTP5 parent, boolean enabled) {
 		vtp = parent;
 		setText(text);
-		parent.buttonList.add(this);
-		this.lightColour = vtp.buttonColour.brighter().brighter();
-		this.darkColour = vtp.buttonColour.darker().darker();
-		if(!enabled){
-			setButtonEnabled(false);			
+		parent.getButtonList().add(this);
+		this.lightColour = vtp.getButtonColour().brighter().brighter();
+		this.darkColour = vtp.getButtonColour().darker().darker();
+		updateColour();
+		if (!enabled) {
+			setButtonEnabled(false);
 		}
 	}
-	
-	public void setButtonEnabled(boolean enabledness){
-		if(enabledness){
-	//	this.lightColour = vtp.buttonColour.brighter().brighter();
-		//this.darkColour = vtp.buttonColour.darker().darker();
-		System.out.println(vtp.buttonColour);
-		updateColour();
-		setEnabled(true);
-	}else{
-		setEnabled(false);
-		//setForeground(Color.WHITE);
-		updateColour();
+
+	public void setButtonEnabled(boolean enabledness) {
+		if (enabledness) {
+			// this.lightColour = vtp.buttonColour.brighter().brighter();
+			// this.darkColour = vtp.buttonColour.darker().darker();
+			System.out.println(vtp.getButtonColour());
+			updateColour();
+			setEnabled(true);
+		} else {
+			setEnabled(false);
+			// setForeground(Color.WHITE);
+			updateColour();
+		}
 	}
-	}
-	private void updateColour(){
+
+	private void updateColour() {
 		setTopBgColor(lightColour);
 		setTopSelectedBgColor(lightColour);
 		setBottomBgColor(darkColour);
@@ -69,8 +71,11 @@ public class VTP5Button extends WebButton {
 		revalidate();
 		repaint();
 	}
+
 	@Override
 	public void setBackground(Color col) {
+		this.lightColour = col.brighter().brighter();
+		this.darkColour = col.darker().darker();
 		updateColour();
 	}
 
