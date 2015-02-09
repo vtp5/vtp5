@@ -198,13 +198,17 @@ public class VTP5 extends JFrame {
 				null, "Blood Red"));
 		themes.add(new Theme(new Color(0xDDAE21), Color.WHITE, Color.BLACK,
 				null, "Royal Gold"));
-//		themes.add(new Theme(Color.RED, Color.BLACK, Color.RED, Color.BLACK,
-//				"Sith"));
-		themes.add(new Theme(new Color(0x43A047), Color.WHITE, Color.BLACK, null,
-				"Apple Green"));
+		// themes.add(new Theme(Color.RED, Color.BLACK, Color.RED, Color.BLACK,
+		// "Sith"));
+		themes.add(new Theme(new Color(0x43A047), Color.WHITE, Color.BLACK,
+				null, "Apple Green"));
+		themes.add(new Theme(new Color(0x000066), Color.WHITE, Color.BLACK,
+				null, "Navy Blue"));
+		themes.add(new Theme(new Color(0xFF69B4), new Color(0xFF69B4).darker()
+				.darker().darker(), new Color(0xFF69B4).darker().darker()
+				.darker(), new Color(0xFF69B4).brighter().brighter(), "Hot Pink"));
 		themes.add(new Theme(Color.BLACK, Color.WHITE, Color.BLACK,
 				Color.WHITE, "Stormtrooper White"));
-		
 
 		// If all else fails, make Imperial Purple the default theme
 		selectedTheme = themes.get(defaultThemeIndex);
@@ -820,23 +824,23 @@ public class VTP5 extends JFrame {
 
 	private void calculateBackgroundColour(Object[] stats) {
 		if (rootPaneCheckingEnabled) {
-			if ((double) stats[3] >= 95) {
+			if ((double) stats[3] >= 100) {
 				backgroundColour = new Color(193, 239, 193);
-			} else if ((double) stats[3] >= 90) {
+			} else if ((double) stats[3] >= 95) {
 				backgroundColour = new Color(195, 233, 193);
-			} else if ((double) stats[3] >= 80) {
+			} else if ((double) stats[3] >= 90) {
 				backgroundColour = new Color(203, 229, 193);
-			} else if ((double) stats[3] >= 70) {
+			} else if ((double) stats[3] >= 85) {
 				backgroundColour = new Color(210, 225, 193);
-			} else if ((double) stats[3] >= 60) {
+			} else if ((double) stats[3] >= 80) {
 				backgroundColour = new Color(218, 218, 193);
-			} else if ((double) stats[3] >= 50) {
+			} else if ((double) stats[3] >= 75) {
 				backgroundColour = new Color(225, 210, 193);
-			} else if ((double) stats[3] >= 40) {
+			} else if ((double) stats[3] >= 70) {
 				backgroundColour = new Color(233, 203, 193);
-			} else if ((double) stats[3] >= 30) {
+			} else if ((double) stats[3] >= 65) {
 				backgroundColour = new Color(239, 197, 193);
-			} else if ((double) stats[3] >= 20) {
+			} else if ((double) stats[3] >= 60) {
 				backgroundColour = new Color(239, 195, 193);
 			} else if ((double) stats[3] >= 0) {
 				backgroundColour = new Color(239, 193, 193);
