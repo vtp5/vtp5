@@ -190,10 +190,10 @@ public class VTP5 extends JFrame {
 		updateCheckThread.start();
 
 		defaultThemeIndex = 0;
-		
+
 		// Load spell-checker
 		SpellCheck.loadSpellChecker();
-		//button, buttontext, text, background, name
+		// button, buttontext, text, background, name
 		themes.add(new Theme(new Color(0x663399), new Color(0xFFFFFF),
 				new Color(0x000000), null, "Imperial Purple"));
 		themes.add(new Theme(new Color(0x8A0707), new Color(0xFFFFFF),
@@ -202,9 +202,9 @@ public class VTP5 extends JFrame {
 				new Color(0x000000), null, "Royal Gold"));
 		themes.add(new Theme(new Color(0x000000), new Color(0xCE0C2C),
 				new Color(0xCE0C2C), new Color(0x000000), "Sith"));
-		
-		//themes.add(new Theme(new Color(0x000000), new Color(0xFFFFFF),
-		//		new Color(0x000000), new Color(0xFFFFFF), "Stormtrooper"));
+
+		// themes.add(new Theme(new Color(0x000000), new Color(0xFFFFFF),
+		// new Color(0x000000), new Color(0xFFFFFF), "Stormtrooper"));
 		// If all else fails, make Imperial Purple the default theme
 		selectedTheme = themes.get(defaultThemeIndex);
 
@@ -522,6 +522,18 @@ public class VTP5 extends JFrame {
 		progressBar.setBgBottom(selectedTheme.getButtonColour().brighter());
 		progressBar.revalidate();
 		progressBar.repaint();
+		System.out.println(selectedTheme.getBackgroundColour());
+		if (test != null) {
+			if (changingFrameColourCheck.isSelected()) {
+				calculatePanelColour(test.getStats());
+			} else {
+				updatePanelColour(selectedTheme.getBackgroundColour());
+			}
+		} else {
+			updatePanelColour(selectedTheme.getBackgroundColour());
+		}
+		repaint();
+		revalidate();
 	}
 
 	private void playSound(String file) throws LineUnavailableException,
@@ -855,10 +867,15 @@ public class VTP5 extends JFrame {
 
 	private void updatePanelColour(Color col) {
 		if (!(col == null)) {
-			col = new Color(col.getRed(), col.getGreen(), col.getBlue());
 			buttonPanel.setBackground(col);
 			mainPanel.setBackground(col);
 			finishPanel.setBackground(col);
+			finishPanel.revalidate();
+			finishPanel.repaint();
+		} else {
+			buttonPanel.setBackground(null);
+			mainPanel.setBackground(null);
+			finishPanel.setBackground(null);
 			finishPanel.revalidate();
 			finishPanel.repaint();
 		}
@@ -1065,6 +1082,12 @@ public class VTP5 extends JFrame {
 			questionNumberCheck.setSelected(false);
 		}
 
+		if (dynamic.equals("true")) {
+			changingFrameColourCheck.setSelected(true);
+		} else {
+			changingFrameColourCheck.setSelected(false);
+		}
+
 		for (Theme t : themes) {
 			if (t.getName().equals(theme)) {
 				themeSelector.setSelectedItem(t);
@@ -1072,6 +1095,8 @@ public class VTP5 extends JFrame {
 				updateColours();
 			}
 		}
+
+		updateColours();
 	}
 
 	private void createHiddenDirectory() {
@@ -1338,10 +1363,10 @@ public class VTP5 extends JFrame {
 					if (test != null) {
 						updateStatsList();
 					} else {
-						updatePanelColour(new Color(238, 238, 238));
+						updatePanelColour(selectedTheme.getBackgroundColour());
 					}
 				} else {
-					updatePanelColour(new Color(238, 238, 238));
+					updatePanelColour(selectedTheme.getBackgroundColour());
 				}
 			} else if (e.getSource() == aboutButton) {
 
