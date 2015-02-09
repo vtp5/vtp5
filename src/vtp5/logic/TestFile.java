@@ -315,12 +315,15 @@ public class TestFile implements Serializable {
 							+ EditDistance.getDistance(answer, s));
 					int threshold;
 					if (Math.min((double) answer.length(), (double) s.length()) <= 7.0) {
-						threshold = 60;
+						threshold = 90;
 					} else if (Math.min((double) answer.length(),
 							(double) s.length()) <= 15.0) {
-						threshold = 150;
-					} else {
+						threshold = 170;
+					} else if (Math.min((double) answer.length(),
+							(double) s.length()) <= 25.0) {
 						threshold = 200;
+					} else {
+						threshold = 270;
 					}
 
 					if (EditDistance.getDistance(answer, s) <= threshold) {
