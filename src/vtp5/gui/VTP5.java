@@ -820,23 +820,23 @@ public class VTP5 extends JFrame {
 
 	private void calculateBackgroundColour(Object[] stats) {
 		if (rootPaneCheckingEnabled) {
-			if ((double) stats[3] >= 95) {
+			if ((double) stats[3] >= 100) {
 				backgroundColour = new Color(193, 239, 193);
-			} else if ((double) stats[3] >= 90) {
+			} else if ((double) stats[3] >= 95) {
 				backgroundColour = new Color(195, 233, 193);
-			} else if ((double) stats[3] >= 80) {
+			} else if ((double) stats[3] >= 90) {
 				backgroundColour = new Color(203, 229, 193);
-			} else if ((double) stats[3] >= 70) {
+			} else if ((double) stats[3] >= 85) {
 				backgroundColour = new Color(210, 225, 193);
-			} else if ((double) stats[3] >= 60) {
+			} else if ((double) stats[3] >= 80) {
 				backgroundColour = new Color(218, 218, 193);
-			} else if ((double) stats[3] >= 50) {
+			} else if ((double) stats[3] >= 75) {
 				backgroundColour = new Color(225, 210, 193);
-			} else if ((double) stats[3] >= 40) {
+			} else if ((double) stats[3] >= 70) {
 				backgroundColour = new Color(233, 203, 193);
-			} else if ((double) stats[3] >= 30) {
+			} else if ((double) stats[3] >= 65) {
 				backgroundColour = new Color(239, 197, 193);
-			} else if ((double) stats[3] >= 20) {
+			} else if ((double) stats[3] >= 60) {
 				backgroundColour = new Color(239, 195, 193);
 			} else if ((double) stats[3] >= 0) {
 				backgroundColour = new Color(239, 193, 193);
