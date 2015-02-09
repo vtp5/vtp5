@@ -323,7 +323,7 @@ public class TestFile implements Serializable {
 							(double) s.length()) <= 25.0) {
 						threshold = 200;
 					} else {
-						threshold = 270;
+						threshold = 260;
 					}
 
 					if (EditDistance.getDistance(answer, s) <= threshold) {
