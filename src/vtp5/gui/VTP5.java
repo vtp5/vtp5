@@ -198,15 +198,17 @@ public class VTP5 extends JFrame {
 				null, "Blood Red"));
 		themes.add(new Theme(new Color(0xDDAE21), Color.WHITE, Color.BLACK,
 				null, "Royal Gold"));
-//		themes.add(new Theme(Color.RED, Color.BLACK, Color.RED, Color.BLACK,
-//				"Sith"));
-		themes.add(new Theme(new Color(0x43A047), Color.WHITE, Color.BLACK, null,
-				"Apple Green"));
-		themes.add(new Theme(new Color(0x000080), Color.WHITE, Color.BLACK, null,
-				"Navy Blue"));
+		// themes.add(new Theme(Color.RED, Color.BLACK, Color.RED, Color.BLACK,
+		// "Sith"));
+		themes.add(new Theme(new Color(0x43A047), Color.WHITE, Color.BLACK,
+				null, "Apple Green"));
+		themes.add(new Theme(new Color(0x000066), Color.WHITE, Color.BLACK,
+				null, "Navy Blue"));
+		themes.add(new Theme(new Color(0xFF69B4), new Color(0xFF69B4).darker()
+				.darker().darker(), new Color(0xFF69B4).darker().darker()
+				.darker(), new Color(0xFF69B4).brighter().brighter(), "Hot Pink"));
 		themes.add(new Theme(Color.BLACK, Color.WHITE, Color.BLACK,
 				Color.WHITE, "Stormtrooper White"));
-		
 
 		// If all else fails, make Imperial Purple the default theme
 		selectedTheme = themes.get(defaultThemeIndex);
