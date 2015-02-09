@@ -180,6 +180,7 @@ public class VTP5 extends JFrame {
 
 	private ArrayList<Theme> themes = new ArrayList<Theme>();
 	private Theme selectedTheme;
+	private int defaultThemeIndex;
 
 	private Color panelColour = null;
 
@@ -188,18 +189,21 @@ public class VTP5 extends JFrame {
 		Thread updateCheckThread = new Thread(new UpdateChecker(this));
 		updateCheckThread.start();
 
+		defaultThemeIndex = 0;
+		
 		// Load spell-checker
 		SpellCheck.loadSpellChecker();
-
+		//button, buttontext, text, background, name
 		themes.add(new Theme(new Color(0x663399), new Color(0xFFFFFF),
 				new Color(0x000000), null, "Imperial Purple"));
 		themes.add(new Theme(new Color(0x8A0707), new Color(0xFFFFFF),
 				new Color(0x000000), null, "Blood Red"));
 		themes.add(new Theme(new Color(0xDDAE21), new Color(0xFFFFFF),
 				new Color(0x000000), null, "Royal Gold"));
-
+		//themes.add(new Theme(new Color(0x000000), new Color(0xFFFFFF),
+		//		new Color(0x000000), new Color(0xFFFFFF), "Stormtrooper"));
 		// If all else fails, make Imperial Purple the default theme
-		selectedTheme = themes.get(0);
+		selectedTheme = themes.get(defaultThemeIndex);
 
 		// Sets up JFileChooser
 		txtChooser.setFileFilter(new FileNameExtensionFilter(
@@ -438,6 +442,7 @@ public class VTP5 extends JFrame {
 		}
 
 		switchLanguageCheck.setOpaque(true);
+		themeSelector.setSelectedIndex(defaultThemeIndex);
 		themeSelector.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
@@ -512,6 +517,8 @@ public class VTP5 extends JFrame {
 				.brighter().brighter().brighter().brighter().brighter()
 				.brighter().brighter().brighter());
 		progressBar.setBgBottom(selectedTheme.getButtonColour().brighter());
+		progressBar.revalidate();
+		progressBar.repaint();
 	}
 
 	private void playSound(String file) throws LineUnavailableException,
@@ -1057,7 +1064,9 @@ public class VTP5 extends JFrame {
 
 		for (Theme t : themes) {
 			if (t.getName().equals(theme)) {
+				themeSelector.setSelectedItem(t);
 				selectedTheme = t;
+				updateColours();
 			}
 		}
 	}
