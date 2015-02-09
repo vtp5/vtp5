@@ -599,14 +599,7 @@ public class VTP5 extends JFrame {
 							new FileInputStream(progressFile))) {
 						test = (TestFile) input.readObject();
 					} catch (IOException | ClassNotFoundException e) {
-						e.printStackTrace();
-						JOptionPane
-								.showMessageDialog(
-										this,
-										"The following error occurred:\n\n"
-												+ e.toString()
-												+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
-										"VTP5", JOptionPane.ERROR_MESSAGE);
+						processErrorMessage(e, null);
 					}
 
 					USUAL_PATH = progressOpenChooser.getSelectedFile()
@@ -616,23 +609,11 @@ public class VTP5 extends JFrame {
 				return selected;
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
-			JOptionPane
-					.showMessageDialog(
-							this,
-							"The following error occurred:\n\n"
-									+ e.toString()
-									+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
-							"VTP5", JOptionPane.ERROR_MESSAGE);
+			processErrorMessage(e, null);
 		} catch (NullPointerException e) {
-			e.printStackTrace();
-			JOptionPane
-					.showMessageDialog(
-							this,
-							"The following error occurred:\n\n"
-									+ e.toString()
-									+ "\n\nIt's likely that the file you're trying to import isn't formatted correctly.\nPlease check the file and try again.\nIf the problem persists, please report it.",
-							"VTP5", JOptionPane.ERROR_MESSAGE);
+			processErrorMessage(
+					e,
+					"It's likely that the file you're trying to import isn't formatted correctly.\nPlease check the file and try again.\nIf the problem persists, please report it.");
 		}
 		return JFileChooser.CANCEL_OPTION;
 	}
@@ -665,7 +646,7 @@ public class VTP5 extends JFrame {
 				} catch (LineUnavailableException
 						| UnsupportedAudioFileException | IOException e) {
 
-					e.printStackTrace();
+					processErrorMessage(e, null);
 				}
 
 				// Set progress bar colour
@@ -702,7 +683,7 @@ public class VTP5 extends JFrame {
 				} catch (LineUnavailableException
 						| UnsupportedAudioFileException | IOException e) {
 
-					e.printStackTrace();
+					processErrorMessage(e, null);
 				}
 
 				progressBar.setProgressTopColor(Color.ORANGE);
@@ -939,7 +920,7 @@ public class VTP5 extends JFrame {
 							try {
 								desktop.browse(hle.getURL().toURI());
 							} catch (Exception ex) {
-								ex.printStackTrace();
+								processErrorMessage(ex, null);
 							}
 						}
 					}
@@ -949,14 +930,8 @@ public class VTP5 extends JFrame {
 						JOptionPane.WARNING_MESSAGE);
 			}
 		} catch (IOException e) {
-			JOptionPane
-					.showMessageDialog(
-							this,
-							"The following error occurred:\n\n"
-									+ e.toString()
-									+ "\n\nYour computer probably isn't connected to the Internet.",
-							"VTP5", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+			processErrorMessage(e,
+					"Your computer probably isn't connected to the internet.");
 		}
 	}
 
@@ -996,19 +971,15 @@ public class VTP5 extends JFrame {
 			properties.store(output, null);
 
 		} catch (IOException io) {
-			JOptionPane
-					.showMessageDialog(
-							this,
-							"The following error occurred:\n\n"
-									+ io.toString()
-									+ "\n\nThis means that VTP5 cannot create a file to store its settings. Please report the problem if it keeps happening.",
-							"VTP5", JOptionPane.ERROR_MESSAGE);
+			processErrorMessage(
+					io,
+					"This means that VTP5 cannot create a file to store its settings. Please report the problem if it keeps happening.");
 		} finally {
 			if (output != null) {
 				try {
 					output.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					processErrorMessage(e, null);
 				}
 			}
 
@@ -1037,14 +1008,7 @@ public class VTP5 extends JFrame {
 		} catch (FileNotFoundException gg) {
 			createSettingsFile();
 		} catch (IOException e) {
-			e.printStackTrace();
-			JOptionPane
-					.showMessageDialog(
-							this,
-							"The following error occurred:\n\n"
-									+ e.toString()
-									+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
-							"VTP5", JOptionPane.ERROR_MESSAGE);
+			processErrorMessage(e, null);
 		}
 	}
 
@@ -1110,14 +1074,9 @@ public class VTP5 extends JFrame {
 				APPDATA_PATH.mkdir();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			JOptionPane
-					.showMessageDialog(
-							this,
-							"The following error occurred:\n\n"
-									+ e.toString()
-									+ "\n\nThis means that VTP5 cannot create a folder to store its settings. Please report the problem if it keeps happening.",
-							"VTP5", JOptionPane.ERROR_MESSAGE);
+			processErrorMessage(
+					e,
+					"This means that VTP5 cannot create a folder to store its settings. Please report the problem if it keeps happening.");
 		}
 	}
 
@@ -1190,14 +1149,7 @@ public class VTP5 extends JFrame {
 				test = new TestFile(test.getImportedFiles(), this);
 			}
 		} catch (IOException e1) {
-			e1.printStackTrace();
-			JOptionPane
-					.showMessageDialog(
-							this,
-							"The following error occurred:\n\n"
-									+ e1.toString()
-									+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
-							"VTP5", JOptionPane.ERROR_MESSAGE);
+			processErrorMessage(e1, null);
 		}
 	}
 
@@ -1223,6 +1175,23 @@ public class VTP5 extends JFrame {
 
 	public void setUsualPath(String USUAL_PATH) {
 		this.USUAL_PATH = USUAL_PATH;
+	}
+
+	public void processErrorMessage(Exception e, String extraMessage) {
+		e.printStackTrace();
+		if (extraMessage == null) {
+			JOptionPane
+					.showMessageDialog(
+							this,
+							"The following error occurred:\n\n"
+									+ e.toString()
+									+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
+							"VTP5", JOptionPane.ERROR_MESSAGE);
+		} else {
+			JOptionPane.showMessageDialog(this,
+					"The following error occurred:\n\n" + e.toString() + "\n\n"
+							+ extraMessage, "VTP5", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	private class AnswerFieldFocusListener implements FocusListener {
@@ -1349,7 +1318,7 @@ public class VTP5 extends JFrame {
 							setUpTest(option);
 						} catch (NullPointerException
 								| IndexOutOfBoundsException npe) {
-							npe.printStackTrace();
+							processErrorMessage(npe, null);
 						}
 					}
 				}
@@ -1388,14 +1357,7 @@ public class VTP5 extends JFrame {
 					java.awt.Desktop.getDesktop().browse(
 							new URI("https://github.com/vtp5/vtp5/wiki/Help"));
 				} catch (URISyntaxException | IOException e1) {
-					e1.printStackTrace();
-					JOptionPane
-							.showMessageDialog(
-									parent,
-									"The following error occurred:\n\n"
-											+ e1.toString()
-											+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
-									"VTP5", JOptionPane.ERROR_MESSAGE);
+					processErrorMessage(e1, null);
 				}
 			} else if (e.getSource() == settingsButton) {
 				settingsDialog.setVisible(true);
