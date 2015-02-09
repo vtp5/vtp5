@@ -42,7 +42,6 @@ public class FileWordTokenizer extends AbstractWordTokenizer {
 	// ~ Constructors
 	// ............................................................
 
-	@SuppressWarnings("unused")
 	private static String stringValue(File inFile) {
 		StringBuffer out = new StringBuffer("");
 

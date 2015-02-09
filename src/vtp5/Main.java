@@ -1,7 +1,5 @@
 package vtp5;
 
-import java.awt.Color;
-
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
