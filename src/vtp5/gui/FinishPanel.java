@@ -105,7 +105,7 @@ public class FinishPanel extends WebPanel {
 		restartTest.setFocusable(false);
 		screenshotButton.setFocusable(false);
 
-		setTextColour(parent.getTextColour());
+		setTextColour(parent.getSelectedTheme().getTextColour());
 
 		statsList.setSelectionModel(new DisabledItemSelectionModel());
 
@@ -276,7 +276,7 @@ public class FinishPanel extends WebPanel {
 		}
 
 		statsList.setVisibleRowCount(4);
-		statsList.setForeground(parent.getTextColour());// changes text colour
+		statsList.setForeground(parent.getSelectedTheme().getTextColour());// changes text colour
 		Object[] stats = test.getStats();
 		statsListModel.removeAllElements();
 		statsListModel.addElement("<html><u>Statistics:</u></html>");

@@ -182,7 +182,7 @@ public class VTP5 extends JFrame {
 	private Theme selectedTheme;
 	private int defaultThemeIndex;
 
-	private Color panelColour = null;
+	private Color backgroundColour = null;
 
 	public VTP5() {
 
@@ -525,12 +525,12 @@ public class VTP5 extends JFrame {
 		System.out.println(selectedTheme.getBackgroundColour());
 		if (test != null) {
 			if (changingFrameColourCheck.isSelected()) {
-				calculatePanelColour(test.getStats());
+				calculateBackgroundColour(test.getStats());
 			} else {
-				updatePanelColour(selectedTheme.getBackgroundColour());
+				updateBackgroundColour(selectedTheme.getBackgroundColour());
 			}
 		} else {
-			updatePanelColour(selectedTheme.getBackgroundColour());
+			updateBackgroundColour(selectedTheme.getBackgroundColour());
 		}
 		repaint();
 		revalidate();
@@ -674,7 +674,7 @@ public class VTP5 extends JFrame {
 
 				if (result == TestFile.COMPLETELY_CORRECT) {
 					if (test.getCards().isEmpty()) {
-						calculatePanelColour(test.getStats());
+						calculateBackgroundColour(test.getStats());
 						finishTest();
 						// Stop the logic - the test is over!
 						return;
@@ -837,35 +837,35 @@ public class VTP5 extends JFrame {
 		}
 	}
 
-	private void calculatePanelColour(Object[] stats) {
+	private void calculateBackgroundColour(Object[] stats) {
 		if (rootPaneCheckingEnabled) {
 			if ((double) stats[3] >= 95) {
-				panelColour = new Color(193, 239, 193);
+				backgroundColour = new Color(193, 239, 193);
 			} else if ((double) stats[3] >= 90) {
-				panelColour = new Color(195, 233, 193);
+				backgroundColour = new Color(195, 233, 193);
 			} else if ((double) stats[3] >= 80) {
-				panelColour = new Color(203, 229, 193);
+				backgroundColour = new Color(203, 229, 193);
 			} else if ((double) stats[3] >= 70) {
-				panelColour = new Color(210, 225, 193);
+				backgroundColour = new Color(210, 225, 193);
 			} else if ((double) stats[3] >= 60) {
-				panelColour = new Color(218, 218, 193);
+				backgroundColour = new Color(218, 218, 193);
 			} else if ((double) stats[3] >= 50) {
-				panelColour = new Color(225, 210, 193);
+				backgroundColour = new Color(225, 210, 193);
 			} else if ((double) stats[3] >= 40) {
-				panelColour = new Color(233, 203, 193);
+				backgroundColour = new Color(233, 203, 193);
 			} else if ((double) stats[3] >= 30) {
-				panelColour = new Color(239, 197, 193);
+				backgroundColour = new Color(239, 197, 193);
 			} else if ((double) stats[3] >= 20) {
-				panelColour = new Color(239, 195, 193);
+				backgroundColour = new Color(239, 195, 193);
 			} else if ((double) stats[3] >= 0) {
-				panelColour = new Color(239, 193, 193);
+				backgroundColour = new Color(239, 193, 193);
 			}
-			updatePanelColour(panelColour);
+			updateBackgroundColour(backgroundColour);
 		}
 
 	}
 
-	private void updatePanelColour(Color col) {
+	private void updateBackgroundColour(Color col) {
 		if (!(col == null)) {
 			buttonPanel.setBackground(col);
 			mainPanel.setBackground(col);
@@ -897,9 +897,9 @@ public class VTP5 extends JFrame {
 				+ String.format("%.2f", (double) stats[3]) + "%");
 
 		if (changingFrameColourCheck.isSelected()) {
-			calculatePanelColour(stats);
+			calculateBackgroundColour(stats);
 		} else {
-			updatePanelColour(selectedTheme.getBackgroundColour());
+			updateBackgroundColour(selectedTheme.getBackgroundColour());
 		}
 	}
 
@@ -1143,7 +1143,7 @@ public class VTP5 extends JFrame {
 				+ (test.getCards().size() + test.getScore()));
 		Collections.shuffle(test.getCards());
 		updatePrompt(questionIndex);
-		panelColour = null;
+		backgroundColour = null;
 		updateStatsList();
 		progressBar.setMaximum(test.getCards().size() + test.getScore());
 		progressBar.setValue(test.getScore());
@@ -1169,9 +1169,9 @@ public class VTP5 extends JFrame {
 		changingFrameColourCheck.setSelected(true);
 		selectedTheme = themes.get(0);
 		if ((test != null)) {
-			calculatePanelColour(test.getStats());
+			calculateBackgroundColour(test.getStats());
 		} else {
-			panelColour = null;
+			backgroundColour = null;
 		}
 		questionNumberCheck.setSelected(true);
 		soundCheck.setSelected(true);
@@ -1179,7 +1179,7 @@ public class VTP5 extends JFrame {
 		iffyAnswerCheck.setSelected(true);
 		typoDetectorCheck.setSelected(true);
 		updateColours();
-		updatePanelColour(panelColour);
+		updateBackgroundColour(backgroundColour);
 	}
 
 	void restartTest() {
@@ -1201,14 +1201,10 @@ public class VTP5 extends JFrame {
 		}
 	}
 
-	public Color getButtonColour() {
-		return this.selectedTheme.getButtonColour();
+	Theme getSelectedTheme() {
+		return selectedTheme;
 	}
-
-	public Color getTextColour() {
-		return this.selectedTheme.getTextColour();
-	}
-
+	
 	TestFile getTest() {
 		return this.test;
 	}
@@ -1363,10 +1359,10 @@ public class VTP5 extends JFrame {
 					if (test != null) {
 						updateStatsList();
 					} else {
-						updatePanelColour(selectedTheme.getBackgroundColour());
+						updateBackgroundColour(selectedTheme.getBackgroundColour());
 					}
 				} else {
-					updatePanelColour(selectedTheme.getBackgroundColour());
+					updateBackgroundColour(selectedTheme.getBackgroundColour());
 				}
 			} else if (e.getSource() == aboutButton) {
 

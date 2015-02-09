@@ -34,8 +34,10 @@ public class VTP5Button extends WebButton {
 		vtp = parent;
 		setText(text);
 		parent.getButtonList().add(this);
-		this.lightColour = vtp.getButtonColour().brighter().brighter();
-		this.darkColour = vtp.getButtonColour().darker().darker();
+		this.lightColour = vtp.getSelectedTheme().getButtonColour().brighter()
+				.brighter();
+		this.darkColour = vtp.getSelectedTheme().getButtonColour().darker()
+				.darker();
 		updateColour();
 		if (!enabled) {
 			setButtonEnabled(false);
@@ -46,7 +48,7 @@ public class VTP5Button extends WebButton {
 		if (enabledness) {
 			// this.lightColour = vtp.buttonColour.brighter().brighter();
 			// this.darkColour = vtp.buttonColour.darker().darker();
-			System.out.println(vtp.getButtonColour());
+			System.out.println(vtp.getSelectedTheme().getButtonColour());
 			updateColour();
 			setEnabled(true);
 		} else {
