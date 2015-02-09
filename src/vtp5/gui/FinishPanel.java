@@ -2,6 +2,8 @@ package vtp5.gui;
 
 import java.awt.AWTException;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
@@ -23,6 +25,7 @@ import javax.swing.DefaultListSelectionModel;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.RowSorter.SortKey;
 import javax.swing.SortOrder;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -300,13 +303,17 @@ public class FinishPanel extends WebPanel {
 		sortKeys.add(new SortKey(2, SortOrder.DESCENDING));
 		watm = new WrongAnswersTableModel(parent.getTest().getIncorrectCards());
 		table = new WebTable(watm);
-		table.setEnabled(false);
+		cf.setFont(table, 35);
+		cf.setFont(table.getTableHeader(), 35);
 		table.setRowHeight(table.getFont().getSize() + 10);
 		sorter = new TableRowSorter<AbstractTableModel>(watm);
 		sorter.setSortKeys(sortKeys);
 		table.setRowSorter(sorter);
 		((AbstractTableModel) table.getModel()).fireTableDataChanged();
 		sorter.sort();
+		table.setEditable(false);
+		table.setFocusable(false);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
 		saveTest.setText("Create New Test File With These Words");
 		restartTest.setText("Start Test Again");
