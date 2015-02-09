@@ -202,6 +202,8 @@ public class VTP5 extends JFrame {
 //				"Sith"));
 		themes.add(new Theme(new Color(0x43A047), Color.WHITE, Color.BLACK, null,
 				"Apple Green"));
+		themes.add(new Theme(new Color(0x000080), Color.WHITE, Color.BLACK, null,
+				"Navy Blue"));
 		themes.add(new Theme(Color.BLACK, Color.WHITE, Color.BLACK,
 				Color.WHITE, "Stormtrooper White"));
 		
