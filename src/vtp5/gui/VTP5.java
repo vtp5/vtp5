@@ -879,7 +879,7 @@ public class VTP5 extends JFrame {
 		if (changingFrameColourCheck.isSelected()) {
 			calculatePanelColour(stats);
 		} else {
-			updatePanelColour(new Color(238, 238, 238));
+			updatePanelColour(selectedTheme.getBackgroundColour());
 		}
 	}
 
