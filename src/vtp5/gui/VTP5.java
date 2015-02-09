@@ -193,7 +193,7 @@ public class VTP5 extends JFrame {
 		SpellCheck.loadSpellChecker();
 		// button, buttontext, text, background, name
 		themes.add(new Theme(new Color(0x663399), Color.WHITE, Color.BLACK,
-				null, "Tyrian Purple"));
+				null, "Imperial Purple"));
 		themes.add(new Theme(new Color(0x8A0707), Color.WHITE, Color.BLACK,
 				null, "Flash Red"));
 		themes.add(new Theme(new Color(0xDDAE21), Color.WHITE, Color.BLACK,
