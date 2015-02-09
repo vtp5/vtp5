@@ -293,7 +293,7 @@ public class FinishPanel extends WebPanel {
 		completedLabel.setLineWrap(true);
 
 		showListLabel
-				.setText("<html>Here's a list of the words you got wrong the first time:</html>");
+				.setText("<html>Here's a list of the words you got wrong:</html>");
 		completedLabel.setText(completedMessage);
 
 		List<SortKey> sortKeys = new ArrayList<SortKey>();
