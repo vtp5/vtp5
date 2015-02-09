@@ -194,17 +194,17 @@ public class VTP5 extends JFrame {
 		// Load spell-checker
 		SpellCheck.loadSpellChecker();
 		// button, buttontext, text, background, name
-		themes.add(new Theme(new Color(0x663399), new Color(0xFFFFFF),
-				new Color(0x000000), null, "Imperial Purple"));
-		themes.add(new Theme(new Color(0x8A0707), new Color(0xFFFFFF),
-				new Color(0x000000), null, "Blood Red"));
-		themes.add(new Theme(new Color(0xDDAE21), new Color(0xFFFFFF),
-				new Color(0x000000), null, "Royal Gold"));
-		themes.add(new Theme(Color.RED, new Color(0x000000),
-				Color.RED, new Color(0x000000), "Sith"));
-
-		// themes.add(new Theme(new Color(0x000000), new Color(0xFFFFFF),
-		// new Color(0x000000), new Color(0xFFFFFF), "Stormtrooper"));
+		themes.add(new Theme(new Color(0x663399), Color.WHITE,
+				Color.BLACK, null, "Imperial Purple"));
+		themes.add(new Theme(new Color(0x8A0707), Color.WHITE,
+				Color.BLACK, null, "Blood Red"));
+		themes.add(new Theme(new Color(0xDDAE21), Color.WHITE,
+				Color.BLACK, null, "Royal Gold"));
+		themes.add(new Theme(Color.RED, Color.BLACK, Color.RED,
+				Color.BLACK, "Sith"));
+		themes.add(new Theme(Color.BLACK, Color.WHITE, Color.BLACK,
+				Color.WHITE, "Stormtrooper White"));
+		
 		// If all else fails, make Imperial Purple the default theme
 		selectedTheme = themes.get(defaultThemeIndex);
 
