@@ -115,44 +115,6 @@ public abstract class Configuration {
 	public static final String SPELL_IGNORESENTENCECAPITALIZATION = "SPELL_IGNORESENTENCECAPTILIZATION";
 
 	/**
-	 * Gets one of the integer constants
-	 * 
-	 * @param key
-	 *            one of the integer constants defined in this class
-	 * @return int value of the setting
-	 */
-	public abstract int getInteger(String key);
-
-	/**
-	 * Gets one of the boolean constants
-	 * 
-	 * @param key
-	 *            one of the boolean constants defined in this class
-	 * @return boolean value of the setting
-	 */
-	public abstract boolean getBoolean(String key);
-
-	/**
-	 * Sets one of the integer constants
-	 * 
-	 * @param key
-	 *            one of the integer constants defined in this class
-	 * @param value
-	 *            new integer value of the constant
-	 */
-	public abstract void setInteger(String key, int value);
-
-	/**
-	 * Sets one of the boolean constants
-	 * 
-	 * @param key
-	 *            one of the boolean constants defined in this class
-	 * @param value
-	 *            new boolean value of this setting
-	 */
-	public abstract void setBoolean(String key, boolean value);
-
-	/**
 	 * gets a new default Configuration
 	 * 
 	 * @return Configuration
@@ -194,4 +156,42 @@ public abstract class Configuration {
 		}
 		return result;
 	}
+
+	/**
+	 * Gets one of the boolean constants
+	 * 
+	 * @param key
+	 *            one of the boolean constants defined in this class
+	 * @return boolean value of the setting
+	 */
+	public abstract boolean getBoolean(String key);
+
+	/**
+	 * Gets one of the integer constants
+	 * 
+	 * @param key
+	 *            one of the integer constants defined in this class
+	 * @return int value of the setting
+	 */
+	public abstract int getInteger(String key);
+
+	/**
+	 * Sets one of the boolean constants
+	 * 
+	 * @param key
+	 *            one of the boolean constants defined in this class
+	 * @param value
+	 *            new boolean value of this setting
+	 */
+	public abstract void setBoolean(String key, boolean value);
+
+	/**
+	 * Sets one of the integer constants
+	 * 
+	 * @param key
+	 *            one of the integer constants defined in this class
+	 * @param value
+	 *            new integer value of the constant
+	 */
+	public abstract void setInteger(String key, int value);
 }

@@ -80,19 +80,6 @@ public class SpellDictionaryHashMap extends SpellDictionaryASpell {
 	}
 
 	/**
-	 * Dictionary Constructor.
-	 * 
-	 * @param wordList
-	 *            The file containing the words list for the dictionary
-	 * @throws java.io.IOException
-	 *             indicates problems reading the words list file
-	 */
-	public SpellDictionaryHashMap(Reader wordList) throws IOException {
-		super((File) null);
-		createDictionary(new BufferedReader(wordList));
-	}
-
-	/**
 	 * Dictionary convenience Constructor.
 	 * 
 	 * @param wordList
@@ -153,6 +140,19 @@ public class SpellDictionaryHashMap extends SpellDictionaryASpell {
 	}
 
 	/**
+	 * Dictionary Constructor.
+	 * 
+	 * @param wordList
+	 *            The file containing the words list for the dictionary
+	 * @throws java.io.IOException
+	 *             indicates problems reading the words list file
+	 */
+	public SpellDictionaryHashMap(Reader wordList) throws IOException {
+		super((File) null);
+		createDictionary(new BufferedReader(wordList));
+	}
+
+	/**
 	 * Dictionary constructor that uses an aspell phonetic file to build the
 	 * transformation table.
 	 * 
@@ -210,11 +210,37 @@ public class SpellDictionaryHashMap extends SpellDictionaryASpell {
 	}
 
 	/**
+	 * Adds to the existing dictionary from a word list file. If the word
+	 * already exists in the dictionary, a new entry is not added.
+	 * <p>
+	 * Each word in the reader should be on a separate line.
+	 * <p>
+	 * Note: for whatever reason that I haven't yet looked into, the phonetic
+	 * codes for a particular word map to a vector of words rather than a hash
+	 * table. This is a drag since in order to check for duplicates you have to
+	 * iterate through all the words that use the phonetic code. If the
+	 * vector-based implementation is important, it may be better to subclass
+	 * for the cases where duplicates are bad.
+	 */
+	protected void addDictionaryHelper(BufferedReader in) throws IOException {
+
+		String line = "";
+		while (line != null) {
+			line = in.readLine();
+			if (line != null && line.length() > 0) {
+				line = new String(line.toCharArray());
+				putWordUnique(line);
+			}
+		}
+	}
+
+	/**
 	 * Add a word permanently to the dictionary (and the dictionary file).
 	 * <p>
 	 * This needs to be made thread safe (synchronized)
 	 * </p>
 	 */
+	@Override
 	public void addWord(String word) {
 		putWord(word);
 		if (dictFile == null)
@@ -250,28 +276,32 @@ public class SpellDictionaryHashMap extends SpellDictionaryASpell {
 	}
 
 	/**
-	 * Adds to the existing dictionary from a word list file. If the word
-	 * already exists in the dictionary, a new entry is not added.
-	 * <p>
-	 * Each word in the reader should be on a separate line.
-	 * <p>
-	 * Note: for whatever reason that I haven't yet looked into, the phonetic
-	 * codes for a particular word map to a vector of words rather than a hash
-	 * table. This is a drag since in order to check for duplicates you have to
-	 * iterate through all the words that use the phonetic code. If the
-	 * vector-based implementation is important, it may be better to subclass
-	 * for the cases where duplicates are bad.
+	 * Returns a list of strings (words) for the code.
 	 */
-	protected void addDictionaryHelper(BufferedReader in) throws IOException {
+	@Override
+	public List getWords(String code) {
+		// Check the main dictionary.
+		Vector mainDictResult = (Vector) mainDictionary.get(code);
+		if (mainDictResult == null)
+			return new Vector();
+		return mainDictResult;
+	}
 
-		String line = "";
-		while (line != null) {
-			line = in.readLine();
-			if (line != null && line.length() > 0) {
-				line = new String(line.toCharArray());
-				putWordUnique(line);
-			}
-		}
+	/**
+	 * Returns true if the word is correctly spelled against the current word
+	 * list.
+	 */
+	@Override
+	public boolean isCorrect(String word) {
+		List possible = getWords(getCode(word));
+		if (possible.contains(word))
+			return true;
+		// JMH should we always try the lowercase version. If I dont then
+		// capitalised
+		// words are always returned as incorrect.
+		else if (possible.contains(word.toLowerCase()))
+			return true;
+		return false;
 	}
 
 	/**
@@ -329,32 +359,5 @@ public class SpellDictionaryHashMap extends SpellDictionaryASpell {
 			mainDictionary.put(code, list);
 
 		}
-	}
-
-	/**
-	 * Returns a list of strings (words) for the code.
-	 */
-	public List getWords(String code) {
-		// Check the main dictionary.
-		Vector mainDictResult = (Vector) mainDictionary.get(code);
-		if (mainDictResult == null)
-			return new Vector();
-		return mainDictResult;
-	}
-
-	/**
-	 * Returns true if the word is correctly spelled against the current word
-	 * list.
-	 */
-	public boolean isCorrect(String word) {
-		List possible = getWords(getCode(word));
-		if (possible.contains(word))
-			return true;
-		// JMH should we always try the lowercase version. If I dont then
-		// capitalised
-		// words are always returned as incorrect.
-		else if (possible.contains(word.toLowerCase()))
-			return true;
-		return false;
 	}
 }

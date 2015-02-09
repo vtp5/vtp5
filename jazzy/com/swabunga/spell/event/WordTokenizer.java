@@ -82,6 +82,13 @@ public interface WordTokenizer {
 	public int getCurrentWordPosition();
 
 	/**
+	 * Indicates if there are more words left
+	 * 
+	 * @return true if more words can be found in the text.
+	 */
+	public boolean hasMoreWords();
+
+	/**
 	 * Returns true if the current word is at the start of a sentence
 	 * 
 	 * @return true if the current word starts a sentence.
@@ -89,13 +96,6 @@ public interface WordTokenizer {
 	 *             current word has not yet been set.
 	 */
 	public boolean isNewSentence();
-
-	/**
-	 * Indicates if there are more words left
-	 * 
-	 * @return true if more words can be found in the text.
-	 */
-	public boolean hasMoreWords();
 
 	/**
 	 * This returns the next word in the iteration. Note that any implementation

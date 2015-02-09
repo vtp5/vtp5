@@ -59,18 +59,45 @@ class BasicSpellCheckEvent implements SpellCheckEvent {
 			WordTokenizer tokenizer) {
 		this.invalidWord = invalidWord;
 		this.suggestions = suggestions;
-		this.context = tokenizer.getContext();
-		this.startPosition = tokenizer.getCurrentWordPosition();
+		context = tokenizer.getContext();
+		startPosition = tokenizer.getCurrentWordPosition();
 	}
 
 	/**
-	 * Returns the list of suggested Word objects
+	 * Set the action to add a new word into the dictionary. This will also
+	 * replace the currently misspelt word.
 	 * 
-	 * @return A list of words phonetically close to the misspelt word
+	 * @param newWord
+	 *            The new word to add to the dictionary.
 	 */
-	@SuppressWarnings("rawtypes")
-	public List getSuggestions() {
-		return suggestions;
+	@Override
+	public void addToDictionary(String newWord) {
+		if (action != INITIAL)
+			throw new IllegalStateException(
+					"The action can can only be set once");
+		action = ADDTODICT;
+		replaceWord = newWord;
+	}
+
+	/**
+	 * Set the action to terminate processing of the spellchecker.
+	 */
+	@Override
+	public void cancel() {
+		if (action != INITIAL)
+			throw new IllegalStateException(
+					"The action can can only be set once");
+		action = CANCEL;
+	}
+
+	/**
+	 * Returns the action type the user has to handle
+	 * 
+	 * @return The type of action the event is carrying
+	 */
+	@Override
+	public short getAction() {
+		return action;
 	}
 
 	/**
@@ -78,8 +105,30 @@ class BasicSpellCheckEvent implements SpellCheckEvent {
 	 * 
 	 * @return The text misspelt
 	 */
+	@Override
 	public String getInvalidWord() {
 		return invalidWord;
+	}
+
+	/**
+	 * Returns the text to replace
+	 * 
+	 * @return the text of the word to replace
+	 */
+	@Override
+	public String getReplaceWord() {
+		return replaceWord;
+	}
+
+	/**
+	 * Returns the list of suggested Word objects
+	 * 
+	 * @return A list of words phonetically close to the misspelt word
+	 */
+	@Override
+	@SuppressWarnings("rawtypes")
+	public List getSuggestions() {
+		return suggestions;
 	}
 
 	/**
@@ -87,6 +136,7 @@ class BasicSpellCheckEvent implements SpellCheckEvent {
 	 * 
 	 * @return The text containing the context
 	 */
+	@Override
 	public String getWordContext() {
 		// JMH TBD
 		return null;
@@ -97,26 +147,28 @@ class BasicSpellCheckEvent implements SpellCheckEvent {
 	 * 
 	 * @return The position of the word
 	 */
+	@Override
 	public int getWordContextPosition() {
 		return startPosition;
 	}
 
 	/**
-	 * Returns the action type the user has to handle
+	 * Set the action it ignore the currently misspelt word.
 	 * 
-	 * @return The type of action the event is carrying
+	 * @param ignoreAll
+	 *            If set to true, the SpellChecker will replace all further
+	 *            occurrences of the misspelt word without firing a
+	 *            SpellCheckEvent.
 	 */
-	public short getAction() {
-		return action;
-	}
-
-	/**
-	 * Returns the text to replace
-	 * 
-	 * @return the text of the word to replace
-	 */
-	public String getReplaceWord() {
-		return replaceWord;
+	@Override
+	public void ignoreWord(boolean ignoreAll) {
+		if (action != INITIAL)
+			throw new IllegalStateException(
+					"The action can can only be set once");
+		if (ignoreAll)
+			action = IGNOREALL;
+		else
+			action = IGNORE;
 	}
 
 	/**
@@ -129,6 +181,7 @@ class BasicSpellCheckEvent implements SpellCheckEvent {
 	 *            occurrences of the misspelt word without firing a
 	 *            SpellCheckEvent.
 	 */
+	@Override
 	public void replaceWord(String newWord, boolean replaceAll) {
 		if (action != INITIAL)
 			throw new IllegalStateException(
@@ -138,48 +191,5 @@ class BasicSpellCheckEvent implements SpellCheckEvent {
 		else
 			action = REPLACE;
 		replaceWord = newWord;
-	}
-
-	/**
-	 * Set the action it ignore the currently misspelt word.
-	 * 
-	 * @param ignoreAll
-	 *            If set to true, the SpellChecker will replace all further
-	 *            occurrences of the misspelt word without firing a
-	 *            SpellCheckEvent.
-	 */
-	public void ignoreWord(boolean ignoreAll) {
-		if (action != INITIAL)
-			throw new IllegalStateException(
-					"The action can can only be set once");
-		if (ignoreAll)
-			action = IGNOREALL;
-		else
-			action = IGNORE;
-	}
-
-	/**
-	 * Set the action to add a new word into the dictionary. This will also
-	 * replace the currently misspelt word.
-	 * 
-	 * @param newWord
-	 *            The new word to add to the dictionary.
-	 */
-	public void addToDictionary(String newWord) {
-		if (action != INITIAL)
-			throw new IllegalStateException(
-					"The action can can only be set once");
-		action = ADDTODICT;
-		replaceWord = newWord;
-	}
-
-	/**
-	 * Set the action to terminate processing of the spellchecker.
-	 */
-	public void cancel() {
-		if (action != INITIAL)
-			throw new IllegalStateException(
-					"The action can can only be set once");
-		action = CANCEL;
 	}
 }

@@ -65,6 +65,69 @@ public class EditDistance {
 			.getInteger(Configuration.COST_CHANGE_CASE);
 
 	/**
+	 * For debugging, this creates a string that represents the matrix. To read
+	 * the matrix, look at any square. That is the cost to get from the partial
+	 * letters along the top to the partial letters along the side.
+	 * 
+	 * @param src
+	 *            - the source string that the matrix columns are based on
+	 * @param dest
+	 *            - the dest string that the matrix rows are based on
+	 * @param matrix
+	 *            - a two dimensional array of costs (distances)
+	 * @return String
+	 */
+	static private String dumpMatrix(String src, String dest, int matrix[][]) {
+		StringBuffer s = new StringBuffer("");
+
+		int cols = matrix.length - 1;
+		int rows = matrix[0].length - 1;
+
+		for (int i = 0; i < cols + 1; i++) {
+			for (int j = 0; j < rows + 1; j++) {
+				if (i == 0 && j == 0) {
+					s.append("\n ");
+					continue;
+
+				}
+				if (i == 0) {
+					s.append("|   ");
+					s.append(dest.charAt(j - 1));
+					continue;
+				}
+				if (j == 0) {
+					s.append(src.charAt(i - 1));
+					continue;
+				}
+				String num = Integer.toString(matrix[i - 1][j - 1]);
+				int padding = 4 - num.length();
+				s.append("|");
+				for (int k = 0; k < padding; k++)
+					s.append(' ');
+				s.append(num);
+			}
+			s.append('\n');
+		}
+		return s.toString();
+
+	}
+
+	/**
+	 * checks to see if the two charactors are equal ignoring case.
+	 * 
+	 * @param ch1
+	 * @param ch2
+	 * @return boolean
+	 */
+	private static boolean equalIgnoreCase(char ch1, char ch2) {
+		if (ch1 == ch2) {
+			return true;
+		} else {
+			return Character.toLowerCase(ch1) == Character.toLowerCase(ch2);
+		}
+	}
+
+	/**
 	 * Evaluates the distance between two words.
 	 * 
 	 * @param word
@@ -154,7 +217,7 @@ public class EditDistance {
 				// if needed, add up the cost of doing a swap
 				costOfSwap = Integer.MAX_VALUE;
 
-				isSwap = (i != 1) && (j != 1)
+				isSwap = i != 1 && j != 1
 						&& sourceChar == similar.charAt(j - 2)
 						&& word.charAt(i - 2) == otherChar;
 				if (isSwap)
@@ -179,83 +242,6 @@ public class EditDistance {
 			System.out.println(dumpMatrix(word, similar, matrix));
 
 		return matrix[a_size - 1][b_size - 1];
-	}
-
-	/**
-	 * checks to see if the two charactors are equal ignoring case.
-	 * 
-	 * @param ch1
-	 * @param ch2
-	 * @return boolean
-	 */
-	private static boolean equalIgnoreCase(char ch1, char ch2) {
-		if (ch1 == ch2) {
-			return true;
-		} else {
-			return (Character.toLowerCase(ch1) == Character.toLowerCase(ch2));
-		}
-	}
-
-	/**
-	 * For debugging, this creates a string that represents the matrix. To read
-	 * the matrix, look at any square. That is the cost to get from the partial
-	 * letters along the top to the partial letters along the side.
-	 * 
-	 * @param src
-	 *            - the source string that the matrix columns are based on
-	 * @param dest
-	 *            - the dest string that the matrix rows are based on
-	 * @param matrix
-	 *            - a two dimensional array of costs (distances)
-	 * @return String
-	 */
-	static private String dumpMatrix(String src, String dest, int matrix[][]) {
-		StringBuffer s = new StringBuffer("");
-
-		int cols = matrix.length - 1;
-		int rows = matrix[0].length - 1;
-
-		for (int i = 0; i < cols + 1; i++) {
-			for (int j = 0; j < rows + 1; j++) {
-				if (i == 0 && j == 0) {
-					s.append("\n ");
-					continue;
-
-				}
-				if (i == 0) {
-					s.append("|   ");
-					s.append(dest.charAt(j - 1));
-					continue;
-				}
-				if (j == 0) {
-					s.append(src.charAt(i - 1));
-					continue;
-				}
-				String num = Integer.toString(matrix[i - 1][j - 1]);
-				int padding = 4 - num.length();
-				s.append("|");
-				for (int k = 0; k < padding; k++)
-					s.append(' ');
-				s.append(num);
-			}
-			s.append('\n');
-		}
-		return s.toString();
-
-	}
-
-	static private int minimum(int a, int b, int c, int d, int e) {
-		int mi = a;
-		if (b < mi)
-			mi = b;
-		if (c < mi)
-			mi = c;
-		if (d < mi)
-			mi = d;
-		if (e < mi)
-			mi = e;
-
-		return mi;
 	}
 
 	/**
@@ -284,5 +270,19 @@ public class EditDistance {
 					.println(EditDistance.getDistance(input1, input2, matrix));
 		}
 		System.out.println("done");
+	}
+
+	static private int minimum(int a, int b, int c, int d, int e) {
+		int mi = a;
+		if (b < mi)
+			mi = b;
+		if (c < mi)
+			mi = c;
+		if (d < mi)
+			mi = d;
+		if (e < mi)
+			mi = e;
+
+		return mi;
 	}
 }

@@ -36,6 +36,14 @@ public class Word implements Comparator {
 
 	/**
 	 * Constructs a new Word.
+	 */
+	public Word() {
+		word = "";
+		score = 0;
+	}
+
+	/**
+	 * Constructs a new Word.
 	 * 
 	 * @param word
 	 *            The text of a word.
@@ -45,14 +53,6 @@ public class Word implements Comparator {
 	public Word(String word, int score) {
 		this.word = word;
 		this.score = score;
-	}
-
-	/**
-	 * Constructs a new Word.
-	 */
-	public Word() {
-		this.word = "";
-		this.score = 0;
 	}
 
 	/**
@@ -67,6 +67,7 @@ public class Word implements Comparator {
 	 *         0 if both words are equally similar
 	 * 
 	 */
+	@Override
 	public int compare(Object o1, Object o2) {
 		if (((Word) o1).getCost() < ((Word) o2).getCost())
 			return -1;
@@ -82,10 +83,21 @@ public class Word implements Comparator {
 	 *            The other word to compare
 	 * @return The indication of equality
 	 */
+	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Word) // added by bd
-			return (((Word) o).getWord().equals(getWord()));
+			return ((Word) o).getWord().equals(getWord());
 		return false;
+	}
+
+	/**
+	 * A cost measures how close a match this word was to the original word
+	 * 
+	 * @return 0 if an exact match. Higher numbers are worse matches.
+	 * @see EditDistance
+	 */
+	public int getCost() {
+		return score;
 	}
 
 	/**
@@ -108,20 +120,11 @@ public class Word implements Comparator {
 	}
 
 	/**
-	 * A cost measures how close a match this word was to the original word
-	 * 
-	 * @return 0 if an exact match. Higher numbers are worse matches.
-	 * @see EditDistance
-	 */
-	public int getCost() {
-		return score;
-	}
-
-	/**
 	 * returns the suggested spelling
 	 * 
 	 * @return The word's text
 	 */
+	@Override
 	public String toString() {
 		return word;
 	}

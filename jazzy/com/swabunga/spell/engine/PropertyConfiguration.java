@@ -62,6 +62,7 @@ public class PropertyConfiguration extends Configuration {
 	/**
 	 * @see com.swabunga.spell.engine.Configuration#getBoolean(String)
 	 */
+	@Override
 	public boolean getBoolean(String key) {
 		return new Boolean(prop.getProperty(key)).booleanValue();
 	}
@@ -69,30 +70,9 @@ public class PropertyConfiguration extends Configuration {
 	/**
 	 * @see com.swabunga.spell.engine.Configuration#getInteger(String)
 	 */
+	@Override
 	public int getInteger(String key) {
 		return new Integer(prop.getProperty(key)).intValue();
-	}
-
-	/**
-	 * @see com.swabunga.spell.engine.Configuration#setBoolean(String, boolean)
-	 */
-	public void setBoolean(String key, boolean value) {
-		String string = null;
-		if (value)
-			string = "true";
-		else
-			string = "false";
-
-		prop.setProperty(key, string);
-		save();
-	}
-
-	/**
-	 * @see com.swabunga.spell.engine.Configuration#setInteger(String, int)
-	 */
-	public void setInteger(String key, int value) {
-		prop.setProperty(key, Integer.toString(value));
-		save();
 	}
 
 	/**
@@ -107,6 +87,30 @@ public class PropertyConfiguration extends Configuration {
 		} catch (FileNotFoundException e) {
 		} catch (IOException e) {
 		}
+	}
+
+	/**
+	 * @see com.swabunga.spell.engine.Configuration#setBoolean(String, boolean)
+	 */
+	@Override
+	public void setBoolean(String key, boolean value) {
+		String string = null;
+		if (value)
+			string = "true";
+		else
+			string = "false";
+
+		prop.setProperty(key, string);
+		save();
+	}
+
+	/**
+	 * @see com.swabunga.spell.engine.Configuration#setInteger(String, int)
+	 */
+	@Override
+	public void setInteger(String key, int value) {
+		prop.setProperty(key, Integer.toString(value));
+		save();
 	}
 
 }

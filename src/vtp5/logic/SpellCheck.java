@@ -38,8 +38,8 @@ public class SpellCheck {
 		// Set up spell-checker
 		try {
 
-				dictFile = streamToFile(SpellCheck.class
-						.getResourceAsStream("/dict/english.0"));
+			dictFile = streamToFile(SpellCheck.class
+					.getResourceAsStream("/dict/english.0"));
 
 			SpellDictionary dictionary = new SpellDictionaryHashMap(dictFile,
 					null);

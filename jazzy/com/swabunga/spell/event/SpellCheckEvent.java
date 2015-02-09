@@ -52,12 +52,25 @@ public interface SpellCheckEvent {
 	public static final short INITIAL = -1;
 
 	/**
-	 * Returns the list of suggested Word objects
+	 * Set the action to add a new word into the dictionary. This will also
+	 * replace the currently misspelt word.
 	 * 
-	 * @return A list of words phonetically close to the misspelt word
+	 * @param newWord
+	 *            The new word to add
 	 */
-	@SuppressWarnings("rawtypes")
-	public List getSuggestions();
+	public void addToDictionary(String newWord);
+
+	/**
+	 * Set the action to terminate processing of the spell checker.
+	 */
+	public void cancel();
+
+	/**
+	 * Returns the action type the user has to handle
+	 * 
+	 * @return The type of action the event is carrying
+	 */
+	public short getAction();
 
 	/**
 	 * Returns the currently misspelt word
@@ -65,6 +78,21 @@ public interface SpellCheckEvent {
 	 * @return The text misspelt
 	 */
 	public String getInvalidWord();
+
+	/**
+	 * Returns the text to replace
+	 * 
+	 * @return the text of the word to replace
+	 */
+	public String getReplaceWord();
+
+	/**
+	 * Returns the list of suggested Word objects
+	 * 
+	 * @return A list of words phonetically close to the misspelt word
+	 */
+	@SuppressWarnings("rawtypes")
+	public List getSuggestions();
 
 	/**
 	 * Returns the context in which the misspelt word is used
@@ -81,18 +109,14 @@ public interface SpellCheckEvent {
 	public int getWordContextPosition();
 
 	/**
-	 * Returns the action type the user has to handle
+	 * Set the action it ignore the currently misspelt word.
 	 * 
-	 * @return The type of action the event is carrying
+	 * @param ignoreAll
+	 *            If set to true, the SpellChecker will replace all further
+	 *            occurrences of the misspelt word without firing a
+	 *            SpellCheckEvent.
 	 */
-	public short getAction();
-
-	/**
-	 * Returns the text to replace
-	 * 
-	 * @return the text of the word to replace
-	 */
-	public String getReplaceWord();
+	public void ignoreWord(boolean ignoreAll);
 
 	/**
 	 * Set the action to replace the currently misspelt word with the new word
@@ -105,28 +129,4 @@ public interface SpellCheckEvent {
 	 *            SpellCheckEvent.
 	 */
 	public void replaceWord(String newWord, boolean replaceAll);
-
-	/**
-	 * Set the action it ignore the currently misspelt word.
-	 * 
-	 * @param ignoreAll
-	 *            If set to true, the SpellChecker will replace all further
-	 *            occurrences of the misspelt word without firing a
-	 *            SpellCheckEvent.
-	 */
-	public void ignoreWord(boolean ignoreAll);
-
-	/**
-	 * Set the action to add a new word into the dictionary. This will also
-	 * replace the currently misspelt word.
-	 * 
-	 * @param newWord
-	 *            The new word to add
-	 */
-	public void addToDictionary(String newWord);
-
-	/**
-	 * Set the action to terminate processing of the spell checker.
-	 */
-	public void cancel();
 }

@@ -34,6 +34,13 @@ public class DefaultWordFinder extends AbstractWordFinder {
 
 	/**
 	 * Creates a new DefaultWordFinder object.
+	 */
+	public DefaultWordFinder() {
+		super();
+	}
+
+	/**
+	 * Creates a new DefaultWordFinder object.
 	 * 
 	 * @param inText
 	 *            the String to search
@@ -42,48 +49,8 @@ public class DefaultWordFinder extends AbstractWordFinder {
 		super(inText);
 	}
 
-	/**
-	 * Creates a new DefaultWordFinder object.
-	 */
-	public DefaultWordFinder() {
-		super();
-	}
-
 	// ~ Methods
 	// .................................................................
-
-	/**
-	 * This method scans the text from the end of the last word, and returns a
-	 * new Word object corresponding to the next word.
-	 * 
-	 * @return the next word.
-	 * @throws WordNotFoundException
-	 *             search string contains no more words.
-	 */
-	public Word next() {
-		if (nextWord == null) {
-			throw new WordNotFoundException("No more words found.");
-		}
-		currentWord.copy(nextWord);
-		setSentenceIterator(currentWord);
-
-		int i = currentWord.getEnd();
-		boolean finished = false;
-
-		while (i < text.length() && !finished) {
-			if (isWordChar(i)) {
-				nextWord.setStart(i);
-				int end = getNextWordEnd(text, i);
-				nextWord.setText(text.substring(i, end));
-				finished = true;
-			}
-			i++;
-		}
-		if (!finished)
-			nextWord = null;
-
-		return currentWord;
-	}
 
 	/**
 	 * Returns the position in the string <em>after</em> the end of the next
@@ -118,5 +85,39 @@ public class DefaultWordFinder extends AbstractWordFinder {
 			}
 			return text.length();
 		}
+	}
+
+	/**
+	 * This method scans the text from the end of the last word, and returns a
+	 * new Word object corresponding to the next word.
+	 * 
+	 * @return the next word.
+	 * @throws WordNotFoundException
+	 *             search string contains no more words.
+	 */
+	@Override
+	public Word next() {
+		if (nextWord == null) {
+			throw new WordNotFoundException("No more words found.");
+		}
+		currentWord.copy(nextWord);
+		setSentenceIterator(currentWord);
+
+		int i = currentWord.getEnd();
+		boolean finished = false;
+
+		while (i < text.length() && !finished) {
+			if (isWordChar(i)) {
+				nextWord.setStart(i);
+				int end = getNextWordEnd(text, i);
+				nextWord.setText(text.substring(i, end));
+				finished = true;
+			}
+			i++;
+		}
+		if (!finished)
+			nextWord = null;
+
+		return currentWord;
 	}
 }

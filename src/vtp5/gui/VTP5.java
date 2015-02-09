@@ -194,17 +194,17 @@ public class VTP5 extends JFrame {
 		// Load spell-checker
 		SpellCheck.loadSpellChecker();
 		// button, buttontext, text, background, name
-		themes.add(new Theme(new Color(0x663399), Color.WHITE,
-				Color.BLACK, null, "Imperial Purple"));
-		themes.add(new Theme(new Color(0x8A0707), Color.WHITE,
-				Color.BLACK, null, "Blood Red"));
-		themes.add(new Theme(new Color(0xDDAE21), Color.WHITE,
-				Color.BLACK, null, "Royal Gold"));
-		themes.add(new Theme(Color.RED, Color.BLACK, Color.RED,
-				Color.BLACK, "Sith"));
+		themes.add(new Theme(new Color(0x663399), Color.WHITE, Color.BLACK,
+				null, "Imperial Purple"));
+		themes.add(new Theme(new Color(0x8A0707), Color.WHITE, Color.BLACK,
+				null, "Blood Red"));
+		themes.add(new Theme(new Color(0xDDAE21), Color.WHITE, Color.BLACK,
+				null, "Royal Gold"));
+		themes.add(new Theme(Color.RED, Color.BLACK, Color.RED, Color.BLACK,
+				"Sith"));
 		themes.add(new Theme(Color.BLACK, Color.WHITE, Color.BLACK,
 				Color.WHITE, "Stormtrooper White"));
-		
+
 		// If all else fails, make Imperial Purple the default theme
 		selectedTheme = themes.get(defaultThemeIndex);
 
@@ -1204,7 +1204,7 @@ public class VTP5 extends JFrame {
 	Theme getSelectedTheme() {
 		return selectedTheme;
 	}
-	
+
 	TestFile getTest() {
 		return this.test;
 	}
@@ -1359,7 +1359,8 @@ public class VTP5 extends JFrame {
 					if (test != null) {
 						updateStatsList();
 					} else {
-						updateBackgroundColour(selectedTheme.getBackgroundColour());
+						updateBackgroundColour(selectedTheme
+								.getBackgroundColour());
 					}
 				} else {
 					updateBackgroundColour(selectedTheme.getBackgroundColour());

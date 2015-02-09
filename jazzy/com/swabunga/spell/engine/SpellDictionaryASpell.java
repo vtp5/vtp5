@@ -127,6 +127,65 @@ public abstract class SpellDictionaryASpell implements SpellDictionary {
 	}
 
 	/**
+	 * When we don't come up with any suggestions (probably because the
+	 * threshold was too strict), then pick the best guesses from the those
+	 * words that have the same phonetic code.
+	 * 
+	 * @param word
+	 *            - the word we are trying spell correct
+	 * @param Two
+	 *            dimensional array of int used to calculate edit distance.
+	 *            Allocating this memory outside of the function will greatly
+	 *            improve efficiency.
+	 * @param wordList
+	 *            - the linked list that will get the best guess
+	 */
+	private void addBestGuess(String word, Vector wordList, int[][] matrix) {
+		if (matrix == null)
+			matrix = new int[0][0];
+
+		if (wordList.size() != 0)
+			throw new InvalidParameterException(
+					"the wordList vector must be empty");
+
+		int bestScore = Integer.MAX_VALUE;
+
+		String code = getCode(word);
+		List simwordlist = getWords(code);
+
+		LinkedList candidates = new LinkedList();
+
+		for (Iterator j = simwordlist.iterator(); j.hasNext();) {
+			String similar = (String) j.next();
+			int distance = EditDistance.getDistance(word, similar, matrix);
+			if (distance <= bestScore) {
+				bestScore = distance;
+				Word goodGuess = new Word(similar, distance);
+				candidates.add(goodGuess);
+			}
+		}
+
+		// now, only pull out the guesses that had the best score
+		for (Iterator iter = candidates.iterator(); iter.hasNext();) {
+			Word candidate = (Word) iter.next();
+			if (candidate.getCost() == bestScore)
+				wordList.add(candidate);
+		}
+
+	}
+
+	/**
+	 * Returns the phonetic code representing the word.
+	 * 
+	 * @param word
+	 *            The word we want the phonetic code.
+	 * @return The value of the phonetic code for the word.
+	 */
+	public String getCode(String word) {
+		return tf.transform(word);
+	}
+
+	/**
 	 * Returns a list of Word objects that are the suggestions to an incorrect
 	 * word.
 	 * <p>
@@ -139,6 +198,7 @@ public abstract class SpellDictionaryASpell implements SpellDictionary {
 	 *            The lower boundary of similarity to misspelt word
 	 * @return Vector a List of suggestions
 	 */
+	@Override
 	public List getSuggestions(String word, int threshold) {
 
 		return getSuggestions(word, threshold, null);
@@ -160,6 +220,7 @@ public abstract class SpellDictionaryASpell implements SpellDictionary {
 	 *            improve efficiency.
 	 * @return Vector a List of suggestions
 	 */
+	@Override
 	public List getSuggestions(String word, int threshold, int[][] matrix) {
 
 		int i;
@@ -266,70 +327,13 @@ public abstract class SpellDictionaryASpell implements SpellDictionary {
 	}
 
 	/**
-	 * When we don't come up with any suggestions (probably because the
-	 * threshold was too strict), then pick the best guesses from the those
-	 * words that have the same phonetic code.
-	 * <p>
-	 * This method is only needed to provide backward compatibility.
+	 * Returns a list of words that have the same phonetic code.
 	 * 
-	 * @see addBestGuess(String word, Vector wordList, int[][] matrix)
-	 * @param word
-	 *            - the word we are trying spell correct
-	 * @param wordList
-	 *            - the linked list that will get the best guess
+	 * @param phoneticCode
+	 *            The phonetic code common to the list of words
+	 * @return A list of words having the same phonetic code
 	 */
-	@SuppressWarnings("unused")
-	private void addBestGuess(String word, Vector wordList) {
-		addBestGuess(word, wordList, null);
-	}
-
-	/**
-	 * When we don't come up with any suggestions (probably because the
-	 * threshold was too strict), then pick the best guesses from the those
-	 * words that have the same phonetic code.
-	 * 
-	 * @param word
-	 *            - the word we are trying spell correct
-	 * @param Two
-	 *            dimensional array of int used to calculate edit distance.
-	 *            Allocating this memory outside of the function will greatly
-	 *            improve efficiency.
-	 * @param wordList
-	 *            - the linked list that will get the best guess
-	 */
-	private void addBestGuess(String word, Vector wordList, int[][] matrix) {
-		if (matrix == null)
-			matrix = new int[0][0];
-
-		if (wordList.size() != 0)
-			throw new InvalidParameterException(
-					"the wordList vector must be empty");
-
-		int bestScore = Integer.MAX_VALUE;
-
-		String code = getCode(word);
-		List simwordlist = getWords(code);
-
-		LinkedList candidates = new LinkedList();
-
-		for (Iterator j = simwordlist.iterator(); j.hasNext();) {
-			String similar = (String) j.next();
-			int distance = EditDistance.getDistance(word, similar, matrix);
-			if (distance <= bestScore) {
-				bestScore = distance;
-				Word goodGuess = new Word(similar, distance);
-				candidates.add(goodGuess);
-			}
-		}
-
-		// now, only pull out the guesses that had the best score
-		for (Iterator iter = candidates.iterator(); iter.hasNext();) {
-			Word candidate = (Word) iter.next();
-			if (candidate.getCost() == bestScore)
-				wordList.add(candidate);
-		}
-
-	}
+	protected abstract List getWords(String phoneticCode);
 
 	private Vector getWordsFromCode(String word, Hashtable codes) {
 		Configuration config = Configuration.getConfiguration();
@@ -355,29 +359,10 @@ public abstract class SpellDictionaryASpell implements SpellDictionary {
 	}
 
 	/**
-	 * Returns the phonetic code representing the word.
-	 * 
-	 * @param word
-	 *            The word we want the phonetic code.
-	 * @return The value of the phonetic code for the word.
-	 */
-	public String getCode(String word) {
-		return tf.transform(word);
-	}
-
-	/**
-	 * Returns a list of words that have the same phonetic code.
-	 * 
-	 * @param phoneticCode
-	 *            The phonetic code common to the list of words
-	 * @return A list of words having the same phonetic code
-	 */
-	protected abstract List getWords(String phoneticCode);
-
-	/**
 	 * Returns true if the word is correctly spelled against the current word
 	 * list.
 	 */
+	@Override
 	public boolean isCorrect(String word) {
 		List possible = getWords(getCode(word));
 		if (possible.contains(word))

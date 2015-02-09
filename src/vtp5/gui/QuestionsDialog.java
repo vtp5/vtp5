@@ -42,8 +42,8 @@ public class QuestionsDialog extends WebPanel {
 	public QuestionsDialog(VTP5 obj) {
 		setLayout(new MigLayout("fillx"));
 		slider = new WebSlider();
-		spinner = new WebSpinner(new SpinnerNumberModel(obj.getTest().getCards()
-				.size(), 1, obj.getTest().getCards().size(), 1));
+		spinner = new WebSpinner(new SpinnerNumberModel(obj.getTest()
+				.getCards().size(), 1, obj.getTest().getCards().size(), 1));
 
 		cf.setFont(spinner, 25);
 		cf.setFont(slider, 25);

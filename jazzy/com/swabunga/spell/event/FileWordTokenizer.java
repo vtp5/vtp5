@@ -42,47 +42,8 @@ public class FileWordTokenizer extends AbstractWordTokenizer {
 	// ~ Constructors
 	// ............................................................
 
-	/**
-	 * Creates a new FileWordTokenizer object.
-	 * 
-	 * @param inputFile
-	 *            the file to work upon
-	 */
-	public FileWordTokenizer(File inputFile) {
-		super(stringValue(inputFile));
-	}
-
-	/**
-	 * Creates a new FileWordTokenizer object and associate a WordFinder to it's
-	 * processing.
-	 * 
-	 * @param inputFile
-	 *            the file to word upon.
-	 * @param finder
-	 *            the specialize processing for words.
-	 */
-	public FileWordTokenizer(File inputFile, WordFinder finder) {
-		super(finder);
-		finder.setText(stringValue(inputFile));
-	}
-
-	// ~ Methods
-	// .................................................................
-
-	/**
-	 * Replaces the current word token
-	 * 
-	 * @param s
-	 *            the new string
-	 * @throws WordNotFoundException
-	 *             current word not yet set.
-	 */
-	public void replaceWord(String s) {
-	}
-
 	@SuppressWarnings("unused")
 	private static String stringValue(File inFile) {
-		File stringFile = inFile;
 		StringBuffer out = new StringBuffer("");
 
 		try {
@@ -98,5 +59,44 @@ public class FileWordTokenizer extends AbstractWordTokenizer {
 					+ inFile.toString() + " : " + e);
 		}
 		return out.toString();
+	}
+
+	/**
+	 * Creates a new FileWordTokenizer object.
+	 * 
+	 * @param inputFile
+	 *            the file to work upon
+	 */
+	public FileWordTokenizer(File inputFile) {
+		super(stringValue(inputFile));
+	}
+
+	// ~ Methods
+	// .................................................................
+
+	/**
+	 * Creates a new FileWordTokenizer object and associate a WordFinder to it's
+	 * processing.
+	 * 
+	 * @param inputFile
+	 *            the file to word upon.
+	 * @param finder
+	 *            the specialize processing for words.
+	 */
+	public FileWordTokenizer(File inputFile, WordFinder finder) {
+		super(finder);
+		finder.setText(stringValue(inputFile));
+	}
+
+	/**
+	 * Replaces the current word token
+	 * 
+	 * @param s
+	 *            the new string
+	 * @throws WordNotFoundException
+	 *             current word not yet set.
+	 */
+	@Override
+	public void replaceWord(String s) {
 	}
 }

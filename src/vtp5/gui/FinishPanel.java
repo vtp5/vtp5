@@ -97,7 +97,8 @@ public class FinishPanel extends WebPanel {
 
 		setLayout(new MigLayout("fillx"));
 
-		saveTest = new VTP5Button("Save Wrong Answers to Test File", parent, true);
+		saveTest = new VTP5Button("Save Wrong Answers to Test File", parent,
+				true);
 		restartTest = new VTP5Button("Start Again", parent, true);
 		screenshotButton = new VTP5Button("Take Screenshot", parent, true);
 
@@ -276,7 +277,9 @@ public class FinishPanel extends WebPanel {
 		}
 
 		statsList.setVisibleRowCount(4);
-		statsList.setForeground(parent.getSelectedTheme().getTextColour());// changes text colour
+		statsList.setForeground(parent.getSelectedTheme().getTextColour());// changes
+																			// text
+																			// colour
 		Object[] stats = test.getStats();
 		statsListModel.removeAllElements();
 		statsListModel.addElement("<html><u>Statistics:</u></html>");

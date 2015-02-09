@@ -50,6 +50,96 @@ import com.swabunga.util.StringUtility;
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class GenericTransformator implements Transformator {
 
+	// Inner Classes
+	/*
+	 * Holds the match string and the replace string and all the rule
+	 * attributes. Is responsible for indicating matches.
+	 */
+	private class TransformationRule {
+
+		private String replace;
+		private char[] match;
+		// takeOut=number of chars to replace;
+		// matchLength=length of matching string counting multies as one.
+		private int takeOut, matchLength;
+		private boolean start, end;
+
+		// Construktor
+		public TransformationRule(String match, String replace, int takeout,
+				int matchLength, boolean start, boolean end) {
+			this.match = match.toCharArray();
+			this.replace = replace;
+			takeOut = takeout;
+			this.matchLength = matchLength;
+			this.start = start;
+			this.end = end;
+		}
+
+		public String getReplaceExp() {
+			return replace;
+		}
+
+		public int getTakeOut() {
+			return takeOut;
+		}
+
+		/*
+		 * Returns true if word from pos and forward matches the match string.
+		 * Precondition: wordPos+matchLength<word.length()
+		 */
+		public boolean isMatching(StringBuffer word, int wordPos) {
+			boolean matching = true, inMulti = false, multiMatch = false;
+			char matchCh;
+
+			for (int matchPos = 0; matchPos < match.length; matchPos++) {
+				matchCh = match[matchPos];
+				if (matchCh == STARTMULTI || matchCh == ENDMULTI) {
+					inMulti = !inMulti;
+					if (!inMulti)
+						matching = matching & multiMatch;
+					else
+						multiMatch = false;
+				} else {
+					if (matchCh != word.charAt(wordPos)) {
+						if (inMulti)
+							multiMatch = multiMatch | false;
+						else
+							matching = false;
+					} else {
+						if (inMulti)
+							multiMatch = multiMatch | true;
+						else
+							matching = true;
+					}
+					if (!inMulti)
+						wordPos++;
+					if (!matching)
+						break;
+				}
+			}
+			if (end && wordPos != word.length())
+				matching = false;
+			return matching;
+		}
+
+		public int lengthOfMatch() {
+			return matchLength;
+		}
+
+		public boolean startsWithExp() {
+			return start;
+		}
+
+		// Just for debugging purposes.
+		@Override
+		public String toString() {
+			return "Match:" + String.valueOf(match) + " Replace:" + replace
+					+ " TakeOut:" + takeOut + " MatchLength:" + matchLength
+					+ " Start:" + start + " End:" + end;
+		}
+
+	}
+
 	/**
 	 * This replace list is used if no phonetic file is supplied or it doesn't
 	 * contain the alphabet.
@@ -57,7 +147,6 @@ public class GenericTransformator implements Transformator {
 	private static final char[] defaultEnglishAlphabet = { 'A', 'B', 'C', 'D',
 			'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q',
 			'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
-
 	/**
 	 * The alphabet start marker.
 	 * 
@@ -78,6 +167,7 @@ public class GenericTransformator implements Transformator {
 	 * {@link GenericTransformator#ALPHABET_END ALPHABET_END} marker.
 	 */
 	public static final String KEYWORD_ALPHBET = "alphabet";
+
 	/**
 	 * Phonetic file lines starting with the keywords are skipped. The key words
 	 * are: version, followup, collapse_result. Comments, starting with '#', are
@@ -85,7 +175,6 @@ public class GenericTransformator implements Transformator {
 	 */
 	public static final String[] IGNORED_KEYWORDS = { "version", "followup",
 			"collapse_result" };
-
 	/**
 	 * Start a group of characters which can be appended to the match expression
 	 * of the phonetic file.
@@ -101,13 +190,14 @@ public class GenericTransformator implements Transformator {
 	 * replaced by this DIGITCODE.
 	 */
 	public static final String DIGITCODE = "0";
+
 	/**
 	 * Phonetic file character code indicating that the replace expression is
 	 * empty.
 	 */
 	public static final String REPLACEVOID = "_";
-
 	private Object[] ruleArray = null;
+
 	private char[] alphabetString = defaultEnglishAlphabet;
 
 	/**
@@ -153,142 +243,6 @@ public class GenericTransformator implements Transformator {
 	public GenericTransformator(Reader phonetic) throws IOException {
 		buildRules(new BufferedReader(phonetic));
 		alphabetString = washAlphabetIntoReplaceList(getReplaceList());
-	}
-
-	/**
-	 * Goes through an alphabet and makes sure that only one of those letters
-	 * that are coded equally will be in the replace list. In other words, it
-	 * removes any letters in the alphabet that are redundant phonetically.
-	 * 
-	 * This is done to improve speed in the getSuggestion method.
-	 * 
-	 * @param alphabet
-	 *            The complete alphabet to wash.
-	 * @return The washed alphabet to be used as replace list.
-	 */
-
-	private char[] washAlphabetIntoReplaceList(char[] alphabet) {
-
-		HashMap letters = new HashMap(alphabet.length);
-
-		for (int i = 0; i < alphabet.length; i++) {
-			String tmp = String.valueOf(alphabet[i]);
-			String code = transform(tmp);
-			if (!letters.containsKey(code)) {
-				letters.put(code, new Character(alphabet[i]));
-			}
-		}
-
-		Object[] tmpCharacters = letters.values().toArray();
-		char[] washedArray = new char[tmpCharacters.length];
-
-		for (int i = 0; i < tmpCharacters.length; i++) {
-			washedArray[i] = ((Character) tmpCharacters[i]).charValue();
-		}
-
-		return washedArray;
-	}
-
-	/**
-	 * Takes out all single character replacements and put them in a char array.
-	 * This array can later be used for adding or changing letters in
-	 * getSuggestion().
-	 * 
-	 * @return char[] An array of chars with replacements characters
-	 */
-	public char[] getCodeReplaceList() {
-		char[] replacements;
-		TransformationRule rule;
-		Vector tmp = new Vector();
-
-		if (ruleArray == null)
-			return null;
-		for (int i = 0; i < ruleArray.length; i++) {
-			rule = (TransformationRule) ruleArray[i];
-			if (rule.getReplaceExp().length() == 1)
-				tmp.addElement(rule.getReplaceExp());
-		}
-		replacements = new char[tmp.size()];
-		for (int i = 0; i < tmp.size(); i++) {
-			replacements[i] = ((String) tmp.elementAt(i)).charAt(0);
-		}
-		return replacements;
-	}
-
-	/**
-	 * Builds up an char array with the chars in the alphabet of the language as
-	 * it was read from the alphabet tag in the phonetic file.
-	 * 
-	 * @return char[] An array of chars representing the alphabet or null if no
-	 *         alphabet was available.
-	 */
-	public char[] getReplaceList() {
-		return alphabetString;
-	}
-
-	/**
-	 * Builds the phonetic code of the word.
-	 * 
-	 * @param word
-	 *            the word to transform
-	 * @return the phonetic transformation of the word
-	 */
-	public String transform(String word) {
-
-		if (ruleArray == null)
-			return null;
-
-		TransformationRule rule;
-		StringBuffer str = new StringBuffer(word.toUpperCase());
-		int strLength = str.length();
-		int startPos = 0, add = 1;
-
-		while (startPos < strLength) {
-
-			add = 1;
-			if (Character.isDigit(str.charAt(startPos))) {
-				StringUtility.replace(str, startPos,
-						startPos + DIGITCODE.length(), DIGITCODE);
-				startPos += add;
-				continue;
-			}
-
-			for (int i = 0; i < ruleArray.length; i++) {
-				// System.out.println("Testing rule#:"+i);
-				rule = (TransformationRule) ruleArray[i];
-				if (rule.startsWithExp() && startPos > 0)
-					continue;
-				if (startPos + rule.lengthOfMatch() > strLength) {
-					continue;
-				}
-				if (rule.isMatching(str, startPos)) {
-					String replaceExp = rule.getReplaceExp();
-
-					add = replaceExp.length();
-					StringUtility.replace(str, startPos,
-							startPos + rule.getTakeOut(), replaceExp);
-					strLength -= rule.getTakeOut();
-					strLength += add;
-					// System.out.println("Replacing with rule#:"+i+" add="+add);
-					break;
-				}
-			}
-			startPos += add;
-		}
-		// System.out.println(word);
-		// System.out.println(str.toString());
-		return str.toString();
-	}
-
-	// Used to build up the transformastion table.
-	private void buildRules(BufferedReader in) throws IOException {
-		String read = null;
-		Vector ruleList = new Vector();
-		while ((read = in.readLine()) != null) {
-			buildRule(realTrimmer(read), ruleList);
-		}
-		ruleArray = new TransformationRule[ruleList.size()];
-		ruleList.copyInto(ruleArray);
 	}
 
 	// Here is where the real work of reading the phonetics file is done.
@@ -357,6 +311,55 @@ public class GenericTransformator implements Transformator {
 		ruleList.addElement(rule);
 	}
 
+	// Used to build up the transformastion table.
+	private void buildRules(BufferedReader in) throws IOException {
+		String read = null;
+		Vector ruleList = new Vector();
+		while ((read = in.readLine()) != null) {
+			buildRule(realTrimmer(read), ruleList);
+		}
+		ruleArray = new TransformationRule[ruleList.size()];
+		ruleList.copyInto(ruleArray);
+	}
+
+	/**
+	 * Takes out all single character replacements and put them in a char array.
+	 * This array can later be used for adding or changing letters in
+	 * getSuggestion().
+	 * 
+	 * @return char[] An array of chars with replacements characters
+	 */
+	public char[] getCodeReplaceList() {
+		char[] replacements;
+		TransformationRule rule;
+		Vector tmp = new Vector();
+
+		if (ruleArray == null)
+			return null;
+		for (int i = 0; i < ruleArray.length; i++) {
+			rule = (TransformationRule) ruleArray[i];
+			if (rule.getReplaceExp().length() == 1)
+				tmp.addElement(rule.getReplaceExp());
+		}
+		replacements = new char[tmp.size()];
+		for (int i = 0; i < tmp.size(); i++) {
+			replacements[i] = ((String) tmp.elementAt(i)).charAt(0);
+		}
+		return replacements;
+	}
+
+	/**
+	 * Builds up an char array with the chars in the alphabet of the language as
+	 * it was read from the alphabet tag in the phonetic file.
+	 * 
+	 * @return char[] An array of chars representing the alphabet or null if no
+	 *         alphabet was available.
+	 */
+	@Override
+	public char[] getReplaceList() {
+		return alphabetString;
+	}
+
 	// Chars with special meaning to aspell. Not everyone is implemented here.
 	private boolean isReservedChar(char ch) {
 		if (ch == '<' || ch == '>' || ch == '^' || ch == '$' || ch == '-'
@@ -374,92 +377,92 @@ public class GenericTransformator implements Transformator {
 		return row.trim();
 	}
 
-	// Inner Classes
-	/*
-	 * Holds the match string and the replace string and all the rule
-	 * attributes. Is responsible for indicating matches.
+	/**
+	 * Builds the phonetic code of the word.
+	 * 
+	 * @param word
+	 *            the word to transform
+	 * @return the phonetic transformation of the word
 	 */
-	private class TransformationRule {
+	@Override
+	public String transform(String word) {
 
-		private String replace;
-		private char[] match;
-		// takeOut=number of chars to replace;
-		// matchLength=length of matching string counting multies as one.
-		private int takeOut, matchLength;
-		private boolean start, end;
+		if (ruleArray == null)
+			return null;
 
-		// Construktor
-		public TransformationRule(String match, String replace, int takeout,
-				int matchLength, boolean start, boolean end) {
-			this.match = match.toCharArray();
-			this.replace = replace;
-			this.takeOut = takeout;
-			this.matchLength = matchLength;
-			this.start = start;
-			this.end = end;
-		}
+		TransformationRule rule;
+		StringBuffer str = new StringBuffer(word.toUpperCase());
+		int strLength = str.length();
+		int startPos = 0, add = 1;
 
-		/*
-		 * Returns true if word from pos and forward matches the match string.
-		 * Precondition: wordPos+matchLength<word.length()
-		 */
-		public boolean isMatching(StringBuffer word, int wordPos) {
-			boolean matching = true, inMulti = false, multiMatch = false;
-			char matchCh;
+		while (startPos < strLength) {
 
-			for (int matchPos = 0; matchPos < match.length; matchPos++) {
-				matchCh = match[matchPos];
-				if (matchCh == STARTMULTI || matchCh == ENDMULTI) {
-					inMulti = !inMulti;
-					if (!inMulti)
-						matching = matching & multiMatch;
-					else
-						multiMatch = false;
-				} else {
-					if (matchCh != word.charAt(wordPos)) {
-						if (inMulti)
-							multiMatch = multiMatch | false;
-						else
-							matching = false;
-					} else {
-						if (inMulti)
-							multiMatch = multiMatch | true;
-						else
-							matching = true;
-					}
-					if (!inMulti)
-						wordPos++;
-					if (!matching)
-						break;
+			add = 1;
+			if (Character.isDigit(str.charAt(startPos))) {
+				StringUtility.replace(str, startPos,
+						startPos + DIGITCODE.length(), DIGITCODE);
+				startPos += add;
+				continue;
+			}
+
+			for (int i = 0; i < ruleArray.length; i++) {
+				// System.out.println("Testing rule#:"+i);
+				rule = (TransformationRule) ruleArray[i];
+				if (rule.startsWithExp() && startPos > 0)
+					continue;
+				if (startPos + rule.lengthOfMatch() > strLength) {
+					continue;
+				}
+				if (rule.isMatching(str, startPos)) {
+					String replaceExp = rule.getReplaceExp();
+
+					add = replaceExp.length();
+					StringUtility.replace(str, startPos,
+							startPos + rule.getTakeOut(), replaceExp);
+					strLength -= rule.getTakeOut();
+					strLength += add;
+					// System.out.println("Replacing with rule#:"+i+" add="+add);
+					break;
 				}
 			}
-			if (end && wordPos != word.length())
-				matching = false;
-			return matching;
+			startPos += add;
+		}
+		// System.out.println(word);
+		// System.out.println(str.toString());
+		return str.toString();
+	}
+
+	/**
+	 * Goes through an alphabet and makes sure that only one of those letters
+	 * that are coded equally will be in the replace list. In other words, it
+	 * removes any letters in the alphabet that are redundant phonetically.
+	 * 
+	 * This is done to improve speed in the getSuggestion method.
+	 * 
+	 * @param alphabet
+	 *            The complete alphabet to wash.
+	 * @return The washed alphabet to be used as replace list.
+	 */
+
+	private char[] washAlphabetIntoReplaceList(char[] alphabet) {
+
+		HashMap letters = new HashMap(alphabet.length);
+
+		for (int i = 0; i < alphabet.length; i++) {
+			String tmp = String.valueOf(alphabet[i]);
+			String code = transform(tmp);
+			if (!letters.containsKey(code)) {
+				letters.put(code, new Character(alphabet[i]));
+			}
 		}
 
-		public String getReplaceExp() {
-			return replace;
+		Object[] tmpCharacters = letters.values().toArray();
+		char[] washedArray = new char[tmpCharacters.length];
+
+		for (int i = 0; i < tmpCharacters.length; i++) {
+			washedArray[i] = ((Character) tmpCharacters[i]).charValue();
 		}
 
-		public int getTakeOut() {
-			return takeOut;
-		}
-
-		public boolean startsWithExp() {
-			return start;
-		}
-
-		public int lengthOfMatch() {
-			return matchLength;
-		}
-
-		// Just for debugging purposes.
-		public String toString() {
-			return "Match:" + String.valueOf(match) + " Replace:" + replace
-					+ " TakeOut:" + takeOut + " MatchLength:" + matchLength
-					+ " Start:" + start + " End:" + end;
-		}
-
+		return washedArray;
 	}
 }

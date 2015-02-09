@@ -22,7 +22,6 @@ package com.swabunga.util;
 import java.util.Iterator;
 import java.util.List;
 
-
 @SuppressWarnings("rawtypes")
 public class VectorUtility {
 	public static List addAll(List dest, List src) {

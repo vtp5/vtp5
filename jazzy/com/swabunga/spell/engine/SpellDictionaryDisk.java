@@ -57,20 +57,113 @@ import java.util.Vector;
  */
 @SuppressWarnings("rawtypes")
 public class SpellDictionaryDisk extends SpellDictionaryASpell {
+	private class CodeWord implements Comparable {
+		private String code;
+		private String word;
+
+		public CodeWord(String code, String word) {
+			this.code = code;
+			this.word = word;
+		}
+
+		@Override
+		public int compareTo(Object o) {
+			return code.compareTo(((CodeWord) o).getCode());
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (this == o)
+				return true;
+			if (!(o instanceof CodeWord))
+				return false;
+
+			final CodeWord codeWord = (CodeWord) o;
+
+			if (!word.equals(codeWord.word))
+				return false;
+
+			return true;
+		}
+
+		public String getCode() {
+			return code;
+		}
+
+		public String getWord() {
+			return word;
+		}
+
+		@Override
+		public int hashCode() {
+			return word.hashCode();
+		}
+	}
+
+	private class FileSize {
+		private String filename;
+		private long size;
+
+		public FileSize(String filename, long size) {
+			this.filename = filename;
+			this.size = size;
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (this == o)
+				return true;
+			if (!(o instanceof FileSize))
+				return false;
+
+			final FileSize fileSize = (FileSize) o;
+
+			if (size != fileSize.size)
+				return false;
+			if (!filename.equals(fileSize.filename))
+				return false;
+
+			return true;
+		}
+
+		@Override
+		public int hashCode() {
+			int result;
+			result = filename.hashCode();
+			result = (int) (29 * result + size);
+			return result;
+		}
+	}
+
 	private final static String DIRECTORY_WORDS = "words";
 	private final static String DIRECTORY_DB = "db";
 	private final static String FILE_CONTENTS = "contents";
-	private final static String FILE_DB = "words.db";
-	private final static String FILE_INDEX = "words.idx";
 
+	private final static String FILE_DB = "words.db";
+
+	private final static String FILE_INDEX = "words.idx";
 	/* maximum number of words an index entry can represent */
 	private final static int INDEX_SIZE_MAX = 200;
 
+	private static String[] split(String input, String delimiter) {
+		StringTokenizer st = new StringTokenizer(input, delimiter);
+		int count = st.countTokens();
+		String[] out = new String[count];
+
+		for (int i = 0; i < count; i++) {
+			out[i] = st.nextToken();
+		}
+
+		return out;
+	}
+
 	private File base;
 	private File words;
+
 	private File db;
 
 	private Map index;
+
 	/**
 	 * The flag indicating if the initial preparation or loading of the on disk
 	 * dictionary is complete.
@@ -132,19 +225,19 @@ public class SpellDictionaryDisk extends SpellDictionaryASpell {
 	public SpellDictionaryDisk(File base, File phonetic, boolean block)
 			throws FileNotFoundException, IOException {
 		super(phonetic);
-		this.ready = false;
+		ready = false;
 
 		this.base = base;
-		this.words = new File(base, DIRECTORY_WORDS);
-		this.db = new File(base, DIRECTORY_DB);
+		words = new File(base, DIRECTORY_WORDS);
+		db = new File(base, DIRECTORY_DB);
 
 		if (!this.base.exists())
 			throw new FileNotFoundException("Couldn't find required path '"
 					+ this.base + "'");
-		if (!this.words.exists())
+		if (!words.exists())
 			throw new FileNotFoundException("Couldn't find required path '"
-					+ this.words + "'");
-		if (!this.db.exists())
+					+ words + "'");
+		if (!db.exists())
 			db.mkdirs();
 
 		if (newDictionaryFiles()) {
@@ -154,6 +247,7 @@ public class SpellDictionaryDisk extends SpellDictionaryASpell {
 				ready = true;
 			} else {
 				Thread t = new Thread() {
+					@Override
 					public void run() {
 						try {
 							buildNewDictionaryDatabase();
@@ -173,23 +267,6 @@ public class SpellDictionaryDisk extends SpellDictionaryASpell {
 	}
 
 	/**
-	 * Builds the file words database file and the contents file for the on disk
-	 * dictionary.
-	 */
-	protected void buildNewDictionaryDatabase() throws FileNotFoundException,
-			IOException {
-		/* combine all dictionary files into one sorted file */
-		File sortedFile = buildSortedFile();
-
-		/* create the db for the sorted file */
-		buildCodeDb(sortedFile);
-		sortedFile.delete();
-
-		/* build contents file */
-		buildContentsFile();
-	}
-
-	/**
 	 * Adds another word to the dictionary.
 	 * <em>This method is  not yet implemented
 	 * for this class</em>.
@@ -197,145 +274,10 @@ public class SpellDictionaryDisk extends SpellDictionaryASpell {
 	 * @param word
 	 *            The word to add.
 	 */
+	@Override
 	public void addWord(String word) {
 		throw new UnsupportedOperationException(
 				"addWord not yet implemented (sorry)");
-	}
-
-	/**
-	 * Returns a list of words that have the same phonetic code.
-	 * 
-	 * @param code
-	 *            The phonetic code common to the list of words
-	 * @return A list of words having the same phonetic code
-	 */
-	@SuppressWarnings("unchecked")
-	public List getWords(String code) {
-		Vector words = new Vector();
-
-		int[] posLen = getStartPosAndLen(code);
-		if (posLen != null) {
-			try {
-				InputStream input = new FileInputStream(new File(db, FILE_DB));
-				input.skip(posLen[0]);
-				byte[] bytes = new byte[posLen[1]];
-				input.read(bytes, 0, posLen[1]);
-				input.close();
-
-				String data = new String(bytes);
-				String[] lines = split(data, "\n");
-				for (int i = 0; i < lines.length; i++) {
-					String[] s = split(lines[i], ",");
-					if (s[0].equals(code))
-						words.addElement(s[1]);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
-		return words;
-	}
-
-	/**
-	 * Indicates if the initial preparation or loading of the on disk dictionary
-	 * is complete.
-	 * 
-	 * @return the indication that the dictionary initial setup is done.
-	 */
-	public boolean isReady() {
-		return ready;
-	}
-
-	@SuppressWarnings("unchecked")
-	private boolean newDictionaryFiles() throws FileNotFoundException,
-			IOException {
-		/*
-		 * load in contents file, which indicates the files and sizes of the
-		 * last db build
-		 */
-		List contents = new ArrayList();
-		File c = new File(db, FILE_CONTENTS);
-		if (c.exists()) {
-			BufferedReader reader = null;
-			try {
-				reader = new BufferedReader(new FileReader(c));
-				String line;
-				while ((line = reader.readLine()) != null) {
-					// format of file should be [filename],[size]
-					String[] s = split(line, ",");
-					contents.add(new FileSize(s[0], Integer.parseInt(s[1])));
-				}
-			} catch (FileNotFoundException e) {
-				throw e;
-			} catch (IOException e) {
-				throw e;
-			} finally {
-				if (reader != null)
-					reader.close();
-			}
-		}
-
-		/* compare this to the actual directory */
-		boolean changed = false;
-		File[] wordFiles = words.listFiles();
-		if (contents.size() != wordFiles.length) {
-			// if the size of the contents list and the number of word files are
-			// different, it
-			// means we've definitely got to reindex
-			changed = true;
-		} else {
-			// check and make sure that all the word files haven't changed on us
-			for (int i = 0; i < wordFiles.length; i++) {
-				FileSize fs = new FileSize(wordFiles[i].getName(),
-						wordFiles[i].length());
-				if (!contents.contains(fs)) {
-					changed = true;
-					break;
-				}
-			}
-		}
-
-		return changed;
-	}
-
-	@SuppressWarnings("unchecked")
-	private File buildSortedFile() throws FileNotFoundException, IOException {
-		List w = new ArrayList();
-
-		/*
-		 * read every single word into the list. eeek. if this causes problems,
-		 * we may wish to explore disk-based sorting or more efficient
-		 * memory-based storage
-		 */
-		File[] wordFiles = words.listFiles();
-		for (int i = 0; i < wordFiles.length; i++) {
-			BufferedReader r = new BufferedReader(new FileReader(wordFiles[i]));
-			String word;
-			while ((word = r.readLine()) != null) {
-				if (!word.equals("")) {
-					w.add(word.trim());
-				}
-			}
-			r.close();
-		}
-
-		Collections.sort(w);
-
-		File file = File.createTempFile("jazzy", "sorted");
-		BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-		String prev = null;
-		for (int i = 0; i < w.size(); i++) {
-			String word = (String) w.get(i);
-			if (prev == null || !prev.equals(word)) {
-				writer.write(word);
-				writer.newLine();
-			}
-			prev = word;
-		}
-		writer.close();
-
-		return file;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -346,7 +288,7 @@ public class SpellDictionaryDisk extends SpellDictionaryASpell {
 		BufferedReader reader = new BufferedReader(new FileReader(sortedWords));
 		String word;
 		while ((word = reader.readLine()) != null) {
-			codeList.add(new CodeWord(this.getCode(word), word));
+			codeList.add(new CodeWord(getCode(word), word));
 		}
 		reader.close();
 
@@ -419,33 +361,59 @@ public class SpellDictionaryDisk extends SpellDictionaryASpell {
 	}
 
 	/**
-	 * Loads the index file from disk. The index file accelerates words lookup
-	 * into the dictionary db file.
+	 * Builds the file words database file and the contents file for the on disk
+	 * dictionary.
 	 */
-	@SuppressWarnings("unchecked")
-	protected void loadIndex() throws IOException {
-		index = new HashMap();
-		File idx = new File(db, FILE_INDEX);
-		BufferedReader reader = new BufferedReader(new FileReader(idx));
-		String line;
-		while ((line = reader.readLine()) != null) {
-			String[] fields = split(line, ",");
-			index.put(fields[0], new int[] { Integer.parseInt(fields[1]),
-					Integer.parseInt(fields[2]) });
-		}
-		reader.close();
+	protected void buildNewDictionaryDatabase() throws FileNotFoundException,
+			IOException {
+		/* combine all dictionary files into one sorted file */
+		File sortedFile = buildSortedFile();
+
+		/* create the db for the sorted file */
+		buildCodeDb(sortedFile);
+		sortedFile.delete();
+
+		/* build contents file */
+		buildContentsFile();
 	}
 
-	private int[] getStartPosAndLen(String code) {
-		while (code.length() > 0) {
-			int[] posLen = (int[]) index.get(code);
-			if (posLen == null) {
-				code = code.substring(0, code.length() - 1);
-			} else {
-				return posLen;
+	@SuppressWarnings("unchecked")
+	private File buildSortedFile() throws FileNotFoundException, IOException {
+		List w = new ArrayList();
+
+		/*
+		 * read every single word into the list. eeek. if this causes problems,
+		 * we may wish to explore disk-based sorting or more efficient
+		 * memory-based storage
+		 */
+		File[] wordFiles = words.listFiles();
+		for (int i = 0; i < wordFiles.length; i++) {
+			BufferedReader r = new BufferedReader(new FileReader(wordFiles[i]));
+			String word;
+			while ((word = r.readLine()) != null) {
+				if (!word.equals("")) {
+					w.add(word.trim());
+				}
 			}
+			r.close();
 		}
-		return null;
+
+		Collections.sort(w);
+
+		File file = File.createTempFile("jazzy", "sorted");
+		BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+		String prev = null;
+		for (int i = 0; i < w.size(); i++) {
+			String word = (String) w.get(i);
+			if (prev == null || !prev.equals(word)) {
+				writer.write(word);
+				writer.newLine();
+			}
+			prev = word;
+		}
+		writer.close();
+
+		return file;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -491,105 +459,137 @@ public class SpellDictionaryDisk extends SpellDictionaryASpell {
 			}
 		}
 
-		String newCode = (foundSize == -1) ? code : code
-				.substring(0, foundSize);
+		String newCode = foundSize == -1 ? code : code.substring(0, foundSize);
 		if (cacheable)
 			indexCodeCache.add(newCode);
 		return newCode;
 	}
 
-	private static String[] split(String input, String delimiter) {
-		StringTokenizer st = new StringTokenizer(input, delimiter);
-		int count = st.countTokens();
-		String[] out = new String[count];
-
-		for (int i = 0; i < count; i++) {
-			out[i] = st.nextToken();
+	private int[] getStartPosAndLen(String code) {
+		while (code.length() > 0) {
+			int[] posLen = (int[]) index.get(code);
+			if (posLen == null) {
+				code = code.substring(0, code.length() - 1);
+			} else {
+				return posLen;
+			}
 		}
-
-		return out;
+		return null;
 	}
 
-	private class CodeWord implements Comparable {
-		private String code;
-		private String word;
+	/**
+	 * Returns a list of words that have the same phonetic code.
+	 * 
+	 * @param code
+	 *            The phonetic code common to the list of words
+	 * @return A list of words having the same phonetic code
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public List getWords(String code) {
+		Vector words = new Vector();
 
-		public CodeWord(String code, String word) {
-			this.code = code;
-			this.word = word;
+		int[] posLen = getStartPosAndLen(code);
+		if (posLen != null) {
+			try {
+				InputStream input = new FileInputStream(new File(db, FILE_DB));
+				input.skip(posLen[0]);
+				byte[] bytes = new byte[posLen[1]];
+				input.read(bytes, 0, posLen[1]);
+				input.close();
+
+				String data = new String(bytes);
+				String[] lines = split(data, "\n");
+				for (int i = 0; i < lines.length; i++) {
+					String[] s = split(lines[i], ",");
+					if (s[0].equals(code))
+						words.addElement(s[1]);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
-		public String getCode() {
-			return code;
-		}
-
-		public String getWord() {
-			return word;
-		}
-
-		public boolean equals(Object o) {
-			if (this == o)
-				return true;
-			if (!(o instanceof CodeWord))
-				return false;
-
-			final CodeWord codeWord = (CodeWord) o;
-
-			if (!word.equals(codeWord.word))
-				return false;
-
-			return true;
-		}
-
-		public int hashCode() {
-			return word.hashCode();
-		}
-
-		public int compareTo(Object o) {
-			return code.compareTo(((CodeWord) o).getCode());
-		}
+		return words;
 	}
 
-	private class FileSize {
-		private String filename;
-		private long size;
+	/**
+	 * Indicates if the initial preparation or loading of the on disk dictionary
+	 * is complete.
+	 * 
+	 * @return the indication that the dictionary initial setup is done.
+	 */
+	public boolean isReady() {
+		return ready;
+	}
 
-		public FileSize(String filename, long size) {
-			this.filename = filename;
-			this.size = size;
+	/**
+	 * Loads the index file from disk. The index file accelerates words lookup
+	 * into the dictionary db file.
+	 */
+	@SuppressWarnings("unchecked")
+	protected void loadIndex() throws IOException {
+		index = new HashMap();
+		File idx = new File(db, FILE_INDEX);
+		BufferedReader reader = new BufferedReader(new FileReader(idx));
+		String line;
+		while ((line = reader.readLine()) != null) {
+			String[] fields = split(line, ",");
+			index.put(fields[0], new int[] { Integer.parseInt(fields[1]),
+					Integer.parseInt(fields[2]) });
+		}
+		reader.close();
+	}
+
+	@SuppressWarnings("unchecked")
+	private boolean newDictionaryFiles() throws FileNotFoundException,
+			IOException {
+		/*
+		 * load in contents file, which indicates the files and sizes of the
+		 * last db build
+		 */
+		List contents = new ArrayList();
+		File c = new File(db, FILE_CONTENTS);
+		if (c.exists()) {
+			BufferedReader reader = null;
+			try {
+				reader = new BufferedReader(new FileReader(c));
+				String line;
+				while ((line = reader.readLine()) != null) {
+					// format of file should be [filename],[size]
+					String[] s = split(line, ",");
+					contents.add(new FileSize(s[0], Integer.parseInt(s[1])));
+				}
+			} catch (FileNotFoundException e) {
+				throw e;
+			} catch (IOException e) {
+				throw e;
+			} finally {
+				if (reader != null)
+					reader.close();
+			}
 		}
 
-		@SuppressWarnings("unused")
-		public String getFilename() {
-			return filename;
+		/* compare this to the actual directory */
+		boolean changed = false;
+		File[] wordFiles = words.listFiles();
+		if (contents.size() != wordFiles.length) {
+			// if the size of the contents list and the number of word files are
+			// different, it
+			// means we've definitely got to reindex
+			changed = true;
+		} else {
+			// check and make sure that all the word files haven't changed on us
+			for (int i = 0; i < wordFiles.length; i++) {
+				FileSize fs = new FileSize(wordFiles[i].getName(),
+						wordFiles[i].length());
+				if (!contents.contains(fs)) {
+					changed = true;
+					break;
+				}
+			}
 		}
 
-		@SuppressWarnings("unused")
-		public long getSize() {
-			return size;
-		}
-
-		public boolean equals(Object o) {
-			if (this == o)
-				return true;
-			if (!(o instanceof FileSize))
-				return false;
-
-			final FileSize fileSize = (FileSize) o;
-
-			if (size != fileSize.size)
-				return false;
-			if (!filename.equals(fileSize.filename))
-				return false;
-
-			return true;
-		}
-
-		public int hashCode() {
-			int result;
-			result = filename.hashCode();
-			result = (int) (29 * result + size);
-			return result;
-		}
+		return changed;
 	}
 }

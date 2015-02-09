@@ -67,25 +67,6 @@ public class SpellDictionaryDichoDisk extends SpellDictionaryASpell {
 	}
 
 	/**
-	 * Dictionary convenience Constructor.
-	 * 
-	 * @param wordList
-	 *            The file containing the words list for the dictionary
-	 * @param encoding
-	 *            Uses the character set encoding specified
-	 * @throws java.io.FileNotFoundException
-	 *             indicates problems locating the words list file on the system
-	 * @throws java.io.IOException
-	 *             indicates problems reading the words list file
-	 */
-	public SpellDictionaryDichoDisk(File wordList, String encoding)
-			throws FileNotFoundException, IOException {
-		super((File) null);
-		this.encoding = encoding;
-		dictFile = new RandomAccessFile(wordList, "r");
-	}
-
-	/**
 	 * Dictionary constructor that uses an aspell phonetic file to build the
 	 * transformation table.
 	 * 
@@ -127,12 +108,32 @@ public class SpellDictionaryDichoDisk extends SpellDictionaryASpell {
 	}
 
 	/**
+	 * Dictionary convenience Constructor.
+	 * 
+	 * @param wordList
+	 *            The file containing the words list for the dictionary
+	 * @param encoding
+	 *            Uses the character set encoding specified
+	 * @throws java.io.FileNotFoundException
+	 *             indicates problems locating the words list file on the system
+	 * @throws java.io.IOException
+	 *             indicates problems reading the words list file
+	 */
+	public SpellDictionaryDichoDisk(File wordList, String encoding)
+			throws FileNotFoundException, IOException {
+		super((File) null);
+		this.encoding = encoding;
+		dictFile = new RandomAccessFile(wordList, "r");
+	}
+
+	/**
 	 * Add a word permanently to the dictionary (and the dictionary file).
 	 * <i>not implemented !</i>
 	 * 
 	 * @param word
 	 *            The word to add.
 	 */
+	@Override
 	public void addWord(String word) {
 		System.err
 				.println("error: addWord is not implemented for SpellDictionaryDichoDisk");
@@ -160,24 +161,66 @@ public class SpellDictionaryDichoDisk extends SpellDictionaryASpell {
 			l = dictReadLine();
 		long pm2 = dictFile.getFilePointer();
 		if (pm2 >= p2)
-			return (seqFind(code, p1, p2));
+			return seqFind(code, p1, p2);
 		int istar = l.indexOf('*');
 		if (istar == -1)
 			throw new IOException("bad format: no * !");
 		String testcode = l.substring(0, istar);
 		int comp = code.compareTo(testcode);
 		if (comp < 0)
-			return (dichoFind(code, p1, pm - 1));
+			return dichoFind(code, p1, pm - 1);
 		else if (comp > 0)
-			return (dichoFind(code, pm2, p2));
+			return dichoFind(code, pm2, p2);
 		else {
 			LinkedList l1 = dichoFind(code, p1, pm - 1);
 			LinkedList l2 = dichoFind(code, pm2, p2);
 			String word = l.substring(istar + 1);
 			l1.add(word);
 			l1.addAll(l2);
-			return (l1);
+			return l1;
 		}
+	}
+
+	/**
+	 * Read a line of dictFile with a specific encoding
+	 */
+	private String dictReadLine() throws IOException {
+		int max = 255;
+		byte b = 0;
+		byte[] buf = new byte[max];
+		int i = 0;
+		try {
+			for (; b != '\n' && b != '\r' && i < max - 1; i++) {
+				b = dictFile.readByte();
+				buf[i] = b;
+			}
+		} catch (EOFException ex) {
+		}
+		if (i == 0)
+			return "";
+		String s = new String(buf, 0, i - 1, encoding);
+		return s;
+	}
+
+	/**
+	 * Returns a list of strings (words) for the code.
+	 * 
+	 * @param code
+	 *            The phonetic code common to the list of words
+	 * @return A list of words having the same phonetic code
+	 */
+	@Override
+	public List getWords(String code) {
+		// System.out.println("getWords("+code+")");
+		LinkedList list;
+		try {
+			list = dichoFind(code, 0, dictFile.length() - 1);
+			// System.out.println(list);
+		} catch (IOException ex) {
+			System.err.println("IOException: " + ex.getMessage());
+			list = new LinkedList();
+		}
+		return list;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -200,47 +243,6 @@ public class SpellDictionaryDichoDisk extends SpellDictionaryASpell {
 				String word = l.substring(istar + 1);
 				list.add(word);
 			}
-		}
-		return (list);
-	}
-
-	/**
-	 * Read a line of dictFile with a specific encoding
-	 */
-	private String dictReadLine() throws IOException {
-		int max = 255;
-		byte b = 0;
-		byte[] buf = new byte[max];
-		int i = 0;
-		try {
-			for (; b != '\n' && b != '\r' && i < max - 1; i++) {
-				b = dictFile.readByte();
-				buf[i] = b;
-			}
-		} catch (EOFException ex) {
-		}
-		if (i == 0)
-			return ("");
-		String s = new String(buf, 0, i - 1, encoding);
-		return (s);
-	}
-
-	/**
-	 * Returns a list of strings (words) for the code.
-	 * 
-	 * @param code
-	 *            The phonetic code common to the list of words
-	 * @return A list of words having the same phonetic code
-	 */
-	public List getWords(String code) {
-		// System.out.println("getWords("+code+")");
-		LinkedList list;
-		try {
-			list = dichoFind(code, 0, dictFile.length() - 1);
-			// System.out.println(list);
-		} catch (IOException ex) {
-			System.err.println("IOException: " + ex.getMessage());
-			list = new LinkedList();
 		}
 		return list;
 	}

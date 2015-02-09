@@ -20,6 +20,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 package com.swabunga.util;
 
 public class StringUtility {
+	public static void main(String[] args) {
+		System.out.println(StringUtility.replace(new StringBuffer(args[0]),
+				Integer.parseInt(args[2]), Integer.parseInt(args[3]), args[1]));
+	}
+
 	public static StringBuffer replace(StringBuffer buf, int start, int end,
 			String text) {
 		int len = text.length();
@@ -30,10 +35,5 @@ public class StringUtility {
 		buf.setLength(0);
 		buf.append(ch);
 		return buf;
-	}
-
-	public static void main(String[] args) {
-		System.out.println(StringUtility.replace(new StringBuffer(args[0]),
-				Integer.parseInt(args[2]), Integer.parseInt(args[3]), args[1]));
 	}
 }

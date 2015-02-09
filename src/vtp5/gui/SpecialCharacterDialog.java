@@ -34,21 +34,22 @@ public class SpecialCharacterDialog extends JDialog {
 	private JTabbedPane tabbedPane;
 
 	private WebPanel frenchPanel;
-	private WebButton[] frenchCharacters = { new WebButton("é"), new WebButton("è"),
-			new WebButton("à"), new WebButton("ù"), new WebButton("â"),
-			new WebButton("ê"), new WebButton("î"), new WebButton("ô"),
-			new WebButton("û"), new WebButton("ë"), new WebButton("ï"),
-			new WebButton("ç"), new WebButton("æ"), new WebButton("œ") };
+	private WebButton[] frenchCharacters = { new WebButton("é"),
+			new WebButton("è"), new WebButton("à"), new WebButton("ù"),
+			new WebButton("â"), new WebButton("ê"), new WebButton("î"),
+			new WebButton("ô"), new WebButton("û"), new WebButton("ë"),
+			new WebButton("ï"), new WebButton("ç"), new WebButton("æ"),
+			new WebButton("œ") };
 
 	private WebPanel germanPanel;
-	private WebButton[] germanCharacters = { new WebButton("ä"), new WebButton("ö"),
-			new WebButton("ü"), new WebButton("ß") };
+	private WebButton[] germanCharacters = { new WebButton("ä"),
+			new WebButton("ö"), new WebButton("ü"), new WebButton("ß") };
 
 	private WebPanel spanishPanel;
-	private WebButton[] spanishCharacters = { new WebButton("á"), new WebButton("é"),
-			new WebButton("í"), new WebButton("ó"), new WebButton("ú"),
-			new WebButton("ü"), new WebButton("ñ"), new WebButton("¿"),
-			new WebButton("¡") };
+	private WebButton[] spanishCharacters = { new WebButton("á"),
+			new WebButton("é"), new WebButton("í"), new WebButton("ó"),
+			new WebButton("ú"), new WebButton("ü"), new WebButton("ñ"),
+			new WebButton("¿"), new WebButton("¡") };
 
 	private JTextField answerField;
 

@@ -47,23 +47,6 @@ public interface WordFinder {
 	// .................................................................
 
 	/**
-	 * This method returns the text through which the WordFinder is iterating.
-	 * The text may have been modified through calls to replace().
-	 * 
-	 * @return the (possibly modified) text being searched.
-	 */
-	public String getText();
-
-	/**
-	 * This method resets the text through which the WordFinder iterates. It
-	 * must also re-initialize the WordFinder.
-	 * 
-	 * @param newText
-	 *            the new text to search.
-	 */
-	public void setText(String newText);
-
-	/**
 	 * This method should return the Word object representing the current word
 	 * in the iteration. This method should not affect the state of the
 	 * WordFinder object.
@@ -73,6 +56,14 @@ public interface WordFinder {
 	 *             current word has not yet been set.
 	 */
 	public Word current();
+
+	/**
+	 * This method returns the text through which the WordFinder is iterating.
+	 * The text may have been modified through calls to replace().
+	 * 
+	 * @return the (possibly modified) text being searched.
+	 */
+	public String getText();
 
 	/**
 	 * Tests the finder to see if any more words are available.
@@ -101,6 +92,15 @@ public interface WordFinder {
 	 *             current word has not yet been set.
 	 */
 	public void replace(String newWord);
+
+	/**
+	 * This method resets the text through which the WordFinder iterates. It
+	 * must also re-initialize the WordFinder.
+	 * 
+	 * @param newText
+	 *            the new text to search.
+	 */
+	public void setText(String newText);
 
 	/**
 	 * Indicates if the current word starts a new sentence.

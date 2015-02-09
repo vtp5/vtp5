@@ -37,15 +37,6 @@ public interface SpellDictionary {
 	public void addWord(String word);
 
 	/**
-	 * Evaluates if the word is correctly spelled against the dictionary.
-	 * 
-	 * @param word
-	 *            The word to verify if it's spelling is OK.
-	 * @return Indicates if the word is present in the dictionary.
-	 */
-	public boolean isCorrect(String word);
-
-	/**
 	 * Returns a list of Word objects that are the suggestions to any word. If
 	 * the word is correctly spelled, then this method could return just that
 	 * one word, or it could still return a list of words with similar
@@ -101,5 +92,14 @@ public interface SpellDictionary {
 	@SuppressWarnings("rawtypes")
 	public List getSuggestions(String sourceWord, int scoreThreshold,
 			int[][] matrix);
+
+	/**
+	 * Evaluates if the word is correctly spelled against the dictionary.
+	 * 
+	 * @param word
+	 *            The word to verify if it's spelling is OK.
+	 * @return Indicates if the word is present in the dictionary.
+	 */
+	public boolean isCorrect(String word);
 
 }

@@ -30,9 +30,9 @@ public class CSVTestFile implements Serializable {
 	private static final long serialVersionUID = 1L;
 	// TODO CHANGE serialVersionUID ONCE CLASS IS FINISHED!!!
 
-	//TODO Settings variables
+	// TODO Settings variables
 	public int timeAllowed = 0;
-	
+
 	// ArrayList storing all the original "cards" for the test
 	private final ArrayList<Card> origCards = new ArrayList<>();
 	// ArrayList of "cards" for a particular test
@@ -95,16 +95,16 @@ public class CSVTestFile implements Serializable {
 			// Create new card containing relevant data and add it to the
 			// ArrayList
 			if (loop == 0) {
-				
+
 				String[] settings = langFromLine.split(",");
 
 				timeAllowed = Integer.parseInt(settings[0]);
-				
+
 				loop = 1;
 			} else {
-				
+
 				String[] question = langFromLine.split(",||,");
-				
+
 				ArrayList<String> langFrom = new ArrayList<>(
 						Arrays.asList(question[0].split(",|,")));
 

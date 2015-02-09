@@ -124,6 +124,7 @@ public class GenericSpellDictionary extends SpellDictionaryASpell {
 	 * @param word
 	 *            The word to add to the dictionary
 	 */
+	@Override
 	public void addWord(String word) {
 		putWord(word);
 		if (dictFile == null)
@@ -159,28 +160,13 @@ public class GenericSpellDictionary extends SpellDictionaryASpell {
 	}
 
 	/**
-	 * Allocates a word in the dictionary
-	 */
-	@SuppressWarnings("unchecked")
-	protected void putWord(String word) {
-		String code = getCode(word);
-		LinkedList list = (LinkedList) mainDictionary.get(code);
-		if (list != null) {
-			list.add(word);
-		} else {
-			list = new LinkedList();
-			list.add(word);
-			mainDictionary.put(code, list);
-		}
-	}
-
-	/**
 	 * Returns a list of strings (words) for the code.
 	 * 
 	 * @param code
 	 *            The phonetic code we want to find words for
 	 * @return the list of words having the same phonetic code
 	 */
+	@Override
 	public List getWords(String code) {
 		// Check the main dictionary.
 		List mainDictResult = (List) mainDictionary.get(code);
@@ -197,6 +183,7 @@ public class GenericSpellDictionary extends SpellDictionaryASpell {
 	 *            The word to checked in the dictionary
 	 * @return indication if the word is in the dictionary
 	 */
+	@Override
 	public boolean isCorrect(String word) {
 		List possible = getWords(getCode(word));
 		if (possible.contains(word))
@@ -207,5 +194,21 @@ public class GenericSpellDictionary extends SpellDictionaryASpell {
 		else if (possible.contains(word.toLowerCase()))
 			return true;
 		return false;
+	}
+
+	/**
+	 * Allocates a word in the dictionary
+	 */
+	@SuppressWarnings("unchecked")
+	protected void putWord(String word) {
+		String code = getCode(word);
+		LinkedList list = (LinkedList) mainDictionary.get(code);
+		if (list != null) {
+			list.add(word);
+		} else {
+			list = new LinkedList();
+			list.add(word);
+			mainDictionary.put(code, list);
+		}
 	}
 }

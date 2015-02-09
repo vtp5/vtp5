@@ -44,6 +44,14 @@ public abstract class AbstractWordFinder implements WordFinder {
 	// ~ Constructors ..........................................................
 
 	/**
+	 * Creates a new default AbstractWordFinder object.
+	 */
+	public AbstractWordFinder() {
+		text = "";
+		setup();
+	}
+
+	/**
 	 * Creates a new AbstractWordFinder object.
 	 * 
 	 * @param inText
@@ -54,45 +62,7 @@ public abstract class AbstractWordFinder implements WordFinder {
 		setup();
 	}
 
-	/**
-	 * Creates a new default AbstractWordFinder object.
-	 */
-	public AbstractWordFinder() {
-		text = "";
-		setup();
-	}
-
 	// ~ Methods ...............................................................
-
-	/**
-	 * This method scans the text from the end of the last word, and returns a
-	 * new Word object corresponding to the next word.
-	 * 
-	 * @return the following word.
-	 */
-	public abstract Word next();
-
-	/**
-	 * Return the text being searched. May have changed since first set through
-	 * calls to replace.
-	 * 
-	 * @return the text being searched.
-	 */
-	public String getText() {
-
-		return text;
-	}
-
-	/**
-	 * Defines the text to search.
-	 * 
-	 * @param newText
-	 *            The text to be analyzed
-	 */
-	public void setText(String newText) {
-		text = newText;
-		setup();
-	}
 
 	/**
 	 * Returns the current word in the iteration .
@@ -101,6 +71,7 @@ public abstract class AbstractWordFinder implements WordFinder {
 	 * @throws WordNotFoundException
 	 *             current word has not yet been set.
 	 */
+	@Override
 	public Word current() {
 
 		if (currentWord == null) {
@@ -111,153 +82,27 @@ public abstract class AbstractWordFinder implements WordFinder {
 	}
 
 	/**
-	 * Indicates if there is some more word to analyze
-	 * 
-	 * @return true if there are further words in the string.
-	 */
-	public boolean hasNext() {
-
-		return nextWord != null;
-
-	}
-
-	/**
-	 * Replace the current word in the search with a replacement string.
-	 * 
-	 * @param newWord
-	 *            the replacement string.
-	 * @throws WordNotFoundException
-	 *             current word has not yet been set.
-	 */
-	public void replace(String newWord) {
-
-		if (currentWord == null) {
-			throw new WordNotFoundException("No Words in current String");
-		}
-
-		StringBuffer sb = new StringBuffer(text.substring(0,
-				currentWord.getStart()));
-		sb.append(newWord);
-		sb.append(text.substring(currentWord.getEnd()));
-		int diff = newWord.length() - currentWord.getText().length();
-		currentWord.setText(newWord);
-		/*
-		 * Added Conditional to ensure a NullPointerException is avoided (11 Feb
-		 * 2003)
-		 */
-		if (nextWord != null) {
-			nextWord.setStart(nextWord.getStart() + diff);
-		}
-		text = sb.toString();
-
-		sentenceIterator.setText(text);
-		int start = currentWord.getStart();
-		sentenceIterator.following(start);
-		startsSentence = sentenceIterator.current() == start;
-
-	}
-
-	/**
-	 * @return true if the current word starts a new sentence.
-	 * @throws WordNotFoundException
-	 *             current word has not yet been set.
-	 */
-	public boolean startsSentence() {
-
-		if (currentWord == null) {
-			throw new WordNotFoundException("No Words in current String");
-		}
-
-		return startsSentence;
-	}
-
-	/**
 	 * Return the text being searched. May have changed since first set through
 	 * calls to replace.
 	 * 
 	 * @return the text being searched.
 	 */
-	public String toString() {
+	@Override
+	public String getText() {
 
 		return text;
 	}
 
 	/**
-	 * Adjusts the sentence iterator and the startSentence flag according to the
-	 * currentWord.
+	 * Indicates if there is some more word to analyze
 	 * 
-	 * @param wd
-	 *            the wd parameter is not presently used.
+	 * @return true if there are further words in the string.
 	 */
-	protected void setSentenceIterator(Word wd) {
-		int current = sentenceIterator.current();
+	@Override
+	public boolean hasNext() {
 
-		if (current == currentWord.getStart())
-			startsSentence = true;
-		else {
-			startsSentence = false;
+		return nextWord != null;
 
-			if (currentWord.getEnd() > current) {
-				sentenceIterator.next();
-			}
-		}
-	}
-
-	/**
-	 * Indicates if the character at the specified position is acceptable as
-	 * part of a word. To be acceptable, the character need to be a letter or a
-	 * digit. It is also acceptable if the character is one of ''', '@', '.' or
-	 * '_' and is preceded and followed by letter or digit.
-	 * 
-	 * @param posn
-	 *            The character position to analyze.
-	 * @return true if the character is a letter or digit
-	 */
-	// Added more intelligent character recognition (11 Feb '03)
-	protected boolean isWordChar(int posn) {
-		boolean out = false;
-
-		char curr = text.charAt(posn);
-
-		if ((posn == 0) || (posn == text.length() - 1)) {
-			return Character.isLetterOrDigit(curr);
-		}
-
-		char prev = text.charAt(posn - 1);
-		char next = text.charAt(posn + 1);
-
-		switch (curr) {
-		case '\'':
-		case '@':
-		case '.':
-		case '_':
-			out = (Character.isLetterOrDigit(prev) && Character
-					.isLetterOrDigit(next));
-			break;
-		default:
-			out = Character.isLetterOrDigit(curr);
-		}
-
-		return out;
-	}
-
-	/**
-	 * Indicates if the character at the specified character is acceptable as
-	 * part of a word. To be acceptable, the character need to be a letter or a
-	 * digit or a ' (an apostrophe).
-	 * 
-	 * @param c
-	 *            The character to evaluates if it can be part of a word
-	 * @return true if the character is a letter, digit or a ' (an apostrophe).
-	 */
-	protected boolean isWordChar(char c) {
-		boolean out = false;
-
-		if (Character.isLetterOrDigit(c) || (c == '\'')) {
-			out = true;
-		}
-
-		return out;
 	}
 
 	/**
@@ -366,7 +211,7 @@ public abstract class AbstractWordFinder implements WordFinder {
 		int slen = startIgnore.length();
 		int elen = endIgnore.length();
 
-		if (!((newIndex + slen) >= len)) {
+		if (!(newIndex + slen >= len)) {
 			String seg = text.substring(newIndex, newIndex + slen);
 
 			// System.out.println(seg + ":" + seg.length()+ ":" + startIgnore +
@@ -375,7 +220,7 @@ public abstract class AbstractWordFinder implements WordFinder {
 				newIndex += slen;
 				cycle: while (true) {
 
-					if (newIndex == (text.length() - elen)) {
+					if (newIndex == text.length() - elen) {
 
 						break cycle;
 					}
@@ -405,6 +250,142 @@ public abstract class AbstractWordFinder implements WordFinder {
 	}
 
 	/**
+	 * Indicates if the character at the specified character is acceptable as
+	 * part of a word. To be acceptable, the character need to be a letter or a
+	 * digit or a ' (an apostrophe).
+	 * 
+	 * @param c
+	 *            The character to evaluates if it can be part of a word
+	 * @return true if the character is a letter, digit or a ' (an apostrophe).
+	 */
+	protected boolean isWordChar(char c) {
+		boolean out = false;
+
+		if (Character.isLetterOrDigit(c) || c == '\'') {
+			out = true;
+		}
+
+		return out;
+	}
+
+	/**
+	 * Indicates if the character at the specified position is acceptable as
+	 * part of a word. To be acceptable, the character need to be a letter or a
+	 * digit. It is also acceptable if the character is one of ''', '@', '.' or
+	 * '_' and is preceded and followed by letter or digit.
+	 * 
+	 * @param posn
+	 *            The character position to analyze.
+	 * @return true if the character is a letter or digit
+	 */
+	// Added more intelligent character recognition (11 Feb '03)
+	protected boolean isWordChar(int posn) {
+		boolean out = false;
+
+		char curr = text.charAt(posn);
+
+		if (posn == 0 || posn == text.length() - 1) {
+			return Character.isLetterOrDigit(curr);
+		}
+
+		char prev = text.charAt(posn - 1);
+		char next = text.charAt(posn + 1);
+
+		switch (curr) {
+		case '\'':
+		case '@':
+		case '.':
+		case '_':
+			out = Character.isLetterOrDigit(prev)
+					&& Character.isLetterOrDigit(next);
+			break;
+		default:
+			out = Character.isLetterOrDigit(curr);
+		}
+
+		return out;
+	}
+
+	/**
+	 * This method scans the text from the end of the last word, and returns a
+	 * new Word object corresponding to the next word.
+	 * 
+	 * @return the following word.
+	 */
+	@Override
+	public abstract Word next();
+
+	/**
+	 * Replace the current word in the search with a replacement string.
+	 * 
+	 * @param newWord
+	 *            the replacement string.
+	 * @throws WordNotFoundException
+	 *             current word has not yet been set.
+	 */
+	@Override
+	public void replace(String newWord) {
+
+		if (currentWord == null) {
+			throw new WordNotFoundException("No Words in current String");
+		}
+
+		StringBuffer sb = new StringBuffer(text.substring(0,
+				currentWord.getStart()));
+		sb.append(newWord);
+		sb.append(text.substring(currentWord.getEnd()));
+		int diff = newWord.length() - currentWord.getText().length();
+		currentWord.setText(newWord);
+		/*
+		 * Added Conditional to ensure a NullPointerException is avoided (11 Feb
+		 * 2003)
+		 */
+		if (nextWord != null) {
+			nextWord.setStart(nextWord.getStart() + diff);
+		}
+		text = sb.toString();
+
+		sentenceIterator.setText(text);
+		int start = currentWord.getStart();
+		sentenceIterator.following(start);
+		startsSentence = sentenceIterator.current() == start;
+
+	}
+
+	/**
+	 * Adjusts the sentence iterator and the startSentence flag according to the
+	 * currentWord.
+	 * 
+	 * @param wd
+	 *            the wd parameter is not presently used.
+	 */
+	protected void setSentenceIterator(Word wd) {
+		int current = sentenceIterator.current();
+
+		if (current == currentWord.getStart())
+			startsSentence = true;
+		else {
+			startsSentence = false;
+
+			if (currentWord.getEnd() > current) {
+				sentenceIterator.next();
+			}
+		}
+	}
+
+	/**
+	 * Defines the text to search.
+	 * 
+	 * @param newText
+	 *            The text to be analyzed
+	 */
+	@Override
+	public void setText(String newText) {
+		text = newText;
+		setup();
+	}
+
+	/**
 	 * Defines the starting positions for text analysis
 	 */
 	private void setup() {
@@ -420,6 +401,33 @@ public abstract class AbstractWordFinder implements WordFinder {
 			currentWord = null;
 			nextWord = null;
 		}
+	}
+
+	/**
+	 * @return true if the current word starts a new sentence.
+	 * @throws WordNotFoundException
+	 *             current word has not yet been set.
+	 */
+	@Override
+	public boolean startsSentence() {
+
+		if (currentWord == null) {
+			throw new WordNotFoundException("No Words in current String");
+		}
+
+		return startsSentence;
+	}
+
+	/**
+	 * Return the text being searched. May have changed since first set through
+	 * calls to replace.
+	 * 
+	 * @return the text being searched.
+	 */
+	@Override
+	public String toString() {
+
+		return text;
 	}
 
 }

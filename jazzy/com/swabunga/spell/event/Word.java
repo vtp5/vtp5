@@ -55,63 +55,11 @@ public class Word {
 	 *            the word object to clone.
 	 */
 	public Word(Word w) {
-		this.copy(w);
+		copy(w);
 	}
 
 	// ~ Methods
 	// .................................................................
-
-	/**
-	 * Evaluate the end of word position.
-	 * 
-	 * @return the end index of the word.
-	 */
-	public int getEnd() {
-
-		return end;
-	}
-
-	/**
-	 * Set the start index of the word.
-	 * 
-	 * @param s
-	 *            the start index.
-	 */
-	public void setStart(int s) {
-		start = s;
-		setEnd();
-	}
-
-	/**
-	 * Evaluate the start of word position.
-	 * 
-	 * @return the start index.
-	 */
-	public int getStart() {
-
-		return start;
-	}
-
-	/**
-	 * Set the text to a new string value.
-	 * 
-	 * @param s
-	 *            the new text
-	 */
-	public void setText(String s) {
-		text = s;
-		setEnd();
-	}
-
-	/**
-	 * Supply the text string representing the word
-	 * 
-	 * @return the String representing the word.
-	 */
-	public String getText() {
-
-		return text;
-	}
 
 	/**
 	 * Sets the value of this Word to be a copy of another.
@@ -126,6 +74,36 @@ public class Word {
 	}
 
 	/**
+	 * Evaluate the end of word position.
+	 * 
+	 * @return the end index of the word.
+	 */
+	public int getEnd() {
+
+		return end;
+	}
+
+	/**
+	 * Evaluate the start of word position.
+	 * 
+	 * @return the start index.
+	 */
+	public int getStart() {
+
+		return start;
+	}
+
+	/**
+	 * Supply the text string representing the word
+	 * 
+	 * @return the String representing the word.
+	 */
+	public String getText() {
+
+		return text;
+	}
+
+	/**
 	 * Evaluate the length of the word.
 	 * 
 	 * @return the length of the word.
@@ -136,20 +114,43 @@ public class Word {
 	}
 
 	/**
-	 * Supply the text representing the word.
-	 * 
-	 * @return the text representing the word.
-	 */
-	public String toString() {
-
-		return text;
-	}
-
-	/**
 	 * Set the end index of the word.
 	 * 
 	 */
 	private void setEnd() {
 		end = start + text.length();
+	}
+
+	/**
+	 * Set the start index of the word.
+	 * 
+	 * @param s
+	 *            the start index.
+	 */
+	public void setStart(int s) {
+		start = s;
+		setEnd();
+	}
+
+	/**
+	 * Set the text to a new string value.
+	 * 
+	 * @param s
+	 *            the new text
+	 */
+	public void setText(String s) {
+		text = s;
+		setEnd();
+	}
+
+	/**
+	 * Supply the text representing the word.
+	 * 
+	 * @return the text representing the word.
+	 */
+	@Override
+	public String toString() {
+
+		return text;
 	}
 }

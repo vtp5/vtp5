@@ -30,15 +30,6 @@ package com.swabunga.spell.engine;
 public interface Transformator {
 
 	/**
-	 * Take the given word, and return the best phonetic hash for it.
-	 * 
-	 * @param word
-	 *            the word to transform
-	 * @return the phonetic transformation of the word
-	 */
-	public String transform(String word);
-
-	/**
 	 * gets the list of characters that should be swapped in to the misspelled
 	 * word in order to try to find more suggestions. In general, this list
 	 * represents all of the unique phonetic characters for this Transformator.
@@ -56,4 +47,13 @@ public interface Transformator {
 	 *         characters to get more suggestions
 	 */
 	public char[] getReplaceList();
+
+	/**
+	 * Take the given word, and return the best phonetic hash for it.
+	 * 
+	 * @param word
+	 *            the word to transform
+	 * @return the phonetic transformation of the word
+	 */
+	public String transform(String word);
 }
