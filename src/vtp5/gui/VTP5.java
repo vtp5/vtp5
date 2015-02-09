@@ -14,6 +14,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -364,9 +365,6 @@ public class VTP5 extends JFrame {
 		answerField = new WebTextField();// creates text field
 		answerField.addActionListener(eventListener);
 		answerField.addFocusListener(new AnswerFieldFocusListener());
-		answerField.getInputMap(JComponent.WHEN_FOCUSED).put(
-				KeyStroke.getKeyStroke("released ENTER"), "Enter");
-		answerField.getActionMap().put("Enter", new ActionEnter());
 		answerField.setForeground(selectedTheme.getTextColour());// changes text
 																	// colour
 
@@ -430,6 +428,8 @@ public class VTP5 extends JFrame {
 
 		componentList.add(new ComponentWithFontData(statsList, 32));
 		componentList.add(new ComponentWithFontData(guessedAnswersList, 32));
+
+		enterButton.addHotkey(KeyEvent.VK_ENTER);
 
 		// Set the font size of the text in the components
 		for (ComponentWithFontData c : componentList) {
@@ -1205,7 +1205,7 @@ public class VTP5 extends JFrame {
 
 		@Override
 		public void focusLost(FocusEvent e) {
-			// Do nothing
+
 		}
 
 	}
@@ -1393,16 +1393,6 @@ public class VTP5 extends JFrame {
 
 			revalidate();
 			repaint();
-		}
-	}
-
-	private class ActionEnter extends AbstractAction {
-
-		private static final long serialVersionUID = 1L;
-
-		@Override
-		public void actionPerformed(ActionEvent ae) {
-			enterButton.doClick();
 		}
 	}
 

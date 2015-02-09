@@ -69,7 +69,7 @@ public class VTP5Button extends WebButton {
 		setShineColor(lightColour.brighter().brighter());
 		setAnimate(true);
 		setRolloverShadeOnly(true);
-		setRound(10);
+		setRound(7);
 		revalidate();
 		repaint();
 	}
