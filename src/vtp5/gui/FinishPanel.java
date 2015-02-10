@@ -2,8 +2,6 @@ package vtp5.gui;
 
 import java.awt.AWTException;
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;

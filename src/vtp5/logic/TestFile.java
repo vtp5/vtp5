@@ -181,9 +181,6 @@ public class TestFile implements Serializable {
 
 	public int isCorrect(String answer, int index, boolean iffyAnswerEnabled,
 			boolean typoDetectorEnabled) {
-		// Original answer saved for spell-checker
-		String origAnswer = answer;
-
 		answer = answer.replaceAll("[^a-zA-Z0-9יטאשגךמפûכןחזהצüßביםףתüס¿¡]",
 				"");
 		System.out.println(answer);

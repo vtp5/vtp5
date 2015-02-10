@@ -147,7 +147,7 @@ public class VTP5 extends JFrame {
 	private WebPanel settingsPanel;
 	private VTP5Button checkForUpdateButton, resetToDefaults;
 	private WebCheckBox changingFrameColourCheck, questionNumberCheck,
-			soundCheck, spellCheckCheck, iffyAnswerCheck, typoDetectorCheck;
+			soundCheck, iffyAnswerCheck, typoDetectorCheck;
 	private WebComboBox themeSelector;
 	private WebLabel experimentalLabel;
 	private HyperlinkLabel exInfoLabel;
