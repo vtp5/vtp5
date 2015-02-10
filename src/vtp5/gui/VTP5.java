@@ -879,6 +879,8 @@ public class VTP5 extends JFrame {
 				+ test.getCards().size());
 		statsListModel.addElement("Success rate: "
 				+ String.format("%.2f", (double) stats[3]) + "%");
+		setTitle("VTP5 " + Main.appVersion + " - "
+				+ String.format("%.2f", (double) stats[3]) + "%");
 
 		if (changingFrameColourCheck.isSelected()) {
 			calculateBackgroundColour(stats);
