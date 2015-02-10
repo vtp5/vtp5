@@ -199,7 +199,7 @@ public class VTP5 extends JFrame {
 				null, "Royal Gold"));
 		// themes.add(new Theme(Color.RED, Color.BLACK, Color.RED, Color.BLACK,
 		// "Sith"));
-		themes.add(new Theme(new Color(0x43A047), Color.WHITE, Color.BLACK,
+		themes.add(new Theme(new Color(0x55D43F), Color.WHITE, Color.BLACK,
 				null, "Emerald Green"));
 		themes.add(new Theme(new Color(0x000066), new Color(0xBBD9EE), new Color(0x000066),
 				new Color(0xBBD9EE), "Navy Blue"));
