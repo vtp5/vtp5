@@ -179,8 +179,8 @@ public class TestFile implements Serializable {
 		}
 	}
 
-	public int isCorrect(String answer, int index, boolean spellCheckerEnabled,
-			boolean iffyAnswerEnabled, boolean typoDetectorEnabled) {
+	public int isCorrect(String answer, int index, boolean iffyAnswerEnabled,
+			boolean typoDetectorEnabled) {
 		// Original answer saved for spell-checker
 		String origAnswer = answer;
 
@@ -292,14 +292,14 @@ public class TestFile implements Serializable {
 				}
 			}
 
-			if (spellCheckerEnabled && !isLanguageSwitched) {
-				// Use the spell-checker to see if the user has made any
-				// potential typos
-				if (SpellCheck.containsSpellingErrors(origAnswer)) {
-					System.out.println("Spelling error!");
-					return PROMPT_USER;
-				}
-			}
+			// if (spellCheckerEnabled && !isLanguageSwitched) {
+			// // Use the spell-checker to see if the user has made any
+			// // potential typos
+			// if (SpellCheck.containsSpellingErrors(origAnswer)) {
+			// System.out.println("Spelling error!");
+			// return PROMPT_USER;
+			// }
+			// }
 
 			if (typoDetectorEnabled) {
 				// Use Jazzy to get the Levenshtein distance between user's

@@ -631,12 +631,11 @@ public class VTP5 extends JFrame {
 			int result;
 			if (enterButton.getText().equals("Enter")) {
 				result = test.isCorrect(userAnswer, questionIndex,
-						spellCheckCheck.isSelected(),
 						iffyAnswerCheck.isSelected(),
 						typoDetectorCheck.isSelected());
 			} else {
-				result = test.isCorrect(userAnswer, questionIndex, false,
-						false, false);
+				result = test
+						.isCorrect(userAnswer, questionIndex, false, false);
 			}
 
 			// Gets the score
