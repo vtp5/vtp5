@@ -201,7 +201,7 @@ public class VTP5 extends JFrame {
 		// themes.add(new Theme(Color.RED, Color.BLACK, Color.RED, Color.BLACK,
 		// "Sith"));
 		themes.add(new Theme(new Color(0x43A047), Color.WHITE, Color.BLACK,
-				null, "Apple Green"));
+				null, "Emerald Green"));
 		themes.add(new Theme(new Color(0x000066), Color.WHITE, Color.BLACK,
 				null, "Navy Blue"));
 		themes.add(new Theme(new Color(0xFF69B4), new Color(0xFF69B4).darker()
@@ -1130,7 +1130,7 @@ public class VTP5 extends JFrame {
 
 	void resetToDefaults() {
 		changingFrameColourCheck.setSelected(true);
-		selectedTheme = themes.get(0);
+		selectedTheme = themes.get(defaultThemeIndex);
 		if ((test != null)) {
 			calculateBackgroundColour(test.getStats());
 		} else {
