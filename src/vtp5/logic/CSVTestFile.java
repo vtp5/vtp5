@@ -172,9 +172,6 @@ public class CSVTestFile implements Serializable {
 	}
 
 	public int isCorrect(String answer, int index, boolean isExperimental) {
-		// Original answer saved for spell-checker
-		String origAnswer = answer;
-
 		answer = answer.replaceAll("[^a-zA-Z0-9יטאשגךמפûכןחזהצüßביםףתüס¿¡]",
 				"");
 		System.out.println(answer);
@@ -271,14 +268,6 @@ public class CSVTestFile implements Serializable {
 
 					if (answer.contains(s) || s.contains(answer)) {
 						// Tell the program to prompt the user
-						return PROMPT_USER;
-					}
-				}
-
-				if (!isLanguageSwitched) {
-					// Use the spell-checker to see if the user has made any
-					// potential typos
-					if (SpellCheck.containsSpellingErrors(origAnswer)) {
 						return PROMPT_USER;
 					}
 				}

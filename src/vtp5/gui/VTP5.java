@@ -188,9 +188,6 @@ public class VTP5 extends JFrame {
 
 		defaultThemeIndex = 0;
 
-		// Load spell-checker
-		// SpellCheck.loadSpellChecker();
-		// button, buttontext, text, background, name
 		themes.add(new Theme(new Color(0x663399), Color.WHITE, Color.BLACK,
 				null, "Imperial Purple"));
 		themes.add(new Theme(new Color(0x8A0707), Color.WHITE, Color.BLACK,
@@ -201,12 +198,11 @@ public class VTP5 extends JFrame {
 		// "Sith"));
 		themes.add(new Theme(new Color(0x55D43F), Color.WHITE, Color.BLACK,
 				null, "Emerald Green"));
-		themes.add(new Theme(new Color(0x000066), new Color(0xBBD9EE), new Color(0x000066),
-				new Color(0xBBD9EE), "Navy Blue"));
-		themes.add(new Theme(new Color(0xFF69B4), new Color(0xFF69B4).darker()
-				.darker().darker(), new Color(0xFF69B4).darker().darker()
-				.darker(), new Color(0xFF69B4).brighter().brighter(),
-				"Hot Pink"));
+		themes.add(new Theme(new Color(0x000066), new Color(0xBBD9EE),
+				new Color(0x000066), new Color(0xBBD9EE), "Navy Blue"));
+		themes.add(new Theme(new Color(0xFF0080).brighter(),
+				new Color(0xF984EF).brighter(), new Color(0xFF1493).darker()
+						.darker(), new Color(0xFF69B4).brighter(), "Hot Pink"));
 		themes.add(new Theme(Color.BLACK, Color.WHITE, Color.BLACK,
 				Color.WHITE, "Stormtrooper White"));
 
@@ -257,7 +253,6 @@ public class VTP5 extends JFrame {
 		questionNumberCheck = new WebCheckBox(
 				"Enable Question Number Selection", true);
 		soundCheck = new WebCheckBox("Enable Sound");
-		// spellCheckCheck = new WebCheckBox("Spell Checker");
 		iffyAnswerCheck = new WebCheckBox("Iffy Answer Detector");
 		typoDetectorCheck = new WebCheckBox("Typo Detector");
 
@@ -280,7 +275,6 @@ public class VTP5 extends JFrame {
 		settingsPanel.add(soundCheck, "alignx center, wrap");
 		settingsPanel.add(new JSeparator(), "grow, wrap");
 		settingsPanel.add(experimentalLabel, "alignx center, wrap");
-		// settingsPanel.add(spellCheckCheck, "alignx center, wrap");
 		settingsPanel.add(iffyAnswerCheck, "alignx center, wrap");
 		settingsPanel.add(typoDetectorCheck, "alignx center, wrap");
 		settingsPanel.add(exInfoLabel, "alignx center, wrap");
@@ -948,9 +942,6 @@ public class VTP5 extends JFrame {
 			output = new FileOutputStream(APPDATA_PATH
 					+ System.getProperty("file.separator") + CONFIG_FILE);
 
-			// sets the user preferences
-			// properties.setProperty("spell-checker",
-			// String.valueOf(spellCheckCheck.isSelected()));
 			properties.setProperty("iffy-answer-detector",
 					String.valueOf(iffyAnswerCheck.isSelected()));
 			properties.setProperty("typo-detector",
@@ -1019,12 +1010,6 @@ public class VTP5 extends JFrame {
 	private void updateSettings(String iffyAnswer, String typoDetector,
 			String sound, String qnumber, String theme, String dynamic,
 			String panel) {
-
-		// if (spellChecker.equals("true")) {
-		// spellCheckCheck.setSelected(true);
-		// } else {
-		// spellCheckCheck.setSelected(false);
-		// }
 
 		if (iffyAnswer.equals("true")) {
 			iffyAnswerCheck.setSelected(true);
@@ -1138,7 +1123,6 @@ public class VTP5 extends JFrame {
 		}
 		questionNumberCheck.setSelected(true);
 		soundCheck.setSelected(true);
-		// spellCheckCheck.setSelected(true);
 		iffyAnswerCheck.setSelected(true);
 		typoDetectorCheck.setSelected(true);
 		updateColours();

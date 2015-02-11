@@ -289,15 +289,6 @@ public class TestFile implements Serializable {
 				}
 			}
 
-			// if (spellCheckerEnabled && !isLanguageSwitched) {
-			// // Use the spell-checker to see if the user has made any
-			// // potential typos
-			// if (SpellCheck.containsSpellingErrors(origAnswer)) {
-			// System.out.println("Spelling error!");
-			// return PROMPT_USER;
-			// }
-			// }
-
 			if (typoDetectorEnabled) {
 				// Use Jazzy to get the Levenshtein distance between user's
 				// answer and correct answer; if it's below a certain threshold,
