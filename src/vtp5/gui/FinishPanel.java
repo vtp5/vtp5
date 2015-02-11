@@ -31,13 +31,11 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
 
 import net.miginfocom.swing.MigLayout;
-
-import org.jdesktop.swingx.JXLabel;
-
 import vtp5.logic.Card;
 import vtp5.logic.SendMail;
 import vtp5.logic.TestFile;
 
+import com.alee.laf.label.WebLabel;
 import com.alee.laf.panel.WebPanel;
 import com.alee.laf.scroll.WebScrollPane;
 import com.alee.laf.table.WebTable;
@@ -66,8 +64,8 @@ public class FinishPanel extends WebPanel {
 
 	public static String screenloc;
 
-	private JXLabel completedLabel = new JXLabel();
-	private JXLabel showListLabel = new JXLabel();
+	private WebLabel completedLabel = new WebLabel();
+	private WebLabel showListLabel = new WebLabel();
 	private CustomFont cf;
 	private WebTable table = new WebTable();
 	private TestFile test;
@@ -260,7 +258,7 @@ public class FinishPanel extends WebPanel {
 	public void updatePanel() {
 		removeAll();
 		test = parent.getTest();
-		completedMessage = "You made it! You got "
+		completedMessage = "<html>You made it! You got "
 				+ new BigDecimal(String.valueOf(test.getSuccessRate()))
 						.setScale(1, BigDecimal.ROUND_HALF_UP).toString()
 				+ "%.";
@@ -277,6 +275,8 @@ public class FinishPanel extends WebPanel {
 			completedMessage = completedMessage + " Ouch!";
 		}
 
+		completedMessage = completedMessage + "</html>";
+
 		statsList.setVisibleRowCount(4);
 		statsList.setForeground(parent.getSelectedTheme().getTextColour());// changes
 																			// text
@@ -289,9 +289,6 @@ public class FinishPanel extends WebPanel {
 		statsListModel.addElement("Answered incorrectly: "
 				+ parent.getTest().getIncorrectCards().size());
 		statsListModel.addElement("Total number of guesses: " + stats[2]);
-
-		showListLabel.setLineWrap(true);
-		completedLabel.setLineWrap(true);
 
 		showListLabel
 				.setText("<html>Here's a list of the words you got wrong:</html>");

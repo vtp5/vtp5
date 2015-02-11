@@ -23,6 +23,5 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="res/lib/mail/activation.jar"/>
 	<classpathentry kind="lib" path="res/lib/mail/javax.mail.jar"/>
-	<classpathentry kind="lib" path="res/lib/swingx-all-1.6.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

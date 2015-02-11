@@ -1116,6 +1116,7 @@ public class VTP5 extends JFrame {
 	void resetToDefaults() {
 		changingFrameColourCheck.setSelected(true);
 		selectedTheme = themes.get(defaultThemeIndex);
+		themeSelector.setSelectedIndex(defaultThemeIndex);
 		if ((test != null)) {
 			calculateBackgroundColour(test.getStats());
 		} else {
