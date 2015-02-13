@@ -188,6 +188,8 @@ public class VTP5 extends JFrame {
 
 		defaultThemeIndex = 0;
 
+		//themes.add(new Theme(button, buttontext, text, background, name))
+		
 		themes.add(new Theme(new Color(0x663399), Color.WHITE, Color.BLACK,
 				null, "Imperial Purple"));
 		themes.add(new Theme(new Color(0x8A0707), Color.WHITE, Color.BLACK,
