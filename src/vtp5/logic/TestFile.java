@@ -266,24 +266,31 @@ public class TestFile implements Serializable {
 				// Work out if user has only typed part of the answer, or if the
 				// answer is part of the user's input
 				for (String s : possibleAnswers) {
-					s = s.replaceAll("[^a-zA-Z0-9éèàùâêîôûëïçæœäöüßáéíóúüñ¿¡]",
-							"").toLowerCase();
+					s = s.replaceAll(
+							"[^a-zA-Z0-9éèàùâêîôûëïçæœäöüßáéíóúüñ¿¡ ]", "")
+							.toLowerCase();
 					answer = answer.toLowerCase();
 
-					if (answer.contains(s)) {
-						System.out.println("Contains!");
-						// Only prompt if user hasn't typed too much wrong stuff
-						if (((double) s.length()) >= 0.5 * ((double) answer
-								.length())) {
-							// Tell the program to prompt the user
-							return PROMPT_USER;
-						}
-					} else if (s.contains(answer)) {
-						System.out.println("Contains!");
-						// Only prompt if user has typed enough stuff
-						if (answer.length() > 3) {
-							// Tell the program to prompt the user
-							return PROMPT_USER;
+					String[] sWords = s.split(" ");
+
+					for (int i = 0; i < sWords.length; i++) {
+
+						if (answer.contains(sWords[i])) {
+							System.out.println("Contains!");
+							// Only prompt if user hasn't typed too much wrong
+							// stuff
+							if (((double) s.length()) >= 0.5 * ((double) answer
+									.length())) {
+								// Tell the program to prompt the user
+								return PROMPT_USER;
+							}
+						} else if (sWords[i].equals(answer)) {
+							System.out.println("Contains!");
+							// Only prompt if user has typed enough stuff
+							if (answer.length() > 3) {
+								// Tell the program to prompt the user
+								return PROMPT_USER;
+							}
 						}
 					}
 				}
