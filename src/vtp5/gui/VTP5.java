@@ -501,7 +501,9 @@ public class VTP5 extends JFrame {
 		loadSettingsFile();
 		updateColours();
 		Database db = new Database(APPDATA_PATH.getAbsolutePath());
+		if(!db.exists()){
 		db.createTable();
+		}
 		db.insert(1, "tt.txt", 155, 5, new Double(90.69));
 		
 		db.retrieve();

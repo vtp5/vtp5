@@ -29,18 +29,24 @@ public class Database {
 
 	public Database(String path) {
 		this.path = path;
-	}
-
-	public void createTable() {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			con = DriverManager.getConnection("jdbc:sqlite:" + path
 					+ "/leaderboard.db");
 			stmt = con.createStatement();
 			stmt.setQueryTimeout(30);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	public void createTable() {
+		try {
 			stmt.executeUpdate("create table leaderboard (id numeric, file varChar(255), "
 					+ "time int, questions int, successRate real)");
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -53,8 +59,8 @@ public class Database {
 	public void insert(int id, String file, int time, int noQuestion,
 			double successRate) {
 		try {
-			stmt.executeUpdate("insert into leaderboard VALUES(" +file+ ","
-					+ time + "," + noQuestion+ "," + successRate);
+			stmt.executeUpdate("insert into leaderboard VALUES(" + file + ","
+					+ time + "," + noQuestion + "," + successRate);
 			stmt.executeUpdate("insert into leaderboard VALUES('cares',100, 100, 100, 90.5 ");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -66,9 +72,9 @@ public class Database {
 		try {
 			ResultSet rs = stmt.executeQuery("select * from leaderboard");
 			ResultSetMetaData rsmd = rs.getMetaData();
-			while(rs.next()){
-				for(int i = 1; i <= rsmd.getColumnCount(); i++)
-				System.out.println(rs.getString(i));
+			while (rs.next()) {
+				for (int i = 1; i <= rsmd.getColumnCount(); i++)
+					System.out.println(rs.getString(i));
 			}
 			rs.close();
 		} catch (SQLException e) {
@@ -76,7 +82,8 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-	public void close(){
+
+	public void close() {
 		try {
 			stmt.close();
 			con.close();
@@ -84,6 +91,29 @@ public class Database {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
+	}
+
+	public boolean exists() {
+		String dbName = null;
+		ResultSet rs;
+		try {
+			rs = con.getMetaData().getCatalogs();
+			while (rs.next()) {
+				dbName = rs.getString(1);
+			}	
+			if (dbName.equals("leaderboard")) {
+				rs.close();
+				return true;
+			} else {
+				return false;
+			}
+			
+
+		} catch (SQLException | NullPointerException npe) {
+			npe.printStackTrace();
+			return false;
+		}
+
 	}
 }
