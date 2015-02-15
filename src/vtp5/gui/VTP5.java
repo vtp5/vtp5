@@ -101,6 +101,7 @@ public class VTP5 extends JFrame {
 	private WebPanel buttonPanel;
 	private VTP5Button importFileButton, settingsButton, helpButton,
 			aboutButton, saveButton, startAgainButton;
+	private VTP5Button gamesButton;
 	private int questionIndex = 0;
 
 	// Components in the main area of the frame
@@ -232,6 +233,9 @@ public class VTP5 extends JFrame {
 
 		importFileButton = new VTP5Button("Import Test File", this, true);// creates
 
+		gamesButton = new VTP5Button(":-)", this, false);
+		componentList.add(new ComponentWithFontData(gamesButton, 30));
+
 		saveButton = new VTP5Button("Complete Later", this, false);
 
 		startAgainButton = new VTP5Button("Start Again", this, false);
@@ -306,6 +310,7 @@ public class VTP5 extends JFrame {
 		progressBar.setString("");
 
 		componentList.add(new ComponentWithFontData(importFileButton, 34));// adds
+		componentList.add(new ComponentWithFontData(gamesButton, 34));
 		componentList.add(new ComponentWithFontData(saveButton, 34)); // to
 		componentList.add(new ComponentWithFontData(settingsButton, 34));// adds
 		componentList.add(new ComponentWithFontData(helpButton, 34));// adds to
@@ -316,6 +321,7 @@ public class VTP5 extends JFrame {
 		// Prevent the buttons from being focusable so there is no ugly
 		// rectangle when you click it - this is purely for aesthetic reasons
 		importFileButton.setFocusable(false);
+		gamesButton.setFocusable(false);
 		saveButton.setFocusable(false);
 		// leaderboardButton.setFocusable(false);
 		settingsButton.setFocusable(false);
@@ -327,6 +333,7 @@ public class VTP5 extends JFrame {
 		eventListener.parent = this;
 
 		importFileButton.addActionListener(eventListener);
+		gamesButton.addActionListener(eventListener);
 		saveButton.addActionListener(eventListener);
 		aboutButton.addActionListener(eventListener);
 		settingsButton.addActionListener(eventListener);
@@ -337,7 +344,8 @@ public class VTP5 extends JFrame {
 		resetToDefaults.addActionListener(eventListener);
 
 		buttonPanel.add(importFileButton, "align left");// adds to panel
-		buttonPanel.add(startAgainButton, "align left");
+		buttonPanel.add(gamesButton, "align right");
+		buttonPanel.add(startAgainButton, "align right");
 		buttonPanel.add(saveButton, "align right");
 		// buttonPanel.add(leaderboardButton, "align right");// adds to panel
 		buttonPanel.add(settingsButton, "align right");// adds to panel
@@ -489,7 +497,7 @@ public class VTP5 extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setIconImage(logo.getImage());
-		
+
 		// Add listeners to JFrame=
 		addComponentListener(new FrameResizeListener(this));
 		addWindowListener(new FrameClosingListener());
@@ -501,11 +509,11 @@ public class VTP5 extends JFrame {
 		loadSettingsFile();
 		updateColours();
 		Database db = new Database(APPDATA_PATH.getAbsolutePath());
-		if(!db.exists()){
-		db.createTable();
+		if (!db.exists()) {
+			db.createTable();
 		}
 		db.insert(1, "tt.txt", 155, 5, new Double(90.69));
-		
+
 		db.retrieve();
 		db.close();
 	}
@@ -1081,20 +1089,52 @@ public class VTP5 extends JFrame {
 		}
 	}
 
-	private void processErrorMessage(Exception e, String extraMessage) {
-		e.printStackTrace();
-		if (extraMessage == null) {
-			JOptionPane
-					.showMessageDialog(
-							this,
-							"The following error occurred:\n\n"
-									+ e.toString()
-									+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
-							"VTP5", JOptionPane.ERROR_MESSAGE);
+	private void toggleHangmanPanel() {
+		if (gamesButton.getText().equals(":-)")) {
+			// Make sure that the test has enough words
+			if (test.getCards().size() < 11) {
+				JOptionPane
+						.showMessageDialog(
+								this,
+								"This test doesn't have enough words (the minimum is 11). Wouldn't Hangman be a little bit boring?",
+								"VTP5", JOptionPane.WARNING_MESSAGE);
+			} else {
+				HangmanPanel hPanel = new HangmanPanel(test);
+
+				setTitle("VTP5 " + Main.appVersion + " - Hangman");
+				mainPanel.setVisible(false);
+				repaint();
+				revalidate();
+				framePanel.removeAll();
+				framePanel.add(buttonPanel, BorderLayout.NORTH);
+				framePanel.add(hPanel, BorderLayout.CENTER);
+				startAgainButton.setButtonEnabled(false);
+				saveButton.setButtonEnabled(false);
+				repaint();
+				revalidate();
+
+				gamesButton.setText(":-(");
+			}
 		} else {
-			JOptionPane.showMessageDialog(this,
-					"The following error occurred:\n\n" + e.toString() + "\n\n"
-							+ extraMessage, "VTP5", JOptionPane.ERROR_MESSAGE);
+			int result = JOptionPane.showConfirmDialog(this,
+					"Are you sure you want to finish your Hangman game?",
+					"VTP5", JOptionPane.YES_NO_OPTION);
+
+			if (result == JOptionPane.YES_OPTION) {
+				mainPanel.setVisible(true);
+				repaint();
+				revalidate();
+				framePanel.removeAll();
+				framePanel.add(buttonPanel, BorderLayout.NORTH);
+				framePanel.add(mainPanel, BorderLayout.CENTER);
+				updateStatsList();
+				startAgainButton.setButtonEnabled(true);
+				saveButton.setButtonEnabled(true);
+				repaint();
+				revalidate();
+
+				gamesButton.setText(":-)");
+			}
 		}
 	}
 
@@ -1138,6 +1178,7 @@ public class VTP5 extends JFrame {
 		enterButton.setText("Enter");
 		passButton.setButtonEnabled(true);
 		startAgainButton.setButtonEnabled(true);
+		gamesButton.setButtonEnabled(true);
 		showMainPanel();
 
 	}
@@ -1185,6 +1226,23 @@ public class VTP5 extends JFrame {
 
 	ArrayList<ComponentWithFontData> getComponentList() {
 		return componentList;
+	}
+
+	public void processErrorMessage(Exception e, String extraMessage) {
+		e.printStackTrace();
+		if (extraMessage == null) {
+			JOptionPane
+					.showMessageDialog(
+							this,
+							"The following error occurred:\n\n"
+									+ e.toString()
+									+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
+							"VTP5", JOptionPane.ERROR_MESSAGE);
+		} else {
+			JOptionPane.showMessageDialog(this,
+					"The following error occurred:\n\n" + e.toString() + "\n\n"
+							+ extraMessage, "VTP5", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	public String getUsualPath() {
@@ -1390,6 +1448,8 @@ public class VTP5 extends JFrame {
 				characterDialog.setVisible(true);
 			} else if (e.getSource() == resetToDefaults) {
 				resetToDefaults();
+			} else if (e.getSource() == gamesButton) {
+				toggleHangmanPanel();
 			}
 
 			revalidate();

@@ -67,6 +67,7 @@ public class AboutDialog extends WebDialog {
 
 		setTitle("About VTP5");
 		setLayout(new MigLayout("fillx"));
+		setAlwaysOnTop(true);
 
 		giveFeedback.addActionListener(new ActionListener() {
 			@Override

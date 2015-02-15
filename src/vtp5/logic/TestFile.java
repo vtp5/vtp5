@@ -34,7 +34,7 @@ public class TestFile implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	// ArrayList storing all the original "cards" for the test
-	private final ArrayList<Card> origCards = new ArrayList<>();
+	private ArrayList<Card> origCards = new ArrayList<>();
 	// ArrayList of "cards" for a particular test
 	private ArrayList<Card> cards = new ArrayList<>();
 	// Stores the cards the user got wrong the first time
@@ -66,6 +66,10 @@ public class TestFile implements Serializable {
 	private File[] importedFiles;
 
 	private transient VTP5 vtp;
+
+	private TestFile() {
+		super();
+	}
 
 	@SuppressWarnings("unchecked")
 	public TestFile(File[] files, VTP5 parent) throws IOException {
@@ -164,6 +168,10 @@ public class TestFile implements Serializable {
 
 	public ArrayList<Card> getOrigCards() {
 		return origCards;
+	}
+
+	private void setOrigCards(ArrayList<Card> origCards) {
+		this.origCards = origCards;
 	}
 
 	public ArrayList<Card> getCards() {
@@ -345,6 +353,16 @@ public class TestFile implements Serializable {
 							/ (double) totalTimesGuessed * 100.0;
 			return INCORRECT;
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public TestFile clone() {
+		TestFile newTest = new TestFile();
+		newTest.setOrigCards((ArrayList<Card>) origCards.clone());
+		newTest.setCards((ArrayList<Card>) origCards.clone());
+
+		return newTest;
 	}
 
 	public void setCards(ArrayList<Card> cards) {
