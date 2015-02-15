@@ -273,26 +273,29 @@ public class TestFile implements Serializable {
 
 					String[] sWords = s.split(" ");
 
-					for (int i = 0; i < sWords.length; i++) {
+					if (answer.contains(s.replaceAll(" ", ""))) {
+						System.out.println("Contains!");
+						// Only prompt if user hasn't typed too much wrong
+						// stuff
+						if (((double) s.length()) >= 0.7 * ((double) answer
+								.length())) {
+							// Tell the program to prompt the user
+							return PROMPT_USER;
+						}
+					} else {
+						for (int i = 0; i < sWords.length; i++) {
 
-						if (answer.contains(sWords[i])) {
-							System.out.println("Contains!");
-							// Only prompt if user hasn't typed too much wrong
-							// stuff
-							if (((double) s.length()) >= 0.75 * ((double) answer
-									.length())) {
-								// Tell the program to prompt the user
-								return PROMPT_USER;
-							}
-						} else if (sWords[i].equals(answer)) {
-							System.out.println("Contains!");
-							// Only prompt if user has typed enough stuff
-							if (answer.length() > 3) {
-								// Tell the program to prompt the user
-								return PROMPT_USER;
+							if (sWords[i].equals(answer)) {
+								System.out.println("Contains!");
+								// Only prompt if user has typed enough stuff
+								if (answer.length() > 3) {
+									// Tell the program to prompt the user
+									return PROMPT_USER;
+								}
 							}
 						}
 					}
+
 				}
 			}
 

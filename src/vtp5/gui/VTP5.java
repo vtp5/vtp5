@@ -188,8 +188,8 @@ public class VTP5 extends JFrame {
 
 		defaultThemeIndex = 0;
 
-		//themes.add(new Theme(button, buttontext, text, background, name))
-		
+		// themes.add(new Theme(button, buttontext, text, background, name))
+
 		themes.add(new Theme(new Color(0x663399), Color.WHITE, Color.BLACK,
 				null, "Imperial Purple"));
 		themes.add(new Theme(new Color(0x8A0707), Color.WHITE, Color.BLACK,
@@ -202,7 +202,7 @@ public class VTP5 extends JFrame {
 				null, "Emerald Green"));
 		themes.add(new Theme(new Color(0x000066), new Color(0xBBD9EE),
 				new Color(0x000066), new Color(0xBBD9EE), "Sapphire Blue"));
-		themes.add(new Theme(new Color(0xFF0080).brighter(),
+		themes.add(new Theme(new Color(0xFF0050).brighter(),
 				new Color(0xF984EF).brighter(), new Color(0xFF1493).darker()
 						.darker(), new Color(0xFF69B4).brighter(), "Hot Pink"));
 		themes.add(new Theme(Color.BLACK, Color.WHITE, Color.BLACK,
@@ -751,6 +751,7 @@ public class VTP5 extends JFrame {
 	}
 
 	private void finishTest() {
+		setTitle("VTP5 " + Main.appVersion);
 		mainPanel.setVisible(false);
 		repaint();
 		revalidate();
@@ -1071,6 +1072,23 @@ public class VTP5 extends JFrame {
 		}
 	}
 
+	private void processErrorMessage(Exception e, String extraMessage) {
+		e.printStackTrace();
+		if (extraMessage == null) {
+			JOptionPane
+					.showMessageDialog(
+							this,
+							"The following error occurred:\n\n"
+									+ e.toString()
+									+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
+							"VTP5", JOptionPane.ERROR_MESSAGE);
+		} else {
+			JOptionPane.showMessageDialog(this,
+					"The following error occurred:\n\n" + e.toString() + "\n\n"
+							+ extraMessage, "VTP5", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
 	void setUpTest(int option) {
 
 		if (option == 0 && questionNumberCheck.isSelected()) {
@@ -1166,23 +1184,6 @@ public class VTP5 extends JFrame {
 
 	public void setUsualPath(String USUAL_PATH) {
 		this.USUAL_PATH = USUAL_PATH;
-	}
-
-	public void processErrorMessage(Exception e, String extraMessage) {
-		e.printStackTrace();
-		if (extraMessage == null) {
-			JOptionPane
-					.showMessageDialog(
-							this,
-							"The following error occurred:\n\n"
-									+ e.toString()
-									+ "\n\nThat's really sad :(. Please report the problem if it keeps happening.",
-							"VTP5", JOptionPane.ERROR_MESSAGE);
-		} else {
-			JOptionPane.showMessageDialog(this,
-					"The following error occurred:\n\n" + e.toString() + "\n\n"
-							+ extraMessage, "VTP5", JOptionPane.ERROR_MESSAGE);
-		}
 	}
 
 	private class AnswerFieldFocusListener implements FocusListener {
