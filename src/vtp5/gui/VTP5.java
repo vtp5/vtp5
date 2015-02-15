@@ -61,6 +61,7 @@ import org.kohsuke.github.GitHub;
 
 import vtp5.Main;
 import vtp5.logic.Card;
+import vtp5.logic.Database;
 import vtp5.logic.TestFile;
 
 import com.alee.laf.checkbox.WebCheckBox;
@@ -488,7 +489,7 @@ public class VTP5 extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setIconImage(logo.getImage());
-
+		
 		// Add listeners to JFrame=
 		addComponentListener(new FrameResizeListener(this));
 		addWindowListener(new FrameClosingListener());
@@ -499,6 +500,12 @@ public class VTP5 extends JFrame {
 		createHiddenDirectory();
 		loadSettingsFile();
 		updateColours();
+		Database db = new Database(APPDATA_PATH.getAbsolutePath());
+		db.createTable();
+		db.insert(1, "tt.txt", 155, 5, new Double(90.69));
+		
+		db.retrieve();
+		db.close();
 	}
 
 	public void setTest(TestFile test) {
