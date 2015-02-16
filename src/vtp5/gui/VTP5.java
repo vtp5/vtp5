@@ -512,8 +512,8 @@ public class VTP5 extends JFrame {
 		if (!db.exists()) {
 			db.createTable();
 		}
+		
 		db.insert(1, "tt.txt", 155, 5, new Double(90));
-
 		db.retrieve();
 		db.close();
 	}

@@ -2,6 +2,7 @@ package vtp5.logic;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -25,7 +26,10 @@ import java.sql.Statement;
 public class Database {
 	private Connection con;
 	private Statement stmt;
+	private PreparedStatement pstmt;
 	private String path;
+	private final String INSERT = "insert into leaderboard values("
+			+ "?, ?, ?, ?, ?)";
 
 	public Database(String path) {
 		this.path = path;
@@ -39,7 +43,7 @@ public class Database {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public void createTable() {
@@ -59,9 +63,17 @@ public class Database {
 	public void insert(int id, String file, int time, int noQuestion,
 			double successRate) {
 		try {
-			stmt.executeUpdate("insert into leaderboard VALUES('" + file + "',"
-					+ time + "," + noQuestion + "," + successRate);
-			stmt.executeUpdate("insert into leaderboard VALUES('cares',100, 100, 100, 90.5 ");
+			/*stmt.executeUpdate("insert into leaderboard VALUES('" + file + "',"
+					+ time + "," + noQuestion + "," + successRate);*/
+		//	stmt.executeUpdate("insert into leaderboard VALUES('cares',100, 100, 100, 90.5 ");
+			pstmt = con.prepareStatement(INSERT);
+			pstmt.setLong(1, id);
+			pstmt.setString(2, file);
+			pstmt.setLong(3, time);
+			pstmt.setLong(4, noQuestion);
+			pstmt.setString(5, String.valueOf(successRate));
+			pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -73,12 +85,12 @@ public class Database {
 			ResultSet rs = stmt.executeQuery("select * from leaderboard");
 			ResultSetMetaData rsmd = rs.getMetaData();
 			while (rs.next()) {
-				for (int i = 1; i <= rsmd.getColumnCount(); i++)
+				for (int i = 1; i <= rsmd.getColumnCount(); i++){
 					System.out.println(rs.getString(i));
+			}
 			}
 			rs.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
