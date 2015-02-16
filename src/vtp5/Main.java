@@ -39,8 +39,21 @@ public class Main {
 				long startTime = System.currentTimeMillis();
 				try {
 
-					UIManager.setLookAndFeel("com.alee.laf.WebLookAndFeel");
-
+				    /* This will return Long.MAX_VALUE if there is no preset limit */
+				    long maxMemory = Runtime.getRuntime().maxMemory()/1000000;
+				    /* Maximum amount of memory the JVM will attempt to use */
+				    System.out.println("Maximum memory (MB): " + 
+				        (maxMemory == Long.MAX_VALUE ? "no limit" : maxMemory));
+				    
+				    //TODO change this value after further tests
+				    if(maxMemory >= 500){
+				    	System.out.println("yipee weblaf enabled");
+						UIManager.setLookAndFeel("com.alee.laf.WebLookAndFeel");
+				    }
+				    else{
+				    	System.out.println("not enough ram");
+				    }
+				    
 				} catch (Exception e) {
 					JOptionPane
 							.showMessageDialog(
