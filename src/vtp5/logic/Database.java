@@ -59,7 +59,7 @@ public class Database {
 	public void insert(int id, String file, int time, int noQuestion,
 			double successRate) {
 		try {
-			stmt.executeUpdate("insert into leaderboard VALUES(" + file + ","
+			stmt.executeUpdate("insert into leaderboard VALUES('" + file + "',"
 					+ time + "," + noQuestion + "," + successRate);
 			stmt.executeUpdate("insert into leaderboard VALUES('cares',100, 100, 100, 90.5 ");
 		} catch (SQLException e) {
@@ -95,23 +95,13 @@ public class Database {
 	}
 
 	public boolean exists() {
-		String dbName = null;
-		ResultSet rs;
 		try {
-			rs = con.getMetaData().getCatalogs();
-			while (rs.next()) {
-				dbName = rs.getString(1);
-			}	
-			if (dbName.equals("leaderboard")) {
-				rs.close();
-				return true;
-			} else {
-				return false;
-			}
-			
-
-		} catch (SQLException | NullPointerException npe) {
-			npe.printStackTrace();
+			con = DriverManager.getConnection("jdbc:sqlite:" + path
+					+ "/leaderboard.db");
+			System.out.println("DB exists");
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
 			return false;
 		}
 
