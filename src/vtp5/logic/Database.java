@@ -33,24 +33,18 @@ public class Database {
 
 	public Database(String path) {
 		this.path = path;
+	}
+
+	public void createTable() {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			con = DriverManager.getConnection("jdbc:sqlite:" + path
 					+ "/leaderboard.db");
 			stmt = con.createStatement();
 			stmt.setQueryTimeout(30);
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
-	public void createTable() {
-		try {
 			stmt.executeUpdate("create table leaderboard (id numeric, file varChar(255), "
 					+ "time int, questions int, successRate real)");
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -110,12 +104,15 @@ public class Database {
 		try {
 			con = DriverManager.getConnection("jdbc:sqlite:" + path
 					+ "/leaderboard.db");
-			System.out.println("DB exists");
 			return true;
 		} catch (SQLException e) {
+			System.out.println("Exception when trying to find database file");
 			e.printStackTrace();
 			return false;
 		}
 
+	}
+	public String getPath(){
+		return path;
 	}
 }

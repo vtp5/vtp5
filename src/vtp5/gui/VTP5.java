@@ -143,6 +143,10 @@ public class VTP5 extends JFrame {
 
 	// Number of questions dialog
 	private QuestionsDialog questionsDialog;
+	
+	//Database
+	private Database db;
+	private boolean databaseCreated = false;
 
 	// Components for Settings Dialog
 	private JDialog settingsDialog;
@@ -508,14 +512,21 @@ public class VTP5 extends JFrame {
 		createHiddenDirectory();
 		loadSettingsFile();
 		updateColours();
-		Database db = new Database(APPDATA_PATH.getAbsolutePath());
-		if (!db.exists()) {
+		 db = new Database(APPDATA_PATH.getAbsolutePath());
+		if (properties.getProperty("database").equals("false")) {
 			db.createTable();
+			properties.setProperty("database", "true");
+			System.out.println("Database created");
+			databaseCreated = true;
+			//db.insert(1, "tt.txt", 155, 5, new Double(90));
+			//db.retrieve();
 		}
+		/*}else{
+			System.out.println("Db exists");
 		
-		db.insert(1, "tt.txt", 155, 5, new Double(90));
-		db.retrieve();
-		db.close();
+		db.retrieve();*/
+		//db.close();
+	
 	}
 
 	public void setTest(TestFile test) {
@@ -976,6 +987,7 @@ public class VTP5 extends JFrame {
 			properties.setProperty("background-colour", "#"
 					+ Integer.toHexString(mainPanel.getBackground().getRGB())
 							.substring(2));
+			properties.setProperty("database", String.valueOf(databaseCreated));
 			try {
 				properties.setProperty("file-path", USUAL_PATH);
 			} catch (Exception e) {
@@ -1251,6 +1263,9 @@ public class VTP5 extends JFrame {
 
 	public void setUsualPath(String USUAL_PATH) {
 		this.USUAL_PATH = USUAL_PATH;
+	}
+	public Database getDatabase(){
+		return db;
 	}
 
 	private class AnswerFieldFocusListener implements FocusListener {

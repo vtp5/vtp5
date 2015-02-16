@@ -289,7 +289,8 @@ public class FinishPanel extends WebPanel {
 		statsListModel.addElement("Answered incorrectly: "
 				+ parent.getTest().getIncorrectCards().size());
 		statsListModel.addElement("Total number of guesses: " + stats[2]);
-
+		parent.getDatabase().insert(1, parent.getDatabase().getPath(),500,  ((int) stats[0] - test.getCards().size()), new Double(test.getSuccessRate()));
+		parent.getDatabase().retrieve();
 		showListLabel
 				.setText("<html>Here's a list of the words you got wrong:</html>");
 		completedLabel.setText(completedMessage);
