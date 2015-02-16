@@ -143,8 +143,8 @@ public class VTP5 extends JFrame {
 
 	// Number of questions dialog
 	private QuestionsDialog questionsDialog;
-	
-	//Database
+
+	// Database
 	private Database db;
 	private boolean databaseCreated = false;
 
@@ -169,6 +169,10 @@ public class VTP5 extends JFrame {
 	// as program begins), otherwise text-rescaling won't work properly
 	private FinishPanel finishPanel;
 
+	// HangmanPanel instance variable - a new object is created every time the
+	// user begins a Hangman game
+	private HangmanPanel hPanel;
+
 	// The all-import TestFile object!
 	private TestFile test;
 	// Timer to help with "experimental features"
@@ -184,6 +188,9 @@ public class VTP5 extends JFrame {
 	private ArrayList<Theme> themes = new ArrayList<Theme>();
 	private Theme selectedTheme;
 	private int defaultThemeIndex;
+
+	// Frame scaler, recalculated after resizing
+	private double scaler;
 
 	private Color backgroundColour = null;
 
@@ -512,21 +519,22 @@ public class VTP5 extends JFrame {
 		createHiddenDirectory();
 		loadSettingsFile();
 		updateColours();
-		 db = new Database(APPDATA_PATH.getAbsolutePath());
+		db = new Database(APPDATA_PATH.getAbsolutePath());
 		if (properties.getProperty("database").equals("false")) {
 			db.createTable();
 			properties.setProperty("database", "true");
 			System.out.println("Database created");
 			databaseCreated = true;
-			//db.insert(1, "tt.txt", 155, 5, new Double(90));
-			//db.retrieve();
+			// db.insert(1, "tt.txt", 155, 5, new Double(90));
+			// db.retrieve();
 		}
-		/*}else{
-			System.out.println("Db exists");
-		
-		db.retrieve();*/
-		//db.close();
-	
+		/*
+		 * }else{ System.out.println("Db exists");
+		 * 
+		 * db.retrieve();
+		 */
+		// db.close();
+
 	}
 
 	public void setTest(TestFile test) {
@@ -560,6 +568,12 @@ public class VTP5 extends JFrame {
 		} else {
 			updateBackgroundColour(selectedTheme.getBackgroundColour());
 		}
+
+		// Prompt components in HangmanPanel (if not null) to change theme
+		if (hPanel != null) {
+			hPanel.updateColours();
+		}
+
 		repaint();
 		revalidate();
 	}
@@ -781,6 +795,9 @@ public class VTP5 extends JFrame {
 	private void finishTest() {
 		setTitle("VTP5 " + Main.appVersion);
 		mainPanel.setVisible(false);
+		if (hPanel != null) {
+			hPanel.setVisible(false);
+		}
 		repaint();
 		revalidate();
 		// Do not create a new instance of FinishPanel here - otherwise,
@@ -789,6 +806,7 @@ public class VTP5 extends JFrame {
 		framePanel.removeAll();
 		framePanel.add(buttonPanel, BorderLayout.NORTH);
 		framePanel.add(finishPanel, BorderLayout.CENTER);
+		gamesButton.setButtonEnabled(false);
 		saveButton.setButtonEnabled(false);
 		repaint();
 		revalidate();
@@ -1104,22 +1122,25 @@ public class VTP5 extends JFrame {
 	private void toggleHangmanPanel() {
 		if (gamesButton.getText().equals(":-)")) {
 			// Make sure that the test has enough words
-			if (test.getCards().size() < 11) {
+			if (test.getOrigCards().size() < 11) {
 				JOptionPane
 						.showMessageDialog(
 								this,
 								"This test doesn't have enough words (the minimum is 11). Wouldn't Hangman be a little bit boring?",
 								"VTP5", JOptionPane.WARNING_MESSAGE);
 			} else {
-				HangmanPanel hPanel = new HangmanPanel(test);
+				hPanel = new HangmanPanel(test, this, scaler);
 
 				setTitle("VTP5 " + Main.appVersion + " - Hangman");
 				mainPanel.setVisible(false);
 				repaint();
 				revalidate();
+
 				framePanel.removeAll();
 				framePanel.add(buttonPanel, BorderLayout.NORTH);
 				framePanel.add(hPanel, BorderLayout.CENTER);
+				hPanel.requestFocusInWindow();
+
 				startAgainButton.setButtonEnabled(false);
 				saveButton.setButtonEnabled(false);
 				repaint();
@@ -1191,6 +1212,7 @@ public class VTP5 extends JFrame {
 		passButton.setButtonEnabled(true);
 		startAgainButton.setButtonEnabled(true);
 		gamesButton.setButtonEnabled(true);
+		gamesButton.setText(":-)");
 		showMainPanel();
 
 	}
@@ -1264,7 +1286,8 @@ public class VTP5 extends JFrame {
 	public void setUsualPath(String USUAL_PATH) {
 		this.USUAL_PATH = USUAL_PATH;
 	}
-	public Database getDatabase(){
+
+	public Database getDatabase() {
 		return db;
 	}
 
@@ -1284,19 +1307,6 @@ public class VTP5 extends JFrame {
 
 	}
 
-	private class DisabledItemSelectionModel extends DefaultListSelectionModel {
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
-		@Override
-		public void setSelectionInterval(int index0, int index1) {
-			super.setSelectionInterval(-1, -1);
-		}
-	}
-
 	// Inner class for the frame's content pane so that the background image can
 	// be drawn
 	private class FramePanel extends WebPanel {
@@ -1312,8 +1322,6 @@ public class VTP5 extends JFrame {
 	private class FrameResizeListener extends ComponentAdapter {
 		private JFrame frame;
 		private Dimension originalSize;
-
-		private double scaler;
 
 		private Timer recalculateTimer;
 
@@ -1344,10 +1352,17 @@ public class VTP5 extends JFrame {
 				scaler = Math.min(newSize.getWidth() / originalSize.getWidth(),
 						newSize.getHeight() / originalSize.getHeight());
 
+				System.out.println("scaler: " + scaler);
+				if (hPanel != null) {
+					hPanel.setScaler(scaler);
+				}
+
 				for (ComponentWithFontData c : componentList) {
 					Component component = c.getComponent();
 					int newFontSize = (int) ((double) c.getOriginalFontSize() * scaler);
 					setFontSize(component, newFontSize);
+					component.revalidate();
+					component.repaint();
 				}
 
 				frame.revalidate();

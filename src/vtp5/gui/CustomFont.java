@@ -3,6 +3,7 @@ package vtp5.gui;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 
@@ -35,6 +36,20 @@ public class CustomFont {
 			GraphicsEnvironment.getLocalGraphicsEnvironment()
 					.registerFont(font);
 			c.setFont(font);
+
+		} catch (FontFormatException | IOException e) {
+			new Font("Arial", Font.PLAIN, fontSize);
+		}
+	}
+
+	public void setFont(Graphics g, int fontSize) {
+		try {
+			Font font = Font.createFont(Font.TRUETYPE_FONT, getClass()
+					.getResourceAsStream("/fonts/ubuntu/Ubuntu-C.ttf"));
+			font = font.deriveFont((float) fontSize);
+			GraphicsEnvironment.getLocalGraphicsEnvironment()
+					.registerFont(font);
+			g.setFont(font);
 
 		} catch (FontFormatException | IOException e) {
 			new Font("Arial", Font.PLAIN, fontSize);

@@ -359,8 +359,10 @@ public class TestFile implements Serializable {
 	@Override
 	public TestFile clone() {
 		TestFile newTest = new TestFile();
+		newTest.setImportedFiles(importedFiles);
 		newTest.setOrigCards((ArrayList<Card>) origCards.clone());
 		newTest.setCards((ArrayList<Card>) origCards.clone());
+		newTest.setTotalNumberOfCards(origCards.size());
 
 		return newTest;
 	}
