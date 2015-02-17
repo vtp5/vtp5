@@ -1,5 +1,6 @@
 package vtp5.gui;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -138,6 +139,56 @@ class HangmanPanel extends JPanel {
 				getHeight() - (getHeight() / 11));
 
 		// Draw the Hangman!
+		drawHangman(g2);
+
+		g2.scale(scaler, scaler);
+
+		// if (hangmanGame.getNumOfGuesses() <= 11) {
+		// g.setStroke(new BasicStroke(7));
+		// g.drawLine(100, 400, 450, 400);
+		// }
+		// if (hangmanGame.getNumOfGuesses() <= 10) {
+		// g.drawLine(100, 400, 100, 130);
+		// }
+		// if (hangmanGame.getNumOfGuesses() <= 9) {
+		// g.drawLine(100, 350, 150, 400);
+		// }
+		// if (hangmanGame.getNumOfGuesses() <= 8) {
+		// g.drawLine(100, 130, 330, 130);
+		// }
+		// if (hangmanGame.getNumOfGuesses() <= 7) {
+		// g.drawLine(100, 180, 150, 130);
+		// }
+		// if (hangmanGame.getNumOfGuesses() <= 6) {
+		// g.drawLine(330, 130, 330, 170);
+		// }
+		// if (hangmanGame.getNumOfGuesses() <= 5) {
+		// g.drawOval(300, 170, 60, 60);
+		// }
+		// if (hangmanGame.getNumOfGuesses() <= 4) {
+		// g.drawLine(330, 230, 330, 320);
+		// }
+		// if (hangmanGame.getNumOfGuesses() <= 3) {
+		// g.drawLine(270, 230, 330, 270);
+		// }
+		// if (hangmanGame.getNumOfGuesses() <= 2) {
+		// g.drawLine(390, 230, 330, 270);
+		// }
+		// if (hangmanGame.getNumOfGuesses() <= 1) {
+		// g.drawLine(270, 370, 330, 320);
+		// }
+		// if (hangmanGame.getNumOfGuesses() == 0) {
+		// g.drawLine(390, 370, 330, 320);
+		// g.setStroke(new BasicStroke(7, BasicStroke.CAP_ROUND,
+		// BasicStroke.JOIN_BEVEL));
+		// g.drawLine(320, 190, 320, 190);
+		// g.drawLine(340, 190, 340, 190);
+		// g.setStroke(new BasicStroke(5));
+		// g.drawOval(320, 200, 15, 15);
+		// }
+	}
+
+	private void drawHangman(Graphics2D g2) {
 		g2.setColor(Color.BLACK);
 
 		g2.fillRect(getWidth() / 4, getHeight() - (getHeight() / 11 * 5),
@@ -152,10 +203,59 @@ class HangmanPanel extends JPanel {
 				- (getHeight() / 11 * 5) - 5);
 		g2.fillRect(getWidth() / 4 + getHeight() / 30 + getWidth() / 200, 5,
 				getWidth() / 200, getHeight() - (getHeight() / 11 * 5) - 5);
+		g2.setStroke(new BasicStroke(7, BasicStroke.CAP_ROUND,
+				BasicStroke.JOIN_BEVEL));
+		g2.drawLine(
+				getWidth() / 4 + getHeight() / 30 + getWidth() / 150,
+				getHeight() - (getHeight() / 11 * 6),
+				getWidth()
+						/ 4
+						+ getHeight()
+						/ 30
+						+ getWidth()
+						/ 150
+						+ ((getHeight() - (getHeight() / 11 * 5)) - (getHeight() - (getHeight() / 11 * 6))),
+				getHeight() - (getHeight() / 11 * 5));
+		g2.setStroke(new BasicStroke(1));
 
 		g2.fillRect(getWidth() / 4, 5, getWidth() / 20 * 9, getHeight() / 30);
+		g2.setStroke(new BasicStroke(7, BasicStroke.CAP_ROUND,
+				BasicStroke.JOIN_BEVEL));
+		// TODO Improve this horrible, messy code!
+		g2.drawLine(
+				getWidth() / 4 + getHeight() / 30 + getWidth() / 150,
+				5
+						+ getHeight()
+						/ 30
+						+ ((getHeight() - (getHeight() / 11 * 5) + getHeight() / 30) - (getHeight() - (getHeight() / 11 * 6))),
+				getWidth()
+						/ 4
+						+ getHeight()
+						/ 30
+						+ getWidth()
+						/ 150
+						+ ((getHeight() - (getHeight() / 11 * 5) + getHeight() / 30) - (getHeight() - (getHeight() / 11 * 6))),
+				5 + getHeight() / 30);
+		g2.setStroke(new BasicStroke(1));
 
-		g2.scale(scaler, scaler);
+		g2.fillRect(getWidth() / 4 + getWidth() / 120 * 45, 5,
+				getHeight() / 30, getHeight() / 30 * 2);
+		g2.fillRect(getWidth() / 4 + getWidth() / 120 * 45 - getWidth() / 240
+				* 9, 5 + getHeight() / 30 * 2, getWidth() / 120 * 9
+				+ getHeight() / 30, getHeight() / 30 * 3);
+
+		g2.setStroke(new BasicStroke(10));
+		g2.drawLine(getWidth() / 4 + getWidth() / 120 * 45,
+				5 + getHeight() / 30 * 5, getWidth() / 4 + getWidth() / 120
+						* 45 - getWidth() / 120 * 9, 5 + getHeight() / 30 * 10);
+		g2.setStroke(new BasicStroke(1));
+
+		g2.setStroke(new BasicStroke(10));
+		g2.drawLine(getWidth() / 4 + getWidth() / 120 * 45,
+				5 + getHeight() / 30 * 5, getWidth() / 4 + getWidth() / 120
+						* 45 + getWidth() / 120 * 9, 5 + getHeight() / 30 * 10);
+		g2.setStroke(new BasicStroke(1));
+
 	}
 
 	private class HangmanKeyListener implements KeyListener {
