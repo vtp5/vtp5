@@ -53,18 +53,20 @@ public class Database {
 	public void insert(int id, String file, String time, int noQuestion,
 			double successRate) {
 		try {
-			/*stmt.executeUpdate("insert into leaderboard VALUES('" + file + "',"
-					+ time + "," + noQuestion + "," + successRate);*/
-		//	stmt.executeUpdate("insert into leaderboard VALUES('cares',100, 100, 100, 90.5 ");
+			/*
+			 * stmt.executeUpdate("insert into leaderboard VALUES('" + file +
+			 * "'," + time + "," + noQuestion + "," + successRate);
+			 */
+			// stmt.executeUpdate("insert into leaderboard VALUES('cares',100, 100, 100, 90.5 ");
 			setupConnection();
 			pstmt = con.prepareStatement(INSERT_LINE);
 			pstmt.setLong(1, id);
 			pstmt.setString(2, file);
 			pstmt.setString(3, time);
 			pstmt.setLong(4, noQuestion);
-			pstmt.setLong(5, (int)successRate);
+			pstmt.setLong(5, (int) successRate);
 			pstmt.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -76,14 +78,27 @@ public class Database {
 			ResultSet rs = stmt.executeQuery("select * from leaderboard");
 			ResultSetMetaData rsmd = rs.getMetaData();
 			while (rs.next()) {
-				for (int i = 1; i <= rsmd.getColumnCount(); i++){
+				for (int i = 1; i <= rsmd.getColumnCount(); i++) {
 					System.out.println(rs.getString(i));
-			}
+				}
 			}
 			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public ResultSet select(String column, String column2) {
+		ResultSet rs = null;
+		try {
+			rs = stmt.executeQuery("select " + column + "," + column2
+					+ " from leaderboard");
+			return rs;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+
 	}
 
 	public void close() {
@@ -109,8 +124,8 @@ public class Database {
 		}
 
 	}
-	
-	public void setupConnection(){
+
+	public void setupConnection() {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			con = DriverManager.getConnection("jdbc:sqlite:" + path
@@ -121,9 +136,10 @@ public class Database {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
-	public String getPath(){
+
+	public String getPath() {
 		return path;
 	}
 }
