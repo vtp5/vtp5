@@ -194,6 +194,7 @@ public class VTP5 extends JFrame {
 
 	private Color backgroundColour = null;
 
+	@SuppressWarnings("deprecation")
 	public VTP5() {
 
 		Thread updateCheckThread = new Thread(new UpdateChecker(this));
@@ -519,21 +520,8 @@ public class VTP5 extends JFrame {
 		createHiddenDirectory();
 		loadSettingsFile();
 		updateColours();
-		db = new Database(APPDATA_PATH.getAbsolutePath());
-		if (properties.getProperty("database").equals("false")) {
-			db.createTable();
-			properties.setProperty("database", "true");
-			System.out.println("Database created");
-			databaseCreated = true;
-			// db.insert(1, "tt.txt", 155, 5, new Double(90));
-			// db.retrieve();
-		}
-		/*
-		 * }else{ System.out.println("Db exists");
-		 * 
-		 * db.retrieve();
-		 */
-		// db.close();
+
+		
 
 	}
 
@@ -619,6 +607,7 @@ public class VTP5 extends JFrame {
 					properties.setProperty("file-path", String.valueOf(test));
 
 					USUAL_PATH = txtChooser.getSelectedFile().getAbsolutePath();
+					callDB();
 				}
 
 				return selected;
@@ -659,7 +648,24 @@ public class VTP5 extends JFrame {
 		}
 		return JFileChooser.CANCEL_OPTION;
 	}
+	private void callDB(){
+		db = new Database(APPDATA_PATH.getAbsolutePath());
+		if (properties.getProperty("database").equals("false")) {
+			System.out.println("Database doesn't exist");
+			db.createTable();
+			databaseCreated = true;
+			properties.setProperty("database", String.valueOf(databaseCreated));
+			System.out.println("Database created");
 
+			// db.insert(1, "tt.txt", 155, 5, new Double(90));
+			// db.retrieve();
+		} else {
+			databaseCreated = true;
+			System.out.println("Database already exists");
+			db.setupConnection();
+			db.retrieve();
+		}
+	}
 	private void doLogic() {
 		if (enterButton.getText().equals("Enter")
 				|| enterButton.getText().equals("I'm sure!")) {
@@ -1005,6 +1011,7 @@ public class VTP5 extends JFrame {
 			properties.setProperty("background-colour", "#"
 					+ Integer.toHexString(mainPanel.getBackground().getRGB())
 							.substring(2));
+			System.out.println("Database Created Variable:" + databaseCreated);
 			properties.setProperty("database", String.valueOf(databaseCreated));
 			try {
 				properties.setProperty("file-path", USUAL_PATH);
@@ -1376,6 +1383,11 @@ public class VTP5 extends JFrame {
 		@Override
 		public void windowClosing(WindowEvent e) {
 			createSettingsFile();
+			try {
+				db.close();
+			} catch (Exception dontcare) {
+
+			}
 		}
 	}
 

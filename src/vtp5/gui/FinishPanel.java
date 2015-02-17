@@ -14,7 +14,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -85,6 +88,10 @@ public class FinishPanel extends WebPanel {
 
 	// TODO Creating JList for leader boards (WIP)
 	private JList<Object> leaderboards = new JList<>();
+
+	// database
+	private DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+	private Date date = new Date();
 
 	private JFileChooser imagesave = new JFileChooser();
 
@@ -289,7 +296,11 @@ public class FinishPanel extends WebPanel {
 		statsListModel.addElement("Answered incorrectly: "
 				+ parent.getTest().getIncorrectCards().size());
 		statsListModel.addElement("Total number of guesses: " + stats[2]);
-		parent.getDatabase().insert(1, parent.getDatabase().getPath(),500,  ((int) stats[0] - test.getCards().size()), new Double(test.getSuccessRate()));
+		parent.getDatabase().insert(1,
+				parent.getTest().getImportedFile().getName(),
+				String.valueOf(df.format(date)),
+				((int) stats[0] - test.getCards().size()),
+				new Double(test.getSuccessRate()));
 		parent.getDatabase().retrieve();
 		showListLabel
 				.setText("<html>Here's a list of the words you got wrong:</html>");
