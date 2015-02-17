@@ -1,5 +1,6 @@
 package vtp5.gui;
 
+import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -66,7 +67,6 @@ class HangmanPanel extends JPanel {
 		guessedAnswersList.setEnabled(false);
 		guessedAnswersScrollPane = new WebScrollPane(guessedAnswersList);
 
-		System.out.println("scaler: " + scaler);
 		this.scaler = scaler;
 		parent.getComponentList().add(
 				new ComponentWithFontData(guessedAnswersList, 32));
@@ -135,7 +135,25 @@ class HangmanPanel extends JPanel {
 		FontMetrics metrics = g2.getFontMetrics();
 		int stringWidth = metrics.stringWidth(userGuess.toString());
 		g2.drawString(userGuess.toString(), getWidth() / 2 - stringWidth / 2,
-				getHeight() - 50);
+				getHeight() - (getHeight() / 11));
+
+		// Draw the Hangman!
+		g2.setColor(Color.BLACK);
+
+		g2.fillRect(getWidth() / 4, getHeight() - (getHeight() / 11 * 5),
+				getWidth() / 5 * 3, getHeight() / 30);
+		g2.fillRect(getWidth() / 2, getHeight() - (getHeight() / 11 * 5),
+				getWidth() / 50, getHeight() / 24);
+		g2.fillRect(getWidth() / 2, getHeight() - (getHeight() / 11 * 5)
+				+ (getHeight() / 24), getWidth() / 4 + getWidth() / 5 * 3
+				- getWidth() / 2, getHeight() / 48);
+
+		g2.fillRect(getWidth() / 4, 5, getHeight() / 30, getHeight()
+				- (getHeight() / 11 * 5) - 5);
+		g2.fillRect(getWidth() / 4 + getHeight() / 30 + getWidth() / 200, 5,
+				getWidth() / 200, getHeight() - (getHeight() / 11 * 5) - 5);
+
+		g2.fillRect(getWidth() / 4, 5, getWidth() / 20 * 9, getHeight() / 30);
 
 		g2.scale(scaler, scaler);
 	}
@@ -144,7 +162,6 @@ class HangmanPanel extends JPanel {
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			System.out.println("Key pressed!");
 			int code = e.getKeyCode();
 			if (code >= KeyEvent.VK_A && code <= KeyEvent.VK_Z) {
 				userGuess.append(Character.toLowerCase(e.getKeyChar()));
