@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -71,17 +73,20 @@ public class FinishPanel extends WebPanel {
 	private WebLabel showListLabel = new WebLabel();
 	private CustomFont cf;
 	private WebTable table = new WebTable();
+	private WebTable leadTable = new WebTable();
 	private TestFile test;
 	private String completedMessage;
 	private DefaultListModel<Object> statsListModel = new DefaultListModel<>();
 	private JList<Object> statsList = new JList<>(statsListModel);
 	private WebScrollPane statsScrollPane = new WebScrollPane(statsList);
 	private WrongAnswersTableModel watm;
+	private LeaderboardTableModel latm;
 	private VTP5Button saveTest;
 	private VTP5Button restartTest;
 	private VTP5Button screenshotButton;
 	private JFileChooser wrongAnswersTest = new JFileChooser();
 	private TableRowSorter<AbstractTableModel> sorter;
+	private TableRowSorter<AbstractTableModel> leadSorter;
 
 	// Do not remove this variable - it makes text-rescaling work!
 	private VTP5 parent;
@@ -121,7 +126,9 @@ public class FinishPanel extends WebPanel {
 		cf.setFont(showListLabel, 40);
 		cf.setFont(statsList, 40);
 		cf.setFont(table, 30);
+		cf.setFont(leadTable, 30);
 		cf.setFont(table.getTableHeader(), 30);
+		cf.setFont(leadTable.getTableHeader(), 30);
 		cf.setFont(leaderboards, 40);
 		cf.setFont(saveTest, 40);
 		cf.setFont(restartTest, 40);
@@ -136,7 +143,9 @@ public class FinishPanel extends WebPanel {
 		componentList.add(new ComponentWithFontData(table, 30));
 		componentList
 				.add(new ComponentWithFontData(table.getTableHeader(), 30));
-		componentList.add(new ComponentWithFontData(leaderboards, 40));
+		componentList.add(new ComponentWithFontData(leadTable, 30));
+		componentList.add(new ComponentWithFontData(leadTable.getTableHeader(),
+				30));
 		componentList.add(new ComponentWithFontData(saveTest, 40));
 		componentList.add(new ComponentWithFontData(restartTest, 40));
 		componentList.add(new ComponentWithFontData(screenshotButton, 40));
@@ -308,19 +317,41 @@ public class FinishPanel extends WebPanel {
 
 		List<SortKey> sortKeys = new ArrayList<SortKey>();
 		sortKeys.add(new SortKey(2, SortOrder.DESCENDING));
+	
 		watm = new WrongAnswersTableModel(parent.getTest().getIncorrectCards());
 		table = new WebTable(watm);
+		try {
+			latm = new LeaderboardTableModel(parent.getDatabase().select(
+					"time", "successRate", test.getImportedFile().getName()),
+					parent.getDatabase()
+							.select("time", "successRate",
+									test.getImportedFile().getName())
+							.getMetaData().getColumnCount());
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		leadTable = new WebTable(latm);
 		cf.setFont(table, 35);
 		cf.setFont(table.getTableHeader(), 35);
+		cf.setFont(leadTable, 35);
+		cf.setFont(leadTable.getTableHeader(), 35);
 		table.setRowHeight(table.getFont().getSize() + 10);
+		leadTable.setRowHeight(leadTable.getFont().getSize() + 10);
 		sorter = new TableRowSorter<AbstractTableModel>(watm);
+		leadSorter = new TableRowSorter<AbstractTableModel>(latm);
+		//leadSorter.setSortKeys(sortKeys);		
 		sorter.setSortKeys(sortKeys);
 		table.setRowSorter(sorter);
+		leadTable.setRowSorter(leadSorter);
 		((AbstractTableModel) table.getModel()).fireTableDataChanged();
+		((AbstractTableModel) leadTable.getModel()).fireTableDataChanged();
 		sorter.sort();
+		leadSorter.sort();
 		table.setEditable(false);
 		table.setFocusable(false);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		
 
 		saveTest.setText("Create New Test File With These Words");
 		restartTest.setText("Start Test Again");
@@ -329,7 +360,7 @@ public class FinishPanel extends WebPanel {
 		add(statsScrollPane, "grow, spany 2, align right, width 35%!, wrap");
 		add(showListLabel, "grow, wrap");
 		add(new WebScrollPane(table), "grow, push");
-		add(new WebScrollPane(leaderboards), "grow, wrap");
+		add(new WebScrollPane(leadTable), "grow, wrap");
 		add(saveTest, "grow, span, split 3");
 		add(restartTest, "grow");
 		add(screenshotButton, "grow");
@@ -418,4 +449,64 @@ class WrongAnswersTableModel extends AbstractTableModel {
 
 		return value;
 	}
+}
+
+class LeaderboardTableModel extends AbstractTableModel {
+	private ArrayList<ArrayList<String>> result = new ArrayList<>();
+
+	public LeaderboardTableModel(ResultSet r, int col) throws SQLException {
+		while (r.next()) {
+			ArrayList<String> row = new ArrayList<>(col); // new list per row
+			int i = 1;
+			while (i <= col) { // don't skip the last column, use <=
+				row.add(r.getString(i++));
+			}
+			result.add(row); // add it to the result
+		}
+	}
+
+	@Override
+	public int getColumnCount() {
+		return 2;
+	}
+
+	@Override
+	public int getRowCount() {
+		return result.size();
+	}
+
+	@Override
+	public String getColumnName(int column) {
+		String name = "";
+
+		switch (column) {
+		case 0:
+			name = "Date";
+			break;
+		case 1:
+			name = "Success Rate";
+			break;
+		}
+
+		return name;
+	}
+
+	@Override
+	public Object getValueAt(int rowIndex, int columnIndex) {
+		ArrayList<String> value = result.get(rowIndex);
+		String result = "";
+
+		switch (columnIndex) {
+		case 0:
+			result = value.get(0);
+			break;
+		case 1:
+			result = value.get(1);
+			break;
+
+		}
+
+		return result;
+	}
+
 }
