@@ -86,6 +86,7 @@ public class FinishPanel extends WebPanel {
 	private VTP5Button screenshotButton;
 	private JFileChooser wrongAnswersTest = new JFileChooser();
 	private TableRowSorter<AbstractTableModel> sorter;
+	private TableRowSorter<AbstractTableModel> leadSorter;
 
 	// Do not remove this variable - it makes text-rescaling work!
 	private VTP5 parent;
@@ -316,6 +317,7 @@ public class FinishPanel extends WebPanel {
 
 		List<SortKey> sortKeys = new ArrayList<SortKey>();
 		sortKeys.add(new SortKey(2, SortOrder.DESCENDING));
+	
 		watm = new WrongAnswersTableModel(parent.getTest().getIncorrectCards());
 		table = new WebTable(watm);
 		try {
@@ -332,15 +334,24 @@ public class FinishPanel extends WebPanel {
 		leadTable = new WebTable(latm);
 		cf.setFont(table, 35);
 		cf.setFont(table.getTableHeader(), 35);
+		cf.setFont(leadTable, 35);
+		cf.setFont(leadTable.getTableHeader(), 35);
 		table.setRowHeight(table.getFont().getSize() + 10);
+		leadTable.setRowHeight(leadTable.getFont().getSize() + 10);
 		sorter = new TableRowSorter<AbstractTableModel>(watm);
+		leadSorter = new TableRowSorter<AbstractTableModel>(latm);
+		//leadSorter.setSortKeys(sortKeys);		
 		sorter.setSortKeys(sortKeys);
 		table.setRowSorter(sorter);
+		leadTable.setRowSorter(leadSorter);
 		((AbstractTableModel) table.getModel()).fireTableDataChanged();
+		((AbstractTableModel) leadTable.getModel()).fireTableDataChanged();
 		sorter.sort();
+		leadSorter.sort();
 		table.setEditable(false);
 		table.setFocusable(false);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		
 
 		saveTest.setText("Create New Test File With These Words");
 		restartTest.setText("Start Test Again");
