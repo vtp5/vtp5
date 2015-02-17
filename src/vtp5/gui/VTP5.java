@@ -1359,7 +1359,6 @@ public class VTP5 extends JFrame {
 				scaler = Math.min(newSize.getWidth() / originalSize.getWidth(),
 						newSize.getHeight() / originalSize.getHeight());
 
-				System.out.println("scaler: " + scaler);
 				if (hPanel != null) {
 					hPanel.setScaler(scaler);
 				}

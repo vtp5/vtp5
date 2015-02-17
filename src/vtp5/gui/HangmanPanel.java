@@ -67,7 +67,6 @@ class HangmanPanel extends JPanel {
 		guessedAnswersList.setEnabled(false);
 		guessedAnswersScrollPane = new WebScrollPane(guessedAnswersList);
 
-		System.out.println("scaler: " + scaler);
 		this.scaler = scaler;
 		parent.getComponentList().add(
 				new ComponentWithFontData(guessedAnswersList, 32));
@@ -140,13 +139,21 @@ class HangmanPanel extends JPanel {
 
 		// Draw the Hangman!
 		g2.setColor(Color.BLACK);
-		g2.fillRect(0, 0, 200, 200);
 
-		System.out.println("fillRect: " + (getWidth() + (getWidth() / 4))
-				+ ", " + (getHeight() - (getHeight() / 11 * 2)) + ", "
-				+ (getWidth() / 5 * 3) + ", " + (getHeight() / 12));
-		g2.fillRect(getWidth() + (getWidth() / 4), getHeight()
-				- (getHeight() / 11 * 2), getWidth() / 5 * 3, getHeight() / 12);
+		g2.fillRect(getWidth() / 4, getHeight() - (getHeight() / 11 * 5),
+				getWidth() / 5 * 3, getHeight() / 30);
+		g2.fillRect(getWidth() / 2, getHeight() - (getHeight() / 11 * 5),
+				getWidth() / 50, getHeight() / 24);
+		g2.fillRect(getWidth() / 2, getHeight() - (getHeight() / 11 * 5)
+				+ (getHeight() / 24), getWidth() / 4 + getWidth() / 5 * 3
+				- getWidth() / 2, getHeight() / 48);
+
+		g2.fillRect(getWidth() / 4, 5, getHeight() / 30, getHeight()
+				- (getHeight() / 11 * 5) - 5);
+		g2.fillRect(getWidth() / 4 + getHeight() / 30 + getWidth() / 200, 5,
+				getWidth() / 200, getHeight() - (getHeight() / 11 * 5) - 5);
+
+		g2.fillRect(getWidth() / 4, 5, getWidth() / 20 * 9, getHeight() / 30);
 
 		g2.scale(scaler, scaler);
 	}
