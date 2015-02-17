@@ -320,8 +320,11 @@ public class FinishPanel extends WebPanel {
 		table = new WebTable(watm);
 		try {
 			latm = new LeaderboardTableModel(parent.getDatabase().select(
-					"time", "successRate"), parent.getDatabase().select("time", "successRate")
-					.getMetaData().getColumnCount());
+					"time", "successRate", test.getImportedFile().getName()),
+					parent.getDatabase()
+							.select("time", "successRate",
+									test.getImportedFile().getName())
+							.getMetaData().getColumnCount());
 		} catch (SQLException e) {
 
 			e.printStackTrace();
@@ -455,11 +458,12 @@ class LeaderboardTableModel extends AbstractTableModel {
 	public int getColumnCount() {
 		return 2;
 	}
-	
+
 	@Override
 	public int getRowCount() {
 		return result.size();
 	}
+
 	@Override
 	public String getColumnName(int column) {
 		String name = "";
@@ -475,9 +479,10 @@ class LeaderboardTableModel extends AbstractTableModel {
 
 		return name;
 	}
+
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		ArrayList<String> value = result.get(rowIndex); 
+		ArrayList<String> value = result.get(rowIndex);
 		String result = "";
 
 		switch (columnIndex) {

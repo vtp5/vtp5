@@ -88,11 +88,15 @@ public class Database {
 		}
 	}
 
-	public ResultSet select(String column, String column2) {
+	public ResultSet select(String column, String column2, String test) {
 		ResultSet rs = null;
 		try {
+			System.out.println("select " + column + "," + column2
+					+  "from leaderboard" + " where file = "+ "'" + test+ "'");
 			rs = stmt.executeQuery("select " + column + "," + column2
-					+ " from leaderboard");
+					+  " from leaderboard" + " where file = "+ "'" + test+ "'");
+			
+			
 			return rs;
 		} catch (SQLException e) {
 			e.printStackTrace();
