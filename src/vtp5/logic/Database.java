@@ -28,7 +28,7 @@ public class Database {
 	private Statement stmt;
 	private PreparedStatement pstmt;
 	private String path;
-	private final String INSERT = "insert into leaderboard values("
+	private String INSERT_LINE = "insert into leaderboard values("
 			+ "?, ?, ?, ?, ?)";
 
 	public Database(String path) {
@@ -37,14 +37,10 @@ public class Database {
 
 	public void createTable() {
 		try {
-			Class.forName("org.sqlite.JDBC");
-			con = DriverManager.getConnection("jdbc:sqlite:" + path
-					+ "/leaderboard.db");
-			stmt = con.createStatement();
-			stmt.setQueryTimeout(30);
+			setupConnection();
 			stmt.executeUpdate("create table leaderboard (id numeric, file varChar(255), "
-					+ "time int, questions int, successRate real)");
-		} catch (SQLException | ClassNotFoundException e) {
+					+ "time varChar(255), questions int, successRate real)");
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -54,18 +50,19 @@ public class Database {
 
 	}
 
-	public void insert(int id, String file, int time, int noQuestion,
+	public void insert(int id, String file, String time, int noQuestion,
 			double successRate) {
 		try {
 			/*stmt.executeUpdate("insert into leaderboard VALUES('" + file + "',"
 					+ time + "," + noQuestion + "," + successRate);*/
 		//	stmt.executeUpdate("insert into leaderboard VALUES('cares',100, 100, 100, 90.5 ");
-			pstmt = con.prepareStatement(INSERT);
+			setupConnection();
+			pstmt = con.prepareStatement(INSERT_LINE);
 			pstmt.setLong(1, id);
 			pstmt.setString(2, file);
-			pstmt.setLong(3, time);
+			pstmt.setString(3, time);
 			pstmt.setLong(4, noQuestion);
-			pstmt.setString(5, String.valueOf(successRate));
+			pstmt.setLong(5, (int)successRate);
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -111,6 +108,20 @@ public class Database {
 			return false;
 		}
 
+	}
+	
+	public void setupConnection(){
+		try {
+			Class.forName("org.sqlite.JDBC");
+			con = DriverManager.getConnection("jdbc:sqlite:" + path
+					+ "/leaderboard.db");
+			stmt = con.createStatement();
+			stmt.setQueryTimeout(30);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	public String getPath(){
 		return path;
