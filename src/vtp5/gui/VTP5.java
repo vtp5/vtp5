@@ -39,7 +39,6 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.DefaultListModel;
-import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
@@ -194,12 +193,12 @@ public class VTP5 extends JFrame {
 
 	private Color backgroundColour = null;
 
-	@SuppressWarnings("deprecation")
 	public VTP5() {
-
+		
+		if(Main.release){
 		Thread updateCheckThread = new Thread(new UpdateChecker(this));
 		updateCheckThread.start();
-
+		}
 		defaultThemeIndex = 0;
 
 		// themes.add(new Theme(button, buttontext, text, background, name))
