@@ -26,6 +26,7 @@ public class Main {
 
 	// TODO Change each time a release is about to be pushed out.
 	// See http://semver.org/ for more info.
+	public static boolean release = false;
 	public static final String build = "v0.4.0";
 	public static final String version = "Beta";
 	public static final String appVersion = version + " " + build;

@@ -452,6 +452,10 @@ class WrongAnswersTableModel extends AbstractTableModel {
 }
 
 class LeaderboardTableModel extends AbstractTableModel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ArrayList<ArrayList<String>> result = new ArrayList<>();
 
 	public LeaderboardTableModel(ResultSet r, int col) throws SQLException {
