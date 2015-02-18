@@ -520,6 +520,7 @@ public class VTP5 extends JFrame {
 		createHiddenDirectory();
 		loadSettingsFile();
 		updateColours();
+		
 
 		
 

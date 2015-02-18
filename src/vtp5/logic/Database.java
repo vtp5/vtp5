@@ -38,7 +38,7 @@ public class Database {
 	public void createTable() {
 		try {
 			setupConnection();
-			stmt.executeUpdate("create table leaderboard (id numeric, file varChar(255), "
+			stmt.executeUpdate("create table leaderboard (id numeric , file varChar(255), "
 					+ "time varChar(255), questions int, successRate real)");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
