@@ -194,10 +194,10 @@ public class VTP5 extends JFrame {
 	private Color backgroundColour = null;
 
 	public VTP5() {
-		
-		if(Main.release){
-		Thread updateCheckThread = new Thread(new UpdateChecker(this));
-		updateCheckThread.start();
+
+		if (Main.release) {
+			Thread updateCheckThread = new Thread(new UpdateChecker(this));
+			updateCheckThread.start();
 		}
 		defaultThemeIndex = 0;
 
@@ -519,9 +519,6 @@ public class VTP5 extends JFrame {
 		createHiddenDirectory();
 		loadSettingsFile();
 		updateColours();
-		
-
-		
 
 	}
 
@@ -648,7 +645,8 @@ public class VTP5 extends JFrame {
 		}
 		return JFileChooser.CANCEL_OPTION;
 	}
-	private void callDB(){
+
+	private void callDB() {
 		db = new Database(APPDATA_PATH.getAbsolutePath());
 		if (properties.getProperty("database").equals("false")) {
 			System.out.println("Database doesn't exist");
@@ -666,6 +664,7 @@ public class VTP5 extends JFrame {
 			db.retrieve();
 		}
 	}
+
 	private void doLogic() {
 		if (enterButton.getText().equals("Enter")
 				|| enterButton.getText().equals("I'm sure!")) {
@@ -1129,11 +1128,11 @@ public class VTP5 extends JFrame {
 	private void toggleHangmanPanel() {
 		if (gamesButton.getText().equals(":-)")) {
 			// Make sure that the test has enough words
-			if (test.getOrigCards().size() < 11) {
+			if (test.getOrigCards().size() < 20) {
 				JOptionPane
 						.showMessageDialog(
 								this,
-								"This test doesn't have enough words (the minimum is 11). Wouldn't Hangman be a little bit boring?",
+								"This test doesn't have enough words (the minimum is 20). Wouldn't Hangman be a little bit boring?",
 								"VTP5", JOptionPane.WARNING_MESSAGE);
 			} else {
 				hPanel = new HangmanPanel(test, this, scaler);
