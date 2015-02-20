@@ -59,6 +59,7 @@ public class TestFile implements Serializable {
 	public static final int PARTIALLY_CORRECT = 1;
 	public static final int COMPLETELY_CORRECT = 2;
 	public static final int PROMPT_USER = 3;
+	public static final int HANGMAN_CORRECT_SO_FAR = 4;
 
 	// Do NOT delete this instance variable (it's for backwards-compatibility)!
 	private File importedFile;
@@ -188,7 +189,7 @@ public class TestFile implements Serializable {
 	}
 
 	public int isCorrect(String answer, int index, boolean iffyAnswerEnabled,
-			boolean typoDetectorEnabled) {
+			boolean typoDetectorEnabled, boolean isHangman) {
 		answer = answer.replaceAll("[^a-zA-Z0-9יטאשגךמפûכןחזהצüßביםףתüס¿¡]",
 				"");
 		System.out.println(answer);
@@ -210,15 +211,38 @@ public class TestFile implements Serializable {
 			System.out.println("Original correct answer: " + s);
 			System.out.println("Correct answer: " + s);
 
-			if (answer.equalsIgnoreCase(s.toLowerCase().replaceAll(
-					"[^a-zA-Z0-9יטאשגךמפûכןחזהצüßביםףתüס¿¡]", ""))) {
-				System.out.println("User is correct");
-				userIsCorrect = true;
-				// Remove this answer from the ArayList
-				possibleAnswers.remove(s);
-				// Add answer to ArrayList containing correctly guessed answers
-				correctAnswers.add(s);
-				break;
+			if (!isHangman) {
+				if (answer.equalsIgnoreCase(s.toLowerCase().replaceAll(
+						"[^a-zA-Z0-9יטאשגךמפûכןחזהצüßביםףתüס¿¡]", ""))) {
+					System.out.println("User is correct");
+					userIsCorrect = true;
+					// Remove this answer from the ArayList
+					possibleAnswers.remove(s);
+					// Add answer to ArrayList containing correctly guessed
+					// answers
+					correctAnswers.add(s);
+					break;
+				}
+			} else {
+				if (s.toLowerCase()
+						.replaceAll("[^a-zA-Z0-9יטאשגךמפûכןחזהצüßביםףתüס¿¡]",
+								"").startsWith(answer)) {
+					userIsCorrect = true;
+
+					if (answer.equalsIgnoreCase(s.toLowerCase().replaceAll(
+							"[^a-zA-Z0-9יטאשגךמפûכןחזהצüßביםףתüס¿¡]", ""))) {
+						System.out.println("User is correct");
+						// Remove this answer from the ArayList
+						possibleAnswers.remove(s);
+						// Add answer to ArrayList containing correctly guessed
+						// answers
+						correctAnswers.add(s);
+					} else {
+						return HANGMAN_CORRECT_SO_FAR;
+					}
+
+					break;
+				}
 			}
 		}
 
@@ -257,17 +281,20 @@ public class TestFile implements Serializable {
 			}
 		} else {
 			System.out.println("Incorrect");
-			// Check if user has already entered the answer (if it's correct)
-			for (String s : correctAnswers) {
+			if (!isHangman) {
+				// Check if user has already entered the answer (if it's
+				// correct)
+				for (String s : correctAnswers) {
 
-				if (answer.equalsIgnoreCase(s.toLowerCase().replaceAll(
-						"[^a-zA-Z0-9יטאשגךמפûכןחזהצüßביםףתüס¿¡]", ""))) {
-					// If user has already guessed the answer and it's correct,
-					// just return PARTIALLY_CORRECT
-					return PARTIALLY_CORRECT;
+					if (answer.equalsIgnoreCase(s.toLowerCase().replaceAll(
+							"[^a-zA-Z0-9יטאשגךמפûכןחזהצüßביםףתüס¿¡]", ""))) {
+						// If user has already guessed the answer and it's
+						// correct,
+						// just return PARTIALLY_CORRECT
+						return PARTIALLY_CORRECT;
+					}
 				}
 			}
-
 			// If "experimental features" is enabled, work out if the program
 			// should prompt the user
 			if (iffyAnswerEnabled) {

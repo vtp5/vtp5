@@ -563,22 +563,6 @@ public class VTP5 extends JFrame {
 		revalidate();
 	}
 
-	private void playSound(String file) throws LineUnavailableException,
-			UnsupportedAudioFileException, IOException {
-		if (soundCheck.isSelected()) {
-			AudioInputStream inputStream = AudioSystem
-					.getAudioInputStream(getClass().getResource(file));
-			AudioFormat format = inputStream.getFormat();
-			DataLine.Info info = new DataLine.Info(Clip.class, format);
-			try {
-				Clip clip = (Clip) AudioSystem.getLine(info);
-				clip.open(inputStream);
-				clip.start();
-			} catch (Exception e) {
-			}
-		}
-	}
-
 	private void updatePrompt(int index) {
 		promptLabel.setText("<html>" + test.getPrompt(index) + "</html>");
 		updateGuessedAnswersList(true, null);
@@ -675,10 +659,10 @@ public class VTP5 extends JFrame {
 			if (enterButton.getText().equals("Enter")) {
 				result = test.isCorrect(userAnswer, questionIndex,
 						iffyAnswerCheck.isSelected(),
-						typoDetectorCheck.isSelected());
+						typoDetectorCheck.isSelected(), false);
 			} else {
-				result = test
-						.isCorrect(userAnswer, questionIndex, false, false);
+				result = test.isCorrect(userAnswer, questionIndex, false,
+						false, false);
 			}
 
 			// Gets the score
@@ -1173,6 +1157,22 @@ public class VTP5 extends JFrame {
 				revalidate();
 
 				gamesButton.setText(":-)");
+			}
+		}
+	}
+
+	void playSound(String file) throws LineUnavailableException,
+			UnsupportedAudioFileException, IOException {
+		if (soundCheck.isSelected()) {
+			AudioInputStream inputStream = AudioSystem
+					.getAudioInputStream(getClass().getResource(file));
+			AudioFormat format = inputStream.getFormat();
+			DataLine.Info info = new DataLine.Info(Clip.class, format);
+			try {
+				Clip clip = (Clip) AudioSystem.getLine(info);
+				clip.open(inputStream);
+				clip.start();
+			} catch (Exception e) {
 			}
 		}
 	}

@@ -1,19 +1,24 @@
 package vtp5.gui;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
+import vtp5.logic.Card;
 import vtp5.logic.TestFile;
 
 import com.alee.laf.scroll.WebScrollPane;
@@ -39,6 +44,8 @@ class HangmanPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private boolean isStart = true;
+	private int numberOfWrongGuesses = 0;
 	private StringBuilder userGuess = new StringBuilder("");
 	private TestFile test;
 
@@ -51,6 +58,9 @@ class HangmanPanel extends JPanel {
 
 	HangmanPanel(TestFile test, VTP5 parent, double scaler) {
 		this.test = test.clone();
+		// Reorder cards
+		Collections.shuffle(this.test.getCards());
+
 		this.parent = parent;
 
 		setLayout(new MigLayout());
@@ -73,7 +83,7 @@ class HangmanPanel extends JPanel {
 				new ComponentWithFontData(guessedAnswersList, 32));
 		new CustomFont().setFont(guessedAnswersList, (int) (scaler * 32.0));
 
-		add(guessedAnswersScrollPane, "grow");
+		add(guessedAnswersScrollPane, "width 30%!");
 
 		setFocusable(true);
 		requestFocusInWindow();
@@ -117,6 +127,9 @@ class HangmanPanel extends JPanel {
 				guessedAnswersListModel.addElement(userAnswer);
 			}
 		}
+
+		parent.revalidate();
+		parent.repaint();
 	}
 
 	void setScaler(double scaler) {
@@ -134,140 +147,121 @@ class HangmanPanel extends JPanel {
 		new CustomFont().setFont(g2, (int) (50.0 * scaler));
 
 		FontMetrics metrics = g2.getFontMetrics();
-		int stringWidth = metrics.stringWidth(userGuess.toString());
-		g2.drawString(userGuess.toString(), getWidth() / 2 - stringWidth / 2,
-				getHeight() - (getHeight() / 11));
+		int stringWidth;
+
+		if (isStart) {
+			String welcomeMessage = "Press any key to begin Hangman!";
+			stringWidth = metrics.stringWidth(welcomeMessage);
+			g2.drawString(welcomeMessage, getWidth() / 2 - stringWidth / 2,
+					getHeight() - (getHeight() / 11 * 2));
+		} else {
+			switch (userIsCorrect()) {
+			case TestFile.HANGMAN_CORRECT_SO_FAR:
+				g2.setColor(Color.GREEN);
+				break;
+			case TestFile.COMPLETELY_CORRECT:
+			case TestFile.PARTIALLY_CORRECT:
+				g2.setColor(Color.GREEN);
+
+				// Clear user guess
+				userGuess = new StringBuilder("");
+
+				try {
+					parent.playSound("/sounds/qcorrect.wav");
+				} catch (LineUnavailableException
+						| UnsupportedAudioFileException | IOException e) {
+
+					parent.processErrorMessage(e, null);
+				}
+
+				updateGuessedAnswersList(true, userGuess.toString());
+				break;
+			case TestFile.INCORRECT:
+				g2.setColor(Color.RED);
+
+				// Clear user guess
+				userGuess = new StringBuilder("");
+
+				numberOfWrongGuesses++;
+
+				try {
+					parent.playSound("/sounds/qincorrect.wav");
+				} catch (LineUnavailableException
+						| UnsupportedAudioFileException | IOException e) {
+
+					parent.processErrorMessage(e, null);
+				}
+
+				updateGuessedAnswersList(false, userGuess.toString());
+
+				// Reorder cards
+				Card c = test.getCards().get(0);
+				Collections.shuffle(test.getCards());
+				// If the first card is still the same, move it to the end of
+				// the ArrayList
+				if (c == test.getCards().get(0)) {
+					test.getCards().remove(c);
+					test.getCards().add(c);
+				}
+				break;
+			}
+
+			// Draw the user's answer string
+			stringWidth = metrics.stringWidth(userGuess.toString());
+			g2.drawString(userGuess.toString(), getWidth() / 2 - stringWidth
+					/ 2, getHeight() - (getHeight() / 11));
+
+			g2.setColor(Color.BLACK);
+
+			// Draw prompt
+			String prompt = test.getPrompt(0);
+			stringWidth = metrics.stringWidth(prompt);
+			g2.drawString(prompt, getWidth() / 2 - stringWidth / 2, getHeight()
+					- (getHeight() / 11 * 2));
+		}
 
 		// Draw the Hangman!
 		drawHangman(g2);
 
-		g2.scale(scaler, scaler);
+		// Draw lives left string
+		String livesLeft = (11 - numberOfWrongGuesses)
+				+ ((11 - numberOfWrongGuesses) == 1 ? " life" : " lives")
+				+ " left";
+		g2.drawString(livesLeft, 10, getHeight() / 2);
 
-		// if (hangmanGame.getNumOfGuesses() <= 11) {
-		// g.setStroke(new BasicStroke(7));
-		// g.drawLine(100, 400, 450, 400);
-		// }
-		// if (hangmanGame.getNumOfGuesses() <= 10) {
-		// g.drawLine(100, 400, 100, 130);
-		// }
-		// if (hangmanGame.getNumOfGuesses() <= 9) {
-		// g.drawLine(100, 350, 150, 400);
-		// }
-		// if (hangmanGame.getNumOfGuesses() <= 8) {
-		// g.drawLine(100, 130, 330, 130);
-		// }
-		// if (hangmanGame.getNumOfGuesses() <= 7) {
-		// g.drawLine(100, 180, 150, 130);
-		// }
-		// if (hangmanGame.getNumOfGuesses() <= 6) {
-		// g.drawLine(330, 130, 330, 170);
-		// }
-		// if (hangmanGame.getNumOfGuesses() <= 5) {
-		// g.drawOval(300, 170, 60, 60);
-		// }
-		// if (hangmanGame.getNumOfGuesses() <= 4) {
-		// g.drawLine(330, 230, 330, 320);
-		// }
-		// if (hangmanGame.getNumOfGuesses() <= 3) {
-		// g.drawLine(270, 230, 330, 270);
-		// }
-		// if (hangmanGame.getNumOfGuesses() <= 2) {
-		// g.drawLine(390, 230, 330, 270);
-		// }
-		// if (hangmanGame.getNumOfGuesses() <= 1) {
-		// g.drawLine(270, 370, 330, 320);
-		// }
-		// if (hangmanGame.getNumOfGuesses() == 0) {
-		// g.drawLine(390, 370, 330, 320);
-		// g.setStroke(new BasicStroke(7, BasicStroke.CAP_ROUND,
-		// BasicStroke.JOIN_BEVEL));
-		// g.drawLine(320, 190, 320, 190);
-		// g.drawLine(340, 190, 340, 190);
-		// g.setStroke(new BasicStroke(5));
-		// g.drawOval(320, 200, 15, 15);
-		// }
+		g2.scale(scaler, scaler);
 	}
 
 	private void drawHangman(Graphics2D g2) {
-		g2.setColor(Color.BLACK);
+		if (numberOfWrongGuesses > 0) {
+			g2.drawImage(
+					new ImageIcon(getClass().getResource(
+							"/images/hangman_" + numberOfWrongGuesses + ".png"))
+							.getImage(), getWidth() / 8 * 3, 0,
+					getWidth() / 64 * 33, getHeight() / 10 * 7, null);
+		}
+	}
 
-		g2.fillRect(getWidth() / 4, getHeight() - (getHeight() / 11 * 5),
-				getWidth() / 5 * 3, getHeight() / 30);
-		g2.fillRect(getWidth() / 2, getHeight() - (getHeight() / 11 * 5),
-				getWidth() / 50, getHeight() / 24);
-		g2.fillRect(getWidth() / 2, getHeight() - (getHeight() / 11 * 5)
-				+ (getHeight() / 24), getWidth() / 4 + getWidth() / 5 * 3
-				- getWidth() / 2, getHeight() / 48);
-
-		g2.fillRect(getWidth() / 4, 5, getHeight() / 30, getHeight()
-				- (getHeight() / 11 * 5) - 5);
-		g2.fillRect(getWidth() / 4 + getHeight() / 30 + getWidth() / 200, 5,
-				getWidth() / 200, getHeight() - (getHeight() / 11 * 5) - 5);
-		g2.setStroke(new BasicStroke(7, BasicStroke.CAP_ROUND,
-				BasicStroke.JOIN_BEVEL));
-		g2.drawLine(
-				getWidth() / 4 + getHeight() / 30 + getWidth() / 150,
-				getHeight() - (getHeight() / 11 * 6),
-				getWidth()
-						/ 4
-						+ getHeight()
-						/ 30
-						+ getWidth()
-						/ 150
-						+ ((getHeight() - (getHeight() / 11 * 5)) - (getHeight() - (getHeight() / 11 * 6))),
-				getHeight() - (getHeight() / 11 * 5));
-		g2.setStroke(new BasicStroke(1));
-
-		g2.fillRect(getWidth() / 4, 5, getWidth() / 20 * 9, getHeight() / 30);
-		g2.setStroke(new BasicStroke(7, BasicStroke.CAP_ROUND,
-				BasicStroke.JOIN_BEVEL));
-		// TODO Improve this horrible, messy code!
-		g2.drawLine(
-				getWidth() / 4 + getHeight() / 30 + getWidth() / 150,
-				5
-						+ getHeight()
-						/ 30
-						+ ((getHeight() - (getHeight() / 11 * 5) + getHeight() / 30) - (getHeight() - (getHeight() / 11 * 6))),
-				getWidth()
-						/ 4
-						+ getHeight()
-						/ 30
-						+ getWidth()
-						/ 150
-						+ ((getHeight() - (getHeight() / 11 * 5) + getHeight() / 30) - (getHeight() - (getHeight() / 11 * 6))),
-				5 + getHeight() / 30);
-		g2.setStroke(new BasicStroke(1));
-
-		g2.fillRect(getWidth() / 4 + getWidth() / 120 * 45, 5,
-				getHeight() / 30, getHeight() / 30 * 2);
-		g2.fillRect(getWidth() / 4 + getWidth() / 120 * 45 - getWidth() / 240
-				* 9, 5 + getHeight() / 30 * 2, getWidth() / 120 * 9
-				+ getHeight() / 30, getHeight() / 30 * 3);
-
-		g2.setStroke(new BasicStroke(10));
-		g2.drawLine(getWidth() / 4 + getWidth() / 120 * 45,
-				5 + getHeight() / 30 * 5, getWidth() / 4 + getWidth() / 120
-						* 45 - getWidth() / 120 * 9, 5 + getHeight() / 30 * 10);
-		g2.setStroke(new BasicStroke(1));
-
-		g2.setStroke(new BasicStroke(10));
-		g2.drawLine(getWidth() / 4 + getWidth() / 120 * 45,
-				5 + getHeight() / 30 * 5, getWidth() / 4 + getWidth() / 120
-						* 45 + getWidth() / 120 * 9, 5 + getHeight() / 30 * 10);
-		g2.setStroke(new BasicStroke(1));
-
+	private int userIsCorrect() {
+		return test.isCorrect(userGuess.toString(), 0, false, false, true);
 	}
 
 	private class HangmanKeyListener implements KeyListener {
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			int code = e.getKeyCode();
-			if (code >= KeyEvent.VK_A && code <= KeyEvent.VK_Z) {
-				userGuess.append(Character.toLowerCase(e.getKeyChar()));
+			if (isStart) {
+				isStart = false;
+				parent.revalidate();
+				parent.repaint();
+			} else {
+				int code = e.getKeyCode();
+				if (code >= KeyEvent.VK_A && code <= KeyEvent.VK_Z) {
+					userGuess.append(Character.toLowerCase(e.getKeyChar()));
+				}
+				parent.revalidate();
+				parent.repaint();
 			}
-			parent.revalidate();
-			parent.repaint();
 		}
 
 		@Override
