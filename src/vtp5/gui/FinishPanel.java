@@ -96,7 +96,7 @@ public class FinishPanel extends WebPanel {
 
 	// database
 	private DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-	private Date date = new Date();
+	private Date date;
 
 	private JFileChooser imagesave = new JFileChooser();
 
@@ -296,7 +296,7 @@ public class FinishPanel extends WebPanel {
 		statsList.setVisibleRowCount(4);
 		statsList.setForeground(parent.getSelectedTheme().getTextColour());// changes
 																			// text
-																			// colour
+		date = new Date();																	// colour
 		Object[] stats = test.getStats();
 		statsListModel.removeAllElements();
 		statsListModel.addElement("<html><u>Statistics:</u></html>");
