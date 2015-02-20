@@ -201,25 +201,40 @@ public class VTP5 extends JFrame {
 		}
 		defaultThemeIndex = 0;
 
+		vtp5.logic.ThemePuller.pull();
+		
+		int size = vtp5.logic.ThemePuller.name.size();
+
+		for (int i = 0; i < size; i++) {
+
+			themes.add(new Theme(
+					Color.decode(vtp5.logic.ThemePuller.buttonColour.get(i)),
+					Color.decode(vtp5.logic.ThemePuller.buttontextColour.get(i)),
+					Color.decode(vtp5.logic.ThemePuller.textColour.get(i)),
+					Color.decode(vtp5.logic.ThemePuller.backgroundColour.get(i)),
+					vtp5.logic.ThemePuller.name.get(i)));
+
+		}
+
 		// themes.add(new Theme(button, buttontext, text, background, name))
 
-		themes.add(new Theme(new Color(0x663399), Color.WHITE, Color.BLACK,
-				null, "Imperial Purple"));
+/*		themes.add(new Theme(new Color(0x663399), Color.WHITE, Color.BLACK,
+				new Color(0xEDEDED), "Imperial Purple"));
 		themes.add(new Theme(new Color(0x8A0707), Color.WHITE, Color.BLACK,
-				null, "Blood Red"));
+				new Color(0xEDEDED), "Blood Red"));
 		themes.add(new Theme(new Color(0xDDAE21), Color.WHITE, Color.BLACK,
-				null, "Royal Gold"));
+				new Color(0xEDEDED), "Royal Gold"));
 		// themes.add(new Theme(Color.RED, Color.BLACK, Color.RED, Color.BLACK,
 		// "Sith"));
 		themes.add(new Theme(new Color(0x55D43F), Color.WHITE, Color.BLACK,
-				null, "Emerald Green"));
+				new Color(0xEDEDED), "Emerald Green"));
 		themes.add(new Theme(new Color(0x000066), new Color(0xBBD9EE),
 				new Color(0x000066), new Color(0xBBD9EE), "Sapphire Blue"));
 		themes.add(new Theme(new Color(0xFF0050).brighter(),
 				new Color(0xF984EF).brighter(), new Color(0xFF1493).darker()
 						.darker(), new Color(0xFF69B4).brighter(), "Hot Pink"));
 		themes.add(new Theme(Color.BLACK, Color.WHITE, Color.BLACK,
-				Color.WHITE, "Stormtrooper White"));
+				Color.WHITE, "Stormtrooper White"));*/
 
 		// If all else fails, make Imperial Purple the default theme
 		selectedTheme = themes.get(defaultThemeIndex);

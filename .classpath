@@ -23,5 +23,6 @@
 	<classpathentry kind="lib" path="res/lib/mail/activation.jar"/>
 	<classpathentry kind="lib" path="res/lib/mail/javax.mail.jar"/>
 	<classpathentry kind="lib" path="res/lib/sqlite-jdbc-3.8.7.jar"/>
+	<classpathentry kind="lib" path="res/lib/jsoup-1.8.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
