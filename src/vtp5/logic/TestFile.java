@@ -68,10 +68,6 @@ public class TestFile implements Serializable {
 
 	private transient VTP5 vtp;
 
-	private TestFile() {
-		super();
-	}
-
 	@SuppressWarnings("unchecked")
 	public TestFile(File[] files, VTP5 parent) throws IOException {
 		vtp = parent;
@@ -96,7 +92,26 @@ public class TestFile implements Serializable {
 		totalNumberOfCards = cards.size();
 	}
 
-	public void getVocabFromFile(File file) throws IOException,
+	@SuppressWarnings("unchecked")
+	private TestFile(File[] files, VTP5 parent, ArrayList<Card> cards) {
+		this.vtp = parent;
+
+		this.importedFiles = files;
+
+		for (Card c : cards) {
+			this.origCards.add(new Card(c.getLangFromPrompt(), c
+					.getLangToPrompt(), (ArrayList<String>) c.getLangFrom()
+					.clone(), (ArrayList<String>) c.getLangTo().clone()));
+			this.cards.add(new Card(c.getLangFromPrompt(), c.getLangToPrompt(),
+					(ArrayList<String>) c.getLangFrom().clone(),
+					(ArrayList<String>) c.getLangTo().clone()));
+
+		}
+
+		this.totalNumberOfCards = this.cards.size();
+	}
+
+	private void getVocabFromFile(File file) throws IOException,
 			NullPointerException {
 		System.out.println(file + " is being read.");
 		vtp.setUsualPath(file.getAbsolutePath());
@@ -110,9 +125,6 @@ public class TestFile implements Serializable {
 		while ((langFromLine = br.readLine()) != null) {
 			// Create new card containing relevant data and add it to the
 			// ArrayList
-			// TODO Merge this code with Converter
-			// TODO Polish this code (for example, what about the "+ abl."
-			// bit after some verbs and prepositions?)
 			ArrayList<String> langFrom = new ArrayList<>(
 					Arrays.asList(langFromLine));
 
@@ -171,10 +183,6 @@ public class TestFile implements Serializable {
 		return origCards;
 	}
 
-	private void setOrigCards(ArrayList<Card> origCards) {
-		this.origCards = origCards;
-	}
-
 	public ArrayList<Card> getCards() {
 		return cards;
 	}
@@ -208,8 +216,8 @@ public class TestFile implements Serializable {
 		answer = answer.toLowerCase();
 
 		for (String s : possibleAnswers) {
-			System.out.println("Original correct answer: " + s);
-			System.out.println("Correct answer: " + s);
+			// System.out.println("Original correct answer: " + s);
+			// System.out.println("Correct answer: " + s);
 
 			if (!isHangman) {
 				if (answer.equalsIgnoreCase(s.toLowerCase().replaceAll(
@@ -382,15 +390,9 @@ public class TestFile implements Serializable {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public TestFile clone() {
-		TestFile newTest = new TestFile();
-		newTest.setImportedFiles(importedFiles);
-		newTest.setOrigCards((ArrayList<Card>) origCards.clone());
-		newTest.setCards((ArrayList<Card>) origCards.clone());
-		newTest.setTotalNumberOfCards(origCards.size());
-
+		TestFile newTest = new TestFile(importedFiles, vtp, origCards);
 		return newTest;
 	}
 

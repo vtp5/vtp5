@@ -14,13 +14,13 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-import javax.swing.JList;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
 import vtp5.logic.Card;
 import vtp5.logic.TestFile;
 
+import com.alee.laf.list.WebList;
 import com.alee.laf.scroll.WebScrollPane;
 
 /*VTP5 Copyright (C) 2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
@@ -49,7 +49,7 @@ class HangmanPanel extends JPanel {
 	private StringBuilder userGuess = new StringBuilder("");
 	private TestFile test;
 
-	private JList<String> guessedAnswersList;
+	private WebList guessedAnswersList;
 	private DefaultListModel<String> guessedAnswersListModel;
 	private WebScrollPane guessedAnswersScrollPane;
 
@@ -68,22 +68,22 @@ class HangmanPanel extends JPanel {
 		guessedAnswersListModel = new DefaultListModel<>();
 		guessedAnswersListModel
 				.addElement("<html><u>Already guessed answers:</u></html>");
-		guessedAnswersList = new JList<>(guessedAnswersListModel);
+		guessedAnswersList = new WebList(guessedAnswersListModel);
 		guessedAnswersList.setVisibleRowCount(6);
 		guessedAnswersList.setForeground(parent.getSelectedTheme()
 				.getTextColour());
 
 		guessedAnswersList.setSelectionModel(new DisabledItemSelectionModel());
+		guessedAnswersList.setHighlightRolloverCell(false);
 		guessedAnswersList.setFocusable(false);
-		guessedAnswersList.setEnabled(false);
 		guessedAnswersScrollPane = new WebScrollPane(guessedAnswersList);
 
 		this.scaler = scaler;
 		parent.getComponentList().add(
-				new ComponentWithFontData(guessedAnswersList, 32));
-		new CustomFont().setFont(guessedAnswersList, (int) (scaler * 32.0));
+				new ComponentWithFontData(guessedAnswersList, 24));
+		new CustomFont().setFont(guessedAnswersList, (int) (scaler * 24.0));
 
-		add(guessedAnswersScrollPane, "width 30%!");
+		add(guessedAnswersScrollPane, "width 22%!");
 
 		setFocusable(true);
 		requestFocusInWindow();
@@ -252,6 +252,7 @@ class HangmanPanel extends JPanel {
 		public void keyPressed(KeyEvent e) {
 			if (isStart) {
 				isStart = false;
+				updateGuessedAnswersList(true, null);
 				parent.revalidate();
 				parent.repaint();
 			} else {
