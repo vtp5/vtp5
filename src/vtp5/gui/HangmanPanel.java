@@ -45,6 +45,9 @@ class HangmanPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private boolean isStart = true;
+	private boolean isEnd = false;
+	private boolean hasWon = false;
+	private long incorrectMillis = -1L;
 	private int numberOfWrongGuesses = 0;
 	private StringBuilder userGuess = new StringBuilder("");
 	private TestFile test;
@@ -69,7 +72,7 @@ class HangmanPanel extends JPanel {
 		guessedAnswersListModel
 				.addElement("<html><u>Already guessed answers:</u></html>");
 		guessedAnswersList = new WebList(guessedAnswersListModel);
-		guessedAnswersList.setVisibleRowCount(6);
+		guessedAnswersList.setVisibleRowCount(7);
 		guessedAnswersList.setForeground(parent.getSelectedTheme()
 				.getTextColour());
 
@@ -91,40 +94,44 @@ class HangmanPanel extends JPanel {
 	}
 
 	private void updateGuessedAnswersList(boolean isCorrect, String userAnswer) {
-		// Update guessedAnswersList
-		guessedAnswersListModel.removeAllElements();
-
-		// Find out whether to use langFrom or langTo
-		ArrayList<String> possibleAnswers = test.isLanguageSwitched() ? test
-				.getCards().get(0).getLangFrom() : test.getCards().get(0)
-				.getLangTo();
-		ArrayList<String> correctAnswers = test.isLanguageSwitched() ? test
-				.getCards().get(0).getCorrectLangFrom() : test.getCards()
-				.get(0).getCorrectLangTo();
-
-		// Change text depending on whether user got the word right or wrong
-		guessedAnswersListModel.addElement("<html><u>"
-				+ (isCorrect ? "Already guessed answers: ("
-						+ correctAnswers.size() + "/"
-						+ (correctAnswers.size() + possibleAnswers.size())
-						+ ")" : "All answers:") + "</u></html>");
-
-		// Decide what the list should display based on whether user got the
-		// word right or wrong
-		for (String s : correctAnswers) {
-			guessedAnswersListModel.addElement(s);
-		}
-
-		if (!isCorrect) {
-			for (String s : possibleAnswers) {
-				guessedAnswersListModel.addElement("<html><b><i>" + s
-						+ "</i></b></html>");
+		if (!test.getCards().isEmpty()) {
+			// Update guessedAnswersList
+			guessedAnswersListModel.removeAllElements();
+			// Find out whether to use langFrom or langTo
+			ArrayList<String> possibleAnswers = test.isLanguageSwitched() ? test
+					.getCards().get(0).getLangFrom()
+					: test.getCards().get(0).getLangTo();
+			ArrayList<String> correctAnswers = test.isLanguageSwitched() ? test
+					.getCards().get(0).getCorrectLangFrom() : test.getCards()
+					.get(0).getCorrectLangTo();
+			if (!isCorrect) {
+				guessedAnswersListModel.addElement("<html><b>"
+						+ (test.isLanguageSwitched() ? test.getCards().get(0)
+								.getLangToPrompt() : test.getCards().get(0)
+								.getLangFromPrompt()) + ":</b></html>");
 			}
+			// Change text depending on whether user got the word right or wrong
+			guessedAnswersListModel.addElement("<html><u>"
+					+ (isCorrect ? "Already guessed answers: ("
+							+ correctAnswers.size() + "/"
+							+ (correctAnswers.size() + possibleAnswers.size())
+							+ ")" : "All answers:") + "</u></html>");
+			// Decide what the list should display based on whether user got the
+			// word right or wrong
+			for (String s : correctAnswers) {
+				guessedAnswersListModel.addElement(s);
+			}
+			if (!isCorrect) {
+				for (String s : possibleAnswers) {
+					guessedAnswersListModel.addElement("<html><b><i>" + s
+							+ "</i></b></html>");
+				}
 
-			if (userAnswer != null) {
-				guessedAnswersListModel
-						.addElement("<html><u>Your answer:</u></html>");
-				guessedAnswersListModel.addElement(userAnswer);
+				if (userAnswer != null) {
+					guessedAnswersListModel
+							.addElement("<html><u>Your answer:</u></html>");
+					guessedAnswersListModel.addElement(userAnswer);
+				}
 			}
 		}
 
@@ -161,6 +168,8 @@ class HangmanPanel extends JPanel {
 				break;
 			case TestFile.COMPLETELY_CORRECT:
 			case TestFile.PARTIALLY_CORRECT:
+				incorrectMillis = -1L;
+
 				g2.setColor(Color.GREEN);
 
 				// Clear user guess
@@ -177,10 +186,9 @@ class HangmanPanel extends JPanel {
 				updateGuessedAnswersList(true, userGuess.toString());
 				break;
 			case TestFile.INCORRECT:
-				g2.setColor(Color.RED);
+				incorrectMillis = System.currentTimeMillis();
 
-				// Clear user guess
-				userGuess = new StringBuilder("");
+				g2.setColor(Color.RED);
 
 				numberOfWrongGuesses++;
 
@@ -203,6 +211,9 @@ class HangmanPanel extends JPanel {
 					test.getCards().remove(c);
 					test.getCards().add(c);
 				}
+
+				// Clear user guess
+				userGuess = new StringBuilder("");
 				break;
 			}
 
@@ -213,27 +224,61 @@ class HangmanPanel extends JPanel {
 
 			g2.setColor(Color.BLACK);
 
-			// Draw prompt
-			String prompt = test.getPrompt(0);
-			stringWidth = metrics.stringWidth(prompt);
-			g2.drawString(prompt, getWidth() / 2 - stringWidth / 2, getHeight()
-					- (getHeight() / 11 * 2));
+			// Decide if the game has finished
+			if ((11 - numberOfWrongGuesses) == 0) {
+				isEnd = true;
+				hasWon = false;
+
+				// Draw loss string
+				g2.drawString("You lose!", 10, getHeight() / 2);
+				g2.drawString("Better luck next time?", 10, getHeight() / 2
+						+ metrics.getHeight() + 5);
+			} else if (test.getCards().size() == 0) {
+				isEnd = true;
+				hasWon = true;
+
+				// Draw win string
+				g2.drawString("You win!", 10, getHeight() / 2);
+				g2.drawString("Well done!", 10,
+						getHeight() / 2 + metrics.getHeight() + 5);
+			} else {
+				// Draw prompt
+				String prompt = test.getPrompt(0);
+				stringWidth = metrics.stringWidth(prompt);
+				g2.drawString(prompt, getWidth() / 2 - stringWidth / 2,
+						getHeight() - (getHeight() / 11 * 2));
+			}
 		}
 
 		// Draw the Hangman!
 		drawHangman(g2);
 
-		// Draw lives left string
-		String livesLeft = (11 - numberOfWrongGuesses)
-				+ ((11 - numberOfWrongGuesses) == 1 ? " life" : " lives")
-				+ " left";
-		g2.drawString(livesLeft, 10, getHeight() / 2);
+		if (!isEnd) {
+			// Draw lives left string
+			String livesLeft = (11 - numberOfWrongGuesses)
+					+ ((11 - numberOfWrongGuesses) == 1 ? " life" : " lives")
+					+ " left";
+			g2.drawString(livesLeft, 10, getHeight() / 2);
+
+			// Draw cards left string
+			String cardsLeft = test.getCards().size()
+					+ (test.getCards().size() == 1 ? " word" : " words")
+					+ " left";
+			g2.drawString(cardsLeft, 10, getHeight() / 2 + metrics.getHeight()
+					+ 5);
+		}
 
 		g2.scale(scaler, scaler);
 	}
 
 	private void drawHangman(Graphics2D g2) {
-		if (numberOfWrongGuesses > 0) {
+		if (hasWon) {
+			g2.drawImage(
+					new ImageIcon(getClass().getResource(
+							"/images/hangman_win.png")).getImage(),
+					getWidth() / 8 * 3, 0, getWidth() / 64 * 33,
+					getHeight() / 10 * 7, null);
+		} else if (numberOfWrongGuesses > 0) {
 			g2.drawImage(
 					new ImageIcon(getClass().getResource(
 							"/images/hangman_" + numberOfWrongGuesses + ".png"))
@@ -243,7 +288,13 @@ class HangmanPanel extends JPanel {
 	}
 
 	private int userIsCorrect() {
-		return test.isCorrect(userGuess.toString(), 0, false, false, true);
+		try {
+			int result = test.isCorrect(userGuess.toString(), 0, false, false,
+					true);
+			return result;
+		} catch (IndexOutOfBoundsException e) {
+			return TestFile.HANGMAN_CORRECT_SO_FAR;
+		}
 	}
 
 	private class HangmanKeyListener implements KeyListener {
@@ -255,13 +306,17 @@ class HangmanPanel extends JPanel {
 				updateGuessedAnswersList(true, null);
 				parent.revalidate();
 				parent.repaint();
-			} else {
-				int code = e.getKeyCode();
-				if (code >= KeyEvent.VK_A && code <= KeyEvent.VK_Z) {
-					userGuess.append(Character.toLowerCase(e.getKeyChar()));
+			} else if (!isEnd) {
+				if (incorrectMillis < 0L
+						|| (System.currentTimeMillis() - incorrectMillis) > 1000L) {
+					int code = e.getKeyCode();
+					if ((code >= KeyEvent.VK_A && code <= KeyEvent.VK_Z)
+							|| (code >= KeyEvent.VK_0 && code <= KeyEvent.VK_9)) {
+						userGuess.append(Character.toLowerCase(e.getKeyChar()));
+					}
+					parent.revalidate();
+					parent.repaint();
 				}
-				parent.revalidate();
-				parent.repaint();
 			}
 		}
 

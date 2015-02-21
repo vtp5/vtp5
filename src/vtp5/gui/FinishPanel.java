@@ -306,7 +306,7 @@ public class FinishPanel extends WebPanel {
 				+ parent.getTest().getIncorrectCards().size());
 		statsListModel.addElement("Total number of guesses: " + stats[2]);
 		parent.getDatabase().insert(1,
-				parent.getTest().getImportedFiles()[0].getName(),
+				parent.getTest().getImportedFile().getName(),
 				String.valueOf(df.format(date)),
 				((int) stats[0] - test.getCards().size()),
 				new Double(test.getSuccessRate()));

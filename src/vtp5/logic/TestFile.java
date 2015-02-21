@@ -93,19 +93,22 @@ public class TestFile implements Serializable {
 	}
 
 	@SuppressWarnings("unchecked")
-	private TestFile(File[] files, VTP5 parent, ArrayList<Card> cards) {
+	private TestFile(File[] files, VTP5 parent, ArrayList<Card> origCards,
+			ArrayList<Card> cards) {
 		this.vtp = parent;
 
 		this.importedFiles = files;
 
-		for (Card c : cards) {
+		for (Card c : origCards) {
 			this.origCards.add(new Card(c.getLangFromPrompt(), c
 					.getLangToPrompt(), (ArrayList<String>) c.getLangFrom()
 					.clone(), (ArrayList<String>) c.getLangTo().clone()));
+		}
+
+		for (Card c : cards) {
 			this.cards.add(new Card(c.getLangFromPrompt(), c.getLangToPrompt(),
 					(ArrayList<String>) c.getLangFrom().clone(),
 					(ArrayList<String>) c.getLangTo().clone()));
-
 		}
 
 		this.totalNumberOfCards = this.cards.size();
@@ -392,7 +395,7 @@ public class TestFile implements Serializable {
 
 	@Override
 	public TestFile clone() {
-		TestFile newTest = new TestFile(importedFiles, vtp, origCards);
+		TestFile newTest = new TestFile(importedFiles, vtp, origCards, cards);
 		return newTest;
 	}
 
