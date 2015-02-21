@@ -38,7 +38,7 @@ public class AboutDialog extends WebDialog {
 	private WebLabel vtp5Label = new WebLabel("Vocabulary Testing Program 5, "
 			+ Main.appVersion);
 	private WebLabel devLabel = new WebLabel(
-			"Developed by Abdel Abdalla, Minghua Yin,");
+			"Developed by Abdel-Rahim Abdalla, Minghua Yin,");
 	private WebLabel dev2Label = new WebLabel(
 			"Yousuf Ahmed and Nikunj Paliwal.");
 	private WebLabel wikiLabel = new HyperlinkLabel("Wiki",
