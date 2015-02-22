@@ -27,6 +27,7 @@ import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Properties;
@@ -134,7 +135,7 @@ public class VTP5 extends JFrame {
 	private OutputStream output;
 	private String CONFIG_FILE = "config.properties";
 	private InputStream inputStream;
-	private File APPDATA_PATH;
+	public File APPDATA_PATH;
 	private String USUAL_PATH;
 
 	// Special character dialog
@@ -201,7 +202,12 @@ public class VTP5 extends JFrame {
 		}
 		defaultThemeIndex = 0;
 
-		vtp5.logic.ThemePuller.pull();
+		try {
+			vtp5.logic.ThemePuller.pull();
+		} catch (UnknownHostException e) {
+			vtp5.logic.ThemePuller.nofile();
+			e.printStackTrace();
+		}
 
 		int size = vtp5.logic.ThemePuller.name.size();
 

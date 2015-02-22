@@ -38,6 +38,8 @@ public class Main {
 			public void run() {
 
 				long startTime = System.currentTimeMillis();
+				
+				
 				try {
 
 					/*
