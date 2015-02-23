@@ -296,7 +296,7 @@ public class FinishPanel extends WebPanel {
 		statsList.setVisibleRowCount(4);
 		statsList.setForeground(parent.getSelectedTheme().getTextColour());// changes
 																			// text
-		date = new Date();																	// colour
+		date = new Date(); // colour
 		Object[] stats = test.getStats();
 		statsListModel.removeAllElements();
 		statsListModel.addElement("<html><u>Statistics:</u></html>");
@@ -317,7 +317,7 @@ public class FinishPanel extends WebPanel {
 
 		List<SortKey> sortKeys = new ArrayList<SortKey>();
 		sortKeys.add(new SortKey(2, SortOrder.DESCENDING));
-	
+
 		watm = new WrongAnswersTableModel(parent.getTest().getIncorrectCards());
 		table = new WebTable(watm);
 		try {
@@ -340,7 +340,7 @@ public class FinishPanel extends WebPanel {
 		leadTable.setRowHeight(leadTable.getFont().getSize() + 10);
 		sorter = new TableRowSorter<AbstractTableModel>(watm);
 		leadSorter = new TableRowSorter<AbstractTableModel>(latm);
-		//leadSorter.setSortKeys(sortKeys);		
+		// leadSorter.setSortKeys(sortKeys);
 		sorter.setSortKeys(sortKeys);
 		table.setRowSorter(sorter);
 		leadTable.setRowSorter(leadSorter);
@@ -351,7 +351,6 @@ public class FinishPanel extends WebPanel {
 		table.setEditable(false);
 		table.setFocusable(false);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		
 
 		saveTest.setText("Create New Test File With These Words");
 		restartTest.setText("Start Test Again");
