@@ -29,9 +29,13 @@ public class ThemePuller {
 	
 	public static void pull() throws UnknownHostException{
 		
-		urldecider();
-		
 		Document doc = null;
+		try {
+			url = new URL("http://vtp5.github.io/themes/index.html");
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		try {
 			doc = Jsoup.parse(url, 3000);
 		} catch (IOException e) {
@@ -62,7 +66,7 @@ public class ThemePuller {
 	
 	public static void save(){
 		
-		File file = new File(".vtp5/themes.html");
+		File file = new File("themes.html");
 		System.out.println("Hello"); 
 		String content = null;
 		try {
@@ -91,6 +95,10 @@ public class ThemePuller {
 		
 	}
 	
+	public static void offline(){
+		
+	}
+	
 	public static void nofile(){
 		
 		buttonColour.add("0x663399");
@@ -101,29 +109,5 @@ public class ThemePuller {
 		
 	}
 	
-	public static void urldecider(){
-		
-		try {
-			url = new URL("http://vtp5.github.io/themes/index.html");
-		    URLConnection myURLConnection = url.openConnection();
-		    myURLConnection.connect();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			
-			VTP5 vtp5 = new VTP5();
-			
-			File path = vtp5.APPDATA_PATH;
-			File file = new File(vtp5.APPDATA_PATH + System.getProperty("file.seperator")+"themes.html");
-			
-			
-			try {
-				url = new URL(file.toString());
-			} catch (MalformedURLException e) {
-				
-				e.printStackTrace();
-			}
-		}
-		
-	}
 	
 }
