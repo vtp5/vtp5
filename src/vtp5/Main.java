@@ -30,18 +30,16 @@ public class Main {
 	public static final String build = "v0.4.0";
 	public static final String version = "Beta";
 	public static final String appVersion = version + " " + build;
+	public static boolean enoughRAM;
 
 	public static void main(String[] args) {
 
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-
 				long startTime = System.currentTimeMillis();
-				
-				
-				try {
 
+				try {
 					/*
 					 * This will return Long.MAX_VALUE if there is no preset
 					 * limit
@@ -56,10 +54,11 @@ public class Main {
 					if (maxMemory >= 150) {
 						System.out.println("yipee weblaf enabled");
 						UIManager.setLookAndFeel("com.alee.laf.WebLookAndFeel");
+						enoughRAM = true;
 					} else {
 						System.out.println("not enough ram");
+						enoughRAM = false;
 					}
-
 				} catch (Exception e) {
 					JOptionPane
 							.showMessageDialog(

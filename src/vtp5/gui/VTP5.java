@@ -39,8 +39,10 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
@@ -48,6 +50,7 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
+import javax.swing.KeyStroke;
 import javax.swing.Timer;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
@@ -452,7 +455,20 @@ public class VTP5 extends JFrame {
 		componentList.add(new ComponentWithFontData(statsList, 32));
 		componentList.add(new ComponentWithFontData(guessedAnswersList, 32));
 
-		enterButton.addHotkey(KeyEvent.VK_ENTER);
+		if (Main.enoughRAM) {
+			enterButton.addHotkey(KeyEvent.VK_ENTER);
+		} else {
+			answerField.getInputMap(JComponent.WHEN_FOCUSED).put(
+					KeyStroke.getKeyStroke("released ENTER"), "Enter");
+			answerField.getActionMap().put("Enter", new AbstractAction() {
+				private static final long serialVersionUID = 3556277854643658049L;
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					enterButton.doClick();
+				}
+			});
+		}
 
 		// Set the font size of the text in the components
 		for (ComponentWithFontData c : componentList) {
