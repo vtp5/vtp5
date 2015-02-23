@@ -196,7 +196,7 @@ public class VTP5 extends JFrame {
 
 	public VTP5() {
 
-		if (Main.release) {
+		if (Main.forRelease) {
 			Thread updateCheckThread = new Thread(new UpdateChecker(this));
 			updateCheckThread.start();
 		}

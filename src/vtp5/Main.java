@@ -26,7 +26,7 @@ public class Main {
 
 	// TODO Change each time a release is about to be pushed out.
 	// See http://semver.org/ for more info.
-	public static boolean release = false;
+	public static final boolean forRelease = false;
 	public static final String build = "v0.4.0";
 	public static final String version = "Beta";
 	public static final String appVersion = version + " " + build;
@@ -53,7 +53,7 @@ public class Main {
 									: maxMemory));
 
 					// TODO change this value after further tests
-					if (maxMemory >= 500) {
+					if (maxMemory >= 150) {
 						System.out.println("yipee weblaf enabled");
 						UIManager.setLookAndFeel("com.alee.laf.WebLookAndFeel");
 					} else {
