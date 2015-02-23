@@ -142,6 +142,19 @@ public class Database {
 		}
 
 	}
+	public void clearDatabase(){
+		try {
+			Class.forName("org.sqlite.JDBC");
+			con = DriverManager.getConnection("jdbc:sqlite:" + path
+					+ "/leaderboard.db");
+			stmt = con.createStatement();
+			//stmt.executeUpdate("truncate leaderboard");
+			stmt.executeUpdate("delete from leaderboard");
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	public String getPath() {
 		return path;

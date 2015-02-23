@@ -150,6 +150,7 @@ public class VTP5 extends JFrame {
 	// Database
 	private Database db;
 	private boolean databaseCreated = false;
+	private VTP5Button clearDatabase;
 
 	// Components for Settings Dialog
 	private JDialog settingsDialog;
@@ -270,7 +271,7 @@ public class VTP5 extends JFrame {
 		resetToDefaults = new VTP5Button("Reset to Defaults", this, true);
 
 		checkForUpdateButton = new VTP5Button("Check For Updates", this, true);
-
+		clearDatabase = new VTP5Button("Clear Database", this, true);
 		experimentalLabel = new WebLabel("Enable Experimental Features:");
 		changingFrameColourCheck = new WebCheckBox(
 				"Enable Dynamic Background Colour", true);
@@ -283,6 +284,7 @@ public class VTP5 extends JFrame {
 		exInfoLabel = new HyperlinkLabel(
 				"<html>Click here for more information<br />on experimental features</html>",
 				"https://github.com/vtp5/vtp5/wiki/Help#experimental-features");
+		
 
 		themeSelector = new WebComboBox(themes.toArray());
 
@@ -303,7 +305,8 @@ public class VTP5 extends JFrame {
 		settingsPanel.add(typoDetectorCheck, "alignx center, wrap");
 		settingsPanel.add(exInfoLabel, "alignx center, wrap");
 		settingsPanel.add(new JSeparator(), "grow, wrap");
-		settingsPanel.add(resetToDefaults, "alignx center");
+		settingsPanel.add(resetToDefaults, "alignx center, wrap");
+		settingsPanel.add(clearDatabase,"alignx center");
 		// Don't make the size too big, or it might not fit on smaller screens
 		settingsDialog.setSize(250, 425);
 		settingsDialog.add(new WebScrollPane(settingsPanel));
@@ -359,6 +362,7 @@ public class VTP5 extends JFrame {
 		checkForUpdateButton.addActionListener(eventListener);
 		changingFrameColourCheck.addActionListener(eventListener);
 		resetToDefaults.addActionListener(eventListener);
+		clearDatabase.addActionListener(eventListener);
 
 		buttonPanel.add(importFileButton, "align left");// adds to panel
 		buttonPanel.add(gamesButton, "align right");
@@ -1508,6 +1512,8 @@ public class VTP5 extends JFrame {
 				resetToDefaults();
 			} else if (e.getSource() == gamesButton) {
 				toggleHangmanPanel();
+			}else if(e.getSource() == clearDatabase){
+				db.clearDatabase();
 			}
 
 			revalidate();
