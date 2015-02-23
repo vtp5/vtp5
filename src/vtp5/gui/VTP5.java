@@ -1150,6 +1150,8 @@ public class VTP5 extends JFrame {
 				framePanel.add(hPanel, BorderLayout.CENTER);
 				hPanel.requestFocusInWindow();
 
+				updateBackgroundColour(null);
+
 				startAgainButton.setButtonEnabled(false);
 				saveButton.setButtonEnabled(false);
 				repaint();
@@ -1172,6 +1174,11 @@ public class VTP5 extends JFrame {
 				updateStatsList();
 				startAgainButton.setButtonEnabled(true);
 				saveButton.setButtonEnabled(true);
+				if (changingFrameColourCheck.isSelected()) {
+					calculateBackgroundColour(test.getStats());
+				} else {
+					updateBackgroundColour(selectedTheme.getBackgroundColour());
+				}
 				repaint();
 				revalidate();
 

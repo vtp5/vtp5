@@ -14,13 +14,13 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
 import vtp5.logic.Card;
 import vtp5.logic.TestFile;
 
 import com.alee.laf.list.WebList;
+import com.alee.laf.panel.WebPanel;
 import com.alee.laf.scroll.WebScrollPane;
 
 /*VTP5 Copyright (C) 2015  Abdel-Rahim Abdalla, Minghua Yin, Yousuf Mohamed-Ahmed and Nikunj Paliwal
@@ -38,7 +38,7 @@ import com.alee.laf.scroll.WebScrollPane;
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-class HangmanPanel extends JPanel {
+class HangmanPanel extends WebPanel {
 	/**
 	 * 
 	 */
@@ -230,17 +230,19 @@ class HangmanPanel extends JPanel {
 				hasWon = false;
 
 				// Draw loss string
-				g2.drawString("You lose!", 10, getHeight() / 2);
-				g2.drawString("Better luck next time?", 10, getHeight() / 2
-						+ metrics.getHeight() + 5);
+				g2.drawString("You lose!", 10, getHeight()
+						- (getHeight() / 11 * 2));
+				g2.drawString("Better luck next time?", 10, getHeight()
+						- (getHeight() / 11));
 			} else if (test.getCards().size() == 0) {
 				isEnd = true;
 				hasWon = true;
 
 				// Draw win string
-				g2.drawString("You win!", 10, getHeight() / 2);
-				g2.drawString("Well done!", 10,
-						getHeight() / 2 + metrics.getHeight() + 5);
+				g2.drawString("You win!", 10, getHeight()
+						- (getHeight() / 11 * 2));
+				g2.drawString("Well done!", 10, getHeight()
+						- (getHeight() / 11));
 			} else {
 				// Draw prompt
 				String prompt = test.getPrompt(0);
@@ -258,14 +260,13 @@ class HangmanPanel extends JPanel {
 			String livesLeft = (11 - numberOfWrongGuesses)
 					+ ((11 - numberOfWrongGuesses) == 1 ? " life" : " lives")
 					+ " left";
-			g2.drawString(livesLeft, 10, getHeight() / 2);
+			g2.drawString(livesLeft, 10, getHeight() - (getHeight() / 11 * 2));
 
 			// Draw cards left string
 			String cardsLeft = test.getCards().size()
 					+ (test.getCards().size() == 1 ? " word" : " words")
 					+ " left";
-			g2.drawString(cardsLeft, 10, getHeight() / 2 + metrics.getHeight()
-					+ 5);
+			g2.drawString(cardsLeft, 10, getHeight() - (getHeight() / 11));
 		}
 
 		g2.scale(scaler, scaler);
