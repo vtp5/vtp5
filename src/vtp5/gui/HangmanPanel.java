@@ -73,13 +73,13 @@ class HangmanPanel extends WebPanel {
 				.addElement("<html><u>Already guessed answers:</u></html>");
 		guessedAnswersList = new WebList(guessedAnswersListModel);
 		guessedAnswersList.setVisibleRowCount(7);
-		guessedAnswersList.setForeground(parent.getSelectedTheme()
-				.getTextColour());
 
 		guessedAnswersList.setSelectionModel(new DisabledItemSelectionModel());
 		guessedAnswersList.setHighlightRolloverCell(false);
 		guessedAnswersList.setFocusable(false);
 		guessedAnswersScrollPane = new WebScrollPane(guessedAnswersList);
+
+		updateColours();
 
 		this.scaler = scaler;
 		parent.getComponentList().add(
@@ -155,6 +155,10 @@ class HangmanPanel extends WebPanel {
 
 		FontMetrics metrics = g2.getFontMetrics();
 		int stringWidth;
+
+		g2.setColor(parent.getSelectedTheme().getBackgroundColour());
+		g2.fillRect(0, 0, getWidth(), getHeight());
+		g2.setColor(Color.BLACK);
 
 		if (isStart) {
 			String welcomeMessage = "Press any key to begin Hangman!";

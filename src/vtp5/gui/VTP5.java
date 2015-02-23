@@ -563,7 +563,7 @@ public class VTP5 extends JFrame {
 		progressBar.revalidate();
 		progressBar.repaint();
 		System.out.println(selectedTheme.getBackgroundColour());
-		if (test != null) {
+		if (test != null && hPanel == null) {
 			if (changingFrameColourCheck.isSelected()) {
 				calculateBackgroundColour(test.getStats());
 			} else {
@@ -1150,7 +1150,7 @@ public class VTP5 extends JFrame {
 				framePanel.add(hPanel, BorderLayout.CENTER);
 				hPanel.requestFocusInWindow();
 
-				updateBackgroundColour(null);
+				updateBackgroundColour(selectedTheme.getBackgroundColour());
 
 				startAgainButton.setButtonEnabled(false);
 				saveButton.setButtonEnabled(false);
@@ -1165,6 +1165,7 @@ public class VTP5 extends JFrame {
 					"VTP5", JOptionPane.YES_NO_OPTION);
 
 			if (result == JOptionPane.YES_OPTION) {
+				hPanel = null;
 				mainPanel.setVisible(true);
 				repaint();
 				revalidate();
@@ -1449,16 +1450,7 @@ public class VTP5 extends JFrame {
 				}
 
 			} else if (e.getSource() == changingFrameColourCheck) {
-				if (changingFrameColourCheck.isSelected()) {
-					if (test != null) {
-						updateStatsList();
-					} else {
-						updateBackgroundColour(selectedTheme
-								.getBackgroundColour());
-					}
-				} else {
-					updateBackgroundColour(selectedTheme.getBackgroundColour());
-				}
+				updateColours();
 			} else if (e.getSource() == aboutButton) {
 
 				abtDialog.setVisible(true);
