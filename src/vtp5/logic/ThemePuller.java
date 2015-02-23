@@ -1,7 +1,9 @@
 package vtp5.logic;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -38,30 +40,34 @@ public class ThemePuller {
 		}
 		try {
 			doc = Jsoup.parse(url, 3000);
+			
+			//Theme(button, buttontext, text, background, name)
+			
+			int i = 0;
+	        Element table = doc.select("table").first();
+	        Iterator<Element> iterator = table.select("td").iterator();
+	        while(iterator.hasNext()){
+	        	buttonColour.add(iterator.next().text());
+	            //System.out.println(buttonColour.get(i));
+	            buttontextColour.add(iterator.next().text());
+	            //System.out.println(buttontextColour.get(i));
+	            textColour.add(iterator.next().text());
+	            //System.out.println(textColour.get(i));
+	            backgroundColour.add(iterator.next().text());
+	            //System.out.println(backgroundColour.get(i));
+	            name.add(iterator.next().text());
+	            //System.out.println(name.get(i));
+	            i++;
+	        }
+			save();
+			
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			offline();
 		}
 		
-		//Theme(button, buttontext, text, background, name)
-		
-		int i = 0;
-        Element table = doc.select("table").first();
-        Iterator<Element> iterator = table.select("td").iterator();
-        while(iterator.hasNext()){
-        	buttonColour.add(iterator.next().text());
-            //System.out.println(buttonColour.get(i));
-            buttontextColour.add(iterator.next().text());
-            //System.out.println(buttontextColour.get(i));
-            textColour.add(iterator.next().text());
-            //System.out.println(textColour.get(i));
-            backgroundColour.add(iterator.next().text());
-            //System.out.println(backgroundColour.get(i));
-            name.add(iterator.next().text());
-            //System.out.println(name.get(i));
-            i++;
-        }
-		save();
 	}
 	
 	public static void save(){
@@ -96,6 +102,55 @@ public class ThemePuller {
 	}
 	
 	public static void offline(){
+		
+		BufferedReader br = null;
+		 
+		try {
+ 
+			String sCurrentLine;
+ 
+			br = new BufferedReader(new FileReader("themes.html"));
+ 
+			String html = "";
+			
+			while ((sCurrentLine = br.readLine()) != null) {
+				//System.out.println(sCurrentLine);
+				html = html+sCurrentLine;
+			}
+			
+			Document doc = null;
+				doc = Jsoup.parse(html);
+				
+				//Theme(button, buttontext, text, background, name)
+				
+				int i = 0;
+		        Element table = doc.select("table").first();
+		        Iterator<Element> iterator = table.select("td").iterator();
+		        while(iterator.hasNext()){
+		        	buttonColour.add(iterator.next().text());
+		            //System.out.println(buttonColour.get(i));
+		            buttontextColour.add(iterator.next().text());
+		            //System.out.println(buttontextColour.get(i));
+		            textColour.add(iterator.next().text());
+		            //System.out.println(textColour.get(i));
+		            backgroundColour.add(iterator.next().text());
+		            //System.out.println(backgroundColour.get(i));
+		            name.add(iterator.next().text());
+		            //System.out.println(name.get(i));
+		            i++;
+		        }
+			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			nofile();
+		} finally {
+			try {
+				if (br != null)br.close();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
 		
 	}
 	
