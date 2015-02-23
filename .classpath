@@ -10,10 +10,7 @@
 			<attribute name="javadoc_location" value="http://github-api.kohsuke.org/apidocs/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="res/lib/github/jackson-core-2.2.3.jar"/>
-	<classpathentry kind="lib" path="res/lib/github/jackson-databind-2.2.3.jar"/>
 	<classpathentry kind="lib" path="res/lib/commonsio/commons-io-2.4.jar"/>
-	<classpathentry kind="lib" path="res/lib/github/jackson-annotations-2.2.3.jar"/>
 	<classpathentry kind="lib" path="res/lib/weblaf-complete-1.28.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="http://weblookandfeel.com/javadoc/"/>
