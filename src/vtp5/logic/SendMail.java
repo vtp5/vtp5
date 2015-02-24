@@ -48,11 +48,11 @@ import com.alee.laf.button.WebButton;
 
 public class SendMail extends Thread {
 
-	private TestFile test;
+	// private TestFile test;
 	private String u1, u2, u3;
 
 	public SendMail(TestFile test) {
-		this.test = test;
+		// this.test = test;
 	}
 
 	public void run() {
@@ -133,7 +133,7 @@ public class SendMail extends Thread {
 
 			// Fill the message
 
-			//messageBodyPart.setText("Score: " + test.getScore());
+			// messageBodyPart.setText("Score: " + test.getScore());
 
 			// Create a multipar message
 			Multipart multipart = new MimeMultipart();
