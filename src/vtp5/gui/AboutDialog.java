@@ -60,7 +60,11 @@ public class AboutDialog extends WebDialog {
 			"------------------------------------------------------------------");
 	private WebLabel license4Label = new WebLabel(
 			"Jazzy, the spell-checking library used in VTP5,");
-	private WebLabel license5Label = new WebLabel("is licensed under the LGPL.");
+	private WebLabel license5Label = new WebLabel(
+			"is licensed under the GNU LGPL.");
+	private WebLabel license6Label = new HyperlinkLabel(
+			"Click here for more information",
+			"https://github.com/vtp5/vtp5/wiki/Licensing#jazzy");
 	private WebButton giveFeedback = new WebButton("Give Feedback");
 
 	public AboutDialog() {
@@ -105,6 +109,7 @@ public class AboutDialog extends WebDialog {
 		add(separatorLabel2, "alignx center, wrap");
 		add(license4Label, "alignx center, wrap");
 		add(license5Label, "alignx center, wrap");
+		add(license6Label, "alignx center, wrap");
 		add(giveFeedback, "alignx center, wrap");
 		pack();
 		setResizable(false);
