@@ -22,6 +22,6 @@
 	<classpathentry kind="lib" path="res/lib/github/jackson-annotations-2.2.3.jar"/>
 	<classpathentry kind="lib" path="res/lib/github/jackson-core-2.2.3.jar"/>
 	<classpathentry kind="lib" path="res/lib/github/jackson-databind-2.2.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Le/git/vtp5/res/lib/jazzy/jazzy0-2-1.jar"/>
+	<classpathentry kind="lib" path="res/lib/jazzy/jazzy0-2-1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
