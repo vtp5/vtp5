@@ -297,6 +297,12 @@ public class FinishPanel extends WebPanel {
 		statsList.setForeground(parent.getSelectedTheme().getTextColour());// changes
 																			// text
 		date = new Date(); // colour
+		File [] files = test.getImportedFiles();
+		String fileName= "";
+		for(int i = 0; i <files.length; i++){
+			fileName = fileName+files[i].getName();
+		}
+		System.out.println(fileName);
 		Object[] stats = test.getStats();
 		statsListModel.removeAllElements();
 		statsListModel.addElement("<html><u>Statistics:</u></html>");
@@ -306,7 +312,7 @@ public class FinishPanel extends WebPanel {
 				+ parent.getTest().getIncorrectCards().size());
 		statsListModel.addElement("Total number of guesses: " + stats[2]);
 		parent.getDatabase().insert(1,
-				parent.getTest().getImportedFile().getName(),
+				fileName,
 				String.valueOf(df.format(date)),
 				((int) stats[0] - test.getCards().size()),
 				new Double(test.getSuccessRate()));
@@ -321,11 +327,12 @@ public class FinishPanel extends WebPanel {
 		watm = new WrongAnswersTableModel(parent.getTest().getIncorrectCards());
 		table = new WebTable(watm);
 		try {
+			
 			latm = new LeaderboardTableModel(parent.getDatabase().select(
-					"time", "successRate", test.getImportedFile().getName()),
+					"time", "successRate", fileName),
 					parent.getDatabase()
 							.select("time", "successRate",
-									test.getImportedFile().getName())
+									fileName)
 							.getMetaData().getColumnCount());
 		} catch (SQLException e) {
 
