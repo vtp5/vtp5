@@ -23,5 +23,7 @@
 	<classpathentry kind="lib" path="res/lib/github/jackson-core-2.2.3.jar"/>
 	<classpathentry kind="lib" path="res/lib/github/jackson-databind-2.2.3.jar"/>
 	<classpathentry kind="lib" path="res/lib/jazzy/jazzy0-2-1.jar"/>
+	<classpathentry kind="lib" path="res/lib/tween-engine-api.jar" sourcepath="res/lib/tween-engine-api-sources.jar"/>
+	<classpathentry kind="lib" path="res/lib/sliding-layout.jar" sourcepath="res/lib/sliding-layout-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
