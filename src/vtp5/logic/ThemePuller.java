@@ -83,7 +83,7 @@ public class ThemePuller {
 
 	public static void save() {
 
-		File file = new File("themes.html");
+		File file = new File(".vtp5/themes.html");
 		System.out.println("Hello");
 		String content = null;
 		try {
