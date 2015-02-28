@@ -284,7 +284,6 @@ public class VTP5 extends JFrame {
 		exInfoLabel = new HyperlinkLabel(
 				"<html>Click here for more information<br />on experimental features</html>",
 				"https://github.com/vtp5/vtp5/wiki/Help#experimental-features");
-		
 
 		themeSelector = new WebComboBox(themes.toArray());
 
@@ -306,7 +305,7 @@ public class VTP5 extends JFrame {
 		settingsPanel.add(exInfoLabel, "alignx center, wrap");
 		settingsPanel.add(new JSeparator(), "grow, wrap");
 		settingsPanel.add(resetToDefaults, "alignx center, wrap");
-		settingsPanel.add(clearDatabase,"alignx center");
+		settingsPanel.add(clearDatabase, "alignx center");
 		// Don't make the size too big, or it might not fit on smaller screens
 		settingsDialog.setSize(250, 425);
 		settingsDialog.add(new WebScrollPane(settingsPanel));
@@ -1139,7 +1138,7 @@ public class VTP5 extends JFrame {
 				JOptionPane
 						.showMessageDialog(
 								this,
-								"This test doesn't have enough words (the minimum is 20). Wouldn't Hangman be a little bit boring?",
+								"There aren't enough words available (the minimum is 20). Wouldn't Hangman be a little bit boring?",
 								"VTP5", JOptionPane.WARNING_MESSAGE);
 			} else {
 				hPanel = new HangmanPanel(test, this, scaler);
@@ -1512,7 +1511,7 @@ public class VTP5 extends JFrame {
 				resetToDefaults();
 			} else if (e.getSource() == gamesButton) {
 				toggleHangmanPanel();
-			}else if(e.getSource() == clearDatabase){
+			} else if (e.getSource() == clearDatabase) {
 				db.clearDatabase();
 			}
 
