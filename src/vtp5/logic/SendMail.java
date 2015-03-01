@@ -133,7 +133,7 @@ public class SendMail extends Thread {
 
 			// Fill the message
 
-			// messageBodyPart.setText("Score: " + test.getScore());
+			messageBodyPart.setText("");
 
 			// Create a multipar message
 			Multipart multipart = new MimeMultipart();
